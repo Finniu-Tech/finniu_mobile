@@ -1549,6 +1549,27 @@ class QueryRepository {
     ''';
   }
 
+  static String get getContratTaxReports {
+    return '''
+     query getContratTaxReports (\$preInvestmentUuid : UUID!){
+      documentationQueries{
+        contracts(preInvestmentUuid:\$preInvestmentUuid){
+        contractDate
+          contractUrl
+        }
+        taxes(preInvestmentUuid:\$preInvestmentUuid){
+          taxDate
+          taxUrl
+        }
+        quarterlyReports(preInvestmentUuid:\$preInvestmentUuid){
+          reportDate
+          reportUrl
+        }
+      }
+    }
+    ''';
+  }
+
   static String get getFunds {
     return '''
        query getFunds{

@@ -124,6 +124,7 @@ class _BodyScaffold extends ConsumerWidget {
                 RowNavigateToDocuments(
                   isDarkMode: isDarkMode,
                   uuidInvest: data.uuid,
+                  opetationInvest: data.operationCode,
                 ),
                 const SizedBox(height: 15),
                 TermProfitabilityRow(

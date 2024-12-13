@@ -10,6 +10,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+class DocumentNavigate {
+  final String uuid;
+  final String operationNumber;
+  DocumentNavigate({
+    required this.uuid,
+    required this.operationNumber,
+  });
+}
+
 class DocumenteBody extends ConsumerWidget {
   const DocumenteBody({
     super.key,
@@ -17,7 +26,7 @@ class DocumenteBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uuid = ModalRoute.of(context)!.settings.arguments as String;
+    final args = ModalRoute.of(context)!.settings.arguments as DocumentNavigate;
 
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
@@ -30,7 +39,7 @@ class DocumenteBody extends ConsumerWidget {
         children: [
           const TitleDocuments(),
           TabBarDocuments(
-            uuid: uuid,
+            args: args,
           ),
         ],
       ),
@@ -100,11 +109,12 @@ class TitleDocuments extends ConsumerWidget {
 class TabBarDocuments extends HookConsumerWidget {
   const TabBarDocuments({
     super.key,
-    required this.uuid,
+    required this.args,
   });
-  final String uuid;
+  final DocumentNavigate args;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final tabController = useTabController(
       initialLength: 3,
       initialIndex: 0,
@@ -120,22 +130,41 @@ class TabBarDocuments extends HookConsumerWidget {
       return () => tabController.removeListener(listener);
     }, [tabController]);
 
-    final documentsUserAsync = ref.watch(documentsUser);
-
+    final documentsUserAsync = ref.watch(documentsUser(args.uuid));
+    // final List<DocumentItem> contractList = [];
+    // final List<DocumentItem> taxList = [];
+    // final List<DocumentItem> reportList = [];
     return documentsUserAsync.when(
       data: (userDocuments) {
         if (userDocuments == null) {
           return const Center(child: Text('No se encontraron documentos.'));
         }
-        final contractList = userDocuments.contractList
-            .map((doc) => DocumentItem(item: doc))
-            .toList();
-        final taxList = userDocuments.taxList
-            .map((doc) => DocumentItem(item: doc))
-            .toList();
-        final reportList = userDocuments.reportList
-            .map((doc) => DocumentItem(item: doc))
-            .toList();
+        final contractList = userDocuments.contractList.map((element) {
+          return DocumentItem(
+            item:
+                Document(date: element.date, downloadUrl: element.downloadUrl),
+            operation: args.operationNumber,
+            icon: "assets/svg_icons/contract_icon.svg",
+          );
+        }).toList();
+
+        final taxList = userDocuments.taxList.map((element) {
+          return DocumentItem(
+            item:
+                Document(date: element.date, downloadUrl: element.downloadUrl),
+            operation: args.operationNumber,
+            icon: "assets/svg_icons/tax_icon.svg",
+          );
+        }).toList();
+
+        final reportList = userDocuments.reportList.map((element) {
+          return DocumentItem(
+            item:
+                Document(date: element.date, downloadUrl: element.downloadUrl),
+            operation: args.operationNumber,
+            icon: "assets/svg_icons/report_icon.svg",
+          );
+        }).toList();
 
         return SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -171,18 +200,36 @@ class TabBarDocuments extends HookConsumerWidget {
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    ListView.builder(
-                      itemCount: contractList.length,
-                      itemBuilder: (context, index) => contractList[index],
-                    ),
-                    ListView.builder(
-                      itemCount: taxList.length,
-                      itemBuilder: (context, index) => taxList[index],
-                    ),
-                    ListView.builder(
-                      itemCount: reportList.length,
-                      itemBuilder: (context, index) => reportList[index],
-                    ),
+                    contractList.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: contractList.length,
+                            itemBuilder: (context, index) => taxList[index],
+                          )
+                        : Center(
+                            child: Image.asset(
+                              'assets/home_v4/not_documents_${isDarkMode ? "dark" : "light"}.png',
+                            ),
+                          ),
+                    taxList.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: taxList.length,
+                            itemBuilder: (context, index) => taxList[index],
+                          )
+                        : Center(
+                            child: Image.asset(
+                              'assets/home_v4/not_tax_${isDarkMode ? "dark" : "light"}.png',
+                            ),
+                          ),
+                    reportList.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: reportList.length,
+                            itemBuilder: (context, index) => reportList[index],
+                          )
+                        : Center(
+                            child: Image.asset(
+                              'assets/home_v4/not_report_${isDarkMode ? "dark" : "light"}.png',
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -207,8 +254,12 @@ class DocumentItem extends ConsumerWidget {
   const DocumentItem({
     super.key,
     required this.item,
+    required this.operation,
+    required this.icon,
   });
   final Document item;
+  final String operation;
+  final String icon;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -229,9 +280,10 @@ class DocumentItem extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            item.getIcon,
-            size: 24,
+          SvgPicture.asset(
+            icon,
+            width: 24,
+            height: 24,
             color: isDarkMode
                 ? const Color(DocumentsV4.itemIconDark)
                 : const Color(DocumentsV4.itemIconLight),
@@ -242,7 +294,7 @@ class DocumentItem extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextPoppins(
-                text: "Operación ${item.title}",
+                text: "Operación $operation",
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 textDark: DocumentsV4.itemTitleDark,

@@ -3,6 +3,7 @@ import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/help_modal.dart';
+import 'package:finniu/presentation/screens/home_v4/my_investments/document_page.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/modal/error_modal.dart';
 import 'package:flutter/material.dart';
@@ -67,9 +68,11 @@ class RowNavigateToDocuments extends StatelessWidget {
     super.key,
     required this.isDarkMode,
     required this.uuidInvest,
+    required this.opetationInvest,
   });
   final bool isDarkMode;
   final String uuidInvest;
+  final String opetationInvest;
   @override
   Widget build(BuildContext context) {
     const int titleDark = 0xffFFFFFF;
@@ -77,8 +80,9 @@ class RowNavigateToDocuments extends StatelessWidget {
     const int dividerDark = 0xff0D3A5C;
     const int dividerLight = 0xffA2E6FA;
 
-    void onTap() =>
-        Navigator.pushNamed(context, '/v4/documents', arguments: uuidInvest);
+    void onTap() => Navigator.pushNamed(context, '/v4/documents',
+        arguments: DocumentNavigate(
+            uuid: uuidInvest, operationNumber: opetationInvest));
 
     return GestureDetector(
       onTap: onTap,
