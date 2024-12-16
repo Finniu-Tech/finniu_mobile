@@ -44,6 +44,7 @@ class PaymentBodyProvider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(args);
     final profitabilityData = ref.watch(getMonthlyPaymentProviderV4(args));
     return profitabilityData.when(
       data: (data) {
@@ -83,10 +84,11 @@ class PaymentBody extends ConsumerWidget {
   final TablePayV4 data;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const rent = 0;
+    final rent = data.rentabilityAmount;
     final DateTime date = DateTime.now();
-    const String percent = "+1.40";
-    String dateInfo = "Actualizado ${getMonthName(date.month)}/${date.year}";
+    final String percent = data.rentabilityPercent.toStringAsFixed(2);
+    final String dateInfo =
+        "Actualizado ${getMonthName(date.month)}/${date.year}";
     final List<ProfitabilityItemV4> listPay = [];
     ProfitabilityItemV4? capitalPay;
     for (var element in data.profitabilityListMonth) {
@@ -130,6 +132,8 @@ class PaymentBody extends ConsumerWidget {
                 const TitleDataV4(),
                 ProfitabilityListV4(
                   list: listPay,
+                  operation: data.operationCode,
+                  bankTransfer: data.bankAccountSender,
                 ),
               ],
             ),

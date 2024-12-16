@@ -14,12 +14,16 @@ class ProfitabilityListV4 extends ConsumerWidget {
   const ProfitabilityListV4({
     super.key,
     required this.list,
+    required this.operation,
+    required this.bankTransfer,
   });
   final List<ProfitabilityItemV4> list;
+  final String operation;
+  final BankAccount? bankTransfer;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.read(isSolesStateProvider);
     const int borderColorDark = 0xffD0D0D0;
     const int borderColorLight = 0xffD0D0D0;
 
@@ -86,6 +90,10 @@ class ProfitabilityListV4 extends ConsumerWidget {
                       ),
                       DetailModal(
                         isPaid: list[index].isCapitalPayment,
+                        item: list[index],
+                        operation: operation,
+                        bankTransfer: bankTransfer,
+                        isSoles: isSoles,
                       ),
                     ],
                   ),
@@ -103,28 +111,41 @@ class DetailModal extends StatelessWidget {
   const DetailModal({
     super.key,
     required this.isPaid,
+    required this.item,
+    required this.operation,
+    required this.bankTransfer,
+    required this.isSoles,
   });
+  final bool isSoles;
   final bool isPaid;
+  final ProfitabilityItemV4 item;
+  final String operation;
+  final BankAccount? bankTransfer;
   @override
   Widget build(BuildContext context) {
+    final String title = "Operación #$operation";
+    const String bankTitle = "Banco a donde te depositamos";
+    final String rent = isSoles
+        ? formatterSoles.format(item.amount)
+        : formatterUSD.format(item.amount);
+    const String rentTitle = "Fecha de pago";
+    final String date =
+        "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
+    const String dateTitle = "Rentabilidad pagada";
+    const String time = "12:30";
+    final BankAccount bankAccount = bankTransfer ??
+        BankAccount(
+          id: "1",
+          bankAccount: "00000",
+          bankName: "BBVA",
+          currency: "nuevo sol",
+          typeAccount: "cuenta_ahorros",
+          isJointAccount: false,
+          isDefaultAccount: true,
+          bankSlug: "bbva",
+        );
+
     void voucherPay() {
-      const String title = "Operación #001";
-      const String bankTitle = "Banco a donde te depositamos";
-      const String rent = "S/70.90";
-      const String rentTitle = "Fecha de pago";
-      const String date = "12/Ene/2024";
-      const String dateTitle = "Rentabilidad pagada";
-      const String time = "12:30";
-      final BankAccount bankAccount = BankAccount(
-        id: "1",
-        bankAccount: "234242424244",
-        bankName: "BBVA",
-        currency: "nuevo sol",
-        typeAccount: "cuenta_ahorros",
-        isJointAccount: false,
-        isDefaultAccount: true,
-        bankSlug: "bbva",
-      );
       print("pon tap voucher");
       showProfitabilityModal(
         context,
@@ -144,23 +165,6 @@ class DetailModal extends StatelessWidget {
     }
 
     void voucherSee() {
-      const String title = "Operación #007";
-      const String bankTitle = "Banco a donde te depositamos";
-      const String rent = "S/70.90";
-      const String rentTitle = "Fecha de pago próximo";
-      const String date = "12/Ene/2024";
-      const String dateTitle = "Rentabilidad a depositar";
-      const String time = "12:30";
-      final BankAccount bankAccount = BankAccount(
-        id: "1",
-        bankAccount: "234242424244",
-        bankName: "BBVA",
-        currency: "nuevo sol",
-        typeAccount: "cuenta_ahorros",
-        isJointAccount: false,
-        isDefaultAccount: true,
-        bankSlug: "bbva",
-      );
       print("pon tap voucher");
       showProfitabilityModal(
         context,

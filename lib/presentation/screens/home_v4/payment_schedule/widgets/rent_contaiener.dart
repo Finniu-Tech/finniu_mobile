@@ -2,6 +2,7 @@ import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RentContainer extends ConsumerWidget {
@@ -46,18 +47,20 @@ class RentContainer extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.trending_up_rounded,
-                size: 20,
-                color: Color(textColor),
+              SvgPicture.asset(
+                'assets/svg_icons/status_up.svg',
+                width: 20,
+                height: 20,
+                color:
+                    isDarkMode ? const Color(dateDark) : const Color(dateLight),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
-              TextPoppins(
+              const TextPoppins(
                 text: "Rentabilidad acumulada",
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
@@ -80,7 +83,7 @@ class RentContainer extends ConsumerWidget {
                 width: 10,
               ),
               Container(
-                width: 40,
+                width: 45,
                 height: 20,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -92,7 +95,7 @@ class RentContainer extends ConsumerWidget {
                   ),
                 ),
                 child: TextPoppins(
-                  text: percent,
+                  text: "+ $percent",
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   textDark: percentDark,
@@ -105,9 +108,10 @@ class RentContainer extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.timer_sharp,
-                  size: 15,
+                SvgPicture.asset(
+                  'assets/svg_icons/clock_icon.svg',
+                  width: 20,
+                  height: 20,
                   color: isDarkMode
                       ? const Color(dateDark)
                       : const Color(dateLight),

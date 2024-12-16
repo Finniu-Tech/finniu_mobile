@@ -12,7 +12,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dar
 import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/init_end_container.dart';
 import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/re_invest_container.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
-import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/loader_container.dart';
@@ -147,11 +146,6 @@ class _BodyScaffold extends ConsumerWidget {
                         bankAccountReceiver: data.bankAccountReceiver!,
                       )
                     : const SizedBox(),
-                if (data.profitabilityListMonth.isNotEmpty) ...[
-                  SeeInterestPayment(
-                    preInvestmentUUID: arguments.uuid,
-                  ),
-                ],
                 if (arguments.isReinvestAvailable == true &&
                     StatusInvestmentEnum.compare(
                       arguments.status,
@@ -224,14 +218,16 @@ class _BodyScaffold extends ConsumerWidget {
                 ],
                 if (arguments.status != StatusInvestmentEnum.in_process) ...[
                   const SizedBox(height: 15),
-                  ButtonInvestment(
-                    text: "Ver tabla de los pagos de intereses",
-                    onPressed: () => Navigator.pushNamed(
-                      context,
-                      '/v4/payment_schedule',
-                      arguments: arguments.uuid,
+                  if (data.profitabilityListMonth.isNotEmpty) ...[
+                    ButtonInvestment(
+                      text: "Ver tabla de los pagos de intereses",
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        '/v4/payment_schedule',
+                        arguments: arguments.uuid,
+                      ),
                     ),
-                  ),
+                  ],
                   const SizedBox(height: 15),
                   ButtonInvestment(
                     text: 'Quiero reinvertir',
