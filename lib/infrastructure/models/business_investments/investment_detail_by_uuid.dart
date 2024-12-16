@@ -165,8 +165,8 @@ class TablePayV4 {
       profitabilityListMonth: (investmentDetail['paymentRentability'] as List)
           .map((item) => ProfitabilityItemV4.fromJson(item))
           .toList(),
-      bankAccountSender: investmentDetail['bankAccountSender'] != null
-          ? BankAccount.fromJson(investmentDetail['bankAccountSender'])
+      bankAccountSender: investmentDetail['bankAccountReceiver'] != null
+          ? BankAccount.fromJson(investmentDetail['bankAccountReceiver'])
           : null,
       fundName: investmentDetail['investmentFund']['name'],
     );

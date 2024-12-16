@@ -1,4 +1,3 @@
-import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_modal.dart';
@@ -109,20 +108,24 @@ class CapitalModalBody extends HookConsumerWidget {
             rent: profModal.rent,
           ),
           const SizedBox(height: 15),
-          TextPoppins(
-            text: profModal.bankTitle,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          profModal.bankAccount != null
+              ? TextPoppins(
+                  text: profModal.bankTitle,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                )
+              : const SizedBox(),
           const SizedBox(height: 15),
-          BankItemDetail(
-            bankAccount: profModal.bankAccount,
-          ),
+          profModal.bankAccount != null
+              ? BankItemDetail(
+                  bankAccount: profModal.bankAccount!,
+                )
+              : const SizedBox(),
           const SizedBox(height: 15),
           if (profModal.downloadVoucher != null || !isPaid)
             VouvherContainer(
               rent: profModal.rent,
-              numberAccount: getMaskedNumber(profModal.bankAccount.bankAccount),
+              numberAccount: "************9846",
               time: profModal.time,
               downloadVoucher: downloadVoucher,
             ),

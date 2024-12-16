@@ -29,7 +29,6 @@ final getMonthlyPaymentProviderV4 =
         throw Exception('No data returned from GraphQL query');
       }
       final tablePay = TablePayV4.fromJson(data);
-
       return tablePay;
     } catch (e) {
       print('Error: $e');

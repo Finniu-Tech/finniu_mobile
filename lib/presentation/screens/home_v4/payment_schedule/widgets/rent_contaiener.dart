@@ -19,8 +19,8 @@ class RentContainer extends ConsumerWidget {
   final bool isRender;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.read(isSolesStateProvider);
 
     const int backgroundDark = 0xffB5FF8A;
     const int backgroundLight = 0xffD0FFB5;

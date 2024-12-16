@@ -133,20 +133,11 @@ class DetailModal extends StatelessWidget {
         "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
     const String dateTitle = "Rentabilidad pagada";
     const String time = "12:30";
-    final BankAccount bankAccount = bankTransfer ??
-        BankAccount(
-          id: "1",
-          bankAccount: "00000",
-          bankName: "BBVA",
-          currency: "nuevo sol",
-          typeAccount: "cuenta_ahorros",
-          isJointAccount: false,
-          isDefaultAccount: true,
-          bankSlug: "bbva",
-        );
-
+    final BankAccount? bankAccount = bankTransfer;
+    print(item.voucher);
     void voucherPay() {
       print("pon tap voucher");
+      print(item.voucher);
       showProfitabilityModal(
         context,
         profModal: ProfModal(
@@ -159,7 +150,7 @@ class DetailModal extends StatelessWidget {
           time: time,
           bankAccount: bankAccount,
           numberAccount: "",
-          downloadVoucher: "",
+          downloadVoucher: item.voucher ?? "",
         ),
       );
     }
@@ -178,7 +169,7 @@ class DetailModal extends StatelessWidget {
           time: time,
           bankAccount: bankAccount,
           numberAccount: "",
-          downloadVoucher: null,
+          downloadVoucher: item.voucher ?? "",
         ),
       );
     }
