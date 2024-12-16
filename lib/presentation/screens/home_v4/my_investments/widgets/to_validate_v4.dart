@@ -70,7 +70,9 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
   final InvestmentV4 item;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -99,12 +101,12 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                 ),
               ),
               const Spacer(),
-              Icon(
-                Icons.timer_outlined,
-                size: 16,
-                color: isDarkMode
-                    ? const Color(ToValidateColorsV4.iconDark)
-                    : const Color(ToValidateColorsV4.iconLight),
+              SvgPicture.asset(
+                "assets/svg_icons/clock_icon.svg",
+                width: 16,
+                height: 16,
+                color:
+                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
               ),
               const SizedBox(
                 width: 5,
