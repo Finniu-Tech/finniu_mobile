@@ -121,6 +121,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
       months: int.parse(timeController.text.split(' ')[0]),
       currency: isSoles ? currencyNuevoSol : currencyDollar,
       coupon: couponController.text,
+      fundUuid: widget.fundUuid,
     );
     planSimulation.value = await pushCupon(
       inputCalculator: inputCalculator,
@@ -155,11 +156,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
       return;
     }
 
-    if (amountError.value ||
-        timeError.value ||
-        couponError.value ||
-        originError.value ||
-        originOtherError.value) {
+    if (amountError.value || timeError.value || couponError.value || originError.value || originOtherError.value) {
       return;
     }
 
@@ -294,9 +291,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
                     );
                   },
                 ),
-                originController.text == "Otros"
-                    ? const SizedBox(height: 25)
-                    : const SizedBox(),
+                originController.text == "Otros" ? const SizedBox(height: 25) : const SizedBox(),
                 originController.text == "Otros"
                     ? ValueListenableBuilder<bool>(
                         valueListenable: originOtherError,
@@ -378,7 +373,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
                 ),
                 const SizedBox(height: 25),
                 if (planSimulation.value != null)
-                  CuponApliyRow(
+                  CouponApplyRow(
                     planSimulation: planSimulation,
                     isSoles: isSoles,
                   )

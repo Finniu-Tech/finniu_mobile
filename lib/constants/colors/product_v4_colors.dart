@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
+import 'package:finniu/main.dart';
 import 'package:flutter/material.dart';
 
 class ProductV4Colors {
@@ -81,7 +83,7 @@ final product = ProductContainerStyles(
   backgroundContainerLight: 0xffE9FAFF,
   imageProduct: "🏢",
   titleText: "Producto de inversión a Plazo Fijo",
-  minimumText: "1.000",
+  minimumText: "1,000.00",
   profitabilityText: "19",
   titleDark: 0xffFFFFFF,
   titleLight: 0xff0D3A5C,
@@ -90,7 +92,7 @@ final product = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
-  uuid: "1",
+  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodCorporateFund : FundUUIDEnum.qaCorporateFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,
@@ -108,7 +110,7 @@ final product2 = ProductContainerStyles(
   backgroundContainerLight: 0xffE9FAFF,
   imageProduct: "🏡",
   titleText: "Producto de inversión con Garantía Inmobiliaria",
-  minimumText: "50.000",
+  minimumText: "50,000.00",
   profitabilityText: "16",
   titleDark: 0xffFFFFFF,
   titleLight: 0xff0D3A5C,
@@ -117,7 +119,7 @@ final product2 = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
-  uuid: "2",
+  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodInmobiliariaFund : FundUUIDEnum.qaInmobiliariaFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,
@@ -134,7 +136,7 @@ final product3 = ProductContainerStyles(
   backgroundContainerLight: 0xffE9FAFF,
   imageProduct: "🏢",
   titleText: "Producto de inversión a Plazo Fijo",
-  minimumText: "1.000",
+  minimumText: "1,000.00",
   profitabilityText: "17",
   titleDark: 0xffFFFFFF,
   titleLight: 0xff0D3A5C,
@@ -143,7 +145,7 @@ final product3 = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: false,
-  uuid: "3",
+  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodCorporateFund : FundUUIDEnum.qaCorporateFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,

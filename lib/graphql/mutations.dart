@@ -164,13 +164,14 @@ class MutationRepository {
 
   static String calculateInvestment() {
     return '''
-        mutation calculateInvestment(\$amount: Int!, \$deadline: Int!,  \$currency: String, \$coupon: String){
+        mutation calculateInvestment(\$amount: Int!, \$deadline: Int!,  \$currency: String, \$coupon: String, \$investmentFundUuid: String!){
             calculateInvestment(
               input: {
                 ammount: \$amount,
                 deadline:\$deadline,
                 coupon: \$coupon,
-                currency: \$currency
+                currency: \$currency,
+                investmentFundUuid: \$investmentFundUuid
               }
             ){
               rentabilityPerMonth

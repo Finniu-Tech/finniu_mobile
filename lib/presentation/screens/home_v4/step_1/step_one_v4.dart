@@ -28,75 +28,69 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class StepOneV4 extends StatelessWidget {
-  const StepOneV4({super.key});
+  final ProductContainerStyles product;
+
+  const StepOneV4({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const StepScaffold(
+    return StepScaffold(
       useDefaultLoading: true,
-      children: StepOneBody(),
+      children: StepOneBody(product: product),
     );
   }
 }
 
 class StepOneBody extends StatelessWidget {
-  const StepOneBody({
+  final ProductContainerStyles product;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  StepOneBody({
     super.key,
+    required this.product,
   });
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    const String fundUUID = "cbeff767-93f6-493f-9a55-faf5c380b0f9";
-    const int titleDark = 0xffA2E6FA;
-    const int titleLight = 0xff0D3A5C;
-    const int textDark = 0xffFFFFFF;
-    const int textLight = 0xff0D3A5C;
-
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height < 700
-            ? 650
-            : MediaQuery.of(context).size.height - 80,
+        height: MediaQuery.of(context).size.height < 700 ? 650 : MediaQuery.of(context).size.height - 80,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             FundRowStep(
-              icon: args.imageProduct,
+              icon: product.imageProduct,
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               child: TextPoppins(
-                text: args.titleText,
+                text: product.titleText,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 lines: 2,
                 align: TextAlign.start,
-                textDark: titleDark,
-                textLight: titleLight,
+                textDark: product.titleDark,
+                textLight: product.titleLight,
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            const TextPoppins(
+            const SizedBox(height: 15),
+            TextPoppins(
               text: "Completa los siguientes datos",
               fontSize: 14,
               fontWeight: FontWeight.w500,
               align: TextAlign.start,
-              textDark: textDark,
-              textLight: textLight,
+              textDark: product.textDark,
+              textLight: product.textLight,
             ),
             FormStepOne(
               formKey: formKey,
-              fundUuid: fundUUID,
+              product: product,
             ),
           ],
         ),
@@ -106,13 +100,14 @@ class StepOneBody extends StatelessWidget {
 }
 
 class FormStepOne extends HookConsumerWidget {
+  final GlobalKey<FormState> formKey;
+  final ProductContainerStyles product;
+
   const FormStepOne({
     super.key,
     required this.formKey,
-    required this.fundUuid,
+    required this.product,
   });
-  final GlobalKey<FormState> formKey;
-  final String fundUuid;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
@@ -174,6 +169,7 @@ class FormStepOne extends HookConsumerWidget {
           ),
           currency: isSoles ? currencyNuevoSol : currencyDollar,
           coupon: couponController.text,
+          fundUuid: product.uuid,
         );
         planSimulation.value = await pushCupon(
           inputCalculator: inputCalculator,
@@ -238,7 +234,7 @@ class FormStepOne extends HookConsumerWidget {
                   ),
                   otherText: originOtherController.text,
                 ),
-                fundUUID: fundUuid,
+                fundUUID: product.uuid,
               ),
             );
             context.loaderOverlay.hide();
@@ -345,9 +341,7 @@ class FormStepOne extends HookConsumerWidget {
                 );
               },
             ),
-            originController.text == "Otros"
-                ? const SizedBox(height: 25)
-                : const SizedBox(),
+            originController.text == "Otros" ? const SizedBox(height: 25) : const SizedBox(),
             originController.text == "Otros"
                 ? ValueListenableBuilder<bool>(
                     valueListenable: originOtherError,
@@ -383,7 +377,7 @@ class FormStepOne extends HookConsumerWidget {
                   builder: (context, isError, child) {
                     return InputTextFileInvest(
                       title: "  Si es que tienes un cupón  ",
-                      isNumeric: true,
+                      isNumeric: false,
                       controller: couponController,
                       isError: isError,
                       onError: () => couponError.value = false,
@@ -429,9 +423,12 @@ class FormStepOne extends HookConsumerWidget {
             ),
             const SizedBox(height: 25),
             if (planSimulation.value != null)
-              CuponApliyRow(
-                planSimulation: planSimulation,
-                isSoles: isSoles,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: CouponApplyRow(
+                  planSimulation: planSimulation,
+                  isSoles: isSoles,
+                ),
               )
             else
               const SizedBox(),
@@ -446,8 +443,8 @@ class FormStepOne extends HookConsumerWidget {
   }
 }
 
-class CuponApliyRow extends StatelessWidget {
-  const CuponApliyRow({
+class CouponApplyRow extends StatelessWidget {
+  const CouponApplyRow({
     super.key,
     required this.planSimulation,
     required this.isSoles,
@@ -483,8 +480,7 @@ class CuponApliyRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text:
-                      '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
+                  text: '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,
@@ -525,10 +521,8 @@ class CuponApliyRow extends StatelessWidget {
               children: [
                 TextPoppins(
                   text: isSoles
-                      ? formatterSoles
-                          .format(planSimulation.value?.profitability)
-                      : formatterUSD
-                          .format(planSimulation.value?.profitability),
+                      ? formatterSoles.format(planSimulation.value?.profitability)
+                      : formatterUSD.format(planSimulation.value?.profitability),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,

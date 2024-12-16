@@ -19,9 +19,7 @@ class ProductsV4Screen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(HomeV4Colors.backgroudDark)
-          : const Color(HomeV4Colors.backgroudLight),
+      backgroundColor: isDarkMode ? const Color(HomeV4Colors.backgroudDark) : const Color(HomeV4Colors.backgroudLight),
       appBar: const AppBarProducts(),
       bottomNavigationBar: const NavBarV4(),
       body: const SingleChildScrollView(
@@ -61,8 +59,7 @@ class ListProducts extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
 
-    final PageController pageController =
-        PageController(initialPage: isSoles ? 0 : 1);
+    final PageController pageController = PageController(initialPage: isSoles ? 0 : 1);
 
     useEffect(
       () {
@@ -81,7 +78,7 @@ class ListProducts extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width * 0.85,
         child: ExpandablePageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
@@ -91,7 +88,11 @@ class ListProducts extends HookConsumerWidget {
                 ProductContainer(
                   colors: product,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/v4/product');
+                    Navigator.pushNamed(
+                      context,
+                      '/v4/product',
+                      arguments: product,
+                    );
                   },
                 ),
                 const SizedBox(
@@ -100,7 +101,11 @@ class ListProducts extends HookConsumerWidget {
                 ProductContainer(
                   colors: product2,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/v4/product');
+                    Navigator.pushNamed(
+                      context,
+                      '/v4/product',
+                      arguments: product2,
+                    );
                   },
                 ),
               ],
@@ -110,7 +115,7 @@ class ListProducts extends HookConsumerWidget {
                 ProductContainer(
                   colors: product3,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/v4/product');
+                    Navigator.pushNamed(context, '/v4/product', arguments: product3);
                   },
                 ),
               ],
@@ -136,10 +141,11 @@ class OurProducts extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 20),
             TextPoppins(
               text: "Nuestros productos",
               fontSize: 20,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
             TextPoppins(
               text: "Conoce los fondos de inversión",
