@@ -179,6 +179,7 @@ class ProfitabilityItemV4 {
   final String? voucher;
   final int? numberPayment;
   final bool isCapitalPayment;
+  final bool isActive;
 
   ProfitabilityItemV4({
     required this.paymentDate,
@@ -186,6 +187,7 @@ class ProfitabilityItemV4 {
     this.numberPayment,
     this.voucher,
     required this.isCapitalPayment,
+    required this.isActive,
   });
 
   factory ProfitabilityItemV4.fromJson(Map<String, dynamic> json) {
@@ -195,6 +197,7 @@ class ProfitabilityItemV4 {
       numberPayment: json['numberPayment'],
       voucher: json['paymentVoucherUrl'],
       isCapitalPayment: json['isCapitalPayment'],
+      isActive: json['isActive'] ?? false,
     );
   }
 }

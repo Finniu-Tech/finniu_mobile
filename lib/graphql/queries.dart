@@ -1559,6 +1559,7 @@ class QueryRepository {
     			paymentCapitalDateInvestment
           operationCode
           paymentRentability{
+          isActive
            paymentDate
             amount
             numberPayment

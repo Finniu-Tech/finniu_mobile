@@ -89,7 +89,7 @@ class ProfitabilityListV4 extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                       ),
                       DetailModal(
-                        isPaid: list[index].isCapitalPayment,
+                        isPaid: list[index].isActive,
                         item: list[index],
                         operation: operation,
                         bankTransfer: bankTransfer,
@@ -133,7 +133,7 @@ class DetailModal extends StatelessWidget {
         "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
     const String dateTitle = "Rentabilidad pagada";
     const String time = "12:30";
-    final BankAccount? bankAccount = bankTransfer;
+
     void voucherPay() {
       print("pon tap voucher");
 
@@ -147,7 +147,7 @@ class DetailModal extends StatelessWidget {
           date: date,
           dateTitle: dateTitle,
           time: time,
-          bankAccount: bankAccount,
+          bankAccount: bankTransfer,
           numberAccount: "",
           downloadVoucher: item.voucher ?? "",
         ),
@@ -166,7 +166,7 @@ class DetailModal extends StatelessWidget {
           date: date,
           dateTitle: dateTitle,
           time: time,
-          bankAccount: bankAccount,
+          bankAccount: bankTransfer,
           numberAccount: "",
           downloadVoucher: item.voucher ?? "",
         ),

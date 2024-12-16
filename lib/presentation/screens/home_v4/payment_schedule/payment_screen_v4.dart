@@ -144,6 +144,8 @@ class PaymentBody extends ConsumerWidget {
                       const TitleCapitalV4(),
                       CapitalDetail(
                         item: capitalPay,
+                        operation: data.operationCode,
+                        bankTransfer: data.bankAccountSender,
                       ),
                     ],
                   ),
@@ -158,12 +160,16 @@ class CapitalDetail extends ConsumerWidget {
   const CapitalDetail({
     super.key,
     required this.item,
+    required this.operation,
+    required this.bankTransfer,
   });
   final ProfitabilityItemV4 item;
+  final String operation;
+  final BankAccount? bankTransfer;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.read(isSolesStateProvider);
     const int titleTableDark = 0xffFFFFFF;
     const int titleTableLight = 0xff000000;
     const int borderColorDark = 0xffD0D0D0;
@@ -172,23 +178,16 @@ class CapitalDetail extends ConsumerWidget {
     const int iconLight = 0xff0D3A5C;
 
     void voucherOnPress() {
-      const String title = "Operación #001";
+      final String title = "Operación #$operation";
       const String bankTitle = "Banco a donde te depositamos";
-      const String rent = "S/70.90";
-      const String rentTitle = "Capital a depositar";
-      const String date = "12/Ene/2024";
-      const String dateTitle = "Fecha de pago próximo";
+      final String rent = isSoles
+          ? formatterSoles.format(item.amount)
+          : formatterUSD.format(item.amount);
+      const String rentTitle = "Fecha de pago";
+      final String date =
+          "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
+      const String dateTitle = "Rentabilidad pagada";
       const String time = "12:30";
-      final BankAccount bankAccount = BankAccount(
-        id: "1",
-        bankAccount: "234242424244",
-        bankName: "BBVA",
-        currency: "nuevo sol",
-        typeAccount: "cuenta_ahorros",
-        isJointAccount: false,
-        isDefaultAccount: true,
-        bankSlug: "bbva",
-      );
       print("pon tap voucher");
 
       showCapitalModal(
@@ -201,9 +200,9 @@ class CapitalDetail extends ConsumerWidget {
           date: date,
           dateTitle: dateTitle,
           time: time,
-          bankAccount: bankAccount,
-          numberAccount: bankAccount.bankAccount,
-          downloadVoucher: "",
+          bankAccount: bankTransfer,
+          numberAccount: "",
+          downloadVoucher: item.voucher,
         ),
         isPaid: true,
       );
