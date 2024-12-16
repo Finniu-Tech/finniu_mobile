@@ -128,11 +128,12 @@ class DetailModal extends StatelessWidget {
     final String rent = isSoles
         ? formatterSoles.format(item.amount)
         : formatterUSD.format(item.amount);
-    const String rentTitle = "Fecha de pago";
+    final String rentTitle = isPaid ? "Fecha de pago" : "Fecha de pago próximo";
     final String date =
         "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
-    const String dateTitle = "Rentabilidad pagada";
-    const String time = "12:30";
+    final String dateTitle =
+        isPaid ? "Rentabilidad pagada" : "Rentabilidad a depositar";
+    final String time = "${item.paymentDate.hour}:${item.paymentDate.minute}";
 
     void voucherPay() {
       print("pon tap voucher");

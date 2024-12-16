@@ -32,7 +32,8 @@ class CapitalModalBody extends HookConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isExpanded = useState(false);
     void downloadVoucher() {
-      print("download voucher ${profModal.downloadVoucher}");
+      Navigator.pushNamed(context, '/v4/push_to_url',
+          arguments: profModal.downloadVoucher);
     }
 
     const int titleDark = 0xffA2E6FA;
@@ -43,7 +44,9 @@ class CapitalModalBody extends HookConsumerWidget {
       duration: const Duration(milliseconds: 300),
       width: MediaQuery.of(context).size.width,
       height: isPaid
-          ? 620
+          ? profModal.downloadVoucher != null
+              ? 600
+              : 400
           : isExpanded.value
               ? 620
               : 400,
@@ -122,7 +125,7 @@ class CapitalModalBody extends HookConsumerWidget {
                 )
               : const SizedBox(),
           const SizedBox(height: 15),
-          if (profModal.downloadVoucher != null || !isPaid)
+          if (profModal.downloadVoucher != null)
             VouvherContainer(
               rent: profModal.rent,
               numberAccount: "************9846",

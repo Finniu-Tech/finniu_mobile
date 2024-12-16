@@ -183,13 +183,13 @@ class CapitalDetail extends ConsumerWidget {
       final String rent = isSoles
           ? formatterSoles.format(item.amount)
           : formatterUSD.format(item.amount);
-      const String rentTitle = "Fecha de pago";
+      final String rentTitle =
+          item.isActive ? "Fecha de pago" : "Fecha de pago próximo";
       final String date =
           "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
-      const String dateTitle = "Rentabilidad pagada";
-      const String time = "12:30";
-      print("pon tap voucher");
-
+      final String dateTitle =
+          item.isActive ? "Capital pagado" : "Capital a depositar";
+      final String time = "${item.paymentDate.hour}:${item.paymentDate.minute}";
       showCapitalModal(
         context,
         profModal: ProfModal(
@@ -204,7 +204,7 @@ class CapitalDetail extends ConsumerWidget {
           numberAccount: "",
           downloadVoucher: item.voucher,
         ),
-        isPaid: true,
+        isPaid: item.isActive,
       );
     }
 
