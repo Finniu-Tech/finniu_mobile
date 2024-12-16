@@ -49,6 +49,7 @@ class _BodyScaffold extends ConsumerWidget {
     final isSoles = ref.read(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffFFFFFF;
+
     final investmentDetailByUuid =
         ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
@@ -99,7 +100,7 @@ class _BodyScaffold extends ConsumerWidget {
         }
 
         return SizedBox(
-          height: MediaQuery.of(context).size.height - 75,
+          height: MediaQuery.of(context).size.height - 65,
           child: Stack(
             children: [
               SingleChildScrollView(
@@ -204,10 +205,11 @@ class _BodyScaffold extends ConsumerWidget {
                             ? const Color(columnColorDark)
                             : const Color(columnColorLight),
                         width: MediaQuery.of(context).size.width,
-                        child: ButtonInvestment(
+                        child: ButtonSvgIconInvestment(
                           text: "Hablar con un asesor",
                           onPressed: () =>
                               showValidationModal(context, contactWhatsApp),
+                          icon: "assets/svg_icons/chat_icon_draft.svg",
                         ),
                       ),
                     )
@@ -268,13 +270,14 @@ class _BodyScaffold extends ConsumerWidget {
                                 StatusInvestmentEnum.in_process) ...[
                               const SizedBox(height: 15),
                               if (data.profitabilityListMonth.isNotEmpty) ...[
-                                ButtonInvestment(
+                                ButtonSvgIconInvestmentSecond(
                                   text: "Ver tabla de los pagos de intereses",
                                   onPressed: () => Navigator.pushNamed(
                                     context,
                                     '/v4/payment_schedule',
                                     arguments: arguments.uuid,
                                   ),
+                                  icon: 'assets/svg_icons/square_half.svg',
                                 ),
                                 const SizedBox(height: 15),
                               ],

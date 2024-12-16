@@ -23,11 +23,11 @@ class InitEndContainer extends StatelessWidget {
     const int backgroudLight = 0xffF8F8F8;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
-    const int initPointDark = 0xffBDE1FD;
+    const int initPointDark = 0xff0D3A5C;
     const int initPointLight = 0xffBDE1FD;
     const int initPointIconDark = 0xffBDE1FD;
     const int initPointIconLight = 0xff0D3A5C;
-    const int endPointDark = 0xffDFD7FF;
+    const int endPointDark = 0xffB9A8FF;
     const int endPointLight = 0xffDFD7FF;
     const int endPointIconDark = 0xff9C84FE;
     const int endPointIconLight = 0xff9C84FE;
