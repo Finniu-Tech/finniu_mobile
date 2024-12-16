@@ -1356,7 +1356,10 @@ class QueryRepository {
              	investmentFund{
                 name
               }
-              
+              paymentRentability{
+                amount
+                paymentDate
+              }
             }
           }
           invesmentInDolares{
@@ -1389,6 +1392,10 @@ class QueryRepository {
               rentabilityAmmount
              	investmentFund{
                 name
+              }
+              paymentRentability{
+                amount
+                paymentDate
               }
             }
           }
@@ -1460,29 +1467,8 @@ class QueryRepository {
           }
           investmentFund{
             uuid
-                 name
-                 icon
-                 listBackgroundColorLight
-                 listBackgroundColorDark
-                 detailBackgroundColorLight
-                 detailBackgroundColorDark
-                 backgroundImageUrl
-                 mainImageUrl
-                 createdAt
-                 isDeleted
-                 isActive
-                 fundType
-                 tagDetailId
-                 tagBenefitsId
-                 tagDownloadInfoId
-                 tagInvestmentButtonId
-                 mainImageHorizontalUrl
-                 detailBackgroundColorSecondaryLight
-                 detailBackgroundColorDarkSecondary
-                 lastRentability
-               
-                
-            
+            name
+            icon
           }
         }
       }

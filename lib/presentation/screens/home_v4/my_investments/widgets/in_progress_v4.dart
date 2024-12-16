@@ -13,6 +13,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.d
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -209,15 +210,15 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.show_chart,
-                            size: 12,
+                          SvgPicture.asset(
+                            "assets/svg_icons/rent_icon.svg",
+                            width: 14,
+                            height: 14,
                             color: isDarkMode
                                 ? const Color(
                                     ToValidateColorsV4.itemRentTextDark)
                                 : const Color(
-                                    ToValidateColorsV4.itemRentTextLight,
-                                  ),
+                                    ToValidateColorsV4.itemRentTextLight),
                           ),
                           const SizedBox(
                             width: 5,

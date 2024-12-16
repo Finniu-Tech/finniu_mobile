@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
+
 class InvestmentV4 {
   final String uuid;
   final int amount;
@@ -10,11 +12,13 @@ class InvestmentV4 {
   final String? fundName;
   final String? fundUuid;
   final bool isCapital;
+  final List<ProfitabilityItem> paymentRentability;
 
   InvestmentV4({
     required this.uuid,
     required this.amount,
     required this.finishDateInvestment,
+    required this.paymentRentability,
     this.fundUuid,
     this.rentability,
     this.isReinvestAvailable = false,
@@ -27,6 +31,11 @@ class InvestmentV4 {
 
   factory InvestmentV4.fromJson(Map<String, dynamic> json) {
     return InvestmentV4(
+      paymentRentability: json['paymentRentability'] == null
+          ? []
+          : (json['paymentRentability'] as List<dynamic>)
+              .map((item) => ProfitabilityItem.fromJson(item))
+              .toList(),
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       finishDateInvestment: json['finishDateInvestment'],
