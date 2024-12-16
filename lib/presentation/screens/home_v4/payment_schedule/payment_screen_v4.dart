@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/rent_contaiener.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/title_fond.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PaymentScreenV4 extends StatelessWidget {
@@ -282,9 +283,10 @@ class TitleTable extends ConsumerWidget {
     const int iconLight = 0xff0D3A5C;
     return Row(
       children: [
-        Icon(
-          Icons.table_chart_outlined,
-          size: 20,
+        SvgPicture.asset(
+          "assets/svg_icons/square_half.svg",
+          width: 25,
+          height: 25,
           color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
         ),
         const SizedBox(

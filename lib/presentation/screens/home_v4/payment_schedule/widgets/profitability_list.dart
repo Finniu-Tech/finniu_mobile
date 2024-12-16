@@ -136,8 +136,6 @@ class DetailModal extends StatelessWidget {
     final String time = "${item.paymentDate.hour}:${item.paymentDate.minute}";
 
     void voucherPay() {
-      print("pon tap voucher");
-
       showProfitabilityModal(
         context,
         profModal: ProfModal(
@@ -156,7 +154,6 @@ class DetailModal extends StatelessWidget {
     }
 
     void voucherSee() {
-      print("pon tap see");
       showProfitabilityModal(
         context,
         profModal: ProfModal(
