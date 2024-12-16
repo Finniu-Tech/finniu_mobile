@@ -134,10 +134,9 @@ class DetailModal extends StatelessWidget {
     const String dateTitle = "Rentabilidad pagada";
     const String time = "12:30";
     final BankAccount? bankAccount = bankTransfer;
-    print(item.voucher);
     void voucherPay() {
       print("pon tap voucher");
-      print(item.voucher);
+
       showProfitabilityModal(
         context,
         profModal: ProfModal(
@@ -156,7 +155,7 @@ class DetailModal extends StatelessWidget {
     }
 
     void voucherSee() {
-      print("pon tap voucher");
+      print("pon tap see");
       showProfitabilityModal(
         context,
         profModal: ProfModal(
