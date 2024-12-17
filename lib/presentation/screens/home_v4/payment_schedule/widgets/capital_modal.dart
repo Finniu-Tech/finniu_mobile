@@ -1,5 +1,6 @@
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_modal.dart';
 import 'package:flutter/material.dart';
@@ -32,122 +33,113 @@ class CapitalModalBody extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isExpanded = useState(false);
-    print("download voucher");
-    print(profModal.downloadVoucher);
-    print("download voucher");
-    print(profModal.downloadVoucher);
-    print("download voucher");
-    print(profModal.downloadVoucher);
-    print("download voucher");
-    print(profModal.downloadVoucher);
+
     void downloadVoucher() {
-      Navigator.pushNamed(
-        context,
-        '/v4/push_to_url',
-        arguments: profModal.downloadVoucher,
-      );
+      if (profModal.downloadVoucher.trim().isEmpty) {
+        showSnackBarV2(
+            context: context,
+            title: "Voucher no disponible",
+            message: "Voucher no disponible",
+            snackType: SnackType.warning);
+      } else {
+        Navigator.pushNamed(context, '/v4/push_to_url',
+            arguments: profModal.downloadVoucher);
+      }
     }
 
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
-
     void closeModal() => Navigator.pop(context);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: MediaQuery.of(context).size.width,
-      // height: isPaid
-      //     ? profModal.downloadVoucher != null
-      //         ? 600
-      //         : 400
-      //     : isExpanded.value
-      //         ? 620
-      //         : 400,
       padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CloseIcon(
-            isDarkMode: isDarkMode,
-            closeModal: closeModal,
-          ),
-          TextPoppins(
-            text: profModal.title,
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            textDark: titleDark,
-            textLight: titleLight,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RowDate(
-                dateTitle: profModal.dateTitle,
-                date: profModal.date,
-              ),
-              isPaid
-                  ? const SizedBox()
-                  : IconButton(
-                      onPressed: () {
-                        isExpanded.value = !isExpanded.value;
-                      },
-                      icon: const Icon(Icons.help_outline_outlined),
-                    ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          isExpanded.value
-              ? const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextPoppins(
-                      text: "¿Cómo saber la fecha del pago de mi capital?",
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    SizedBox(height: 10),
-                    TextPoppins(
-                      text:
-                          "La fecha del pago del capital se define según el día que haya adjuntado la constancia de transferencia cuando realizaste tu inversión ",
-                      fontSize: 11,
-                      lines: 4,
-                    ),
-                    SizedBox(height: 10),
-                    DatePay()
-                  ],
-                )
-              : const SizedBox(),
-          const SizedBox(height: 15),
-          RowRent(
-            rentTitle: profModal.rentTitle,
-            rent: profModal.rent,
-          ),
-          const SizedBox(height: 15),
-          profModal.bankAccount != null
-              ? TextPoppins(
-                  text: profModal.bankTitle,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                )
-              : const SizedBox(),
-          const SizedBox(height: 15),
-          profModal.bankAccount != null
-              ? BankItemDetail(
-                  bankAccount: profModal.bankAccount!,
-                )
-              : const SizedBox(),
-          const SizedBox(height: 15),
-          if (profModal.downloadVoucher != null ||
-              profModal.downloadVoucher != "")
-            VouvherContainer(
-              rent: profModal.rent,
-              numberAccount: profModal.bankAccount?.bankAccount == null
-                  ? "************0000"
-                  : getMaskedNumber(profModal.bankAccount!.bankAccount),
-              time: profModal.time,
-              downloadVoucher: downloadVoucher,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CloseIcon(
+              isDarkMode: isDarkMode,
+              closeModal: closeModal,
             ),
-        ],
+            TextPoppins(
+              text: profModal.title,
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              textDark: titleDark,
+              textLight: titleLight,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RowDate(
+                  dateTitle: profModal.dateTitle,
+                  date: profModal.date,
+                ),
+                isPaid
+                    ? const SizedBox()
+                    : IconButton(
+                        onPressed: () {
+                          isExpanded.value = !isExpanded.value;
+                        },
+                        icon: const Icon(Icons.help_outline_outlined),
+                      ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            isExpanded.value
+                ? const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextPoppins(
+                        text: "¿Cómo saber la fecha del pago de mi capital?",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      SizedBox(height: 10),
+                      TextPoppins(
+                        text:
+                            "La fecha del pago del capital se define según el día que haya adjuntado la constancia de transferencia cuando realizaste tu inversión ",
+                        fontSize: 11,
+                        lines: 4,
+                      ),
+                      SizedBox(height: 10),
+                      DatePay()
+                    ],
+                  )
+                : const SizedBox(),
+            const SizedBox(height: 15),
+            RowRent(
+              rentTitle: profModal.rentTitle,
+              rent: profModal.rent,
+            ),
+            const SizedBox(height: 15),
+            profModal.bankAccount != null
+                ? TextPoppins(
+                    text: profModal.bankTitle,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  )
+                : const SizedBox(),
+            const SizedBox(height: 15),
+            profModal.bankAccount != null
+                ? BankItemDetail(
+                    bankAccount: profModal.bankAccount!,
+                  )
+                : const SizedBox(),
+            const SizedBox(height: 15),
+            if (profModal.downloadVoucher != "")
+              VouvherContainer(
+                rent: profModal.rent,
+                numberAccount: profModal.bankAccount?.bankAccount == null
+                    ? "************0000"
+                    : getMaskedNumber(profModal.bankAccount!.bankAccount),
+                time: profModal.time,
+                downloadVoucher: downloadVoucher,
+              ),
+          ],
+        ),
       ),
     );
   }
