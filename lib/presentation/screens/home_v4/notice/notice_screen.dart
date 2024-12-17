@@ -1,4 +1,3 @@
-import 'package:finniu/domain/entities/notice_entity.dart';
 import 'package:finniu/infrastructure/models/news_model.dart';
 import 'package:finniu/presentation/providers/news_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -139,7 +138,8 @@ class NoticeItem extends ConsumerWidget {
                   ),
                   const SizedBox(width: 5),
                   TextPoppins(
-                    text: DateFormat('dd MMM, yyyy').format(item.publicationDate),
+                    text:
+                        DateFormat('dd MMM, yyyy').format(item.publicationDate),
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     lines: 2,
@@ -158,7 +158,9 @@ class NoticeItem extends ConsumerWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: isDarkMode ? Colors.white.withOpacity(0.3) : Colors.black.withOpacity(0.1),
+                      color: isDarkMode
+                          ? Colors.white.withOpacity(0.3)
+                          : Colors.black.withOpacity(0.1),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
@@ -167,7 +169,8 @@ class NoticeItem extends ConsumerWidget {
                         child: Image.network(
                           item.imageUrl ?? '',
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => Image.asset(
+                          errorBuilder: (context, error, stackTrace) =>
+                              Image.asset(
                             "assets/home_v4/notice_exeption.png",
                             fit: BoxFit.cover,
                           ),
@@ -205,7 +208,9 @@ class NoticeItem extends ConsumerWidget {
                             height: 32,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: isDarkMode ? Color(buttonDark) : Color(buttonLight),
+                              color: isDarkMode
+                                  ? Color(buttonDark)
+                                  : Color(buttonLight),
                             ),
                             alignment: Alignment.center,
                             child: TextPoppins(
