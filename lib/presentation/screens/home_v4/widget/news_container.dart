@@ -6,7 +6,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NewsContainer extends StatelessWidget {
   const NewsContainer({
@@ -69,7 +68,8 @@ class NewsCarrousel extends ConsumerWidget {
                 image: newsItem.imageUrl ?? '',
                 title: newsItem.title,
                 author: newsItem.author ?? 'Autor desconocido',
-                date: DateFormat('dd MMM, yyyy').format(newsItem.publicationDate),
+                date:
+                    DateFormat('dd MMM, yyyy').format(newsItem.publicationDate),
                 onTap: () => onTap(newsItem.newsUrl, context),
               ),
             )
@@ -82,7 +82,7 @@ class NewsCarrousel extends ConsumerWidget {
           autoPlayCurve: Curves.fastOutSlowIn,
           enableInfiniteScroll: true,
           autoPlayAnimationDuration: const Duration(milliseconds: 800),
-          viewportFraction: 0.5,
+          viewportFraction: 0.6,
         ),
       ),
       loading: () => const Center(

@@ -17,7 +17,7 @@ class ProductContainer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       constraints: const BoxConstraints(maxWidth: 350),
       height: 270,
       decoration: BoxDecoration(

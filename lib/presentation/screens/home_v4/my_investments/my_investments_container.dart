@@ -35,7 +35,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
         investSelect.totalBalanceRentabilityIncreased == null
             ? "0.00"
             : investSelect.totalBalanceRentabilityIncreased.toString();
-    final totalBalanceRentabilityActually = "0.00";
+    const String? totalBalanceRentabilityActually = null;
     void onTapInvestActive() {
       showModalActiveInvest(context);
     }
@@ -121,42 +121,47 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                 children: [
                                   const TextPoppins(
                                     text: "Rentabilidad",
-                                    fontSize: 8,
+                                    fontSize: 11,
                                     textDark:
                                         HomeV4Colors.interestGeneratedTextDark,
                                     textLight:
                                         HomeV4Colors.interestGeneratedTextLight,
                                   ),
                                   const Spacer(),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 6,
-                                      vertical: 2,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: isDarkMode
-                                          ? const Color(
-                                              HomeV4Colors
-                                                  .interestGeneratedContDark,
-                                            )
-                                          : const Color(
-                                              HomeV4Colors
-                                                  .interestGeneratedContLight,
-                                            ),
-                                    ),
-                                    child: TextPoppins(
-                                      text: totalBalanceRentabilityIncreased,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                      textDark:
-                                          HomeV4Colors.interestGeneratedDark,
-                                      textLight:
-                                          HomeV4Colors.interestGeneratedLight,
-                                    ),
-                                  ),
+                                  totalBalanceRentabilityActually == null
+                                      ? const SizedBox()
+                                      : Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 6,
+                                            vertical: 2,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: isDarkMode
+                                                ? const Color(
+                                                    HomeV4Colors
+                                                        .interestGeneratedContDark,
+                                                  )
+                                                : const Color(
+                                                    HomeV4Colors
+                                                        .interestGeneratedContLight,
+                                                  ),
+                                          ),
+                                          child: TextPoppins(
+                                            text:
+                                                totalBalanceRentabilityActually,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500,
+                                            textDark: HomeV4Colors
+                                                .interestGeneratedDark,
+                                            textLight: HomeV4Colors
+                                                .interestGeneratedLight,
+                                          ),
+                                        ),
                                 ],
                               ),
+                              const SizedBox(height: 5),
                               Skeletonizer(
                                 enabled: isLoaded,
                                 child: Row(
@@ -165,7 +170,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   children: [
                                     TextPoppins(
                                       text:
-                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityActually : "****"}",
+                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityIncreased : "****"}",
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                       textDark: HomeV4Colors

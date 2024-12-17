@@ -58,7 +58,9 @@ class StepOneBody extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height < 700 ? 650 : MediaQuery.of(context).size.height - 80,
+        height: MediaQuery.of(context).size.height < 700
+            ? 650
+            : MediaQuery.of(context).size.height - 100,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -66,7 +68,7 @@ class StepOneBody extends StatelessWidget {
             FundRowStep(
               icon: product.imageProduct,
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 14),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               child: TextPoppins(
@@ -79,7 +81,7 @@ class StepOneBody extends StatelessWidget {
                 textLight: product.titleLight,
               ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             TextPoppins(
               text: "Completa los siguientes datos",
               fontSize: 14,
@@ -257,7 +259,7 @@ class FormStepOne extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height - 250,
+        height: MediaQuery.of(context).size.height - 240,
         child: Column(
           children: [
             const SizedBox(height: 25),
@@ -341,7 +343,9 @@ class FormStepOne extends HookConsumerWidget {
                 );
               },
             ),
-            originController.text == "Otros" ? const SizedBox(height: 25) : const SizedBox(),
+            originController.text == "Otros"
+                ? const SizedBox(height: 25)
+                : const SizedBox(),
             originController.text == "Otros"
                 ? ValueListenableBuilder<bool>(
                     valueListenable: originOtherError,
@@ -480,7 +484,8 @@ class CouponApplyRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text: '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
+                  text:
+                      '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,
@@ -521,8 +526,10 @@ class CouponApplyRow extends StatelessWidget {
               children: [
                 TextPoppins(
                   text: isSoles
-                      ? formatterSoles.format(planSimulation.value?.profitability)
-                      : formatterUSD.format(planSimulation.value?.profitability),
+                      ? formatterSoles
+                          .format(planSimulation.value?.profitability)
+                      : formatterUSD
+                          .format(planSimulation.value?.profitability),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,
