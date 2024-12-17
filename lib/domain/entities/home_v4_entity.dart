@@ -68,16 +68,16 @@ extension ListExtension<E> on List<E> {
 
 final AllInvestment investmentErrorInSoles = AllInvestment(
   countPlanesActive: 0,
-  averageProfitability: "----",
+  averageProfitability: "0",
   capitalInCourse: 0,
-  totalBalanceRentabilityIncreased: "----",
+  totalBalanceRentabilityIncreased: "0",
 );
 
 final AllInvestment investmentErrorInDolares = AllInvestment(
   countPlanesActive: 0,
-  averageProfitability: "----",
+  averageProfitability: "0",
   capitalInCourse: 0,
-  totalBalanceRentabilityIncreased: "----",
+  totalBalanceRentabilityIncreased: "0",
 );
 
 final HomeUserInvest homeUserErrorInvest = HomeUserInvest(
