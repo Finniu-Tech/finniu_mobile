@@ -52,14 +52,16 @@ class ButtonInvestment extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: MediaQuery.of(context).size.width * 0.9,
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -68,7 +70,9 @@ class ButtonInvestment extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
+            color: isDarkMode
+                ? const Color(colorTextButtonDarkColor)
+                : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,
@@ -212,6 +216,77 @@ class ButtonSvgIconInvestment extends ConsumerWidget {
   }
 }
 
+class ButtonSvgIconInvestmentSecond extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final String icon;
+  final double height;
+  final double size;
+  const ButtonSvgIconInvestmentSecond({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.icon,
+    this.height = 50,
+    this.size = 24,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    const int textColorDark = 0xffA2E6FA;
+    const int textColorLight = 0xffFFFFFF;
+    const int colorDark = 0xff0E0E0E;
+    const int colorLight = 0xff0D3A5C;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: height,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+                side: BorderSide(
+                  color: isDarkMode
+                      ? const Color(textColorDark)
+                      : const Color(colorLight),
+                )),
+          ),
+          elevation: WidgetStateProperty.all(5),
+          backgroundColor: WidgetStateProperty.all(
+            isDarkMode ? const Color(colorDark) : const Color(colorLight),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon,
+              color: isDarkMode
+                  ? const Color(textColorDark)
+                  : const Color(textColorLight),
+              width: size,
+              height: size,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            TextPoppins(
+              text: text,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              textDark: textColorDark,
+              textLight: textColorLight,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class ButtonForm extends ConsumerWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -238,7 +313,9 @@ class ButtonForm extends ConsumerWidget {
                 return Colors.grey;
               }
               return Color(
-                isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
+                isDarkMode
+                    ? buttonBackgroundColorDark
+                    : buttonBackgroundColorLight,
               );
             },
           ),
@@ -247,7 +324,9 @@ class ButtonForm extends ConsumerWidget {
               if (states.contains(WidgetState.disabled)) {
                 return Colors.black38;
               }
-              return isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor);
+              return isDarkMode
+                  ? const Color(colorTextButtonDarkColor)
+                  : const Color(colorTextButtonLightColor);
             },
           ),
         ),
@@ -319,7 +398,9 @@ class ButtonDialog extends ConsumerWidget {
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -328,7 +409,9 @@ class ButtonDialog extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
+            color: isDarkMode
+                ? const Color(colorTextButtonDarkColor)
+                : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
           ),
@@ -415,7 +498,9 @@ class BodyDialog extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                        color: isDarkMode
+                            ? const Color(labelTextDarkColor)
+                            : const Color(labelTextLightColor),
                       ),
                     ),
                     Image.asset('assets/icons/icon_tanks.png'),
@@ -443,7 +528,9 @@ class BodyDialog extends ConsumerWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Poppins",
-                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                        color: isDarkMode
+                            ? const Color(labelTextDarkColor)
+                            : const Color(labelTextLightColor),
                       ),
                       maxLines: 1,
                       textAlign: TextAlign.start,

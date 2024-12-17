@@ -11,7 +11,6 @@ class IconFund extends ConsumerWidget {
   final String? fundTitle;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('fundTitle: $fundTitle');
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int containerDark = 0xff0D3A5C;
     const int containerLight = 0xffDBF7FF;
@@ -33,7 +32,7 @@ class IconFund extends ConsumerWidget {
           alignment: Alignment.centerLeft,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.85,
               height: 30,
               padding: const EdgeInsets.only(right: 10),
               alignment: Alignment.centerRight,

@@ -14,23 +14,27 @@ class ProfitabilityListV4 extends ConsumerWidget {
   const ProfitabilityListV4({
     super.key,
     required this.list,
+    required this.operation,
+    required this.bankTransfer,
   });
-  final List<ProfitabilityItem> list;
+  final List<ProfitabilityItemV4> list;
+  final String operation;
+  final BankAccount? bankTransfer;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.read(isSolesStateProvider);
     const int borderColorDark = 0xffD0D0D0;
     const int borderColorLight = 0xffD0D0D0;
 
     return SizedBox(
-      width: double.infinity,
-      height: 300,
+      width: MediaQuery.of(context).size.width,
+      height: list.length * 38 + 15,
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
           return Container(
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width,
             height: 38,
             decoration: BoxDecoration(
               border: Border.all(
@@ -85,7 +89,11 @@ class ProfitabilityListV4 extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                       ),
                       DetailModal(
-                        isPaid: list[index].isPaid,
+                        isPaid: list[index].isActive,
+                        item: list[index],
+                        operation: operation,
+                        bankTransfer: bankTransfer,
+                        isSoles: isSoles,
                       ),
                     ],
                   ),
@@ -103,29 +111,31 @@ class DetailModal extends StatelessWidget {
   const DetailModal({
     super.key,
     required this.isPaid,
+    required this.item,
+    required this.operation,
+    required this.bankTransfer,
+    required this.isSoles,
   });
+  final bool isSoles;
   final bool isPaid;
+  final ProfitabilityItemV4 item;
+  final String operation;
+  final BankAccount? bankTransfer;
   @override
   Widget build(BuildContext context) {
+    final String title = "Operación #$operation";
+    const String bankTitle = "Banco a donde te depositamos";
+    final String rent = isSoles
+        ? formatterSoles.format(item.amount)
+        : formatterUSD.format(item.amount);
+    final String rentTitle = isPaid ? "Fecha de pago" : "Fecha de pago próximo";
+    final String date =
+        "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
+    final String dateTitle =
+        isPaid ? "Rentabilidad pagada" : "Rentabilidad a depositar";
+    final String time = "${item.paymentDate.hour}:${item.paymentDate.minute}";
+
     void voucherPay() {
-      const String title = "Operación #001";
-      const String bankTitle = "Banco a donde te depositamos";
-      const String rent = "S/70.90";
-      const String rentTitle = "Fecha de pago";
-      const String date = "12/Ene/2024";
-      const String dateTitle = "Rentabilidad pagada";
-      const String time = "12:30";
-      final BankAccount bankAccount = BankAccount(
-        id: "1",
-        bankAccount: "234242424244",
-        bankName: "BBVA",
-        currency: "nuevo sol",
-        typeAccount: "cuenta_ahorros",
-        isJointAccount: false,
-        isDefaultAccount: true,
-        bankSlug: "bbva",
-      );
-      print("pon tap voucher");
       showProfitabilityModal(
         context,
         profModal: ProfModal(
@@ -136,32 +146,14 @@ class DetailModal extends StatelessWidget {
           date: date,
           dateTitle: dateTitle,
           time: time,
-          bankAccount: bankAccount,
+          bankAccount: bankTransfer,
           numberAccount: "",
-          downloadVoucher: "",
+          downloadVoucher: item.voucher ?? "",
         ),
       );
     }
 
     void voucherSee() {
-      const String title = "Operación #007";
-      const String bankTitle = "Banco a donde te depositamos";
-      const String rent = "S/70.90";
-      const String rentTitle = "Fecha de pago próximo";
-      const String date = "12/Ene/2024";
-      const String dateTitle = "Rentabilidad a depositar";
-      const String time = "12:30";
-      final BankAccount bankAccount = BankAccount(
-        id: "1",
-        bankAccount: "234242424244",
-        bankName: "BBVA",
-        currency: "nuevo sol",
-        typeAccount: "cuenta_ahorros",
-        isJointAccount: false,
-        isDefaultAccount: true,
-        bankSlug: "bbva",
-      );
-      print("pon tap voucher");
       showProfitabilityModal(
         context,
         profModal: ProfModal(
@@ -172,9 +164,9 @@ class DetailModal extends StatelessWidget {
           date: date,
           dateTitle: dateTitle,
           time: time,
-          bankAccount: bankAccount,
+          bankAccount: bankTransfer,
           numberAccount: "",
-          downloadVoucher: null,
+          downloadVoucher: item.voucher ?? "",
         ),
       );
     }

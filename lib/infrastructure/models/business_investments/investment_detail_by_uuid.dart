@@ -132,6 +132,76 @@ class ProfitabilityItem {
   }
 }
 
+class TablePayV4 {
+  final double rentabilityAmount;
+  final double rentabilityPercent;
+  final double amount;
+  final DateTime paymentCapitalDateInvestment;
+  final BankAccount? bankAccountSender;
+  final List<ProfitabilityItemV4> profitabilityListMonth;
+  final String fundName;
+  final String operationCode;
+
+  TablePayV4({
+    required this.rentabilityAmount,
+    required this.rentabilityPercent,
+    required this.amount,
+    required this.paymentCapitalDateInvestment,
+    required this.profitabilityListMonth,
+    required this.bankAccountSender,
+    required this.fundName,
+    required this.operationCode,
+  });
+
+  factory TablePayV4.fromJson(Map<String, dynamic> json) {
+    final investmentDetail = json['investmentDetail'];
+    return TablePayV4(
+      operationCode: investmentDetail['operationCode'],
+      rentabilityAmount: double.parse(investmentDetail['rentabilityAmmount']),
+      rentabilityPercent: double.parse(investmentDetail['rentabilityPercent']),
+      amount: double.parse(investmentDetail['amount']),
+      paymentCapitalDateInvestment:
+          DateTime.parse(investmentDetail['paymentCapitalDateInvestment']),
+      profitabilityListMonth: (investmentDetail['paymentRentability'] as List)
+          .map((item) => ProfitabilityItemV4.fromJson(item))
+          .toList(),
+      bankAccountSender: investmentDetail['bankAccountReceiver'] != null
+          ? BankAccount.fromJson(investmentDetail['bankAccountReceiver'])
+          : null,
+      fundName: investmentDetail['investmentFund']['name'],
+    );
+  }
+}
+
+class ProfitabilityItemV4 {
+  final DateTime paymentDate;
+  final double amount;
+  final String? voucher;
+  final int? numberPayment;
+  final bool isCapitalPayment;
+  final bool isActive;
+
+  ProfitabilityItemV4({
+    required this.paymentDate,
+    required this.amount,
+    this.numberPayment,
+    this.voucher,
+    required this.isCapitalPayment,
+    required this.isActive,
+  });
+
+  factory ProfitabilityItemV4.fromJson(Map<String, dynamic> json) {
+    return ProfitabilityItemV4(
+      paymentDate: DateTime.parse(json['paymentDate']),
+      amount: double.parse(json['amount']),
+      numberPayment: json['numberPayment'],
+      voucher: json['paymentVoucherUrl'],
+      isCapitalPayment: json['isCapitalPayment'],
+      isActive: json['isActive'] ?? false,
+    );
+  }
+}
+
 enum TypeReinvestmentEnum { capitalAditional, capitalOnly }
 
 class ReInvestmentInfo {

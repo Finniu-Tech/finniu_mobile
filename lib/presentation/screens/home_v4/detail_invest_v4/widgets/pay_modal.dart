@@ -31,7 +31,7 @@ class _ModalBody extends ConsumerWidget {
     const int tableTitleTextLight = 0xffFFFFFF;
     const int dayTitleDark = 0xff1A1A1A;
     const int dayTitleLight = 0xffD6F6FF;
-    const int dayTitleTextDark = 0xff000000;
+    const int dayTitleTextDark = 0xffFFFFFF;
     const int dayTitleTextLight = 0xff000000;
     const int borderDark = 0xffA2E6FA;
     const int borderLight = 0xff0D3A5C;
