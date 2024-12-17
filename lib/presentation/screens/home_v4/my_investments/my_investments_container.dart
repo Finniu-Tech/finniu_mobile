@@ -37,7 +37,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
             : investSelect.totalBalanceRentabilityIncreased.toString();
     const String? totalBalanceRentabilityActually = null;
     void onTapInvestActive() {
-      showModalActiveInvest(context);
+      // showModalActiveInvest(context);
     }
 
     return Container(
