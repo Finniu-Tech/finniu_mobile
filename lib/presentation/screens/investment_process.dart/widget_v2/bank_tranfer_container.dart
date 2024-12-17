@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/select_bank.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BankTranferContainer extends ConsumerWidget {
@@ -67,9 +68,9 @@ class AddContainer extends ConsumerWidget {
         bankSelect: bankSelect,
       ),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         width: MediaQuery.of(context).size.width,
-        height: 38,
+        height: 45,
         decoration: BoxDecoration(
           color: isDarkMode
               ? const Color(containerDark)
@@ -90,10 +91,15 @@ class AddContainer extends ConsumerWidget {
                       Radius.circular(50),
                     ),
                   ),
-                  child: const Icon(
-                    Icons.add_card_outlined,
-                    size: 20,
-                    color: Color(icon),
+                  child: SizedBox(
+                    child: Center(
+                      child: SvgPicture.asset(
+                        "assets/svg_icons/card_add_icon.svg",
+                        width: 20,
+                        height: 20,
+                        color: const Color(icon),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -137,8 +143,10 @@ class BankContainer extends ConsumerWidget {
 
     const int containerDark = 0xff212121;
     const int containerLight = 0xffBCF0FF;
-    const int iconDark = 0xffFFFFFF;
-    const int iconLight = 0xff0D3A5C;
+    const int changeDark = 0xffA2E6FA;
+    const int changeLight = 0xff0D3A5C;
+    const int changeTextDark = 0xff0D3A5C;
+    const int changeTextLight = 0xffFFFFFF;
     const int errorDark = 0xff181818;
     const int errorLight = 0xffA2E6FA;
     String getCurrency(String? currency) {
@@ -170,9 +178,8 @@ class BankContainer extends ConsumerWidget {
         bankSelect: selectBank,
       ),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
         width: MediaQuery.of(context).size.width,
-        height: 38,
+        height: 45,
         decoration: BoxDecoration(
           color: isDarkMode
               ? const Color(containerDark)
@@ -180,61 +187,88 @@ class BankContainer extends ConsumerWidget {
           borderRadius: BorderRadius.circular(50),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                ClipOval(
-                  child: Image.network(
-                    selectBank?.bankLogoUrl ?? "",
-                    width: 30,
-                    height: 30,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      } else {
-                        return const CircularLoader(width: 10, height: 10);
-                      }
-                    },
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? const Color(errorDark)
-                            : const Color(errorLight),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(50),
-                        ),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          "assets/images/bank_case_error.png",
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
+            const SizedBox(
+              width: 10,
+            ),
+            ClipOval(
+              child: Image.network(
+                selectBank?.bankLogoUrl ?? "",
+                width: 35,
+                height: 35,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return const CircularLoader(width: 10, height: 10);
+                  }
+                },
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: isDarkMode
+                        ? const Color(errorDark)
+                        : const Color(errorLight),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      "assets/images/bank_case_error.png",
+                      width: 20,
+                      height: 20,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  child: TextPoppins(
-                    text:
-                        "${selectBank?.bankName ?? "banco"} - ${getCurrency(selectBank?.currency)} | ${getMaskedNumber(selectBank?.bankAccount)}",
-                    fontSize: 11,
-                  ),
-                ),
-              ],
+              ),
             ),
-            Icon(
-              Icons.arrow_forward_outlined,
-              size: 24,
-              color:
-                  isDarkMode ? const Color(iconDark) : const Color(iconLight),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: SizedBox(
+                child: TextPoppins(
+                  text:
+                      "${selectBank?.bankSlug.toUpperCase() ?? "banco"}-${getCurrency(selectBank?.currency)}\n${getMaskedNumber(selectBank?.bankAccount)}",
+                  fontSize: 11,
+                  lines: 2,
+                ),
+              ),
+            ),
+            Container(
+              width: 126,
+              height: 45,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: isDarkMode
+                    ? const Color(changeDark)
+                    : const Color(changeLight),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    "assets/svg_icons/card_add_icon.svg",
+                    width: 20,
+                    height: 20,
+                    color: isDarkMode
+                        ? const Color(changeTextDark)
+                        : const Color(changeTextLight),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const TextPoppins(
+                    text: "Cambiar",
+                    fontSize: 13,
+                    textDark: changeTextDark,
+                    textLight: changeTextLight,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
