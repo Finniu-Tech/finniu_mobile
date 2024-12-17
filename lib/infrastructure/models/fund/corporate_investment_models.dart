@@ -1,6 +1,13 @@
 import 'package:finniu/infrastructure/models/graphql.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 
+class FundUUIDEnum {
+  static String prodCorporateFund = 'cbeff767-93f6-493f-9a55-faf5c380b0f9';
+  static String qaCorporateFund = 'cbeff767-93f6-493f-9a55-faf5c380b0f9';
+  static String prodInmobiliariaFund = '9b3b43a2-f84f-48fb-9f2c-6308e85a0ed4';
+  static String qaInmobiliariaFund = 'd0728a39-bc2b-4605-b196-06f70eea1a8b';
+}
+
 class SaveCorporateInvestmentInput {
   final String amount;
   final String months;
