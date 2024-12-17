@@ -249,4 +249,12 @@ class ReInvestmentInfo {
         return null;
     }
   }
+
+  bool hasValidValues() {
+    return type != null &&
+        investmentInitialAmount != null &&
+        reinvestmentAditionalAmount != null &&
+        startDate != null &&
+        contractUrl != null;
+  }
 }

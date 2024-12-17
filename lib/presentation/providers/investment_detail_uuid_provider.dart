@@ -65,7 +65,6 @@ final getMonthlyPaymentProvider =
       final profitabilityItems = paymentRentabilityList
           .map((item) {
             if (item is! Map<String, dynamic>) {
-              print('Invalid item in paymentRentability: $item');
               return null;
             }
             return ProfitabilityItem.fromJson(item);
@@ -75,7 +74,7 @@ final getMonthlyPaymentProvider =
 
       return profitabilityItems;
     } catch (e, _) {
-      rethrow; // Re-throw the error to be caught by the FutureProvider
+      rethrow;
     }
   },
 );
