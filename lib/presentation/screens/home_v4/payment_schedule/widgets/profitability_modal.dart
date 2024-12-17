@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/constants/colors/select_bank_account.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
@@ -116,7 +117,9 @@ class ProfModalBody extends ConsumerWidget {
           if (profModal.downloadVoucher != null)
             VouvherContainer(
               rent: profModal.rent,
-              numberAccount: "************9846",
+              numberAccount: profModal.bankAccount?.bankAccount == null
+                  ? "************0000"
+                  : getMaskedNumber(profModal.bankAccount!.bankAccount),
               time: profModal.time,
               downloadVoucher: downloadVoucher,
             ),

@@ -45,7 +45,6 @@ class PaymentBodyProvider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print(args);
     final profitabilityData = ref.watch(getMonthlyPaymentProviderV4(args));
     return profitabilityData.when(
       data: (data) {
@@ -150,6 +149,9 @@ class PaymentBody extends ConsumerWidget {
                       ),
                     ],
                   ),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),

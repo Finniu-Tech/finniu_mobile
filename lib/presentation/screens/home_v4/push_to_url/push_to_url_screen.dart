@@ -10,6 +10,18 @@ class PushToUrlScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final String args = ModalRoute.of(context)?.settings.arguments as String;
 
+    print("-------------------");
+    print("-------------------");
+    print("args $args");
+    print("-------------------");
+    print("-------------------");
+    print("args $args");
+    print("-------------------");
+    print("args $args");
+    print("-------------------");
+    print("args $args");
+    print("-------------------");
+    print("args $args");
     final String url = args.isNotEmpty ? args : "https://finniu.tawk.help/";
     return Scaffold(
       appBar: const AppBarProducts(
