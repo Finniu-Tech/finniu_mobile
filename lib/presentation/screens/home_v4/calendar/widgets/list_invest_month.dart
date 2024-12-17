@@ -1,23 +1,59 @@
+import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/calendar_v2/widgets/tab_payments_widget.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/calendar/widgets/example.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ListInvestMonth extends StatelessWidget {
+class ListInvestMonth extends ConsumerWidget {
   const ListInvestMonth({
     super.key,
+    required this.selectedDate,
   });
+  final DateTime selectedDate;
 
   @override
-  Widget build(BuildContext context) {
-    final list = exampleFundItemCalendars;
-    return SizedBox(
-      height: 400,
-      child: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) => ItemCalendar(
-          item: list[index],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final paymentsAsync = ref.watch(paymentListProvider);
+
+    return paymentsAsync.when(
+      data: (payments) {
+        final filteredPayments = payments
+            .where(
+              (payment) =>
+                  payment.paymentDate.month == selectedDate.month && payment.paymentDate.year == selectedDate.year,
+            )
+            .toList();
+
+        if (filteredPayments.isEmpty) {
+          return const Center(
+            child: TextPoppins(
+              text: "No hay pagos para este mes",
+              fontSize: 14,
+            ),
+          );
+        }
+
+        return SizedBox(
+          height: 400,
+          child: ListView.builder(
+            itemCount: filteredPayments.length,
+            itemBuilder: (context, index) => ItemCalendar(
+              payment: filteredPayments[index],
+            ),
+          ),
+        );
+      },
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      error: (error, stack) => Center(
+        child: TextPoppins(
+          text: "Error cargando pagos: $error",
+          fontSize: 14,
         ),
       ),
     );
@@ -27,12 +63,15 @@ class ListInvestMonth extends StatelessWidget {
 class ItemCalendar extends ConsumerWidget {
   const ItemCalendar({
     super.key,
-    required this.item,
+    required this.payment,
   });
-  final FundItemCalendar item;
+
+  final PaymentData payment;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     const numberContainerDark = 0xffA2E6FA;
     const numberContainerLight = 0xffA2E6FA;
     const numberTextDark = 0xff0D3A5C;
@@ -41,12 +80,7 @@ class ItemCalendar extends ConsumerWidget {
     const downloadIconLight = 0xffFFFFFF;
     const downloadDark = 0xffA2E6FA;
     const downloadLight = 0xff0D3A5C;
-    const dateIconDark = 0xffA2E6FA;
-    const dateIconLight = 0xff0D3A5C;
-    const rentIconDark = 0xffB5FF8A;
-    const rentIconLight = 0xff55B63D;
-    const rentTextDark = 0xffB5FF8A;
-    const rentTextLight = 0xff0D3A5C;
+
     const titleColor = 0xff0D3A5C;
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -54,9 +88,7 @@ class ItemCalendar extends ConsumerWidget {
       height: 160,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: isDarkMode
-            ? Color(item.color.backgroundDark)
-            : Color(item.color.backgroundLight),
+        color: isDarkMode ? _getBackgroundColor(payment.status, true) : _getBackgroundColor(payment.status, false),
       ),
       child: Column(
         children: [
@@ -68,52 +100,45 @@ class ItemCalendar extends ConsumerWidget {
                 height: 35,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(numberContainerDark)
-                      : const Color(numberContainerLight),
+                  color: isDarkMode ? const Color(numberContainerDark) : const Color(numberContainerLight),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
                   ),
                 ),
                 child: TextPoppins(
-                  text: "Operación #${item.number}",
+                  text: "Operación #${payment.numberPayment}",
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   textDark: numberTextDark,
                   textLight: numberTextLight,
                 ),
               ),
-              if (item.voucherUrl != "")
+              if (payment.paymentVoucherUrl?.isNotEmpty ?? false)
                 Row(
                   children: [
                     const TextPoppins(text: "Voucher", fontSize: 10),
                     const SizedBox(width: 5),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 25,
-                      height: 25,
-                      decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? const Color(downloadDark)
-                            : const Color(downloadLight),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Center(
+                    GestureDetector(
+                      onTap: () => _downloadVoucher(payment.paymentVoucherUrl!),
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 25,
+                        height: 25,
+                        decoration: BoxDecoration(
+                          color: isDarkMode ? const Color(downloadDark) : const Color(downloadLight),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                         child: Icon(
                           Icons.file_download_outlined,
                           size: 20,
-                          color: isDarkMode
-                              ? const Color(downloadIconDark)
-                              : const Color(downloadIconLight),
+                          color: isDarkMode ? const Color(downloadIconDark) : const Color(downloadIconLight),
                         ),
                       ),
                     ),
                     const SizedBox(width: 15),
                   ],
-                )
-              else
-                const SizedBox(),
+                ),
             ],
           ),
           const SizedBox(height: 10),
@@ -126,13 +151,13 @@ class ItemCalendar extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextPoppins(
-                      text: item.color.icon,
+                      text: _getPaymentTypeIcon(payment.isCapitalPayment),
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                     const SizedBox(width: 10),
                     TextPoppins(
-                      text: item.color.title,
+                      text: payment.fundName ?? 'Inversión',
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       textLight: titleColor,
@@ -143,104 +168,8 @@ class ItemCalendar extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 3,
-                            height: 47,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: isDarkMode
-                                  ? const Color(dateIconDark)
-                                  : const Color(dateIconLight),
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.calendar_today_outlined,
-                                      size: 12,
-                                      color: isDarkMode
-                                          ? const Color(dateIconDark)
-                                          : const Color(dateIconLight),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const TextPoppins(
-                                      text: "Fecha",
-                                      fontSize: 10,
-                                    ),
-                                  ],
-                                ),
-                                TextPoppins(
-                                  text: item.date,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 3,
-                            height: 47,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: isDarkMode
-                                  ? const Color(rentIconDark)
-                                  : const Color(rentIconLight),
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.show_chart_rounded,
-                                      size: 12,
-                                      color: isDarkMode
-                                          ? const Color(rentIconDark)
-                                          : const Color(rentIconLight),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const TextPoppins(
-                                      text: "Rentabilidad",
-                                      fontSize: 10,
-                                    ),
-                                  ],
-                                ),
-                                TextPoppins(
-                                  text: item.rent,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  textDark: rentTextDark,
-                                  textLight: rentTextLight,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    _buildDateSection(payment.paymentDate, isDarkMode),
+                    _buildAmountSection(payment, isDarkMode),
                   ],
                 ),
               ],
@@ -250,4 +179,139 @@ class ItemCalendar extends ConsumerWidget {
       ),
     );
   }
+
+  Color _getBackgroundColor(PaymentStatus status, bool isDark) {
+    // Implementa la lógica de colores según el status
+    switch (status) {
+      case PaymentStatus.past:
+        return isDark ? const Color(0xFF1B1B1B) : const Color(0xFFEDFBFF);
+      case PaymentStatus.recent:
+        return isDark ? const Color(0xFF252525) : const Color(0xFFFFFFFF);
+      case PaymentStatus.upcoming:
+        return isDark ? const Color(0xFF0E0E0E) : const Color(0xFFE9FAFF);
+    }
+  }
+
+  String _getPaymentTypeIcon(bool isCapital) {
+    return isCapital ? "💰" : "📈";
+  }
+
+  Future<void> _downloadVoucher(String url) async {
+    try {
+      final Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        throw 'No se pudo abrir el voucher';
+      }
+    } catch (e) {
+      debugPrint('Error al descargar el voucher: $e');
+    }
+  }
+}
+
+Widget _buildDateSection(DateTime date, bool isDarkMode) {
+  const dateIconDark = 0xffA2E6FA;
+  const dateIconLight = 0xff0D3A5C;
+  return Expanded(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 3,
+          height: 47,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: isDarkMode ? const Color(dateIconDark) : const Color(dateIconLight),
+          ),
+        ),
+        const SizedBox(width: 5),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.calendar_today_outlined,
+                    size: 12,
+                    color: isDarkMode ? const Color(dateIconDark) : const Color(dateIconLight),
+                  ),
+                  const SizedBox(width: 5),
+                  const TextPoppins(
+                    text: "Fecha",
+                    fontSize: 10,
+                  ),
+                ],
+              ),
+              TextPoppins(
+                text: DateFormat('dd MMM, yyyy').format(date),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildAmountSection(PaymentData payment, bool isDarkMode) {
+  const rentIconDark = 0xffB5FF8A;
+  const rentIconLight = 0xff55B63D;
+  const rentTextDark = 0xffB5FF8A;
+  const rentTextLight = 0xff0D3A5C;
+  final formattedAmount = payment.currency == PaymentCurrency.soles
+      ? 'S/ ${payment.amount.toStringAsFixed(2)}'
+      : '\$ ${payment.amount.toStringAsFixed(2)}';
+
+  return Expanded(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 3,
+          height: 47,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: isDarkMode ? const Color(rentIconDark) : const Color(rentIconLight),
+          ),
+        ),
+        const SizedBox(width: 5),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    payment.isCapitalPayment ? Icons.payments_outlined : Icons.show_chart_rounded,
+                    size: 12,
+                    color: isDarkMode ? const Color(rentIconDark) : const Color(rentIconLight),
+                  ),
+                  const SizedBox(width: 5),
+                  TextPoppins(
+                    text: payment.isCapitalPayment ? "Capital" : "Rentabilidad",
+                    fontSize: 10,
+                  ),
+                ],
+              ),
+              TextPoppins(
+                text: formattedAmount,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                textDark: rentTextDark,
+                textLight: rentTextLight,
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

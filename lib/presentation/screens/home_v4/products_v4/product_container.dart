@@ -18,12 +18,11 @@ class ProductContainer extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
       padding: const EdgeInsets.all(20),
+      constraints: const BoxConstraints(maxWidth: 333),
       height: 270,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(15)),
-        color: isDarkMode
-            ? Color(colors.getBackgroundContainerDark)
-            : Color(colors.getBackgroundContainerLight),
+        color: isDarkMode ? Color(colors.getBackgroundContainerDark) : Color(colors.getBackgroundContainerLight),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -54,6 +53,7 @@ class ProductContainer extends ConsumerWidget {
           ),
           RowProducts(
             isDarkMode: isDarkMode,
+            isSoles: colors.isSoles,
             minimumDark: colors.getMinimumDark,
             minimumLight: colors.getMinimumLight,
             minimunText: colors.getMinimumText,
@@ -91,9 +91,7 @@ class ProductContainer extends ConsumerWidget {
                 ),
                 Icon(
                   Icons.arrow_forward,
-                  color: isDarkMode
-                      ? Color(colors.buttonTextDark)
-                      : Color(colors.buttonTextLight),
+                  color: isDarkMode ? Color(colors.buttonTextDark) : Color(colors.buttonTextLight),
                 ),
               ],
             ),

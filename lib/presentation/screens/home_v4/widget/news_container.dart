@@ -1,7 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors/home_v4_colors.dart';
+import 'package:finniu/presentation/providers/news_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsContainer extends StatelessWidget {
   const NewsContainer({
@@ -31,38 +36,75 @@ class NewsContainer extends StatelessWidget {
   }
 }
 
-class NewsCarrousel extends StatelessWidget {
-  const NewsCarrousel({
-    super.key,
-  });
+class NewsCarrousel extends ConsumerWidget {
+  const NewsCarrousel({super.key});
+
+  void onTap(String? url, context) {
+    if (url == null || url.isEmpty) {
+      showSnackBarV2(
+        context: context,
+        title: "Lo sentimos",
+        message: "Noticia no disponible",
+        snackType: SnackType.warning,
+      );
+      return;
+    } else {
+      Navigator.pushNamed(
+        context,
+        '/v4/notices_detail',
+        arguments: url,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final newsAsyncValue = ref.watch(newsProvider);
+
+    return newsAsyncValue.when(
+      data: (news) => CarouselSlider(
+        items: news
+            .map(
+              (newsItem) => NewItem(
+                image: newsItem.imageUrl ?? '',
+                title: newsItem.title,
+                author: newsItem.author ?? 'Autor desconocido',
+                date: DateFormat('dd MMM, yyyy').format(newsItem.publicationDate),
+                onTap: () => onTap(newsItem.newsUrl, context),
+              ),
+            )
+            .toList(),
+        options: CarouselOptions(
+          height: 160.0,
+          enlargeCenterPage: false,
+          autoPlay: true,
+          aspectRatio: 16 / 9,
+          autoPlayCurve: Curves.fastOutSlowIn,
+          enableInfiniteScroll: true,
+          autoPlayAnimationDuration: const Duration(milliseconds: 800),
+          viewportFraction: 0.5,
+        ),
+      ),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      error: (error, stack) => Center(
+        child: Text('Error cargando noticias: $error'),
+      ),
+    );
+  }
+}
+
+class TitleNews extends StatelessWidget {
+  const TitleNews({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final items = List.generate(
-      3,
-      (index) => NewItem(
-        index: (index + 1).toString(),
-        title: "Artículo de finanzas",
-        author: "Por Javier Salmón",
-        date: "12 Nov, 2024",
-        onTap: () {
-          print("pon tap ${index + 1}");
-        },
-      ),
-    );
-
-    return CarouselSlider(
-      items: items,
-      options: CarouselOptions(
-        height: 160.0,
-        enlargeCenterPage: false,
-        autoPlay: true,
-        aspectRatio: 16 / 9,
-        autoPlayCurve: Curves.fastOutSlowIn,
-        enableInfiniteScroll: true,
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
-        viewportFraction: 0.5,
-      ),
+    return const TextPoppins(
+      text: "Últimas noticias",
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      align: TextAlign.start,
     );
   }
 }
@@ -70,31 +112,70 @@ class NewsCarrousel extends StatelessWidget {
 class NewItem extends StatelessWidget {
   const NewItem({
     super.key,
-    required this.index,
+    required this.image,
     required this.title,
     required this.author,
     required this.date,
     required this.onTap,
   });
-  final String index;
+
+  final String image;
   final String title;
   final String author;
   final String date;
   final Function() onTap;
+
   @override
   Widget build(BuildContext context) {
     const int buttonColor = 0xffA2E6FA;
     return Container(
       width: 180,
+      height: 160, // Asegura una altura fija
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.transparent,
       ),
       child: Stack(
         children: [
-          Image.asset(
-            "assets/home_v4/example_$index.png",
-            fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: image.isNotEmpty
+                  ? Image.network(
+                      image,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        "assets/home_v4/example_1.png",
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    )
+                  : Image.asset(
+                      "assets/home_v4/example_1.png",
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+            ),
+          ),
+          // Añade un gradiente oscuro para mejor legibilidad
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withOpacity(0.7),
+                ],
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -155,35 +236,3 @@ class NewItem extends StatelessWidget {
     );
   }
 }
-
-class TitleNews extends StatelessWidget {
-  const TitleNews({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const TextPoppins(
-      text: "Últimas noticias",
-      fontSize: 16,
-      fontWeight: FontWeight.w600,
-      align: TextAlign.start,
-    );
-  }
-}
-
-// final items = List.generate(
-//   3,
-//   (index) => Container(width: 100, height: 50, color: Colors.red),
-// );
-// return CarouselSlider(
-//   items: items,
-//   options: CarouselOptions(
-//     height: 200.0,
-//     enlargeCenterPage: true,
-//     autoPlay: true,
-//     aspectRatio: 16 / 9,
-//     autoPlayCurve: Curves.fastOutSlowIn,
-//     enableInfiniteScroll: true,
-//     autoPlayAnimationDuration: const Duration(milliseconds: 800),
-//     viewportFraction: 0.8,
-//   ),
-// );

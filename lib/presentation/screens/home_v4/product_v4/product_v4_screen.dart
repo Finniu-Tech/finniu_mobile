@@ -9,9 +9,15 @@ import 'package:finniu/presentation/screens/home_v4/products_v4/row_products.dar
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailV4 extends ConsumerWidget {
-  const ProductDetailV4({super.key});
+  final ProductContainerStyles product;
+
+  const ProductDetailV4({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,19 +25,20 @@ class ProductDetailV4 extends ConsumerWidget {
     const int colorDark = 0xff000000;
     const int colorLight = 0xffFFFFFF;
     return Scaffold(
-      backgroundColor:
-          isDarkMode ? const Color(colorDark) : const Color(colorLight),
+      backgroundColor: isDarkMode ? const Color(colorDark) : const Color(colorLight),
       appBar: const AppBarProduct(),
-      body: const SingleChildScrollView(
-        child: ProductBody(),
+      body: SingleChildScrollView(
+        child: ProductBody(product: product),
       ),
     );
   }
 }
 
 class ProductBody extends ConsumerWidget {
+  final ProductContainerStyles product;
   const ProductBody({
     super.key,
+    required this.product,
   });
 
   @override
@@ -89,7 +96,7 @@ class ProductBody extends ConsumerWidget {
       backgroundContainerLight: 0xffE9FAFF,
       imageProduct: "🏢",
       titleText: "Producto de inversión a Plazo Fijo",
-      minimumText: "1.000",
+      minimumText: "1,000.00",
       profitabilityText: "19",
       titleDark: 0xffFFFFFF,
       titleLight: 0xff0D3A5C,
@@ -111,48 +118,68 @@ class ProductBody extends ConsumerWidget {
       minimumTextColorLightSoles: 0xff000000,
     );
 
-    void onPressCall() {
-      print("on press call");
+    Future<void> onPressCall() async {
+      final meetUrl = Uri.parse('https://calendly.com/finniumeet/30min?month=2024-12');
+      await launchUrl(meetUrl);
     }
 
     void onPressSimulator() {
-      Navigator.pushNamed(context, '/v4/step_one', arguments: colors);
+      Navigator.pushNamed(context, '/v4/step_one', arguments: product);
       print("on press simulator");
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleDetail(
-          title: colors.titleText,
-        ),
-        const ObjectiveDetail(
-          objective: objective,
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        const Characteristics(
-          characteristics: characteristics,
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        const Divider(thickness: 2),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SwitchMoney(
-                switchHeight: 30,
-                switchWidth: 67,
-              ),
-            ],
+        Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            // height: 250,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TitleDetail(
+                  title: product.titleText,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const ObjectiveDetail(
+                  objective: objective,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Characteristics(
+                  characteristics: characteristics,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
           ),
         ),
+        Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: const Divider(thickness: 2, color: Colors.grey),
+          ),
+        ),
+        // const Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.end,
+        //     children: [
+        //       SwitchMoney(
+        //         switchHeight: 30,
+        //         switchWidth: 67,
+        //       ),
+        //     ],
+        //   ),
+        // ),
         RowMinRent(
-          colors: colors,
+          colors: product,
         ),
         CarrouselDetailV4(
           itemCarrousel: itemsCarousel,
@@ -165,7 +192,7 @@ class ProductBody extends ConsumerWidget {
           onPressSimulator: onPressSimulator,
         ),
         const SizedBox(
-          height: 20,
+          height: 40,
         ),
       ],
     );
@@ -201,9 +228,7 @@ class RowButtons extends ConsumerWidget {
             width: 155,
             height: 40,
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(callButtonDark)
-                  : const Color(callButtonLight),
+              color: isDarkMode ? const Color(callButtonDark) : const Color(callButtonLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),
@@ -235,9 +260,7 @@ class RowButtons extends ConsumerWidget {
             width: 155,
             height: 40,
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(simulatorButtonDark)
-                  : const Color(simulatorButtonLight),
+              color: isDarkMode ? const Color(simulatorButtonDark) : const Color(simulatorButtonLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),
@@ -274,6 +297,7 @@ class RowMinRent extends ConsumerWidget {
         vertical: 10,
       ),
       child: RowProducts(
+        isSoles: colors.isSoles,
         isDarkMode: isDarkMode,
         minimumDark: colors.getMinimumDark,
         minimumLight: colors.getMinimumLight,
@@ -390,8 +414,8 @@ class TitleDetail extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: TextPoppins(
         text: title,
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
         lines: 2,
       ),
     );

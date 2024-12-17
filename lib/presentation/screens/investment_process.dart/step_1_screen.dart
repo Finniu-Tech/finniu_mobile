@@ -940,6 +940,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       ),
                       currency: isSoles ? currencyNuevoSol : currencyDollar,
                       coupon: widget.couponController.text,
+                      fundUuid: widget.fund.uuid,
                     );
 
                     resultCalculator = await ref.watch(

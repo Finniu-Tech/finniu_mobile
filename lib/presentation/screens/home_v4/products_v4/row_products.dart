@@ -15,6 +15,7 @@ class RowProducts extends StatelessWidget {
     required this.profitabilityText,
     required this.minimunTextColorDark,
     required this.minimumTextColorLight,
+    required this.isSoles,
   });
   final bool isDarkMode;
   final int minimumDark;
@@ -27,6 +28,7 @@ class RowProducts extends StatelessWidget {
   final int minimumTextColorLight;
   final String minimunText;
   final String profitabilityText;
+  final bool isSoles;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class RowProducts extends StatelessWidget {
                   textLight: minimumTextColorLight,
                 ),
                 TextPoppins(
-                  text: "S/$minimunText",
+                  text: "${isSoles ? "S/" : "\$"}$minimunText",
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   lines: 2,
@@ -73,9 +75,7 @@ class RowProducts extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
-              color: isDarkMode
-                  ? Color(profitabilityDark)
-                  : Color(profitabilityLight),
+              color: isDarkMode ? Color(profitabilityDark) : Color(profitabilityLight),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

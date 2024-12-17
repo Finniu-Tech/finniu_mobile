@@ -25,9 +25,7 @@ class AppBarProducts extends ConsumerWidget implements PreferredSizeWidget {
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
         child: Container(
-          color: isDarkMode
-              ? const Color(NavBarV4Colors.borderDark)
-              : const Color(NavBarV4Colors.borderLight),
+          color: isDarkMode ? const Color(NavBarV4Colors.borderDark) : const Color(NavBarV4Colors.borderLight),
           height: 1,
         ),
       ),
@@ -38,10 +36,14 @@ class AppBarProducts extends ConsumerWidget implements PreferredSizeWidget {
           Navigator.pop(context);
         },
       ),
-      title: TextPoppins(
-        text: title,
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextPoppins(
+          align: TextAlign.left,
+          text: title,
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
