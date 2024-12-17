@@ -77,7 +77,7 @@ class CompleteItemV4 extends ConsumerWidget {
         vertical: 10,
       ),
       width: MediaQuery.of(context).size.width * 0.9,
-      height: 140,
+      height: item.paymentRentability.isEmpty ? 100 : 140,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
@@ -193,16 +193,15 @@ class CompleteItemV4 extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.show_chart,
-                            size: 12,
+                          SvgPicture.asset(
+                            "assets/svg_icons/rent_icon.svg",
+                            width: 14,
+                            height: 14,
                             color: isDarkMode
                                 ? const Color(
-                                    ToValidateColorsV4.itemRentTextDark,
-                                  )
+                                    ToValidateColorsV4.itemRentTextDark)
                                 : const Color(
-                                    ToValidateColorsV4.itemRentTextLight,
-                                  ),
+                                    ToValidateColorsV4.itemRentTextLight),
                           ),
                           const SizedBox(
                             width: 5,
@@ -252,49 +251,53 @@ class CompleteItemV4 extends ConsumerWidget {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(
-              context,
-              '/v4/payment_schedule',
-              arguments: item.uuid,
-            ),
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
-              height: 30,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(ToValidateColorsV4.completeButtonDark)
-                    : const Color(ToValidateColorsV4.completeButtonLight),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
+          item.paymentRentability.isEmpty
+              ? const SizedBox()
+              : GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    '/v4/payment_schedule',
+                    arguments: item.uuid,
+                  ),
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: isDarkMode
+                          ? const Color(ToValidateColorsV4.completeButtonDark)
+                          : const Color(ToValidateColorsV4.completeButtonLight),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg_icons/square_half.svg",
+                          width: 20,
+                          height: 20,
+                          color: isDarkMode
+                              ? const Color(
+                                  ToValidateColorsV4.completeButtonLight)
+                              : const Color(
+                                  ToValidateColorsV4.completeButtonDark),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const TextPoppins(
+                          text: "Ver mi tabla de pagos",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          textDark: ToValidateColorsV4.completeTextDark,
+                          textLight: ToValidateColorsV4.completeTextLight,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    "assets/svg_icons/square_half.svg",
-                    width: 20,
-                    height: 20,
-                    color: isDarkMode
-                        ? const Color(ToValidateColorsV4.completeButtonLight)
-                        : const Color(ToValidateColorsV4.completeButtonDark),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const TextPoppins(
-                    text: "Ver mi tabla de pagos",
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    textDark: ToValidateColorsV4.completeTextDark,
-                    textLight: ToValidateColorsV4.completeTextLight,
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );

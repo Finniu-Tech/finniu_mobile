@@ -1356,7 +1356,10 @@ class QueryRepository {
              	investmentFund{
                 name
               }
-              
+              paymentRentability{
+                amount
+                paymentDate
+              }
             }
           }
           invesmentInDolares{
@@ -1389,6 +1392,10 @@ class QueryRepository {
               rentabilityAmmount
              	investmentFund{
                 name
+              }
+              paymentRentability{
+                amount
+                paymentDate
               }
             }
           }
@@ -1460,29 +1467,8 @@ class QueryRepository {
           }
           investmentFund{
             uuid
-                 name
-                 icon
-                 listBackgroundColorLight
-                 listBackgroundColorDark
-                 detailBackgroundColorLight
-                 detailBackgroundColorDark
-                 backgroundImageUrl
-                 mainImageUrl
-                 createdAt
-                 isDeleted
-                 isActive
-                 fundType
-                 tagDetailId
-                 tagBenefitsId
-                 tagDownloadInfoId
-                 tagInvestmentButtonId
-                 mainImageHorizontalUrl
-                 detailBackgroundColorSecondaryLight
-                 detailBackgroundColorDarkSecondary
-                 lastRentability
-               
-                
-            
+            name
+            icon
           }
         }
       }
@@ -1543,6 +1529,45 @@ class QueryRepository {
             amount
             numberPayment
             paymentVoucherUrl
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getInvestmentMonthlyReturnsV4 {
+    return '''
+        query getInvestmentMonthlyReturns(\$preInvestmentUuid: String!){
+        investmentDetail(preInvestmentUuid: \$preInvestmentUuid){
+       		rentabilityAmmount
+        	rentabilityPercent
+        	amount
+    			paymentCapitalDateInvestment
+          operationCode
+          paymentRentability{
+          isActive
+           paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            isCapitalPayment
+          }
+          	bankAccountReceiver {
+       		  uuid
+       		  bankName
+       		  bankSlug
+       		  bankLogoUrl
+       		  bankAccount
+       		  bankCciAccount
+       		  currency
+       		  alias
+       		  typeAccount
+       		  isJointAccount
+       		  isDefaultAccount
+       		  createdAt
+       		}
+          investmentFund{
+            name
           }
         }
       }

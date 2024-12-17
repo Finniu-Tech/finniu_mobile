@@ -11,6 +11,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.d
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ToValidateListV4 extends ConsumerWidget {
@@ -69,7 +70,9 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
   final InvestmentV4 item;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -98,12 +101,12 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                 ),
               ),
               const Spacer(),
-              Icon(
-                Icons.timer_outlined,
-                size: 16,
-                color: isDarkMode
-                    ? const Color(ToValidateColorsV4.iconDark)
-                    : const Color(ToValidateColorsV4.iconLight),
+              SvgPicture.asset(
+                "assets/svg_icons/clock_icon.svg",
+                width: 16,
+                height: 16,
+                color:
+                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
               ),
               const SizedBox(
                 width: 5,
@@ -191,15 +194,15 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.show_chart,
-                            size: 12,
+                          SvgPicture.asset(
+                            "assets/svg_icons/rent_icon.svg",
+                            width: 14,
+                            height: 14,
                             color: isDarkMode
                                 ? const Color(
                                     ToValidateColorsV4.itemRentTextDark)
                                 : const Color(
-                                    ToValidateColorsV4.itemRentTextLight,
-                                  ),
+                                    ToValidateColorsV4.itemRentTextLight),
                           ),
                           const SizedBox(
                             width: 5,
