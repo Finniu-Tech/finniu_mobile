@@ -1871,4 +1871,25 @@ class QueryRepository {
   }
     ''';
   }
+
+  static String get getNews {
+    return '''
+      query getNews{
+        allNews{
+          uuid
+          isActive
+          isDeleted
+          publicationDate
+          summary
+          title
+          image
+          newsUrl
+          author
+          isPrincipal
+          imageUrl
+          
+        }
+      }
+    ''';
+  }
 }
