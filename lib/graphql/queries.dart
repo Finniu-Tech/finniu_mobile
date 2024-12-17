@@ -1917,4 +1917,15 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get getRentabilityPerMonthAndUser {
+    return '''
+        query getRentabilityPerMonthByUser{
+          rentabilityPerMonthByUser{
+            rentabilityPercent
+            rentabilityPerMonth
+          }
+        }
+    ''';
+  }
 }
