@@ -100,8 +100,8 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 460000
-        versionName "4.6.0"
+        versionCode 500000
+        versionName "5.0.0"
         multiDexEnabled true
         manifestPlaceholders = [
             DEEP_LINK_SCHEME: "finniuapp",
