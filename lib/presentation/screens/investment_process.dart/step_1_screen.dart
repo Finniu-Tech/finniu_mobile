@@ -145,11 +145,13 @@ class Step1Body extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final amountController = useTextEditingController(text: amount == null ? '' : amount.toString());
+    final amountController =
+        useTextEditingController(text: amount == null ? '' : amount.toString());
     final additionalAmountController = useTextEditingController(text: '0');
 
     final couponController = useTextEditingController();
-    final deadLineController = useTextEditingController(text: formatDeadLine(deadLine));
+    final deadLineController =
+        useTextEditingController(text: formatDeadLine(deadLine));
     // final bankController = useTextEditingController();
     final originFundsController = useTextEditingController();
     final otherFundOriginController = useTextEditingController();
@@ -168,11 +170,13 @@ class Step1Body extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 HeaderWidget(
-                  containerColor:
-                      isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+                  containerColor: isDarkMode
+                      ? fund.getHexDetailColorSecondaryDark()
+                      : fund.getHexDetailColorSecondaryLight(),
                   textColor: aboutTextBusinessColor,
-                  iconColor:
-                      isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+                  iconColor: isDarkMode
+                      ? fund.getHexDetailColorSecondaryDark()
+                      : fund.getHexDetailColorSecondaryLight(),
                   urlIcon: fund.iconUrl!,
                   labelText: isReInvestment == true ? 'Invierte' : 'Acerca de',
                 ),
@@ -205,7 +209,9 @@ class Step1Body extends HookConsumerWidget {
                   'Completa los siguientes datos',
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(primaryDark),
                     // color: Colors.blue,
                     fontSize: 14,
                     height: 1.5,
@@ -292,7 +298,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
   void initState() {
     super.initState();
     deadLineFuture = ref.read(deadLineFutureProvider.future);
-    finalReinvestmentAmount = ValueNotifier(widget.reinvestmentOriginAmount ?? 0);
+    finalReinvestmentAmount =
+        ValueNotifier(widget.reinvestmentOriginAmount ?? 0);
     userReadContract = ValueNotifier(false);
     receiverBankAccountState = ValueNotifier(null);
 
@@ -316,7 +323,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
   ) async {
     Navigator.pop(context);
     context.loaderOverlay.show();
-    final response = await ref.read(saveCorporateInvestmentFutureProvider(input).future);
+    final response =
+        await ref.read(saveCorporateInvestmentFutureProvider(input).future);
 
     if (!response.success) {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -330,7 +338,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       showSnackBarV2(
         context: context,
         title: "Error interno",
-        message: response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
+        message: response.messages?[0].message ??
+            'Hubo un problema, asegúrate de haber completado todos los campos',
         snackType: SnackType.error,
       );
 
@@ -366,7 +375,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
   ) async {
     Navigator.pop(context);
     context.loaderOverlay.show();
-    final CreateReInvestmentResponse response = await ref.read(createReInvestmentProvider(input).future);
+    final CreateReInvestmentResponse response =
+        await ref.read(createReInvestmentProvider(input).future);
     if (response.success == false) {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataError,
@@ -379,7 +389,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       showSnackBarV2(
         context: context,
         title: "Error interno",
-        message: response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
+        message: response.messages?[0].message ??
+            'Hubo un problema, asegúrate de haber completado todos los campos',
         snackType: SnackType.error,
       );
 
@@ -402,7 +413,9 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         arguments: {
           'fund': widget.fund,
           'preInvestmentUUID': response.reInvestmentUuid,
-          'amount': (int.parse(input.finalAmount) - widget.reinvestmentOriginAmount!).toString(),
+          'amount':
+              (int.parse(input.finalAmount) - widget.reinvestmentOriginAmount!)
+                  .toString(),
           'isReInvestment': true,
         },
       );
@@ -412,7 +425,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         () {
           Navigator.pushReplacementNamed(
             context,
-            '/v2/investment',
+            '/v4/experience',
           );
         },
         true,
@@ -435,7 +448,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       showSnackBarV2(
         context: context,
         title: "Error al completar datos",
-        message: 'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        message:
+            'Hubo un problema, asegúrate de haber completado los campos anteriores',
         snackType: SnackType.warning,
       );
 
@@ -447,14 +461,16 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       showSnackBarV2(
         context: context,
         title: "Error al completar el monto",
-        message: "El monto ingresado debe ser mayor a ${widget.isSoles! ? 'S/.' : '\$/'}1 000",
+        message:
+            "El monto ingresado debe ser mayor a ${widget.isSoles! ? 'S/.' : '\$/'}1 000",
         snackType: SnackType.warning,
       );
 
       return false;
     }
 
-    if (widget.originFundsController.text == 'Otros' && widget.otherFundOriginController.text.isEmpty) {
+    if (widget.originFundsController.text == 'Otros' &&
+        widget.otherFundOriginController.text.isEmpty) {
       showSnackBarV2(
         context: context,
         title: "Error al completar origen de  fondos",
@@ -474,7 +490,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     BankAccount? receiverBankAccount,
     String? aditionalAmount,
   ) {
-    if (reinvestmentParams.typeReinvestment == typeReinvestmentEnum.CAPITAL_ONLY) {
+    if (reinvestmentParams.typeReinvestment ==
+        typeReinvestmentEnum.CAPITAL_ONLY) {
       if (!userAcceptedTerms) {
         showSnackBarV2(
           context: context,
@@ -496,7 +513,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         return false;
       }
     }
-    if (reinvestmentParams.typeReinvestment == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+    if (reinvestmentParams.typeReinvestment ==
+        typeReinvestmentEnum.CAPITAL_ADITIONAL) {
       if (aditionalAmount == '' || aditionalAmount == '0') {
         showSnackBarV2(
           context: context,
@@ -552,9 +570,11 @@ class _FormStep1State extends ConsumerState<FormStep1> {
   }
 
   String calculateAmount() {
-    if (widget.isReInvestment && widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+    if (widget.isReInvestment &&
+        widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
       return '${widget.reinvestmentOriginAmount! + int.parse(widget.additionalAmountController.text)}';
-    } else if (widget.isReInvestment && widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) {
+    } else if (widget.isReInvestment &&
+        widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) {
       return widget.reinvestmentOriginAmount.toString();
     }
     return widget.amountController.text;
@@ -651,7 +671,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     final isSoles = ref.watch(isSolesStateProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
-    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider, (previous, next) {
+    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider,
+        (previous, next) {
       receiverBankAccountState.value = next;
     });
     // final deadLineFuture = ref.watch(deadLineFutureProvider.future);
@@ -687,7 +708,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       [],
     );
 
-    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider, (previous, next) {
+    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider,
+        (previous, next) {
       receiverBankAccountState.value = next;
     });
     return Center(
@@ -736,7 +758,10 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               ),
               child: TextFormField(
                 controller: widget.additionalAmountController,
-                enabled: widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY ? false : true,
+                enabled:
+                    widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY
+                        ? false
+                        : true,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Este dato es requerido';
@@ -746,7 +771,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 onChanged: (value) {
                   debouncer.run(() {
                     finalReinvestmentAmount.value =
-                        int.parse(widget.additionalAmountController.text) + (widget.reinvestmentOriginAmount ?? 0);
+                        int.parse(widget.additionalAmountController.text) +
+                            (widget.reinvestmentOriginAmount ?? 0);
                   });
                 },
                 decoration: const InputDecoration(
@@ -789,8 +815,9 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               labelText: "Plazo",
               hintText: "Seleccione su plazo de inversión",
               // enabledFillColor: isDarkMode ? Color(scaffoldBlackBackground) : Color(scaffoldSkyBlueBackground),
-              enabledFillColor:
-                  isDarkMode ? Color(widget.fund.getHexDetailColorDark()) : Color(widget.fund.getHexDetailColorLight()),
+              enabledFillColor: isDarkMode
+                  ? Color(widget.fund.getHexDetailColorDark())
+                  : Color(widget.fund.getHexDetailColorLight()),
               unselectedItemColor: isDarkMode
                   ? Color(widget.fund.getHexDetailColorSecondaryDark())
                   : Color(widget.fund.getHexDetailColorSecondaryLight()),
@@ -824,8 +851,9 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               textEditingController: widget.originFundsController,
               labelText: "Origen de procedencia del dinero",
               hintText: "Seleccione el origen",
-              enabledFillColor:
-                  isDarkMode ? Color(widget.fund.getHexDetailColorDark()) : Color(widget.fund.getHexDetailColorLight()),
+              enabledFillColor: isDarkMode
+                  ? Color(widget.fund.getHexDetailColorDark())
+                  : Color(widget.fund.getHexDetailColorLight()),
               unselectedItemColor: isDarkMode
                   ? Color(widget.fund.getHexDetailColorSecondaryDark())
                   : Color(widget.fund.getHexDetailColorSecondaryLight()),
@@ -912,11 +940,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                     ),
                   ),
                   onPressed: () async {
-                    if (widget.amountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
+                    if (widget.amountController.text.isEmpty ||
+                        widget.deadLineController.text.isEmpty) {
                       showSnackBarV2(
                         context: context,
                         title: "Error al aplicar cupón",
-                        message: 'Debes ingresar el monto y el plazo para aplicar el cupón',
+                        message:
+                            'Debes ingresar el monto y el plazo para aplicar el cupón',
                         snackType: SnackType.warning,
                       );
 
@@ -983,14 +1013,16 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       showSnackBarV2(
                         context: context,
                         title: "Error al aplicar cupón",
-                        message: resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
+                        message: resultCalculator?.error ??
+                            'Hubo un problema, intenta nuevamente',
                         snackType: SnackType.error,
                       );
                     }
                   },
                 ),
                 hintText: 'Ingresa tu código(opcional)',
-                hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                hintStyle:
+                    const TextStyle(color: Color(grayText), fontSize: 11),
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.zero,
                 ),
@@ -1000,7 +1032,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               ),
             ),
           ),
-          if (widget.isReInvestment && widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) ...[
+          if (widget.isReInvestment &&
+              widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) ...[
             const SizedBox(
               height: 15,
             ),
@@ -1034,12 +1067,15 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   'He leido y acepto el ',
                   style: TextStyle(
                     fontSize: 10,
-                    color: isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    color: isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                   ),
                 ),
                 GestureDetector(
                   onTap: () async {
-                    String contractURL = await ContractDataSourceImp().getContract(
+                    String contractURL =
+                        await ContractDataSourceImp().getContract(
                       uuid: widget.preInvestmentUUID!,
                       client: ref.watch(gqlClientProvider).value!,
                     );
@@ -1059,7 +1095,9 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   child: Text(
                     ' Contrato de Inversión de Finniu ',
                     style: TextStyle(
-                      color: isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      color: isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1141,7 +1179,9 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          isSoles ? formatterSoles.format(profitability) : formatterUSD.format(profitability),
+                          isSoles
+                              ? formatterSoles.format(profitability)
+                              : formatterUSD.format(profitability),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 16,
@@ -1178,7 +1218,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               onPressed: () async {
                 context.loaderOverlay.show();
                 try {
-                  final userProfileCompleteness = await ref.read(userProfileCompletenessProvider.future);
+                  final userProfileCompleteness =
+                      await ref.read(userProfileCompletenessProvider.future);
                   if (!userProfileCompleteness.isComplete()) {
                     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                       eventName: FirebaseAnalyticsEvents.completeRegistration,
@@ -1191,9 +1232,12 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                     final userProfile = ref.read(userProfileNotifierProvider);
                     final userProfileCompleteness = UserProfileCompleteness(
                       profileComplete: userProfile.completeData(),
-                      personalDataComplete: userProfile.completePersonalData() ? 100 : 0,
-                      locationComplete: userProfile.completeLocationData() ? 100 : 0,
-                      occupationComplete: userProfile.completeJobData() ? 100 : 0,
+                      personalDataComplete:
+                          userProfile.completePersonalData() ? 100 : 0,
+                      locationComplete:
+                          userProfile.completeLocationData() ? 100 : 0,
+                      occupationComplete:
+                          userProfile.completeJobData() ? 100 : 0,
                       legalTermsCompleteness: 100,
                       completionPercentage: 100,
                     );
@@ -1219,7 +1263,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   showSnackBarV2(
                     context: context,
                     title: "Error",
-                    message: "Ocurrió un error al verificar tu perfil. Por favor, inténtalo de nuevo.",
+                    message:
+                        "Ocurrió un error al verificar tu perfil. Por favor, inténtalo de nuevo.",
                     snackType: SnackType.error,
                   );
                 } finally {
@@ -1351,9 +1396,12 @@ class ReinvestmentRentabilityCard extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final Color backgroundColor = isDarkMode ? const Color(0xff08273F) : const Color(0xffF2FCFF);
-    final Color verticalLineColor = isDarkMode ? const Color(0xff0D3A5C) : const Color(0xffA8DFEF);
-    final Color rentabilityBackgroundColor = isDarkMode ? const Color(0xffB4EEFF) : const Color(0xffB4EEFF);
+    final Color backgroundColor =
+        isDarkMode ? const Color(0xff08273F) : const Color(0xffF2FCFF);
+    final Color verticalLineColor =
+        isDarkMode ? const Color(0xff0D3A5C) : const Color(0xffA8DFEF);
+    final Color rentabilityBackgroundColor =
+        isDarkMode ? const Color(0xffB4EEFF) : const Color(0xffB4EEFF);
 
     return Center(
       child: Container(
@@ -1384,7 +1432,9 @@ class ReinvestmentRentabilityCard extends HookConsumerWidget {
                   children: [
                     ColorFiltered(
                       colorFilter: ColorFilter.mode(
-                        isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                        isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
                         BlendMode.srcIn,
                       ),
                       child: Image.asset(
@@ -1397,12 +1447,16 @@ class ReinvestmentRentabilityCard extends HookConsumerWidget {
                       width: 4,
                     ),
                     Text(
-                      isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
+                      isSoles
+                          ? formatterSoles.format(amount)
+                          : formatterUSD.format(amount),
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                        color: isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -1412,7 +1466,9 @@ class ReinvestmentRentabilityCard extends HookConsumerWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 10,
-                    color: isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    color: isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                   ),
                 ),
               ],
@@ -1433,7 +1489,9 @@ class ReinvestmentRentabilityCard extends HookConsumerWidget {
                     children: [
                       ColorFiltered(
                         colorFilter: ColorFilter.mode(
-                          isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                           BlendMode.srcIn,
                         ),
                         child: Image.asset(
@@ -1528,7 +1586,9 @@ class FinalAmountWidget extends HookConsumerWidget {
           ),
           const SizedBox(width: 8.0),
           AutoSizeText(
-            isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
+            isSoles
+                ? formatterSoles.format(amount)
+                : formatterUSD.format(amount),
             style: const TextStyle(
               fontSize: 12.0,
               fontWeight: FontWeight.w800,
