@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/calendar_v2/widgets/tab_payments_widget.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,7 +24,8 @@ class ListInvestMonth extends ConsumerWidget {
         final filteredPayments = payments
             .where(
               (payment) =>
-                  payment.paymentDate.month == selectedDate.month && payment.paymentDate.year == selectedDate.year,
+                  payment.paymentDate.month == selectedDate.month &&
+                  payment.paymentDate.year == selectedDate.year,
             )
             .toList();
 
@@ -46,15 +48,13 @@ class ListInvestMonth extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
-      ),
-      error: (error, stack) => Center(
-        child: TextPoppins(
-          text: "Error cargando pagos: $error",
-          fontSize: 14,
+      loading: () => const SizedBox(
+        height: 100,
+        child: Center(
+          child: CircularLoader(width: 50, height: 50),
         ),
       ),
+      error: (error, stack) => const SizedBox(),
     );
   }
 }
@@ -87,7 +87,9 @@ class ItemCalendar extends ConsumerWidget {
       height: 160,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: isDarkMode ? _getBackgroundColor(payment.status, true) : _getBackgroundColor(payment.status, false),
+        color: isDarkMode
+            ? _getBackgroundColor(payment.status, true)
+            : _getBackgroundColor(payment.status, false),
       ),
       child: Column(
         children: [
@@ -99,7 +101,9 @@ class ItemCalendar extends ConsumerWidget {
                 height: 35,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isDarkMode ? const Color(numberContainerDark) : const Color(numberContainerLight),
+                  color: isDarkMode
+                      ? const Color(numberContainerDark)
+                      : const Color(numberContainerLight),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
@@ -125,13 +129,17 @@ class ItemCalendar extends ConsumerWidget {
                         width: 25,
                         height: 25,
                         decoration: BoxDecoration(
-                          color: isDarkMode ? const Color(downloadDark) : const Color(downloadLight),
+                          color: isDarkMode
+                              ? const Color(downloadDark)
+                              : const Color(downloadLight),
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: Icon(
                           Icons.file_download_outlined,
                           size: 20,
-                          color: isDarkMode ? const Color(downloadIconDark) : const Color(downloadIconLight),
+                          color: isDarkMode
+                              ? const Color(downloadIconDark)
+                              : const Color(downloadIconLight),
                         ),
                       ),
                     ),
@@ -222,7 +230,9 @@ Widget _buildDateSection(DateTime date, bool isDarkMode) {
           height: 47,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: isDarkMode ? const Color(dateIconDark) : const Color(dateIconLight),
+            color: isDarkMode
+                ? const Color(dateIconDark)
+                : const Color(dateIconLight),
           ),
         ),
         const SizedBox(width: 5),
@@ -236,7 +246,9 @@ Widget _buildDateSection(DateTime date, bool isDarkMode) {
                   Icon(
                     Icons.calendar_today_outlined,
                     size: 12,
-                    color: isDarkMode ? const Color(dateIconDark) : const Color(dateIconLight),
+                    color: isDarkMode
+                        ? const Color(dateIconDark)
+                        : const Color(dateIconLight),
                   ),
                   const SizedBox(width: 5),
                   const TextPoppins(
@@ -277,7 +289,9 @@ Widget _buildAmountSection(PaymentData payment, bool isDarkMode) {
           height: 47,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: isDarkMode ? const Color(rentIconDark) : const Color(rentIconLight),
+            color: isDarkMode
+                ? const Color(rentIconDark)
+                : const Color(rentIconLight),
           ),
         ),
         const SizedBox(width: 5),
@@ -289,9 +303,13 @@ Widget _buildAmountSection(PaymentData payment, bool isDarkMode) {
               Row(
                 children: [
                   Icon(
-                    payment.isCapitalPayment ? Icons.payments_outlined : Icons.show_chart_rounded,
+                    payment.isCapitalPayment
+                        ? Icons.payments_outlined
+                        : Icons.show_chart_rounded,
                     size: 12,
-                    color: isDarkMode ? const Color(rentIconDark) : const Color(rentIconLight),
+                    color: isDarkMode
+                        ? const Color(rentIconDark)
+                        : const Color(rentIconLight),
                   ),
                   const SizedBox(width: 5),
                   TextPoppins(

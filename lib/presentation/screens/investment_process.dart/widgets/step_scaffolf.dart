@@ -37,20 +37,18 @@ class StepScaffold extends ConsumerWidget {
           ),
           appBar: AppBar(
             automaticallyImplyLeading: useDefaultLoading,
-            leading: useDefaultLoading
-                ? IconButton(
-                    onPressed: () => {
-                      ScaffoldMessenger.of(context).clearSnackBars(),
-                      Navigator.of(context).pop(),
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
-                    ),
-                  )
-                : null,
+            leading: IconButton(
+              onPressed: () => {
+                ScaffoldMessenger.of(context).clearSnackBars(),
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/v4/home', (route) => false),
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color:
+                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
+              ),
+            ),
             backgroundColor: isDarkMode
                 ? const Color(backgroundDark)
                 : const Color(backgroundLight),
