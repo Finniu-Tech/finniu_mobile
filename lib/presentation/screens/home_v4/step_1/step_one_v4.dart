@@ -274,11 +274,15 @@ class FormStepOne extends HookConsumerWidget {
                   hintText: "Ingrese su monto de inversión",
                   validator: (value) {
                     validateNumberMin(
+                      isSoles: isSoles,
                       value: value,
                       field: "Monto",
                       context: context,
                       boolNotifier: amountError,
-                      minValue: 1000,
+                      minValue: product.titleText ==
+                              "Producto de inversión a Plazo Fijo"
+                          ? 1000
+                          : 50000,
                     );
 
                     return null;
