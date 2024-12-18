@@ -60,7 +60,7 @@ class StepOneBody extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.85,
         height: MediaQuery.of(context).size.height < 700
             ? 650
-            : MediaQuery.of(context).size.height - 90,
+            : MediaQuery.of(context).size.height - 85,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -259,6 +259,7 @@ class FormStepOne extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
+        height: MediaQuery.of(context).size.height - 245,
         child: Column(
           children: [
             const SizedBox(height: 25),
@@ -431,16 +432,7 @@ class FormStepOne extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 25),
-            if (planSimulation.value != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: CouponApplyRow(
-                  planSimulation: planSimulation,
-                  isSoles: isSoles,
-                ),
-              )
-            else
-              const SizedBox(),
+            const Spacer(),
             ButtonInvestment(
               text: "Simular",
               onPressed: onPressSimulator,
