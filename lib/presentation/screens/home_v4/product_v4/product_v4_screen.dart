@@ -126,7 +126,8 @@ class ProductBody extends ConsumerWidget {
     }
 
     void onPressSimulator() {
-      Navigator.pushNamed(context, '/v4/step_one', arguments: product);
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/v4/step_one', arguments: product, (route) => false);
     }
 
     return Column(
