@@ -224,6 +224,8 @@ class NewItem extends StatelessWidget {
                         text: "Leer Artículo",
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
+                        textDark: HomeV4Colors.newsButtonDark,
+                        textLight: HomeV4Colors.newsButtonLight,
                       ),
                     ),
                   ),
