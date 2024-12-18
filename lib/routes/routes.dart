@@ -327,13 +327,28 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/bubble_whatsapp': (BuildContext context) =>
         const BubbleWhatsappScreen(),
     '/v2/exit': (BuildContext context) => const ExitScreen(),
-    '/v4/home': (BuildContext context) => const HomeScreenV4(),
-    '/v4/products': (BuildContext context) => const ProductsV4Screen(),
+    '/v4/home': (BuildContext context) => const Stack(
+          children: [
+            HomeScreenV4(),
+            JuliaBubble(),
+          ],
+        ),
+    '/v4/products': (BuildContext context) => const Stack(
+          children: [
+            ProductsV4Screen(),
+            JuliaBubble(),
+          ],
+        ),
     //
     '/v4/product': (context) {
       final product =
           ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
-      return ProductDetailV4(product: product);
+      return Stack(
+        children: [
+          ProductDetailV4(product: product),
+          const JuliaBubble(),
+        ],
+      );
     },
     '/debug_log': (BuildContext context) => DebugLogsScreen(),
     '/v2/form_accounts': (BuildContext context) => const FormAccountsScreen(),
@@ -346,7 +361,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v4/step_one': (BuildContext context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
-      return StepOneV4(product: args);
+      return Stack(
+        children: [
+          StepOneV4(product: args),
+          const JuliaBubble(),
+        ],
+      );
     },
     '/v4/experience': (BuildContext context) => const ExperienceScreenV4(),
     '/v4/detail_invest': (BuildContext context) => const DetailInvestV4(),

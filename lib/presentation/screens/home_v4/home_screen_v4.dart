@@ -106,10 +106,12 @@ class SliderContainer extends ConsumerWidget {
 
           lastOperations = filteredOperations;
         }
-        return LastOperationsSliderV4(
-          fund: fund,
-          lastOperations: filteredOperations,
-        );
+        return filteredOperations.isNotEmpty
+            ? LastOperationsSliderV4(
+                fund: fund,
+                lastOperations: filteredOperations,
+              )
+            : const SizedBox.shrink();
       },
       loading: () => const Center(
         child: CircularLoader(

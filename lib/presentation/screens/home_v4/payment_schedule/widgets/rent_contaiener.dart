@@ -21,7 +21,8 @@ class RentContainer extends ConsumerWidget {
     final isSoles = ref.read(isSolesStateProvider);
     final rentabilityAsync = ref.watch(rentabilityProvider);
     final currentDate = DateTime.now();
-    final String dateInfo = 'Rentabilidad mes ${DateFormat('MMMM', 'es').format(currentDate)}';
+    final String dateInfo =
+        'Rentabilidad mes ${DateFormat('MMMM', 'es').format(currentDate)}';
 
     return rentabilityAsync.when(
       data: (rentability) => _RentContainerContent(
@@ -35,8 +36,13 @@ class RentContainer extends ConsumerWidget {
       loading: () => const Center(
         child: CircularProgressIndicator(),
       ),
-      error: (error, stack) => Center(
-        child: Text('Error: $error'),
+      error: (error, stack) => _RentContainerContent(
+        isDarkMode: isDarkMode,
+        isSoles: isSoles,
+        rent: 0.0.toString(),
+        percent: 0.0.toString(),
+        dateInfo: dateInfo,
+        isRender: isRender,
       ),
     );
   }
@@ -76,7 +82,9 @@ class _RentContainerContent extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.9,
       height: isRender ? 100 : 80,
       decoration: BoxDecoration(
-        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+        color: isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
@@ -91,7 +99,8 @@ class _RentContainerContent extends StatelessWidget {
                 'assets/svg_icons/status_up.svg',
                 width: 20,
                 height: 20,
-                color: isDarkMode ? const Color(dateDark) : const Color(dateLight),
+                color:
+                    isDarkMode ? const Color(dateDark) : const Color(dateLight),
               ),
               const SizedBox(width: 10),
               TextPoppins(
@@ -119,7 +128,9 @@ class _RentContainerContent extends StatelessWidget {
                 height: 20,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isDarkMode ? const Color(percentContainerDark) : const Color(percentContainerLight),
+                  color: isDarkMode
+                      ? const Color(percentContainerDark)
+                      : const Color(percentContainerLight),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -142,7 +153,9 @@ class _RentContainerContent extends StatelessWidget {
                   'assets/svg_icons/clock_icon.svg',
                   width: 20,
                   height: 20,
-                  color: isDarkMode ? const Color(dateDark) : const Color(dateLight),
+                  color: isDarkMode
+                      ? const Color(dateDark)
+                      : const Color(dateLight),
                 ),
                 const SizedBox(width: 5),
                 TextPoppins(
