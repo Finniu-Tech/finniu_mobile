@@ -230,6 +230,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
                       hintText: "Ingrese su monto de inversión",
                       validator: (value) {
                         validateNumberMin(
+                          isSoles: isSoles,
                           value: value,
                           field: "Monto",
                           context: context,
