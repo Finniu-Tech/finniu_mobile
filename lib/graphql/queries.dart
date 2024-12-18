@@ -1794,6 +1794,7 @@ class QueryRepository {
             investmentFundName
             currency
            isCapitalPayment
+           operationCode
           }
           passPayments{
             paymentVoucherUrl
@@ -1805,7 +1806,9 @@ class QueryRepository {
             investmentFundName
             currency
             isCapitalPayment
+            operationCode
           }
+
           recentPayments{
             paymentVoucherUrl
             uuid
@@ -1816,6 +1819,7 @@ class QueryRepository {
             investmentFundName
             currency
             isCapitalPayment
+            operationCode
           }
         }
       }
@@ -1883,12 +1887,14 @@ class QueryRepository {
         countPlanesActive
         capitalInCourse
         totalBalanceRentabilityIncreased
+        totalPercentPerMonth
       }
       invesmentInDolares{
         countPlanesActive
         totalBalanceRentability
         capitalInCourse
      		totalBalanceRentabilityIncreased
+        totalPercentPerMonth
       }
     }
   }
