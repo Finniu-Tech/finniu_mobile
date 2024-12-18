@@ -11,6 +11,7 @@ import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products
 import 'package:finniu/presentation/screens/home_v4/widget/button_tour_invest.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/tab_bar_v4.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -44,13 +45,36 @@ class MyInvestmentsScreen extends ConsumerWidget {
             SingleChildScrollView(
               child: InvestPage(),
             ),
-            Positioned(
-              top: 180,
-              child: ButtonInvestTourV4(),
-            ),
+            TourButton(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class TourButton extends StatefulWidget {
+  const TourButton({
+    super.key,
+  });
+
+  @override
+  State<TourButton> createState() => _TourButtonState();
+}
+
+class _TourButtonState extends State<TourButton> {
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: Preferences.tourInvestmentNotifier,
+      builder: (context, tourHome, child) {
+        return tourHome
+            ? const Positioned(
+                top: 180,
+                child: ButtonInvestTourV4(),
+              )
+            : const SizedBox();
+      },
     );
   }
 }

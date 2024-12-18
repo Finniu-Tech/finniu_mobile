@@ -1,5 +1,6 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/page_invest_tour.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 
 void showTourInvestV4(BuildContext context) {
@@ -82,7 +83,10 @@ class TourInvestContainerV4 extends StatelessWidget {
         child: const PageElevenInvestTour(),
       ),
       GestureDetector(
-        onTap: () => Navigator.pop(context),
+        onTap: () => {
+          Preferences.tourInvestment = false,
+          Navigator.pop(context),
+        },
         child: const PageTwelveInvestTour(),
       ),
     ];
