@@ -48,7 +48,7 @@ class StepOneV4 extends StatelessWidget {
 class StepOneBody extends StatelessWidget {
   final ProductContainerStyles product;
 
-  StepOneBody({
+  const StepOneBody({
     super.key,
     required this.product,
   });
@@ -126,7 +126,7 @@ class FormStepOne extends HookConsumerWidget {
     final List<String> optionsTime =
         product.titleText == "Producto de inversión a Plazo Fijo"
             ? ["6 meses", "12 meses", "24 meses"]
-            : ["12 meses", "24 meses"];
+            : ["12 meses", "24 meses", "36 meses"];
     const List<String> optionsOrigin = [
       "Salario",
       "Ahorros",
