@@ -25,15 +25,11 @@ class MyInvestmentsContainer extends ConsumerWidget {
     final isSoles = ref.watch(isSolesStateProvider);
     final eyeOpen = ref.watch(eyeHomeProvider);
 
-    final AllInvestment investSelect =
-        isSoles ? data.investmentInSoles! : data.investmentInDolares!;
-    final capitalInCourse = investSelect.capitalInCourse == null
+    final AllInvestment investSelect = isSoles ? data.investmentInSoles! : data.investmentInDolares!;
+    final capitalInCourse = investSelect.capitalInCourse == null ? "0.00" : investSelect.capitalInCourse.toString();
+    final totalBalanceRentabilityIncreased = investSelect.totalBalanceRentabilityIncreased == null
         ? "0.00"
-        : investSelect.capitalInCourse.toString();
-    final totalBalanceRentabilityIncreased =
-        investSelect.totalBalanceRentabilityIncreased == null
-            ? "0.00"
-            : investSelect.totalBalanceRentabilityIncreased.toString();
+        : investSelect.totalBalanceRentabilityIncreased.toString();
     const String? totalBalanceRentabilityActually = null;
     void onTapInvestActive() {
       // showModalActiveInvest(context);
@@ -46,9 +42,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
       ),
       height: 230,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(MyInvestV4Colors.containerDark)
-            : const Color(MyInvestV4Colors.containerLight),
+        color: isDarkMode ? const Color(MyInvestV4Colors.containerDark) : const Color(MyInvestV4Colors.containerLight),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(25),
@@ -67,8 +61,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                       color: isDarkMode
                           ? const Color(MyInvestV4Colors.totalInvestDark)
                           : const Color(MyInvestV4Colors.totalInvestLight),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -81,8 +74,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                           textLight: MyInvestV4Colors.totalInvestTextLight,
                         ),
                         TextPoppins(
-                          text:
-                              "+${isSoles ? "S/" : "\$"}${eyeOpen ? capitalInCourse : "****"}",
+                          text: "+${isSoles ? "S/" : "\$"}${eyeOpen ? capitalInCourse : "****"}",
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           textDark: MyInvestV4Colors.totalInvestTextDark,
@@ -104,10 +96,8 @@ class MyInvestmentsContainer extends ConsumerWidget {
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: isDarkMode
-                                ? const Color(
-                                    HomeV4Colors.interestContainerDark)
-                                : const Color(
-                                    HomeV4Colors.interestContainerLight),
+                                ? const Color(HomeV4Colors.interestContainerDark)
+                                : const Color(HomeV4Colors.interestContainerLight),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
@@ -121,10 +111,8 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   const TextPoppins(
                                     text: "Rentabilidad",
                                     fontSize: 11,
-                                    textDark:
-                                        HomeV4Colors.interestGeneratedTextDark,
-                                    textLight:
-                                        HomeV4Colors.interestGeneratedTextLight,
+                                    textDark: HomeV4Colors.interestGeneratedTextDark,
+                                    textLight: HomeV4Colors.interestGeneratedTextLight,
                                   ),
                                   const Spacer(),
                                   totalBalanceRentabilityActually == null
@@ -135,27 +123,21 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                             vertical: 2,
                                           ),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
+                                            borderRadius: BorderRadius.circular(20),
                                             color: isDarkMode
                                                 ? const Color(
-                                                    HomeV4Colors
-                                                        .interestGeneratedContDark,
+                                                    HomeV4Colors.interestGeneratedContDark,
                                                   )
                                                 : const Color(
-                                                    HomeV4Colors
-                                                        .interestGeneratedContLight,
+                                                    HomeV4Colors.interestGeneratedContLight,
                                                   ),
                                           ),
                                           child: TextPoppins(
-                                            text:
-                                                totalBalanceRentabilityActually,
+                                            text: totalBalanceRentabilityActually,
                                             fontSize: 10,
                                             fontWeight: FontWeight.w500,
-                                            textDark: HomeV4Colors
-                                                .interestGeneratedDark,
-                                            textLight: HomeV4Colors
-                                                .interestGeneratedLight,
+                                            textDark: HomeV4Colors.interestGeneratedDark,
+                                            textLight: HomeV4Colors.interestGeneratedLight,
                                           ),
                                         ),
                                 ],
@@ -172,10 +154,8 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                           "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityIncreased : "****"}",
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
-                                      textDark: HomeV4Colors
-                                          .interestGeneratedTextDark,
-                                      textLight: HomeV4Colors
-                                          .interestGeneratedTextLight,
+                                      textDark: HomeV4Colors.interestGeneratedTextDark,
+                                      textLight: HomeV4Colors.interestGeneratedTextLight,
                                     ),
                                   ],
                                 ),
@@ -195,12 +175,9 @@ class MyInvestmentsContainer extends ConsumerWidget {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: isDarkMode
-                                  ? const Color(
-                                      MyInvestV4Colors.investActiveDark)
-                                  : const Color(
-                                      MyInvestV4Colors.investActiveLight),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10.0)),
+                                  ? const Color(MyInvestV4Colors.investActiveDark)
+                                  : const Color(MyInvestV4Colors.investActiveLight),
+                              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -210,46 +187,37 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   text: "Inversiones activas",
                                   fontSize: 11,
                                   fontWeight: FontWeight.w400,
-                                  textDark:
-                                      MyInvestV4Colors.investActiveTextDark,
-                                  textLight:
-                                      MyInvestV4Colors.investActiveTextLight,
+                                  textDark: MyInvestV4Colors.investActiveTextDark,
+                                  textLight: MyInvestV4Colors.investActiveTextLight,
                                 ),
                                 Row(
                                   children: [
                                     TextPoppins(
-                                      text: investSelect.countPlanesActive
-                                          .toString(),
+                                      text: investSelect.countPlanesActive.toString(),
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
-                                      textDark:
-                                          MyInvestV4Colors.investActiveTextDark,
-                                      textLight: MyInvestV4Colors
-                                          .investActiveTextLight,
+                                      textDark: MyInvestV4Colors.investActiveTextDark,
+                                      textLight: MyInvestV4Colors.investActiveTextLight,
                                     ),
                                     const TextPoppins(
                                       text: " inversiones",
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
-                                      textDark:
-                                          MyInvestV4Colors.investActiveTextDark,
-                                      textLight: MyInvestV4Colors
-                                          .investActiveTextLight,
+                                      textDark: MyInvestV4Colors.investActiveTextDark,
+                                      textLight: MyInvestV4Colors.investActiveTextLight,
                                     ),
                                     const Spacer(),
-                                    Icon(
-                                      Icons.chevron_right,
-                                      color: isDarkMode
-                                          ? const Color(
-                                              MyInvestV4Colors
-                                                  .investActiveTextDark,
-                                            )
-                                          : const Color(
-                                              MyInvestV4Colors
-                                                  .investActiveTextLight,
-                                            ),
-                                      size: 25,
-                                    ),
+                                    // Icon(
+                                    //   Icons.chevron_right,
+                                    //   color: isDarkMode
+                                    //       ? const Color(
+                                    //           MyInvestV4Colors.investActiveTextDark,
+                                    //         )
+                                    //       : const Color(
+                                    //           MyInvestV4Colors.investActiveTextLight,
+                                    //         ),
+                                    //   size: 25,
+                                    // ),
                                   ],
                                 ),
                               ],
@@ -327,12 +295,8 @@ class RowGoCalendar extends ConsumerWidget {
           ),
           IconButton(
             icon: Icon(
-              !eyeOpen
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              color: isDarkMode
-                  ? const Color(HomeV4Colors.iconEyeDark)
-                  : const Color(HomeV4Colors.iconEyeLight),
+              !eyeOpen ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+              color: isDarkMode ? const Color(HomeV4Colors.iconEyeDark) : const Color(HomeV4Colors.iconEyeLight),
               size: 20,
             ),
             onPressed: () {

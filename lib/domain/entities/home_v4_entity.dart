@@ -31,21 +31,23 @@ class AllInvestment {
 
   final String? totalBalanceRentabilityIncreased;
   final String? averageProfitability;
+  final String? percentageProfitabilityIncreaseMonthly;
 
   AllInvestment({
     required this.countPlanesActive,
     required this.averageProfitability,
     required this.capitalInCourse,
     required this.totalBalanceRentabilityIncreased,
+    required this.percentageProfitabilityIncreaseMonthly,
   });
 
   factory AllInvestment.fromJson(Map<String, dynamic> json) {
     return AllInvestment(
-      // averageProfitability: json['averageProfitability'] as String?,
-      averageProfitability: json['totalPercentPerMonth'],
+      averageProfitability: json['averageProfitability'] as String?,
       countPlanesActive: json['countPlanesActive'] as int?,
       capitalInCourse: json['capitalInCourse'] as int?,
       totalBalanceRentabilityIncreased: json['totalBalanceRentabilityIncreased'] as String?,
+      percentageProfitabilityIncreaseMonthly: json['totalPercentPerMonth'] as String?,
     );
   }
 
@@ -67,6 +69,7 @@ final AllInvestment investmentErrorInSoles = AllInvestment(
   averageProfitability: "0",
   capitalInCourse: 0,
   totalBalanceRentabilityIncreased: "0",
+  percentageProfitabilityIncreaseMonthly: "0",
 );
 
 final AllInvestment investmentErrorInDolares = AllInvestment(
@@ -74,6 +77,7 @@ final AllInvestment investmentErrorInDolares = AllInvestment(
   averageProfitability: "0",
   capitalInCourse: 0,
   totalBalanceRentabilityIncreased: "0",
+  percentageProfitabilityIncreaseMonthly: "0",
 );
 
 final HomeUserInvest homeUserErrorInvest = HomeUserInvest(
