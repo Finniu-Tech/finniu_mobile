@@ -352,7 +352,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     },
     '/debug_log': (BuildContext context) => DebugLogsScreen(),
     '/v2/form_accounts': (BuildContext context) => const FormAccountsScreen(),
-    '/v2/my_investments': (BuildContext context) => const MyInvestmentsScreen(),
+    '/v2/my_investments': (BuildContext context) => const Stack(
+          children: [
+            MyInvestmentsScreen(),
+            JuliaBubble(),
+          ],
+        ),
     '/v4/payment_schedule': (BuildContext context) => const PaymentScreenV4(),
     '/v4/calendar': (BuildContext context) => const CalendarScreenV4(),
     '/v4/notices': (BuildContext context) => const NoticeScreenV4(),
