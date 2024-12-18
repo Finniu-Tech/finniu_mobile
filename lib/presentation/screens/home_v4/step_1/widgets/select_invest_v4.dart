@@ -1,9 +1,7 @@
-import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SelecDropdownInvest extends ConsumerWidget {
+class SelecDropdownInvest extends StatelessWidget {
   const SelecDropdownInvest({
     super.key,
     required this.options,
@@ -12,6 +10,7 @@ class SelecDropdownInvest extends ConsumerWidget {
     required this.validator,
     required this.itemSelectedValue,
     required this.title,
+    required this.isDarkMode,
     this.onError,
     this.isError = false,
   });
@@ -23,12 +22,11 @@ class SelecDropdownInvest extends ConsumerWidget {
   final String? Function(String?)? validator;
   final String? itemSelectedValue;
   final bool isError;
+  final bool isDarkMode;
   final VoidCallback? onError;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-
+  Widget build(BuildContext context) {
     const int hintDark = 0xFFFFFFFF;
     const int hintLight = 0xFF535050;
     const int fillDark = 0xFF0E0E0E;

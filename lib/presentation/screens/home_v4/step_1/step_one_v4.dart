@@ -9,6 +9,7 @@ import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -46,7 +47,6 @@ class StepOneV4 extends StatelessWidget {
 
 class StepOneBody extends StatelessWidget {
   final ProductContainerStyles product;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   StepOneBody({
     super.key,
@@ -60,7 +60,7 @@ class StepOneBody extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.85,
         height: MediaQuery.of(context).size.height < 700
             ? 650
-            : MediaQuery.of(context).size.height - 100,
+            : MediaQuery.of(context).size.height - 90,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -91,7 +91,6 @@ class StepOneBody extends StatelessWidget {
               textLight: product.textLight,
             ),
             FormStepOne(
-              formKey: formKey,
               product: product,
             ),
           ],
@@ -102,18 +101,16 @@ class StepOneBody extends StatelessWidget {
 }
 
 class FormStepOne extends HookConsumerWidget {
-  final GlobalKey<FormState> formKey;
   final ProductContainerStyles product;
-
+  static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   const FormStepOne({
     super.key,
-    required this.formKey,
     required this.product,
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSoles = ref.watch(isSolesStateProvider);
-
+    final isSoles = ref.read(isSolesStateProvider);
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     final timeController = useTextEditingController();
     final originController = useTextEditingController();
     final originOtherController = useTextEditingController();
@@ -126,7 +123,10 @@ class FormStepOne extends HookConsumerWidget {
     final ValueNotifier<bool> originOtherError = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
-    const List<String> optionsTime = ["6 meses", "12 meses", "24 meses"];
+    final List<String> optionsTime =
+        product.titleText == "Producto de inversión a Plazo Fijo"
+            ? ["6 meses", "12 meses", "24 meses"]
+            : ["12 meses", "24 meses"];
     const List<String> optionsOrigin = [
       "Salario",
       "Ahorros",
@@ -259,7 +259,6 @@ class FormStepOne extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height - 240,
         child: Column(
           children: [
             const SizedBox(height: 25),
@@ -292,6 +291,7 @@ class FormStepOne extends HookConsumerWidget {
               valueListenable: timeError,
               builder: (context, isError, child) {
                 return SelecDropdownInvest(
+                  isDarkMode: isDarkMode,
                   isError: isError,
                   onError: () => timeError.value = false,
                   itemSelectedValue: timeController.text,
@@ -320,6 +320,7 @@ class FormStepOne extends HookConsumerWidget {
               valueListenable: originError,
               builder: (context, isError, child) {
                 return SelecDropdownInvest(
+                  isDarkMode: isDarkMode,
                   isError: isError,
                   onError: () => originError.value = false,
                   itemSelectedValue: originController.text,
