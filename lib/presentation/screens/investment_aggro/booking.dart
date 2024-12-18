@@ -6,10 +6,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class ManualConfirmationBookingWidget extends StatefulHookConsumerWidget {
   @override
-  _ManualConfirmationBookingWidgetState createState() => _ManualConfirmationBookingWidgetState();
+  _ManualConfirmationBookingWidgetState createState() =>
+      _ManualConfirmationBookingWidgetState();
 }
 
-class _ManualConfirmationBookingWidgetState extends ConsumerState<ManualConfirmationBookingWidget> {
+class _ManualConfirmationBookingWidgetState
+    extends ConsumerState<ManualConfirmationBookingWidget> {
   late WebViewController _controller;
   bool _isLoading = true;
   String meetURL = 'https://calendar.app.google/hHCjHK5XcDThCkHk7';
@@ -100,7 +102,8 @@ class _ManualConfirmationBookingWidgetState extends ConsumerState<ManualConfirma
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    Color backgroundColor = isDarkMode ? const Color(0xff1C1B1B) : const Color(0xffDFEEFF);
+    Color backgroundColor =
+        isDarkMode ? const Color(0xff1C1B1B) : const Color(0xffDFEEFF);
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -133,7 +136,7 @@ class _ManualConfirmationBookingWidgetState extends ConsumerState<ManualConfirma
             padding: const EdgeInsets.all(10.0),
             child: TextButton(
               child: const Text('He terminado de agendar mi reunión'),
-              onPressed: () => Navigator.pushNamed(context, '/home_v2'),
+              onPressed: () => Navigator.pushNamed(context, '/v4/home'),
             ),
           ),
         ],

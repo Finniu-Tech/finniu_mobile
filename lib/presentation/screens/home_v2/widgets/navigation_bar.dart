@@ -32,7 +32,7 @@ class NavigationBarHome extends ConsumerWidget {
             },
           );
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home_v2', (route) => false);
+              .pushNamedAndRemoveUntil('/v4/home', (route) => false);
           break;
         case 1:
           ref.read(navigatorStateProvider.notifier).state = 1;
@@ -61,7 +61,7 @@ class NavigationBarHome extends ConsumerWidget {
         default:
           ref.read(navigatorStateProvider.notifier).state = 0;
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home_v2', (route) => false);
+              .pushNamedAndRemoveUntil('/v4/home', (route) => false);
       }
     }
 
@@ -134,7 +134,7 @@ class NavigationBarHome extends ConsumerWidget {
 //       switch (index) {
 //         case 0:
 //           ref.read(navigatorStateProvider.notifier).state = 0;
-//           Navigator.of(context).pushNamedAndRemoveUntil('/home_v2', (route) => false);
+//           Navigator.of(context).pushNamedAndRemoveUntil('/v4/home', (route) => false);
 //           break;
 //         case 1:
 //           ref.read(navigatorStateProvider.notifier).state = 1;
