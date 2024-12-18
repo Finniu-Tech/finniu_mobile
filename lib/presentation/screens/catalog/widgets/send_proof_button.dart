@@ -52,7 +52,7 @@ class ButtonInvestment extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: MediaQuery.of(context).size.width * 0.85,
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
@@ -239,7 +239,7 @@ class ButtonSvgIconInvestmentSecond extends ConsumerWidget {
     const int colorDark = 0xff0E0E0E;
     const int colorLight = 0xff0D3A5C;
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: MediaQuery.of(context).size.width * 0.85,
       height: height,
       child: ElevatedButton(
         style: ButtonStyle(

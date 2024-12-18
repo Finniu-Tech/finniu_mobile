@@ -1882,15 +1882,13 @@ class QueryRepository {
         averageProfitability
         countPlanesActive
         capitalInCourse
-        totalBalanceRentabilityActually
         totalBalanceRentabilityIncreased
       }
       invesmentInDolares{
         countPlanesActive
         totalBalanceRentability
         capitalInCourse
-        totalBalanceRentabilityActually
-     
+     		totalBalanceRentabilityIncreased
       }
     }
   }

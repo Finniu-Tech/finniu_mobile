@@ -206,8 +206,8 @@ class FinniuTranferContainer extends HookConsumerWidget {
             ClipOval(
               child: Image.network(
                 bankUrl,
-                width: 20,
-                height: 20,
+                width: 25,
+                height: 25,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) {
                     return child;
@@ -218,8 +218,8 @@ class FinniuTranferContainer extends HookConsumerWidget {
                   }
                 },
                 errorBuilder: (context, error, stackTrace) => Container(
-                  width: 20,
-                  height: 20,
+                  width: 25,
+                  height: 25,
                   decoration: BoxDecoration(
                     color: isDarkMode
                         ? const Color(errorDark)

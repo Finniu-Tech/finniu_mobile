@@ -1,4 +1,3 @@
-import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
@@ -20,41 +19,50 @@ class StepScaffold extends ConsumerWidget {
     const int backgroundLight = 0xffDEF7FF;
     const int iconLight = 0xff0D3A5C;
     const int iconDark = 0xffA2E6FA;
-    return LoaderOverlay(
-      useDefaultLoading: false,
-      overlayWidgetBuilder: (progress) {
-        return const Center(
-          child: CircularLoader(
-            width: 50,
-            height: 50,
+    return PopScope(
+      canPop: false,
+      child: LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidgetBuilder: (progress) {
+          return const Center(
+            child: CircularLoader(
+              width: 50,
+              height: 50,
+            ),
+          );
+        },
+        child: Scaffold(
+          floatingActionButton: const SizedBox(
+            height: 80,
           ),
-        );
-      },
-      child: Scaffold(
-        floatingActionButton: const SizedBox(
-          height: 80,
-        ),
-        appBar: AppBar(
-          automaticallyImplyLeading: useDefaultLoading,
-          leading: useDefaultLoading
-              ? IconButton(
-                  onPressed: () => {
-                    ScaffoldMessenger.of(context).clearSnackBars(),
-                    Navigator.of(context).pop(),
-                  },
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
-                  ),
-                )
-              : null,
-          backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
-        ),
-        backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
-        body: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: SingleChildScrollView(
-            child: children,
+          appBar: AppBar(
+            automaticallyImplyLeading: useDefaultLoading,
+            leading: useDefaultLoading
+                ? IconButton(
+                    onPressed: () => {
+                      ScaffoldMessenger.of(context).clearSnackBars(),
+                      Navigator.of(context).pop(),
+                    },
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: isDarkMode
+                          ? const Color(iconDark)
+                          : const Color(iconLight),
+                    ),
+                  )
+                : null,
+            backgroundColor: isDarkMode
+                ? const Color(backgroundDark)
+                : const Color(backgroundLight),
+          ),
+          backgroundColor: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
+          body: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: SingleChildScrollView(
+              child: children,
+            ),
           ),
         ),
       ),

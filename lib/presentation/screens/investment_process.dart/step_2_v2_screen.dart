@@ -97,16 +97,19 @@ class StepTwoBody extends StatelessWidget {
               textDark: textDark,
               textLight: textLight,
             ),
+            const SizedBox(height: 5),
             BankTranferContainer(
               title: "Desde que banco nos transfieres",
               providerWatch: selectedBankAccountSenderProvider,
               isSended: true,
             ),
+            const SizedBox(height: 5),
             BankTranferContainer(
               title: "A que banco te depositamos",
               providerWatch: selectedBankAccountReceiverProvider,
               isSended: false,
             ),
+            const SizedBox(height: 5),
             const TextRickStep(),
             const FinniuAccountProvider(),
             const TextPoppins(

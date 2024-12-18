@@ -14,25 +14,28 @@ class ScaffoldHomeV4 extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int colorDark = 0xff000000;
     const int colorLight = 0xffFFFFFF;
-    return LoaderOverlay(
-      useDefaultLoading: false,
-      overlayWidgetBuilder: (progress) {
-        return const Center(
-          child: LogoLoader(
-            width: 100,
-            height: 100,
-          ),
-        );
-      },
-      child: Scaffold(
-        backgroundColor:
-            isDarkMode ? const Color(colorDark) : const Color(colorLight),
-        extendBody: true,
-        bottomNavigationBar: const NavBarV4(),
-        appBar: const CustomAppBarV4(),
-        body: SingleChildScrollView(
-          child: Center(
-            child: body,
+    return PopScope(
+      canPop: false,
+      child: LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidgetBuilder: (progress) {
+          return const Center(
+            child: LogoLoader(
+              width: 100,
+              height: 100,
+            ),
+          );
+        },
+        child: Scaffold(
+          backgroundColor:
+              isDarkMode ? const Color(colorDark) : const Color(colorLight),
+          extendBody: true,
+          bottomNavigationBar: const NavBarV4(),
+          appBar: const CustomAppBarV4(),
+          body: SingleChildScrollView(
+            child: Center(
+              child: body,
+            ),
           ),
         ),
       ),

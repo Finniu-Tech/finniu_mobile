@@ -26,7 +26,7 @@ String getMaskedNumber(String? number) {
     String visible = number.substring(number.length - 3);
     return "**********$visible";
   } else {
-    return "**********234";
+    return "**********1234";
   }
 }
 

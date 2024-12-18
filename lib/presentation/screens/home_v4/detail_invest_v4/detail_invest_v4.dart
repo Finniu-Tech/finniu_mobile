@@ -165,7 +165,9 @@ class _BodyScaffold extends ConsumerWidget {
                                 bankAccountSender: data.bankAccountSender!,
                               )
                             : const SizedBox(),
-                        const SizedBox(height: 15),
+                        data.bankAccountSender != null
+                            ? const SizedBox(height: 15)
+                            : const SizedBox(),
                         data.bankAccountReceiver != null
                             ? const SizedBox()
                             : const SizedBox(),
@@ -174,10 +176,13 @@ class _BodyScaffold extends ConsumerWidget {
                                 bankAccountReceiver: data.bankAccountReceiver!,
                               )
                             : const SizedBox(),
-                        const SizedBox(height: 15),
+                        data.bankAccountReceiver != null
+                            ? const SizedBox(height: 15)
+                            : const SizedBox(),
                         if (arguments.status !=
                             StatusInvestmentEnum.in_process) ...[
-                          data.reinvestmentInfo != null
+                          data.reinvestmentInfo != null &&
+                                  data.reinvestmentInfo!.hasValidValues()
                               ? ReInvestContainer(
                                   isDarkMode: isDarkMode,
                                   dataReinvest: data.reinvestmentInfo!,
@@ -187,9 +192,9 @@ class _BodyScaffold extends ConsumerWidget {
                           const SizedBox(height: 15),
                         ],
                         SizedBox(
-                            height: arguments.isReinvestAvailable == true
-                                ? 70
-                                : 110),
+                          height:
+                              arguments.isReinvestAvailable == true ? 70 : 110,
+                        ),
                       ],
                     ),
                   ),
@@ -224,40 +229,6 @@ class _BodyScaffold extends ConsumerWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // if (arguments.isReinvestAvailable == true) ...[
-                            //   arguments.isReinvestAvailable
-                            //       ? ButtonInvestment(
-                            //           text: 'Quiero reinvertir',
-                            //           onPressed: () =>
-                            //               reinvestmentQuestionModal(
-                            //             context,
-                            //             ref,
-                            //             arguments.uuid,
-                            //             data.amount.toDouble(),
-                            //             isSoles
-                            //                 ? currencyEnum.PEN
-                            //                 : currencyEnum.USD,
-                            //             true,
-                            //             data.fund,
-                            //             data.rentabilityPercent,
-                            //             data.month,
-                            //           ),
-                            //         )
-                            //       : const SizedBox(),
-                            // ],
-                            // if (arguments.isReinvestAvailable == true &&
-                            //     StatusInvestmentEnum.compare(
-                            //       arguments.status,
-                            //       StatusInvestmentEnum.in_course,
-                            //     ) &&
-                            //     ActionStatusEnum.compare(
-                            //       arguments.actionStatus ?? '',
-                            //       ActionStatusEnum.defaultReInvestment,
-                            //     )) ...[
-                            //   arguments.isReinvestAvailable
-                            //       ? const SizedBox(height: 15)
-                            //       : const SizedBox(),
-                            // ],
                             const SizedBox(height: 15),
                             if (arguments.status !=
                                 StatusInvestmentEnum.in_process) ...[

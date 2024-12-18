@@ -6,10 +6,8 @@ import 'package:finniu/presentation/screens/home_v4/product_v4/app_bar_product.d
 import 'package:finniu/presentation/screens/home_v4/product_v4/carrousel_detail.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/item_carrousel.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/row_products.dart';
-import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailV4 extends ConsumerWidget {
   final ProductContainerStyles product;
@@ -25,7 +23,8 @@ class ProductDetailV4 extends ConsumerWidget {
     const int colorDark = 0xff000000;
     const int colorLight = 0xffFFFFFF;
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(colorDark) : const Color(colorLight),
+      backgroundColor:
+          isDarkMode ? const Color(colorDark) : const Color(colorLight),
       appBar: const AppBarProduct(),
       body: SingleChildScrollView(
         child: ProductBody(product: product),
@@ -91,41 +90,43 @@ class ProductBody extends ConsumerWidget {
       ),
     ];
 
-    final colors = ProductContainerStyles(
-      backgroundContainerDark: 0xff1B1B1B,
-      backgroundContainerLight: 0xffE9FAFF,
-      imageProduct: "🏢",
-      titleText: "Producto de inversión a Plazo Fijo",
-      minimumText: "1,000.00",
-      profitabilityText: "19",
-      titleDark: 0xffFFFFFF,
-      titleLight: 0xff0D3A5C,
-      minimumDark: 0xff0D3A5C,
-      minimumLight: 0xff0D3A5C,
-      profitabilityDark: 0xffB5FF8A,
-      profitabilityLight: 0xffD2FDBA,
-      isSoles: true,
-      uuid: "1",
-      buttonBackDark: 0xffA2E6FA,
-      buttonBackLight: 0xff0D3A5C,
-      buttonTextDark: 0xff0D3A5C,
-      buttonTextLight: 0xffFFFFFF,
-      textDark: 0xff000000,
-      textLight: 0xff000000,
-      minimunTextColorDark: 0xffFFFFFF,
-      minimumTextColorLight: 0xffFFFFFF,
-      minimumLightSoles: 0xffBBF0FF,
-      minimumTextColorLightSoles: 0xff000000,
-    );
+    // final colors = ProductContainerStyles(
+    //   backgroundContainerDark: 0xff1B1B1B,
+    //   backgroundContainerLight: 0xffE9FAFF,
+    //   imageProduct: "🏢",
+    //   titleText: "Producto de inversión a Plazo Fijo",
+    //   minimumText: "1,000.00",
+    //   profitabilityText: "19",
+    //   titleDark: 0xffFFFFFF,
+    //   titleLight: 0xff0D3A5C,
+    //   minimumDark: 0xff0D3A5C,
+    //   minimumLight: 0xff0D3A5C,
+    //   profitabilityDark: 0xffB5FF8A,
+    //   profitabilityLight: 0xffD2FDBA,
+    //   isSoles: true,
+    //   uuid: "1",
+    //   buttonBackDark: 0xffA2E6FA,
+    //   buttonBackLight: 0xff0D3A5C,
+    //   buttonTextDark: 0xff0D3A5C,
+    //   buttonTextLight: 0xffFFFFFF,
+    //   textDark: 0xff000000,
+    //   textLight: 0xff000000,
+    //   minimunTextColorDark: 0xffFFFFFF,
+    //   minimumTextColorLight: 0xffFFFFFF,
+    //   minimumLightSoles: 0xffBBF0FF,
+    //   minimumTextColorLightSoles: 0xff000000,
+    // );
 
     Future<void> onPressCall() async {
-      final meetUrl = Uri.parse('https://calendly.com/finniumeet/30min?month=2024-12');
-      await launchUrl(meetUrl);
+      Navigator.pushNamed(context, '/v4/push_to_url',
+          arguments: 'https://calendly.com/finniumeet/30min?month=2024-12');
+      // final meetUrl =
+      //     Uri.parse('https://calendly.com/finniumeet/30min?month=2024-12');
+      // await launchUrl(meetUrl);
     }
 
     void onPressSimulator() {
       Navigator.pushNamed(context, '/v4/step_one', arguments: product);
-      print("on press simulator");
     }
 
     return Column(
@@ -228,7 +229,9 @@ class RowButtons extends ConsumerWidget {
             width: 155,
             height: 40,
             decoration: BoxDecoration(
-              color: isDarkMode ? const Color(callButtonDark) : const Color(callButtonLight),
+              color: isDarkMode
+                  ? const Color(callButtonDark)
+                  : const Color(callButtonLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),
@@ -260,7 +263,9 @@ class RowButtons extends ConsumerWidget {
             width: 155,
             height: 40,
             decoration: BoxDecoration(
-              color: isDarkMode ? const Color(simulatorButtonDark) : const Color(simulatorButtonLight),
+              color: isDarkMode
+                  ? const Color(simulatorButtonDark)
+                  : const Color(simulatorButtonLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),
