@@ -77,7 +77,7 @@ class BlueGoldBody extends HookConsumerWidget {
                       child: Center(
                         child: NoInvestmentBody(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/home_v2');
+                            Navigator.pushNamed(context, '/v4/home');
                           },
                         ),
                       ),

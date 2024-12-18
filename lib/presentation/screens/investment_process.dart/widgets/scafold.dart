@@ -46,7 +46,7 @@ class ScaffoldInvestment extends StatelessWidget {
       case InvestmentRoute.fundDetail:
         Navigator.pushReplacementNamed(
           context,
-          '/home_v2',
+          '/v4/home',
         );
     }
   }
@@ -61,10 +61,16 @@ class ScaffoldInvestment extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            color: isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+            color: isDarkMode
+                ? const Color(primaryLight)
+                : const Color(primaryDark),
             Icons.arrow_back,
           ),
-          onPressed: () => _handleNavigation(context),
+          onPressed: () => Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/v4/home',
+            (route) => false,
+          ),
         ),
       ),
       body: body,

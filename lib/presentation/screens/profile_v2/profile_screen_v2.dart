@@ -33,7 +33,7 @@ class UserProfileV2 extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBarProfile(
           title: "Mi perfil",
-          onLeadingPressed: () => Navigator.pushNamed(context, '/home_v2'),
+          onLeadingPressed: () => Navigator.pushNamed(context, '/v4/home'),
         ),
         backgroundColor: isDarkMode
             ? const Color(backgroundDark)

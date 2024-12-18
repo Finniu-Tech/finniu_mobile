@@ -164,7 +164,7 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
         context,
         data,
         ref,
-        navigate: '/home_v2',
+        navigate: '/v4/home',
         isNavigate: true,
       );
       widget.onEdit();

@@ -73,7 +73,7 @@ class NavBarV4 extends ConsumerWidget {
         default:
           ref.read(navigatorStateProvider.notifier).state = 0;
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home_v2', (route) => false);
+              .pushNamedAndRemoveUntil('/v4/home', (route) => false);
       }
     }
 
