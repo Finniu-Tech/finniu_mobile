@@ -61,6 +61,7 @@ class StepOneBody extends StatelessWidget {
         height: MediaQuery.of(context).size.height < 700
             ? 650
             : MediaQuery.of(context).size.height - 85,
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -349,9 +350,7 @@ class FormStepOne extends HookConsumerWidget {
                 );
               },
             ),
-            originController.text == "Otros"
-                ? const SizedBox(height: 25)
-                : const SizedBox(),
+            originController.text == "Otros" ? const SizedBox(height: 25) : const SizedBox(),
             originController.text == "Otros"
                 ? ValueListenableBuilder<bool>(
                     valueListenable: originOtherError,
@@ -437,6 +436,9 @@ class FormStepOne extends HookConsumerWidget {
               text: "Simular",
               onPressed: onPressSimulator,
             ),
+            const SizedBox(
+              height: 40,
+            )
           ],
         ),
       ),
@@ -481,8 +483,7 @@ class CouponApplyRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text:
-                      '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
+                  text: '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,
@@ -523,10 +524,8 @@ class CouponApplyRow extends StatelessWidget {
               children: [
                 TextPoppins(
                   text: isSoles
-                      ? formatterSoles
-                          .format(planSimulation.value?.profitability)
-                      : formatterUSD
-                          .format(planSimulation.value?.profitability),
+                      ? formatterSoles.format(planSimulation.value?.profitability)
+                      : formatterUSD.format(planSimulation.value?.profitability),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,

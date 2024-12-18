@@ -2,7 +2,6 @@ import 'package:finniu/presentation/providers/investment_status_report_provider.
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/calendar_v2/widgets/tab_payments_widget.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/presentation/screens/home_v4/calendar/widgets/example.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -107,7 +106,7 @@ class ItemCalendar extends ConsumerWidget {
                   ),
                 ),
                 child: TextPoppins(
-                  text: "Operación #${payment.numberPayment}",
+                  text: "Operación #${payment.operationCode}",
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   textDark: numberTextDark,

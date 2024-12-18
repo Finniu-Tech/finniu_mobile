@@ -54,6 +54,7 @@ class PaymentData {
   final PaymentCurrency currency;
   final String? fundName;
   final bool isCapitalPayment;
+  final String operationCode;
   PaymentData({
     required this.uuid,
     required this.amount,
@@ -63,11 +64,11 @@ class PaymentData {
     required this.paymentDate,
     required this.currency,
     required this.isCapitalPayment,
+    required this.operationCode,
     this.fundName,
   });
 
-  factory PaymentData.fromJson(
-      Map<String, dynamic> json, PaymentStatus status) {
+  factory PaymentData.fromJson(Map<String, dynamic> json, PaymentStatus status) {
     return PaymentData(
       uuid: json['uuid'],
       amount: double.parse(json['amount']),
@@ -75,11 +76,10 @@ class PaymentData {
       paymentVoucherUrl: json['paymentVoucherUrl'],
       status: status,
       paymentDate: DateTime.parse(json['paymentDate']),
-      currency: json['currency'] == PaymentCurrency.soles.displayName
-          ? PaymentCurrency.soles
-          : PaymentCurrency.dolares,
+      currency: json['currency'] == PaymentCurrency.soles.displayName ? PaymentCurrency.soles : PaymentCurrency.dolares,
       fundName: json['fundName'],
       isCapitalPayment: json['isCapitalPayment'],
+      operationCode: json["operationCode"],
     );
   }
 }
@@ -89,12 +89,10 @@ class TabPaymentsWidget extends ConsumerStatefulWidget {
   final bool? isReinvest;
 
   @override
-  ConsumerState<TabPaymentsWidget> createState() =>
-      _InvestmentHistoryBusiness();
+  ConsumerState<TabPaymentsWidget> createState() => _InvestmentHistoryBusiness();
 }
 
-class _InvestmentHistoryBusiness extends ConsumerState<TabPaymentsWidget>
-    with SingleTickerProviderStateMixin {
+class _InvestmentHistoryBusiness extends ConsumerState<TabPaymentsWidget> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
