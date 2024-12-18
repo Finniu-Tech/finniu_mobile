@@ -20,7 +20,6 @@ class CalculateInvestmentDataSourceImp {
       'currency': currency,
       'investmentFundUuid': fundUuid,
     };
-    print('calculate payload: $payload');
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -30,7 +29,7 @@ class CalculateInvestmentDataSourceImp {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('calculate response: ${response.data}');
+
     if (response.data == null) {
       throw Exception(
           'Error trying to calculate investment: ${response.exception}');
