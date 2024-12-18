@@ -1,5 +1,4 @@
 import 'package:finniu/domain/entities/calculate_investment.dart';
-import 'package:finniu/domain/repositories/calculate_investment_repository.dart';
 import 'package:finniu/infrastructure/datasources/calculate_investment_imp.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 

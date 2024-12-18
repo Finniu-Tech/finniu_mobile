@@ -1,4 +1,3 @@
-import 'package:finniu/domain/datasources/calculate_investment_datasource.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/infrastructure/mappers/calculate_investment_mapper.dart';
@@ -21,7 +20,6 @@ class CalculateInvestmentDataSourceImp {
       'currency': currency,
       'investmentFundUuid': fundUuid,
     };
-    print('calculate payload: $payload');
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -31,9 +29,10 @@ class CalculateInvestmentDataSourceImp {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('calculate response: ${response.data}');
+
     if (response.data == null) {
-      throw Exception('Error trying to calculate investment: ${response.exception}');
+      throw Exception(
+          'Error trying to calculate investment: ${response.exception}');
     }
     final responseGraphQL = CalculateInvestmentResponse.fromJson(
       response.data ?? {},

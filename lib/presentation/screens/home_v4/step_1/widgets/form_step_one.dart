@@ -6,6 +6,7 @@ import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -44,6 +45,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
   late TextEditingController couponController;
 
   late bool isSoles;
+  late bool isDarkMode;
   ValueNotifier<bool> timeError = ValueNotifier(false);
   ValueNotifier<bool> originError = ValueNotifier(false);
   ValueNotifier<bool> amountError = ValueNotifier(false);
@@ -71,6 +73,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
     super.initState();
 
     isSoles = ref.read(isSolesStateProvider);
+    isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     timeController = TextEditingController();
     originController = TextEditingController();
     originOtherController = TextEditingController();
@@ -156,7 +159,11 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
       return;
     }
 
-    if (amountError.value || timeError.value || couponError.value || originError.value || originOtherError.value) {
+    if (amountError.value ||
+        timeError.value ||
+        couponError.value ||
+        originError.value ||
+        originOtherError.value) {
       return;
     }
 
@@ -223,6 +230,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
                       hintText: "Ingrese su monto de inversión",
                       validator: (value) {
                         validateNumberMin(
+                          isSoles: isSoles,
                           value: value,
                           field: "Monto",
                           context: context,
@@ -240,6 +248,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
                   valueListenable: timeError,
                   builder: (context, isError, child) {
                     return SelecDropdownInvest(
+                      isDarkMode: isDarkMode,
                       isError: isError,
                       onError: () => timeError.value = false,
                       itemSelectedValue: timeController.text,
@@ -268,6 +277,7 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
                   valueListenable: originError,
                   builder: (context, isError, child) {
                     return SelecDropdownInvest(
+                      isDarkMode: isDarkMode,
                       isError: isError,
                       onError: () => originError.value = false,
                       itemSelectedValue: originController.text,
@@ -291,7 +301,9 @@ class FormStepOneState extends ConsumerState<FormStepOneV2> {
                     );
                   },
                 ),
-                originController.text == "Otros" ? const SizedBox(height: 25) : const SizedBox(),
+                originController.text == "Otros"
+                    ? const SizedBox(height: 25)
+                    : const SizedBox(),
                 originController.text == "Otros"
                     ? ValueListenableBuilder<bool>(
                         valueListenable: originOtherError,

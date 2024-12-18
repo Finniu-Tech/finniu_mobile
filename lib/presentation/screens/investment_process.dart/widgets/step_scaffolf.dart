@@ -33,7 +33,7 @@ class StepScaffold extends ConsumerWidget {
         },
         child: Scaffold(
           floatingActionButton: const SizedBox(
-            height: 80,
+            height: 50,
           ),
           appBar: AppBar(
             automaticallyImplyLeading: useDefaultLoading,

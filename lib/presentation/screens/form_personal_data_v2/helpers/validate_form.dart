@@ -107,6 +107,7 @@ String? validateNumberMin({
   required String? value,
   required BuildContext context,
   required ValueNotifier<bool> boolNotifier,
+  required isSoles,
   double? minValue,
 }) {
   if (value == null || value.isEmpty) {
@@ -145,7 +146,8 @@ String? validateNumberMin({
     showSnackBarV2(
       context: context,
       title: "$field incorrecto",
-      message: "El monto debe ser mayor o igual a $minValue.",
+      message:
+          "El monto debe ser mayor o igual a ${isSoles ? 'S/.' : '\$/'}${minValue.toStringAsFixed(2)}",
       snackType: SnackType.warning,
     );
     boolNotifier.value = true;
