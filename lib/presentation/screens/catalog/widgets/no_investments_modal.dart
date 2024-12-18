@@ -14,7 +14,7 @@ class NoInvestmentsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
-      onPressed: () => noInvestmentsModal(context, '/home_v2'),
+      onPressed: () => noInvestmentsModal(context, '/v4/home'),
       child: const Text('new modal'),
     );
   }

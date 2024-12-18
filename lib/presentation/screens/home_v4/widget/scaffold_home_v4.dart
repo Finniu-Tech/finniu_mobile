@@ -1,16 +1,35 @@
+import 'package:finniu/presentation/providers/notification_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/home_v4/push_notifications/push_helpers.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/app_bar_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class ScaffoldHomeV4 extends ConsumerWidget {
+class ScaffoldHomeV4 extends HookConsumerWidget {
   const ScaffoldHomeV4({super.key, required this.body});
   final Widget body;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(userProfileNotifierProvider);
+    final userProfileAsync = ref.watch(userProfileFutureProvider);
+    final setupState = ref.watch(notificationSetupStateNotifierProvider);
+
+    useEffect(() {
+      context.loaderOverlay.show();
+
+      userProfileAsync.whenData((profile) async {
+        if (profile.id != null && !setupState.isInitialized) {
+          await initializeNotifications(context, ref, profile);
+        }
+        context.loaderOverlay.hide();
+      });
+      return null;
+    }, [userProfileAsync]);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int colorDark = 0xff000000;
     const int colorLight = 0xffFFFFFF;

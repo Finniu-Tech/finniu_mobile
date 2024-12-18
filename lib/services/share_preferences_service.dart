@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
@@ -10,6 +11,12 @@ class Preferences {
   static String? _username;
   static bool _showedPushNotificationReminder = false;
   static bool _eyeHome = false;
+  static bool _tourHome = true;
+  static final ValueNotifier<bool> tourHomeNotifier =
+      ValueNotifier<bool>(_tourHome);
+  static final ValueNotifier<bool> tourInvestmentNotifier =
+      ValueNotifier<bool>(_tourInvestment);
+  static bool _tourInvestment = true;
 
   static bool _hasRequestedPushNotificationPermission = false;
   static String? _pendingNotificationRoute;
@@ -29,7 +36,8 @@ class Preferences {
   }
 
   static String? get pendingNotificationRoute {
-    return _prefs.getString('pendingNotificationRoute') ?? _pendingNotificationRoute;
+    return _prefs.getString('pendingNotificationRoute') ??
+        _pendingNotificationRoute;
   }
 
   static set pendingNotificationRoute(String? route) {
@@ -50,11 +58,13 @@ class Preferences {
   }
 
   static bool get showedPushNotificationReminder {
-    return _prefs.getBool('showedPushNotificationReminder') ?? _showedPushNotificationReminder;
+    return _prefs.getBool('showedPushNotificationReminder') ??
+        _showedPushNotificationReminder;
   }
 
   static bool get hasRequestedPushNotificationPermission {
-    return _prefs.getBool('hasRequestedPushNotificationPermission') ?? _hasRequestedPushNotificationPermission;
+    return _prefs.getBool('hasRequestedPushNotificationPermission') ??
+        _hasRequestedPushNotificationPermission;
   }
 
   static set isDarkMode(bool value) {
@@ -123,5 +133,21 @@ class Preferences {
   // static set authToken(String token) {
   //   _authToken = token;
   //   _prefs.setString('authToken', token);
-  // }
+  static bool get tourHome => _prefs.getBool('tourHome') ?? _tourHome;
+
+  static set tourHome(bool value) {
+    _tourHome = value;
+    _prefs.setBool('tourHome', value);
+    tourHomeNotifier.value = value;
+  }
+
+  static bool get tourInvestment {
+    return _prefs.getBool('tourHome') ?? _tourInvestment;
+  }
+
+  static set tourInvestment(bool value) {
+    _tourInvestment = value;
+    _prefs.setBool('tourInvestment', value);
+    tourInvestmentNotifier.value = value;
+  }
 }

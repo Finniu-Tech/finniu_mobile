@@ -102,7 +102,7 @@ class CustomReturnButton extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home_v2', (route) => false);
+            .pushNamedAndRemoveUntil('/v4/home', (route) => false);
       },
       child: Container(
         margin: const EdgeInsets.all(10),

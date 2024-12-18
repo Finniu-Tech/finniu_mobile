@@ -134,7 +134,7 @@ class MessageCompletingData extends ConsumerWidget {
     void continueLater() {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        '/home_v2',
+        '/v4/home',
         (Route<dynamic> route) => false,
       );
     }

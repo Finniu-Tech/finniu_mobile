@@ -223,7 +223,7 @@ class ColumnPush extends HookConsumerWidget {
       ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
       ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
       // Navigator.pushNamedAndRemoveUntil(
-      //           context, '/home_v2', (route) => false);
+      //           context, '/v4/home', (route) => false);
     }
 
     return Column(
