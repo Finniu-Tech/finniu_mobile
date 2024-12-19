@@ -119,7 +119,6 @@ class ContainerLastOperationsState
               onTap: () {
                 setState(() {
                   _currentIndex = entry.key;
-                  //controller move
                 });
               },
               child: Container(
@@ -138,6 +137,7 @@ class ContainerLastOperationsState
             );
           }).toList(),
         ),
+        const SizedBox(height: 10),
       ],
     );
   }

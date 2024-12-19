@@ -74,7 +74,7 @@ class LogoLoader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     const int colorDark = 0xffA2E6FA;
     const int colorLight = 0xff0D3A5C;
     return SizedBox(

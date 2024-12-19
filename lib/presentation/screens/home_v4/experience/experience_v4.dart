@@ -1,5 +1,6 @@
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_feedback.dart';
@@ -98,6 +99,7 @@ class ExperienceBody extends HookConsumerWidget {
           },
         );
       }
+      ref.read(navigatorStateProvider.notifier).state = 0;
       Navigator.pushNamedAndRemoveUntil(context, '/v4/home', (route) => false);
       context.loaderOverlay.hide();
     }
