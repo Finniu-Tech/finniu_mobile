@@ -47,17 +47,16 @@ class IconFund extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    width: 25,
+                    width: 60,
                   ),
-                  Text(
-                    title,
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      color: isDarkMode
-                          ? const Color(textDark)
-                          : const Color(textLight),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child: TextPoppins(
+                      text: title,
                       fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
+                      textDark: textDark,
+                      textLight: textLight,
                     ),
                   ),
                 ],
