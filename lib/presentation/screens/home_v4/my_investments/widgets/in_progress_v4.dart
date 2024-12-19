@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
+
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
@@ -71,7 +72,8 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
 
     void navigateToReinvest() async {
       context.loaderOverlay.show();
-      final dtoReinvest = await ref.read(getInvestFutureProvider(item.uuid).future);
+      final dtoReinvest =
+          await ref.read(getInvestFutureProvider(item.uuid).future);
 
       context.loaderOverlay.hide();
 
@@ -94,7 +96,10 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
         vertical: 10,
       ),
       width: MediaQuery.of(context).size.width * 0.9,
-      height: item.isReinvestAvailable == true ? 140 : 100,
+      height: item.isReinvestAvailable == true &&
+              item.actionStatus == ActionStatusEnumV4.reInvestmentActivated
+          ? 140
+          : 100,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
@@ -121,8 +126,9 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               Icon(
                 Icons.calendar_today_outlined,
                 size: 16,
-                color:
-                    isDarkMode ? const Color(ToValidateColorsV4.iconDark) : const Color(ToValidateColorsV4.iconLight),
+                color: isDarkMode
+                    ? const Color(ToValidateColorsV4.iconDark)
+                    : const Color(ToValidateColorsV4.iconLight),
               ),
               const SizedBox(
                 width: 5,
@@ -181,8 +187,9 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                         endNumber: item.amount,
                         duration: 2,
                         fontSize: 16,
-                        colorText:
-                            isDarkMode ? ToValidateColorsV4.itemAmonutTextDark : ToValidateColorsV4.itemAmountTextLight,
+                        colorText: isDarkMode
+                            ? ToValidateColorsV4.itemAmonutTextDark
+                            : ToValidateColorsV4.itemAmountTextLight,
                         beginNumber: 0,
                       ),
                     ],
@@ -213,8 +220,10 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                             width: 14,
                             height: 14,
                             color: isDarkMode
-                                ? const Color(ToValidateColorsV4.itemRentTextDark)
-                                : const Color(ToValidateColorsV4.itemRentTextLight),
+                                ? const Color(
+                                    ToValidateColorsV4.itemRentTextDark)
+                                : const Color(
+                                    ToValidateColorsV4.itemRentTextLight),
                           ),
                           const SizedBox(
                             width: 5,
@@ -228,7 +237,9 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                         ],
                       ),
                       TextPoppins(
-                        text: item.rentability != null ? item.rentability!.toStringAsFixed(2) : "0.00",
+                        text: item.rentability != null
+                            ? item.rentability!.toStringAsFixed(2)
+                            : "0.00",
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         textDark: ToValidateColorsV4.itemRentTextDark,
@@ -270,7 +281,8 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               ),
             ],
           ),
-          if (item.isReinvestAvailable == true)
+          if (item.isReinvestAvailable == true &&
+              item.actionStatus == ActionStatusEnum.activeReInvestment)
             GestureDetector(
               onTap: navigateToReinvest,
               child: Container(

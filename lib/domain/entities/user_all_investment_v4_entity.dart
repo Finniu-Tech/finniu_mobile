@@ -1,5 +1,27 @@
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 
+enum ActionStatusEnumV4 {
+  reInvestmentActivated,
+  reInvestmentDisabled,
+  reInvestmentPending,
+  reInvestmentDefault,
+}
+
+ActionStatusEnumV4 mapStringToEnum(String status) {
+  switch (status) {
+    case "RE_INVERSION_ACTIVATED":
+      return ActionStatusEnumV4.reInvestmentActivated;
+    case "RE_INVESTMENT_DISACTIVATED":
+      return ActionStatusEnumV4.reInvestmentDisabled;
+    case "RE_INVERSION_PENDIENTE":
+      return ActionStatusEnumV4.reInvestmentPending;
+    case "RE_INVESTMENT_DEFAULT":
+      return ActionStatusEnumV4.reInvestmentDefault;
+    default:
+      return ActionStatusEnumV4.reInvestmentDefault;
+  }
+}
+
 class InvestmentV4 {
   final String uuid;
   final int amount;
@@ -7,10 +29,11 @@ class InvestmentV4 {
   final String finishDateInvestment;
   final bool? isReinvestAvailable;
   final bool? isReinvestment;
-  final String? actionStatus;
+
   final String? boucherImage;
   final String? fundName;
   final String? fundUuid;
+  final ActionStatusEnumV4? actionStatus;
   final bool isCapital;
   final List<ProfitabilityItem> paymentRentability;
 
@@ -41,7 +64,7 @@ class InvestmentV4 {
       finishDateInvestment: _formatDate(json['finishDateInvestment']),
       isReinvestAvailable: json['reinvestmentAvailable'] ?? false,
       isReinvestment: json['isReInvestment'] ?? false,
-      actionStatus: json['actionStatus'] ?? '',
+      actionStatus: mapStringToEnum(json['actionStatus'] ?? ''),
       rentability: json['rentabilityAmmount'] != null
           ? _parseAmount(json['rentabilityAmmount'])
           : json['rentabilityPercent'] != null
