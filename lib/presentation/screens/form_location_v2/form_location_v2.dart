@@ -26,14 +26,13 @@ class FormLocationDataV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        floatingActionButton: Container(
+      child: const ScaffoldUserProfile(
+        floatingActionButton: SizedBox(
           width: 0,
-          height: 90,
-          color: Colors.transparent,
+          height: 110,
         ),
-        appBar: const AppBarLogo(),
-        children: const [
+        appBar: AppBarLogo(),
+        children: [
           SizedBox(
             height: 10,
           ),
@@ -125,7 +124,6 @@ class LocationFormState extends ConsumerState<LocationForm> {
         "continue_later": "true",
       },
     );
-
   }
 
   List<GeoLocationItemV2> districts = [
