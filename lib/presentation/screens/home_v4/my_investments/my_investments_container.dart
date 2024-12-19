@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/home_v4_entity.dart';
 import 'package:finniu/presentation/providers/eye_home_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -25,11 +26,15 @@ class MyInvestmentsContainer extends ConsumerWidget {
     final isSoles = ref.watch(isSolesStateProvider);
     final eyeOpen = ref.watch(eyeHomeProvider);
 
-    final AllInvestment investSelect = isSoles ? data.investmentInSoles! : data.investmentInDolares!;
-    final capitalInCourse = investSelect.capitalInCourse == null ? "0.00" : investSelect.capitalInCourse.toString();
-    final totalBalanceRentabilityIncreased = investSelect.totalBalanceRentabilityIncreased == null
+    final AllInvestment investSelect =
+        isSoles ? data.investmentInSoles! : data.investmentInDolares!;
+    final capitalInCourse = investSelect.capitalInCourse == null
         ? "0.00"
-        : investSelect.totalBalanceRentabilityIncreased.toString();
+        : investSelect.capitalInCourse.toString();
+    final totalBalanceRentabilityIncreased =
+        investSelect.totalBalanceRentabilityIncreased == null
+            ? "0.00"
+            : investSelect.totalBalanceRentabilityIncreased.toString();
     const String? totalBalanceRentabilityActually = null;
     void onTapInvestActive() {
       // showModalActiveInvest(context);
@@ -42,7 +47,9 @@ class MyInvestmentsContainer extends ConsumerWidget {
       ),
       height: 230,
       decoration: BoxDecoration(
-        color: isDarkMode ? const Color(MyInvestV4Colors.containerDark) : const Color(MyInvestV4Colors.containerLight),
+        color: isDarkMode
+            ? const Color(MyInvestV4Colors.containerDark)
+            : const Color(MyInvestV4Colors.containerLight),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(25),
@@ -61,7 +68,8 @@ class MyInvestmentsContainer extends ConsumerWidget {
                       color: isDarkMode
                           ? const Color(MyInvestV4Colors.totalInvestDark)
                           : const Color(MyInvestV4Colors.totalInvestLight),
-                      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +82,8 @@ class MyInvestmentsContainer extends ConsumerWidget {
                           textLight: MyInvestV4Colors.totalInvestTextLight,
                         ),
                         TextPoppins(
-                          text: "+${isSoles ? "S/" : "\$"}${eyeOpen ? capitalInCourse : "****"}",
+                          text:
+                              "+${eyeOpen ? formatNumberNotComa(number: capitalInCourse, isSoles: isSoles) : "****"}",
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           textDark: MyInvestV4Colors.totalInvestTextDark,
@@ -96,71 +105,87 @@ class MyInvestmentsContainer extends ConsumerWidget {
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: isDarkMode
-                                ? const Color(HomeV4Colors.interestContainerDark)
-                                : const Color(HomeV4Colors.interestContainerLight),
+                                ? const Color(
+                                    HomeV4Colors.interestContainerDark)
+                                : const Color(
+                                    HomeV4Colors.interestContainerLight),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const TextPoppins(
-                                    text: "Rentabilidad",
-                                    fontSize: 11,
-                                    textDark: HomeV4Colors.interestGeneratedTextDark,
-                                    textLight: HomeV4Colors.interestGeneratedTextLight,
-                                  ),
-                                  const Spacer(),
-                                  totalBalanceRentabilityActually == null
-                                      ? const SizedBox()
-                                      : Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 6,
-                                            vertical: 2,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20),
-                                            color: isDarkMode
-                                                ? const Color(
-                                                    HomeV4Colors.interestGeneratedContDark,
-                                                  )
-                                                : const Color(
-                                                    HomeV4Colors.interestGeneratedContLight,
-                                                  ),
-                                          ),
-                                          child: TextPoppins(
-                                            text: totalBalanceRentabilityActually,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w500,
-                                            textDark: HomeV4Colors.interestGeneratedDark,
-                                            textLight: HomeV4Colors.interestGeneratedLight,
-                                          ),
-                                        ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Skeletonizer(
-                                enabled: isLoaded,
-                                child: Row(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    TextPoppins(
-                                      text:
-                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityIncreased : "****"}",
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      textDark: HomeV4Colors.interestGeneratedTextDark,
-                                      textLight: HomeV4Colors.interestGeneratedTextLight,
+                                    const TextPoppins(
+                                      text: "Rentabilidad",
+                                      fontSize: 11,
+                                      textDark: HomeV4Colors
+                                          .interestGeneratedTextDark,
+                                      textLight: HomeV4Colors
+                                          .interestGeneratedTextLight,
                                     ),
+                                    const Spacer(),
+                                    totalBalanceRentabilityActually == null
+                                        ? const SizedBox()
+                                        : Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 6,
+                                              vertical: 2,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: isDarkMode
+                                                  ? const Color(
+                                                      HomeV4Colors
+                                                          .interestGeneratedContDark,
+                                                    )
+                                                  : const Color(
+                                                      HomeV4Colors
+                                                          .interestGeneratedContLight,
+                                                    ),
+                                            ),
+                                            child: TextPoppins(
+                                              text:
+                                                  totalBalanceRentabilityActually,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w500,
+                                              textDark: HomeV4Colors
+                                                  .interestGeneratedDark,
+                                              textLight: HomeV4Colors
+                                                  .interestGeneratedLight,
+                                            ),
+                                          ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 5),
+                                Skeletonizer(
+                                  enabled: isLoaded,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      TextPoppins(
+                                        text:
+                                            "+${eyeOpen ? formatNumberNotComa(number: totalBalanceRentabilityIncreased, isSoles: isSoles) : "****"}",
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        textDark: HomeV4Colors
+                                            .interestGeneratedTextDark,
+                                        textLight: HomeV4Colors
+                                            .interestGeneratedTextLight,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -172,12 +197,15 @@ class MyInvestmentsContainer extends ConsumerWidget {
                           onTap: onTapInvestActive,
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.45,
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
                               color: isDarkMode
-                                  ? const Color(MyInvestV4Colors.investActiveDark)
-                                  : const Color(MyInvestV4Colors.investActiveLight),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                  ? const Color(
+                                      MyInvestV4Colors.investActiveDark)
+                                  : const Color(
+                                      MyInvestV4Colors.investActiveLight),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10.0)),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -187,24 +215,31 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   text: "Inversiones activas",
                                   fontSize: 11,
                                   fontWeight: FontWeight.w400,
-                                  textDark: MyInvestV4Colors.investActiveTextDark,
-                                  textLight: MyInvestV4Colors.investActiveTextLight,
+                                  textDark:
+                                      MyInvestV4Colors.investActiveTextDark,
+                                  textLight:
+                                      MyInvestV4Colors.investActiveTextLight,
                                 ),
                                 Row(
                                   children: [
                                     TextPoppins(
-                                      text: investSelect.countPlanesActive.toString(),
+                                      text: investSelect.countPlanesActive
+                                          .toString(),
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
-                                      textDark: MyInvestV4Colors.investActiveTextDark,
-                                      textLight: MyInvestV4Colors.investActiveTextLight,
+                                      textDark:
+                                          MyInvestV4Colors.investActiveTextDark,
+                                      textLight: MyInvestV4Colors
+                                          .investActiveTextLight,
                                     ),
                                     const TextPoppins(
                                       text: " inversiones",
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
-                                      textDark: MyInvestV4Colors.investActiveTextDark,
-                                      textLight: MyInvestV4Colors.investActiveTextLight,
+                                      textDark:
+                                          MyInvestV4Colors.investActiveTextDark,
+                                      textLight: MyInvestV4Colors
+                                          .investActiveTextLight,
                                     ),
                                     const Spacer(),
                                     // Icon(
@@ -295,8 +330,12 @@ class RowGoCalendar extends ConsumerWidget {
           ),
           IconButton(
             icon: Icon(
-              !eyeOpen ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-              color: isDarkMode ? const Color(HomeV4Colors.iconEyeDark) : const Color(HomeV4Colors.iconEyeLight),
+              !eyeOpen
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+              color: isDarkMode
+                  ? const Color(HomeV4Colors.iconEyeDark)
+                  : const Color(HomeV4Colors.iconEyeLight),
               size: 20,
             ),
             onPressed: () {

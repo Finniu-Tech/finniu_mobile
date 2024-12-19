@@ -44,11 +44,10 @@ class HomeBodyV4 extends StatelessWidget {
               height: 20,
             ),
             GetFundToSlider(),
-            SizedBox(
-              height: 20,
-            ),
+
             ProfileCompletenessSection(),
             // ChangeContainer(),
+
             DividerHome(),
             NewsContainer(),
             SizedBox(height: 80),

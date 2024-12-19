@@ -25,13 +25,13 @@ class CalendarScreenV4 extends StatelessWidget {
   }
 }
 
-class CalendarColumn extends ConsumerWidget {
+class CalendarColumn extends StatelessWidget {
   const CalendarColumn({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,

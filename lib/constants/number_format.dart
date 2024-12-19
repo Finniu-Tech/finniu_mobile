@@ -9,6 +9,18 @@ final formatterSolesNotComma =
 final formatterUSDNotComma =
     NumberFormat.currency(locale: 'en_US', symbol: '\$', decimalDigits: 0);
 
+String formatNumberNotComa({
+  required String number,
+  required bool isSoles,
+}) {
+  try {
+    final formatter = isSoles ? formatterSolesNotComma : formatterUSDNotComma;
+    return formatter.format(double.parse(number));
+  } catch (e) {
+    return number;
+  }
+}
+
 String formatDate(String date) {
   try {
     DateTime parsedDate = DateTime.parse(date);

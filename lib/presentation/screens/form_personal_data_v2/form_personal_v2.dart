@@ -30,21 +30,20 @@ class FormPersonalDataV2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        floatingActionButton: Container(
+      child: const ScaffoldUserProfile(
+        floatingActionButton: SizedBox(
           width: 0,
           height: 90,
-          color: Colors.transparent,
         ),
-        appBar: const AppBarLogo(),
+        appBar: AppBarLogo(),
         children: [
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
-          const ProgressForm(
+          ProgressForm(
             progress: 0.2,
           ),
-          const TitleForm(
+          TitleForm(
             title: "Datos personales",
             subTitle: "¿Cuáles son tus datos personales?",
             icon: "assets/svg_icons/user_icon_v2.svg",
@@ -57,10 +56,10 @@ class FormPersonalDataV2 extends StatelessWidget {
 }
 
 class PersonalForm extends HookConsumerWidget {
-  PersonalForm({
+  const PersonalForm({
     super.key,
   });
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

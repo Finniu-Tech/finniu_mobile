@@ -1,3 +1,4 @@
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
@@ -171,7 +172,8 @@ class ReInvestContainer extends StatelessWidget {
     final String amountAdd =
         dataReinvest.reinvestmentAditionalAmount?.toStringAsFixed(2) ?? '0.00';
     void onPressedContrat() {
-      print(dataReinvest.contractUrl);
+      Navigator.pushNamed(context, '/v4/push_to_url',
+          arguments: dataReinvest.contractUrl);
     }
 
     void onPressedHelp() {
@@ -203,42 +205,44 @@ class ReInvestContainer extends StatelessWidget {
                 textDark: contratColor,
                 textLight: contratColor,
               ),
-              GestureDetector(
-                onTap: onPressedContrat,
-                child: Container(
-                  width: 95,
-                  height: 22,
-                  decoration: BoxDecoration(
-                    color: const Color(contratColor),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      TextPoppins(
-                        text: "Contrato",
-                        fontSize: 10,
-                        textDark: contratTextColor,
-                        textLight: contratTextColor,
+              dataReinvest.contractUrl != null && dataReinvest.contractUrl != ''
+                  ? GestureDetector(
+                      onTap: onPressedContrat,
+                      child: Container(
+                        width: 95,
+                        height: 22,
+                        decoration: BoxDecoration(
+                          color: const Color(contratColor),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TextPoppins(
+                              text: "Contrato",
+                              fontSize: 10,
+                              textDark: contratTextColor,
+                              textLight: contratTextColor,
+                            ),
+                            SizedBox(width: 5),
+                            Icon(
+                              Icons.file_download_outlined,
+                              color: Color(contratTextColor),
+                              size: 14,
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: 5),
-                      Icon(
-                        Icons.file_download_outlined,
-                        color: Color(contratTextColor),
-                        size: 14,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                    )
+                  : const SizedBox(),
             ],
           ),
           Row(
             children: [
               SvgPicture.asset(
                 "assets/svg_icons/dolar_money_icon.svg",
-                color: Color(contratColor),
+                color: const Color(contratColor),
                 width: 20,
                 height: 20,
               ),
@@ -259,7 +263,8 @@ class ReInvestContainer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextPoppins(
-                  text: "+ ${isSoles ? "S/" : "\$"}.$amountAdd",
+                  text:
+                      "+ ${formatNumberNotComa(number: amountAdd, isSoles: isSoles)}",
                   fontSize: 10,
                   textDark: contratColor,
                   textLight: contratColor,
@@ -269,30 +274,30 @@ class ReInvestContainer extends StatelessWidget {
           ),
           GestureDetector(
             onTap: onPressedHelp,
-            child: const Row(
+            child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.calendar_today_outlined,
                   size: 20,
                   color: Colors.black,
                 ),
-                SizedBox(width: 5),
-                TextPoppins(
+                const SizedBox(width: 5),
+                const TextPoppins(
                   text: "Inicia",
                   fontSize: 12,
                   textDark: textColor,
                   textLight: textColor,
                   fontWeight: FontWeight.w500,
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 TextPoppins(
-                  text: "02/03/2025+",
+                  text: dataReinvest.startDate ?? '',
                   fontSize: 12,
                   textDark: textColor,
                   textLight: textColor,
                 ),
-                SizedBox(width: 15),
-                Icon(
+                const SizedBox(width: 15),
+                const Icon(
                   Icons.help_outline_outlined,
                   size: 20,
                   color: Colors.black,

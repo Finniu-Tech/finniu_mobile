@@ -4,6 +4,7 @@ import 'package:finniu/presentation/screens/calendar_v2/widgets/tab_payments_wid
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -97,8 +98,9 @@ class ItemCalendar extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 143,
+                width: MediaQuery.of(context).size.width * 0.5,
                 height: 35,
+                padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: isDarkMode
@@ -191,11 +193,11 @@ class ItemCalendar extends ConsumerWidget {
     // Implementa la lógica de colores según el status
     switch (status) {
       case PaymentStatus.past:
-        return isDark ? const Color(0xFF1B1B1B) : const Color(0xFFEDFBFF);
+        return isDark ? const Color(0xFF08273F) : const Color(0xFFEDFBFF);
       case PaymentStatus.recent:
-        return isDark ? const Color(0xFF252525) : const Color(0xFFFFFFFF);
+        return isDark ? const Color(0xFF08273F) : const Color(0xFFFFFFFF);
       case PaymentStatus.upcoming:
-        return isDark ? const Color(0xFF0E0E0E) : const Color(0xFFE9FAFF);
+        return isDark ? const Color(0xFF08273F) : const Color(0xFFE9FAFF);
     }
   }
 
@@ -302,11 +304,10 @@ Widget _buildAmountSection(PaymentData payment, bool isDarkMode) {
             children: [
               Row(
                 children: [
-                  Icon(
-                    payment.isCapitalPayment
-                        ? Icons.payments_outlined
-                        : Icons.show_chart_rounded,
-                    size: 12,
+                  SvgPicture.asset(
+                    "assets/svg_icons/chart_home_icon.svg",
+                    width: 15,
+                    height: 15,
                     color: isDarkMode
                         ? const Color(rentIconDark)
                         : const Color(rentIconLight),
@@ -320,8 +321,8 @@ Widget _buildAmountSection(PaymentData payment, bool isDarkMode) {
               ),
               TextPoppins(
                 text: formattedAmount,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
                 textDark: rentTextDark,
                 textLight: rentTextLight,
               ),

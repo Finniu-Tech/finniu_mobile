@@ -24,21 +24,20 @@ class FormJobDataV2 extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        floatingActionButton: Container(
+      child: const ScaffoldUserProfile(
+        floatingActionButton: SizedBox(
           width: 0,
-          height: 90,
-          color: Colors.transparent,
+          height: 110,
         ),
-        appBar: const AppBarLogo(),
+        appBar: AppBarLogo(),
         children: [
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
-          const ProgressForm(
+          ProgressForm(
             progress: 0.7,
           ),
-          const TitleForm(
+          TitleForm(
             title: "Mi ocupación",
             subTitle: "¿Cuál es tu ocupación o profesión?",
             icon: "assets/svg_icons/bag_icon_v2.svg",
@@ -51,10 +50,10 @@ class FormJobDataV2 extends ConsumerWidget {
 }
 
 class LocationForm extends HookConsumerWidget {
-  LocationForm({
+  const LocationForm({
     super.key,
   });
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
