@@ -1,3 +1,4 @@
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/pay_modal.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,7 @@ class InitEndContainer extends StatelessWidget {
                                 ),
                                 const Spacer(),
                                 TextPoppins(
-                                  text: dateStart,
+                                  text: formatDateDayMonthYear(dateStart),
                                   fontSize: 12,
                                 ),
                               ],
@@ -143,7 +144,7 @@ class InitEndContainer extends StatelessWidget {
                                 ),
                                 const Spacer(),
                                 TextPoppins(
-                                  text: dateEnd,
+                                  text: formatDateDayMonthYear(dateEnd),
                                   fontSize: 12,
                                 ),
                               ],
@@ -190,7 +191,7 @@ class InitEndContainer extends StatelessWidget {
                 ),
                 const Spacer(),
                 TextPoppins(
-                  text: dateRentPay,
+                  text: formatDateDayMonthYear(dateRentPay),
                   fontSize: 9,
                   fontWeight: FontWeight.w600,
                 ),
@@ -220,7 +221,7 @@ class InitEndContainer extends StatelessWidget {
                 ),
                 const Spacer(),
                 TextPoppins(
-                  text: dateCapitalPay,
+                  text: formatDateDayMonthYear(dateCapitalPay),
                   fontSize: 9,
                   fontWeight: FontWeight.w600,
                 ),

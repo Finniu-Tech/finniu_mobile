@@ -33,6 +33,18 @@ String formatDate(String date) {
   }
 }
 
+String formatDateDayMonthYear(String date) {
+  try {
+    DateTime parsedDate = DateTime.parse(date);
+    String formattedDate =
+        "${parsedDate.day.toString().padLeft(2, '0')}/${parsedDate.month.toString().padLeft(2, '0')}/${parsedDate.year}";
+
+    return formattedDate;
+  } catch (e) {
+    return date;
+  }
+}
+
 String getMaskedNumber(String? number) {
   if (number != null && number.length >= 3) {
     String visible = number.substring(number.length - 3);
