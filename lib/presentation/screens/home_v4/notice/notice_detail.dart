@@ -12,7 +12,7 @@ class NoticeDetail extends StatelessWidget {
 
     final String url = args.isNotEmpty ? args : "https://finniu.tawk.help/";
     return Scaffold(
-      appBar: const AppBarProducts(
+      appBar: const AppBarNoticesDetail(
         title: "Noticias",
       ),
       body: SingleChildScrollView(
