@@ -9,10 +9,14 @@ class HomeUserInvest {
 
   factory HomeUserInvest.fromJson(Map<String, dynamic> json) {
     return HomeUserInvest(
-      investmentInSoles:
-          (json['invesmentInSoles'] as List<dynamic>?)?.map((e) => AllInvestment.fromJson(e)).toList().firstOrNull,
-      investmentInDolares:
-          (json['invesmentInDolares'] as List<dynamic>?)?.map((e) => AllInvestment.fromJson(e)).toList().firstOrNull,
+      investmentInSoles: (json['invesmentInSoles'] as List<dynamic>?)
+          ?.map((e) => AllInvestment.fromJson(e))
+          .toList()
+          .firstOrNull,
+      investmentInDolares: (json['invesmentInDolares'] as List<dynamic>?)
+          ?.map((e) => AllInvestment.fromJson(e))
+          .toList()
+          .firstOrNull,
     );
   }
 
@@ -26,9 +30,7 @@ class HomeUserInvest {
 
 class AllInvestment {
   final int? countPlanesActive;
-
   final int? capitalInCourse;
-
   final String? totalBalanceRentabilityIncreased;
   final String? averageProfitability;
   final String? percentageProfitabilityIncreaseMonthly;
@@ -43,11 +45,14 @@ class AllInvestment {
 
   factory AllInvestment.fromJson(Map<String, dynamic> json) {
     return AllInvestment(
-      averageProfitability: json['averageProfitability'] as String?,
+      averageProfitability:
+          _formatToNumberString(json['averageProfitability'] as String?),
       countPlanesActive: json['countPlanesActive'] as int?,
       capitalInCourse: json['capitalInCourse'] as int?,
-      totalBalanceRentabilityIncreased: json['totalBalanceRentabilityIncreased'] as String?,
-      percentageProfitabilityIncreaseMonthly: json['totalPercentPerMonth'] as String?,
+      totalBalanceRentabilityIncreased:
+          json['totalBalanceRentabilityIncreased'] as String?,
+      percentageProfitabilityIncreaseMonthly:
+          json['totalPercentPerMonth'] as String?,
     );
   }
 
@@ -57,6 +62,16 @@ class AllInvestment {
       'capitalInCourse': capitalInCourse,
       'totalBalanceRentabilityIncreased': totalBalanceRentabilityIncreased,
     };
+  }
+
+  static String? _formatToNumberString(String? value) {
+    if (value == null) return null;
+    try {
+      final number = double.parse(value);
+      return number.toStringAsFixed(0);
+    } catch (e) {
+      return value;
+    }
   }
 }
 
