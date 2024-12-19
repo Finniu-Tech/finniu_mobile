@@ -9,16 +9,14 @@ class NoticeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String args = ModalRoute.of(context)?.settings.arguments as String;
-
     final String url = args.isNotEmpty ? args : "https://finniu.tawk.help/";
+
     return Scaffold(
       appBar: const AppBarNoticesDetail(
         title: "Noticias",
       ),
-      body: SingleChildScrollView(
-        child: NoticeDetailBody(
-          url: url,
-        ),
+      body: NoticeDetailBody(
+        url: url,
       ),
     );
   }
