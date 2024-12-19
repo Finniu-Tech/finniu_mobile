@@ -15,7 +15,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class IntroScreen extends ConsumerStatefulWidget {
-  const IntroScreen({Key? key}) : super(key: key);
+  const IntroScreen({super.key});
   @override
   _IntroScreenState createState() => _IntroScreenState();
 }
@@ -32,7 +32,6 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
     super.initState();
     _getCurrentAppVersion();
     _initializeApp();
-    print("IntroScreen: initState called");
   }
 
   @override
@@ -42,7 +41,6 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   }
 
   Future<void> _initializeApp() async {
-    print("IntroScreen: _initializeApp called");
     if (_disposed) return;
     await _getCurrentAppVersion();
     await _waitForGraphQLClient();
@@ -55,9 +53,8 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   }
 
   Future<void> _waitForGraphQLClient() async {
-    print("IntroScreen: Waiting for GraphQL client");
     while (!_disposed && ref.read(gqlClientProvider).value == null) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
     if (!_disposed) {
       print("IntroScreen: GraphQL client is ready");
@@ -66,7 +63,6 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
 
   void _showUpdateModal(BuildContext context, bool isForceUpgrade) {
     if (_disposed) return;
-    print("IntroScreen: Showing update modal, forceUpgrade: $isForceUpgrade");
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -77,9 +73,7 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   }
 
   Future<void> _initializeAppVersion(BuildContext context) async {
-    print("IntroScreen: _initializeAppVersion called");
     if (_initialized || _disposed) {
-      print("IntroScreen: Already initialized or disposed, returning");
       return;
     }
     _initialized = true;
@@ -87,23 +81,19 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
     try {
       final client = ref.read(gqlClientProvider).value;
       if (client == null) {
-        print("IntroScreen: GraphQL client is null");
         _proceedToNextScreen();
         return;
       }
 
       bool isConnected = await InternetConnectionChecker().hasConnection;
       if (!isConnected) {
-        print("IntroScreen: No internet connection");
         if (!_disposed) showNetworkWarning(context: context);
         return;
       }
-
-      appVersion = await AppVersionDataSourceImp().getLastVersion(client: client);
-      print("IntroScreen: App version from API: ${appVersion.currentVersion}");
+      appVersion =
+          await AppVersionDataSourceImp().getLastVersion(client: client);
       appVersion.currentVersion = appCurrentVersion;
       String statusVersion = appVersion.getStatusVersion();
-      print("IntroScreen: Status version: $statusVersion");
 
       if (_disposed) return;
 
@@ -112,7 +102,6 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
       } else if (statusVersion == StatusVersion.forceUpgrade) {
         _showUpdateModal(context, true);
       } else {
-        print("IntroScreen: No update needed, proceeding to next screen");
         _proceedToNextScreen();
       }
     } catch (e) {
@@ -122,9 +111,7 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   }
 
   void _proceedToNextScreen() {
-    print("IntroScreen: _proceedToNextScreen called");
     if (_disposed) {
-      print("IntroScreen: Widget is disposed, not proceeding");
       return;
     }
 
@@ -144,8 +131,8 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
       }
 
       if (savedRoute != null) {
-        print("IntroScreen: Processing saved deep link: $savedRoute");
-        deepLinkHandler?.handleDeepLink(Uri.parse('finniuappstaging://finniu.com$savedRoute'));
+        deepLinkHandler?.handleDeepLink(
+            Uri.parse('finniuappstaging://finniu.com$savedRoute'));
       } else {
         _navigateToOnBoarding();
       }
@@ -153,11 +140,10 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   }
 
   void _navigateToOnBoarding() {
-    print("IntroScreen: Navigating to OnBoardingScreen");
     if (!mounted) return;
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (BuildContext context) => OnBoardingScreen(),
+        builder: (BuildContext context) => const OnBoardingScreen(),
       ),
     );
   }
@@ -169,12 +155,10 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
     setState(() {
       appCurrentVersion = packageInfo.version;
     });
-    print("IntroScreen: Current app version: $appCurrentVersion");
   }
 
   @override
   Widget build(BuildContext context) {
-    print("IntroScreen: build method called");
     final themeProvider = ref.watch(settingsNotifierProvider);
 
     return Scaffold(

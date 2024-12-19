@@ -4,16 +4,13 @@ import 'package:local_auth/local_auth.dart';
 class BiometricTestPage extends StatelessWidget {
   final LocalAuthentication localAuth = LocalAuthentication();
 
+  BiometricTestPage({super.key});
+
   Future<void> _authenticate(BuildContext context) async {
     bool canCheckBiometrics = await localAuth.canCheckBiometrics;
     bool isDeviceSupported = await localAuth.isDeviceSupported();
-    print('canCheckBiometrics: $canCheckBiometrics');
-    print('isDeviceSupported: $isDeviceSupported');
-
-    final List<BiometricType> availableBiometrics = await localAuth.getAvailableBiometrics();
-
-    print('availableBiometrics: $availableBiometrics');
-
+    final List<BiometricType> availableBiometrics =
+        await localAuth.getAvailableBiometrics();
     if (canCheckBiometrics) {
       try {
         bool didAuthenticate = await localAuth.authenticate(
@@ -24,19 +21,16 @@ class BiometricTestPage extends StatelessWidget {
           ),
         );
 
-        print('didAuthenticate: $didAuthenticate');
-
         if (didAuthenticate) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Autenticación exitosa')),
+            const SnackBar(content: Text('Autenticación exitosa')),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Autenticación fallida')),
+            const SnackBar(content: Text('Autenticación fallida')),
           );
         }
       } catch (e) {
-        print('Error en autenticación biométrica: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
         );
@@ -44,11 +38,12 @@ class BiometricTestPage extends StatelessWidget {
     } else {
       if (!isDeviceSupported) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Dispositivo no soportado')),
+          const SnackBar(content: Text('Dispositivo no soportado')),
         );
       } else {
         bool didAuthenticate = await localAuth.authenticate(
-          localizedReason: 'Por favor, autentícate con tu password para acceder',
+          localizedReason:
+              'Por favor, autentícate con tu password para acceder',
           options: const AuthenticationOptions(
             useErrorDialogs: true,
             stickyAuth: true,
@@ -64,11 +59,11 @@ class BiometricTestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Prueba Biométrica')),
+      appBar: AppBar(title: const Text('Prueba Biométrica')),
       body: Center(
         child: ElevatedButton(
           onPressed: () => _authenticate(context),
-          child: Text('Autenticar con Biometría'),
+          child: const Text('Autenticar con Biometría'),
         ),
       ),
     );

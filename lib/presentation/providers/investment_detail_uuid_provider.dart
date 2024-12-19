@@ -8,20 +8,16 @@ final userInvestmentByUuidFutureProvider = FutureProvider.family
     .autoDispose<InvestmentDetailUuid?, String>((ref, uuid) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
-    print(uuid);
     final result = await client!.query(
       QueryOptions(
         document: gql(QueryRepository.investmentDetailByUuid),
         variables: {'preInvestmentUuid': uuid},
       ),
     );
-
     final data = result.data;
-
     if (data == null) {
       return null;
     }
-
     final investmentDetail =
         InvestmentDetailUuid.fromJson(data['investmentDetail']);
     return investmentDetail;

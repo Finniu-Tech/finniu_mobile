@@ -40,7 +40,6 @@ class StatusInvestmentEnum {
   }
 
   static LabelDetail getColorForStatus(String status) {
-    print(status);
     switch (status) {
       case 'En curso':
         return LabelDetail(
