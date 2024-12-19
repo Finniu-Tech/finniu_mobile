@@ -1,6 +1,7 @@
 import 'package:finniu/constants/contact_whats_app.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/presentation/providers/get_fund_investment.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
@@ -231,9 +232,12 @@ class _BodyScaffold extends ConsumerWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 15),
+                            const SizedBox(height: 10),
                             if (arguments.status !=
-                                StatusInvestmentEnum.in_process) ...[
+                                    StatusInvestmentEnum.in_process &&
+                                data.actionStatus ==
+                                    ActionStatusEnumV4
+                                        .reInvestmentActivated) ...[
                               ButtonInvestment(
                                 text: 'Quiero reinvertir',
                                 onPressed: navigatoToReinvest,
@@ -241,7 +245,7 @@ class _BodyScaffold extends ConsumerWidget {
                             ],
                             if (arguments.status !=
                                 StatusInvestmentEnum.in_process) ...[
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 10),
                               if (data.profitabilityListMonth.isNotEmpty) ...[
                                 ButtonSvgIconInvestmentSecond(
                                   text: "Ver tabla de los pagos de intereses",
@@ -252,7 +256,7 @@ class _BodyScaffold extends ConsumerWidget {
                                   ),
                                   icon: 'assets/svg_icons/square_half.svg',
                                 ),
-                                const SizedBox(height: 15),
+                                const SizedBox(height: 10),
                               ],
                             ],
                           ],

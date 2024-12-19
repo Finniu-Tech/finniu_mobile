@@ -1,4 +1,5 @@
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 
 class InvestmentDetailUuid {
@@ -7,6 +8,7 @@ class InvestmentDetailUuid {
   final int month;
   final int rentabilityAmount;
   final int rentabilityPercent;
+  final ActionStatusEnumV4? actionStatus;
   final String startDateInvestment;
   final String finishDateInvestment;
   final String paymentCapitalDateInvestment;
@@ -32,6 +34,7 @@ class InvestmentDetailUuid {
     required this.profitabilityListMonth,
     required this.reinvestmentInfo,
     required this.paymentCapitalDateInvestment,
+    this.actionStatus,
     this.contract,
     this.voucher,
     this.bankAccountReceiver,
@@ -43,6 +46,7 @@ class InvestmentDetailUuid {
   factory InvestmentDetailUuid.fromJson(Map<String, dynamic> json) {
     return InvestmentDetailUuid(
       paymentCapitalDateInvestment: json['paymentCapitalDateInvestment'],
+      actionStatus: mapStringToEnum(json['actionStatus'] ?? ''),
       startDateInvestment: json['startDateInvestment'],
       operationCode: json['operationCode'] ?? '',
       uuid: json['uuid'],
