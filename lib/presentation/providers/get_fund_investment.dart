@@ -4,8 +4,7 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final getInvestFutureProvider =
-    FutureProvider.family.autoDispose<ReInvestDto?, String>((ref, uuid) async {
+final getInvestFutureProvider = FutureProvider.family.autoDispose<ReInvestDto?, String>((ref, uuid) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
     final result = await client!.query(

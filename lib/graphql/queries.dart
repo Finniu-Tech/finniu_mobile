@@ -1469,6 +1469,26 @@ class QueryRepository {
             uuid
             name
             icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
           }
         }
       }

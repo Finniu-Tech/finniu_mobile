@@ -51,9 +51,9 @@ class TourContainerV4 extends StatelessWidget {
       PageFourTour(
         nextPage: nextPage,
       ),
-      PageFiveTour(
-        nextPage: nextPage,
-      ),
+      // PageFiveTour(
+      //   nextPage: nextPage,
+      // ),
       PageSixTour(
         nextPage: nextPage,
       ),

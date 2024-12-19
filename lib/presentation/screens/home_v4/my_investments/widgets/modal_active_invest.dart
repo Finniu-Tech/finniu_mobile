@@ -52,9 +52,7 @@ class ActiveModalBody extends ConsumerWidget {
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
-        color: isDarkMode
-            ? const Color(ActiveModal.backgroundDark)
-            : const Color(ActiveModal.backgroundLight),
+        color: isDarkMode ? const Color(ActiveModal.backgroundDark) : const Color(ActiveModal.backgroundLight),
       ),
       child: Column(
         children: [
@@ -69,9 +67,7 @@ class ActiveModalBody extends ConsumerWidget {
                   child: Icon(
                     Icons.add_circle_outline,
                     size: 24,
-                    color: isDarkMode
-                        ? const Color(ActiveModal.iconDark)
-                        : const Color(ActiveModal.iconLight),
+                    color: isDarkMode ? const Color(ActiveModal.iconDark) : const Color(ActiveModal.iconLight),
                   ),
                 ),
               ),
@@ -249,9 +245,7 @@ class GrafixInvestUser extends HookConsumerWidget {
         alignment: Alignment.center,
         children: [
           SlideCarouselCard(
-            color: isDarkMode
-                ? ActiveModal.backgroundDark
-                : ActiveModal.backgroundLight,
+            color: isDarkMode ? ActiveModal.backgroundDark : ActiveModal.backgroundLight,
             body: SfCircularChart(
               series: <CircularSeries>[
                 DoughnutSeries<ChartData, String>(

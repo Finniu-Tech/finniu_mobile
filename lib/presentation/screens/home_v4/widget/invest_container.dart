@@ -19,13 +19,11 @@ class InvestContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<HomeUserInvest> investHome =
-        ref.watch(homeV4InvestProvider);
+    final AsyncValue<HomeUserInvest> investHome = ref.watch(homeV4InvestProvider);
 
     return investHome.when(
       data: (data) {
-        if (data.investmentInDolares == null &&
-            data.investmentInSoles == null) {
+        if (data.investmentInDolares == null && data.investmentInSoles == null) {
           return InvestBody(
             isLoaded: false,
             data: homeUserErrorInvest,
@@ -62,8 +60,7 @@ class InvestBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
-    final AllInvestment investSelect =
-        isSoles ? data.investmentInSoles! : data.investmentInDolares!;
+    final AllInvestment investSelect = isSoles ? data.investmentInSoles! : data.investmentInDolares!;
     return Container(
       padding: const EdgeInsets.only(
         left: 20,
@@ -71,9 +68,8 @@ class InvestBody extends ConsumerWidget {
       ),
       height: 360,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(HomeV4Colors.investContainerDark)
-            : const Color(HomeV4Colors.investContainerLight),
+        color:
+            isDarkMode ? const Color(HomeV4Colors.investContainerDark) : const Color(HomeV4Colors.investContainerLight),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(25),
@@ -92,12 +88,9 @@ class InvestBody extends ConsumerWidget {
                 Expanded(
                   child: ActiveInvestmentContainer(
                     isLoaded: isLoaded,
-                    countPlanesActive:
-                        investSelect.countPlanesActive.toString(),
+                    countPlanesActive: investSelect.countPlanesActive.toString(),
                     totalBalanceRentability:
-                        investSelect.averageProfitability == null
-                            ? "0"
-                            : investSelect.averageProfitability.toString(),
+                        investSelect.averageProfitability == null ? "0" : investSelect.averageProfitability.toString(),
                   ),
                 ),
                 const SizedBox(
@@ -109,9 +102,8 @@ class InvestBody extends ConsumerWidget {
                       Expanded(
                         child: InvestCapital(
                           isLoaded: isLoaded,
-                          capitalInCourse: investSelect.capitalInCourse == null
-                              ? "0.00"
-                              : investSelect.capitalInCourse.toString(),
+                          capitalInCourse:
+                              investSelect.capitalInCourse == null ? "0.00" : investSelect.capitalInCourse.toString(),
                         ),
                       ),
                       const SizedBox(
@@ -120,13 +112,10 @@ class InvestBody extends ConsumerWidget {
                       Expanded(
                         child: Interest(
                           isLoaded: isLoaded,
-                          totalBalanceRentabilityIncreased: investSelect
-                                      .totalBalanceRentabilityIncreased ==
-                                  null
+                          totalBalanceRentabilityIncreased: investSelect.totalBalanceRentabilityIncreased == null
                               ? "0.00"
-                              : investSelect.totalBalanceRentabilityIncreased
-                                  .toString(),
-                          totalBalanceRentabilityActually: null,
+                              : investSelect.totalBalanceRentabilityIncreased.toString(),
+                          totalBalanceRentabilityActually: investSelect.percentageProfitabilityIncreaseMonthly,
                         ),
                       ),
                     ],
@@ -183,12 +172,8 @@ class RowSwitchAndEye extends ConsumerWidget {
           ),
           IconButton(
             icon: Icon(
-              !eyeOpen
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              color: isDarkMode
-                  ? const Color(HomeV4Colors.iconEyeDark)
-                  : const Color(HomeV4Colors.iconEyeLight),
+              !eyeOpen ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+              color: isDarkMode ? const Color(HomeV4Colors.iconEyeDark) : const Color(HomeV4Colors.iconEyeLight),
               size: 20,
             ),
             onPressed: () {
@@ -213,9 +198,8 @@ class PaymentsButton extends ConsumerWidget {
       onTap: () => Navigator.pushNamed(context, '/v4/calendar'),
       child: Container(
         decoration: BoxDecoration(
-          color: isDarkMode
-              ? const Color(HomeV4Colors.paymentsButtonDark)
-              : const Color(HomeV4Colors.paymentsButtonLight),
+          color:
+              isDarkMode ? const Color(HomeV4Colors.paymentsButtonDark) : const Color(HomeV4Colors.paymentsButtonLight),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -270,9 +254,8 @@ class InterestButton extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: isDarkMode
-              ? const Color(HomeV4Colors.interestButtonDark)
-              : const Color(HomeV4Colors.interestButtonLight),
+          color:
+              isDarkMode ? const Color(HomeV4Colors.interestButtonDark) : const Color(HomeV4Colors.interestButtonLight),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -366,8 +349,7 @@ class Interest extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text:
-                      "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityIncreased : "****"}",
+                  text: "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityIncreased : "****"}",
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   textDark: HomeV4Colors.interestGeneratedTextDark,
@@ -383,11 +365,10 @@ class Interest extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                       color: isDarkMode
                           ? const Color(HomeV4Colors.interestGeneratedContDark)
-                          : const Color(
-                              HomeV4Colors.interestGeneratedContLight),
+                          : const Color(HomeV4Colors.interestGeneratedContLight),
                     ),
                     child: TextPoppins(
-                      text: totalBalanceRentabilityActually!,
+                      text: '$totalBalanceRentabilityActually%',
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                       textDark: HomeV4Colors.interestGeneratedDark,
@@ -438,9 +419,8 @@ class InvestCapital extends ConsumerWidget {
                 "assets/svg_icons/money_home_icon.svg",
                 width: 20,
                 height: 20,
-                color: isDarkMode
-                    ? const Color(HomeV4Colors.capitalTextDark)
-                    : const Color(HomeV4Colors.capitalTextLight),
+                color:
+                    isDarkMode ? const Color(HomeV4Colors.capitalTextDark) : const Color(HomeV4Colors.capitalTextLight),
               ),
               const TextPoppins(
                 text: "Capital invertido",
@@ -451,8 +431,7 @@ class InvestCapital extends ConsumerWidget {
           Skeletonizer(
             enabled: isLoaded,
             child: TextPoppins(
-              text:
-                  "${isSoles ? "S/" : "\$"}${eyeOpen ? capitalInCourse : "****"}",
+              text: "${isSoles ? "S/" : "\$"}${eyeOpen ? capitalInCourse : "****"}",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -480,9 +459,7 @@ class ActiveInvestmentContainer extends ConsumerWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: isDarkMode
-              ? HomeV4Colors.gradientDark
-              : HomeV4Colors.gradientLight,
+          colors: isDarkMode ? HomeV4Colors.gradientDark : HomeV4Colors.gradientLight,
           stops: const [0.0, 0.7],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
@@ -515,9 +492,7 @@ class ActiveInvestmentContainer extends ConsumerWidget {
             ),
           ),
           Divider(
-            color: isDarkMode
-                ? const Color(HomeV4Colors.dividerDark)
-                : const Color(HomeV4Colors.dividerLight),
+            color: isDarkMode ? const Color(HomeV4Colors.dividerDark) : const Color(HomeV4Colors.dividerLight),
             height: 2,
           ),
           const TextPoppins(

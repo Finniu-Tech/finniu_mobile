@@ -43,15 +43,13 @@ class _BodyScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ArgumentsNavigator arguments =
-        ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
+    final ArgumentsNavigator arguments = ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.read(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffFFFFFF;
 
-    final investmentDetailByUuid =
-        ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
+    final investmentDetailByUuid = ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
     return investmentDetailByUuid.when(
       error: (error, stack) {
@@ -83,8 +81,7 @@ class _BodyScaffold extends ConsumerWidget {
         }
         void navigatoToReinvest() async {
           context.loaderOverlay.show();
-          final dtoReinvest =
-              await ref.read(getInvestFutureProvider(arguments.uuid).future);
+          final dtoReinvest = await ref.read(getInvestFutureProvider(arguments.uuid).future);
           context.loaderOverlay.hide();
           reinvestmentQuestionModal(
             context,
@@ -105,9 +102,7 @@ class _BodyScaffold extends ConsumerWidget {
             children: [
               SingleChildScrollView(
                 child: Container(
-                  color: isDarkMode
-                      ? const Color(columnColorDark)
-                      : const Color(columnColorLight),
+                  color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -132,13 +127,11 @@ class _BodyScaffold extends ConsumerWidget {
                         const SizedBox(height: 15),
                         InvestmentAmountCardsRow(
                           amountInvested: data.amount,
-                          finalProfitability:
-                              data.amount + data.rentabilityAmount,
+                          finalProfitability: data.amount + data.rentabilityAmount,
                           isLoading: false,
                         ),
                         const SizedBox(height: 15),
-                        if (arguments.status !=
-                            StatusInvestmentEnum.in_process) ...[
+                        if (arguments.status != StatusInvestmentEnum.in_process) ...[
                           InitEndContainer(
                             dateStart: data.startDateInvestment,
                             dateEnd: data.finishDateInvestment,
@@ -165,24 +158,16 @@ class _BodyScaffold extends ConsumerWidget {
                                 bankAccountSender: data.bankAccountSender!,
                               )
                             : const SizedBox(),
-                        data.bankAccountSender != null
-                            ? const SizedBox(height: 15)
-                            : const SizedBox(),
-                        data.bankAccountReceiver != null
-                            ? const SizedBox()
-                            : const SizedBox(),
+                        data.bankAccountSender != null ? const SizedBox(height: 15) : const SizedBox(),
+                        data.bankAccountReceiver != null ? const SizedBox() : const SizedBox(),
                         data.bankAccountReceiver != null
                             ? SelectedBankDeposit(
                                 bankAccountReceiver: data.bankAccountReceiver!,
                               )
                             : const SizedBox(),
-                        data.bankAccountReceiver != null
-                            ? const SizedBox(height: 15)
-                            : const SizedBox(),
-                        if (arguments.status !=
-                            StatusInvestmentEnum.in_process) ...[
-                          data.reinvestmentInfo != null &&
-                                  data.reinvestmentInfo!.hasValidValues()
+                        data.bankAccountReceiver != null ? const SizedBox(height: 15) : const SizedBox(),
+                        if (arguments.status != StatusInvestmentEnum.in_process) ...[
+                          data.reinvestmentInfo != null && data.reinvestmentInfo!.hasValidValues()
                               ? ReInvestContainer(
                                   isDarkMode: isDarkMode,
                                   dataReinvest: data.reinvestmentInfo!,
@@ -192,8 +177,7 @@ class _BodyScaffold extends ConsumerWidget {
                           const SizedBox(height: 15),
                         ],
                         SizedBox(
-                          height:
-                              arguments.isReinvestAvailable == true ? 70 : 110,
+                          height: arguments.isReinvestAvailable == true ? 70 : 110,
                         ),
                       ],
                     ),
@@ -206,14 +190,11 @@ class _BodyScaffold extends ConsumerWidget {
                       child: Container(
                         alignment: Alignment.center,
                         height: 80,
-                        color: isDarkMode
-                            ? const Color(columnColorDark)
-                            : const Color(columnColorLight),
+                        color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
                         width: MediaQuery.of(context).size.width,
                         child: ButtonSvgIconInvestment(
                           text: "Hablar con un asesor",
-                          onPressed: () =>
-                              showValidationModal(context, contactWhatsApp),
+                          onPressed: () => showValidationModal(context, contactWhatsApp),
                           icon: "assets/svg_icons/chat_icon_draft.svg",
                         ),
                       ),
@@ -222,23 +203,19 @@ class _BodyScaffold extends ConsumerWidget {
                       bottom: 0,
                       child: Container(
                         alignment: Alignment.center,
-                        color: isDarkMode
-                            ? const Color(columnColorDark)
-                            : const Color(columnColorLight),
+                        color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(height: 15),
-                            if (arguments.status !=
-                                StatusInvestmentEnum.in_process) ...[
+                            if (arguments.status != StatusInvestmentEnum.in_process) ...[
                               ButtonInvestment(
                                 text: 'Quiero reinvertir',
                                 onPressed: navigatoToReinvest,
                               ),
                             ],
-                            if (arguments.status !=
-                                StatusInvestmentEnum.in_process) ...[
+                            if (arguments.status != StatusInvestmentEnum.in_process) ...[
                               const SizedBox(height: 15),
                               if (data.profitabilityListMonth.isNotEmpty) ...[
                                 ButtonSvgIconInvestmentSecond(
@@ -285,9 +262,7 @@ class TitleModalV4 extends ConsumerWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.6,
           child: TextPoppins(
-            text: isReInvestment == true
-                ? "Resumen de mi reinversión"
-                : "Resumen de mi inversión",
+            text: isReInvestment == true ? "Resumen de mi reinversión" : "Resumen de mi inversión",
             fontSize: 20,
             fontWeight: FontWeight.w500,
             lines: 2,

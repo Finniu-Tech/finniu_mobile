@@ -48,16 +48,13 @@ class SelectBankBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final selectedBank = isSender
-        ? ref.watch(selectedBankAccountSenderProvider)
-        : ref.watch(selectedBankAccountReceiverProvider);
+    final selectedBank =
+        isSender ? ref.watch(selectedBankAccountSenderProvider) : ref.watch(selectedBankAccountReceiverProvider);
 
     void closeModal() {
       isSender
-          ? ref.read(selectedBankAccountSenderProvider.notifier).state =
-              bankSelect
-          : ref.read(selectedBankAccountReceiverProvider.notifier).state =
-              bankSelect;
+          ? ref.read(selectedBankAccountSenderProvider.notifier).state = bankSelect
+          : ref.read(selectedBankAccountReceiverProvider.notifier).state = bankSelect;
       Navigator.pop(context);
     }
 
@@ -86,66 +83,62 @@ class SelectBankBody extends ConsumerWidget {
                     ),
                   ),
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SizedBox(
-                          height: 30,
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                              onPressed: closeModal,
-                              icon: Transform.rotate(
-                                angle: math.pi / -4,
-                                child: Icon(
-                                  Icons.add_circle_outline,
-                                  size: 24,
-                                  color: isDarkMode
-                                      ? const Color(
-                                          SelectBankAccountColors.iconDark)
-                                      : const Color(
-                                          SelectBankAccountColors.iconLight),
-                                ),
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        height: 30,
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            onPressed: closeModal,
+                            icon: Transform.rotate(
+                              angle: math.pi / -4,
+                              child: Icon(
+                                Icons.add_circle_outline,
+                                size: 24,
+                                color: isDarkMode
+                                    ? const Color(SelectBankAccountColors.iconDark)
+                                    : const Color(SelectBankAccountColors.iconLight),
                               ),
                             ),
                           ),
                         ),
-                        Image.asset(
-                          "assets/home_v4/not_bank_image_${isDarkMode ? "dark" : "light"}.png",
-                          width: 60,
-                          height: 60,
+                      ),
+                      Image.asset(
+                        "assets/home_v4/not_bank_image_${isDarkMode ? "dark" : "light"}.png",
+                        width: 60,
+                        height: 60,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: TextPoppins(
+                          text: isSender
+                              ? '¿Desde qué cuenta nos tranasfieres? 💸'
+                              : '¿A qué cuenta transferimos tu rentabilidad? 💸',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          lines: 2,
+                          align: TextAlign.center,
+                          textDark: SelectBankAccountColors.titleDark,
+                          textLight: SelectBankAccountColors.titleLight,
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          child: TextPoppins(
-                            text: isSender
-                                ? '¿Desde qué cuenta nos tranasfieres? 💸'
-                                : '¿A qué cuenta transferimos tu rentabilidad? 💸',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            lines: 2,
-                            align: TextAlign.center,
-                            textDark: SelectBankAccountColors.titleDark,
-                            textLight: SelectBankAccountColors.titleLight,
-                          ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: const TextPoppins(
+                          text: "Esta se guardará para facilitar futuras operaciones de manera rápida y segura.",
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          lines: 2,
+                          align: TextAlign.center,
+                          textDark: SelectBankAccountColors.titleDark,
+                          textLight: SelectBankAccountColors.titleLight,
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          child: const TextPoppins(
-                            text:
-                                "Esta se guardará para facilitar futuras operaciones de manera rápida y segura.",
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            lines: 2,
-                            align: TextAlign.center,
-                            textDark: SelectBankAccountColors.titleDark,
-                            textLight: SelectBankAccountColors.titleLight,
-                          ),
-                        ),
-                        selectedBank != null
-                            ? const ConfirmAccount()
-                            : const SizedBox(),
-                        const AddAccount(),
-                      ]),
+                      ),
+                      selectedBank != null ? const ConfirmAccount() : const SizedBox(),
+                      const AddAccount(),
+                    ],
+                  ),
                 ),
               )
             : SingleChildScrollView(
@@ -181,10 +174,8 @@ class SelectBankBody extends ConsumerWidget {
                                 Icons.add_circle_outline,
                                 size: 24,
                                 color: isDarkMode
-                                    ? const Color(
-                                        SelectBankAccountColors.iconDark)
-                                    : const Color(
-                                        SelectBankAccountColors.iconLight),
+                                    ? const Color(SelectBankAccountColors.iconDark)
+                                    : const Color(SelectBankAccountColors.iconLight),
                               ),
                             ),
                           ),
@@ -209,8 +200,7 @@ class SelectBankBody extends ConsumerWidget {
                             size: 24,
                             color: isDarkMode
                                 ? const Color(SelectBankAccountColors.titleDark)
-                                : const Color(
-                                    SelectBankAccountColors.titleLight),
+                                : const Color(SelectBankAccountColors.titleLight),
                           ),
                           const SizedBox(width: 10),
                           const TextPoppins(
@@ -227,9 +217,7 @@ class SelectBankBody extends ConsumerWidget {
                       ListBanks(
                         isSender: isSender,
                       ),
-                      selectedBank != null
-                          ? const ConfirmAccount()
-                          : const SizedBox(),
+                      selectedBank != null ? const ConfirmAccount() : const SizedBox(),
                       const AddAccount(),
                     ],
                   ),
@@ -412,9 +400,8 @@ class BankItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final selectedBank = isSender
-        ? ref.watch(selectedBankAccountSenderProvider)
-        : ref.watch(selectedBankAccountReceiverProvider);
+    final selectedBank =
+        isSender ? ref.watch(selectedBankAccountSenderProvider) : ref.watch(selectedBankAccountReceiverProvider);
 
     String getCurrency(String? currency) {
       switch (currency) {
@@ -436,16 +423,13 @@ class BankItem extends ConsumerWidget {
       }
     }
 
-    final isSelected =
-        selectedBank != null ? selectedBank.id == bankAccount.id : false;
+    final isSelected = selectedBank != null ? selectedBank.id == bankAccount.id : false;
 
     return GestureDetector(
       onTap: () => {
         isSender
-            ? ref.read(selectedBankAccountSenderProvider.notifier).state =
-                bankAccount
-            : ref.read(selectedBankAccountReceiverProvider.notifier).state =
-                bankAccount,
+            ? ref.read(selectedBankAccountSenderProvider.notifier).state = bankAccount
+            : ref.read(selectedBankAccountReceiverProvider.notifier).state = bankAccount,
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
@@ -510,24 +494,15 @@ class BankItem extends ConsumerWidget {
                   TextPoppins(
                     text: getCurrency(bankAccount.currency),
                     fontSize: 14,
-                    textDark: isSelected
-                        ? SelectBankAccountColors.textSelectDark
-                        : null,
-                    textLight: isSelected
-                        ? SelectBankAccountColors.textSelectLight
-                        : null,
+                    textDark: isSelected ? SelectBankAccountColors.textSelectDark : null,
+                    textLight: isSelected ? SelectBankAccountColors.textSelectLight : null,
                   ),
                   TextPoppins(
-                    text:
-                        "${bankAccount.bankSlug.toUpperCase()} ${getMaskedNumber(bankAccount.bankAccount)}",
+                    text: "${bankAccount.bankSlug.toUpperCase()} ${getMaskedNumber(bankAccount.bankAccount)}",
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    textDark: isSelected
-                        ? SelectBankAccountColors.textSelectDark
-                        : null,
-                    textLight: isSelected
-                        ? SelectBankAccountColors.textSelectLight
-                        : null,
+                    textDark: isSelected ? SelectBankAccountColors.textSelectDark : null,
+                    textLight: isSelected ? SelectBankAccountColors.textSelectLight : null,
                   ),
                 ],
               ),
