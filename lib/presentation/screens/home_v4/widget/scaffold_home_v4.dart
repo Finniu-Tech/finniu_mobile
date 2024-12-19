@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/user.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/notification_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -15,12 +17,36 @@ class ScaffoldHomeV4 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void _setUserAnalytics(WidgetRef ref, UserProfile profile) {
+      final analytics = ref.read(firebaseAnalyticsServiceProvider);
+      analytics.setUserId(
+        "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
+      );
+      analytics.setUserProperty(
+        name: "first_name",
+        value: "${profile.firstName}_${profile.lastName}",
+      );
+      analytics.setUserProperty(
+        name: "document_number",
+        value: "${profile.documentNumber}",
+      );
+      analytics.setUserProperty(
+        name: "email",
+        value: "${profile.email}",
+      );
+      analytics.setUserProperty(
+        name: "phone_number",
+        value: "${profile.phoneNumber}",
+      );
+    }
+
     ref.read(userProfileNotifierProvider);
     final userProfileAsync = ref.watch(userProfileFutureProvider);
     final setupState = ref.watch(notificationSetupStateNotifierProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int colorDark = 0xff000000;
     const int colorLight = 0xffFFFFFF;
+
     return PopScope(
       canPop: false,
       child: LoaderOverlay(
@@ -49,7 +75,9 @@ class ScaffoldHomeV4 extends ConsumerWidget {
                       await initializeNotifications(context, ref, profile);
                     }
                     context.loaderOverlay.hide();
+                    _setUserAnalytics(ref, profile);
                   });
+
                   return null;
                 },
                 [userProfileAsync],
