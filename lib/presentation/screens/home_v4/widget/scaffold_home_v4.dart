@@ -9,7 +9,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class ScaffoldHomeV4 extends HookConsumerWidget {
+class ScaffoldHomeV4 extends ConsumerWidget {
   const ScaffoldHomeV4({super.key, required this.body});
   final Widget body;
 
@@ -18,18 +18,6 @@ class ScaffoldHomeV4 extends HookConsumerWidget {
     ref.read(userProfileNotifierProvider);
     final userProfileAsync = ref.watch(userProfileFutureProvider);
     final setupState = ref.watch(notificationSetupStateNotifierProvider);
-
-    useEffect(() {
-      context.loaderOverlay.show();
-
-      userProfileAsync.whenData((profile) async {
-        if (profile.id != null && !setupState.isInitialized) {
-          await initializeNotifications(context, ref, profile);
-        }
-        context.loaderOverlay.hide();
-      });
-      return null;
-    }, [userProfileAsync]);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int colorDark = 0xff000000;
     const int colorLight = 0xffFFFFFF;
@@ -51,10 +39,27 @@ class ScaffoldHomeV4 extends HookConsumerWidget {
           extendBody: true,
           bottomNavigationBar: const NavBarV4(),
           appBar: const CustomAppBarV4(),
-          body: SingleChildScrollView(
-            child: Center(
-              child: body,
-            ),
+          body: HookBuilder(
+            builder: (context) {
+              useEffect(
+                () {
+                  context.loaderOverlay.show();
+                  userProfileAsync.whenData((profile) async {
+                    if (profile.id != null && !setupState.isInitialized) {
+                      await initializeNotifications(context, ref, profile);
+                    }
+                    context.loaderOverlay.hide();
+                  });
+                  return null;
+                },
+                [userProfileAsync],
+              );
+              return SingleChildScrollView(
+                child: Center(
+                  child: body,
+                ),
+              );
+            },
           ),
         ),
       ),
