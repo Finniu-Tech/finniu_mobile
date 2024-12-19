@@ -167,9 +167,6 @@ class ColumnNotifications extends HookConsumerWidget {
     }) async {
       final pushService = ref.read(pushNotificationServiceProvider);
       final newValue = !stateNotifier.value;
-      print('Current value: ${stateNotifier.value}');
-      print('New value: $newValue');
-
       try {
         context.loaderOverlay.show();
 

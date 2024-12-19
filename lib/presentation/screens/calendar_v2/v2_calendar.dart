@@ -16,7 +16,8 @@ import 'package:intl/intl.dart';
 bool hasImportantDates(List<dynamic> importantDays, DateTime selectedDate) {
   for (final item in importantDays) {
     final itemDate = item['date'];
-    if (itemDate.month == selectedDate.month && itemDate.year == selectedDate.year) {
+    if (itemDate.month == selectedDate.month &&
+        itemDate.year == selectedDate.year) {
       return true;
     }
   }
@@ -148,11 +149,11 @@ class CalendarBodyState extends ConsumerState<CalendarBody> {
   }
 
   void _handlePageChange(DateTime date) {
-    print('hsnflr page change $date');
     setState(() {
       _currentDate = date;
     });
-    ref.read(selectedCalendarDateProvider.notifier).state = DateTime(date.year, date.month, 1);
+    ref.read(selectedCalendarDateProvider.notifier).state =
+        DateTime(date.year, date.month, 1);
   }
 
   @override
@@ -184,16 +185,22 @@ class CalendarBodyState extends ConsumerState<CalendarBody> {
         height: MediaQuery.of(context).size.height * 0.40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: widget.isDarkMode ? const Color(calendarDark) : const Color(calendarLight),
+          color: widget.isDarkMode
+              ? const Color(calendarDark)
+              : const Color(calendarLight),
         ),
         child: CalendarCarousel(
           leftButtonIcon: Icon(
             Icons.arrow_back_ios_new_outlined,
-            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
           ),
           rightButtonIcon: Icon(
             Icons.arrow_forward_ios_outlined,
-            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
           ),
           onCalendarChanged: _handlePageChange,
           width: 289,
@@ -208,27 +215,37 @@ class CalendarBodyState extends ConsumerState<CalendarBody> {
           //------------------------------------------------
           // text style month,( today , day , weekend , prev , next )
           todayTextStyle: TextStyle(
-            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
             fontSize: 11.0,
             fontWeight: FontWeight.bold,
           ),
           daysTextStyle: TextStyle(
-            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
             fontSize: 11,
             fontWeight: FontWeight.bold,
           ),
           weekendTextStyle: TextStyle(
-            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
             fontSize: 11,
             fontWeight: FontWeight.bold,
           ),
           prevDaysTextStyle: TextStyle(
-            color: isDarkMode ? const Color(textNotMonthDark) : const Color(textNotMonthLight),
+            color: isDarkMode
+                ? const Color(textNotMonthDark)
+                : const Color(textNotMonthLight),
             fontSize: 11,
             fontWeight: FontWeight.bold,
           ),
           nextDaysTextStyle: TextStyle(
-            color: isDarkMode ? const Color(textNotMonthDark) : const Color(textNotMonthLight),
+            color: isDarkMode
+                ? const Color(textNotMonthDark)
+                : const Color(textNotMonthLight),
             fontSize: 11.0,
             fontWeight: FontWeight.bold,
           ),
@@ -238,19 +255,25 @@ class CalendarBodyState extends ConsumerState<CalendarBody> {
           //---------------------------------------------------
           //days of week style
           weekdayTextStyle: TextStyle(
-            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
             fontSize: 11.0,
             fontWeight: FontWeight.bold,
           ),
 
           //---------------------------------------------------
           // icons style navigation
-          iconColor: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+          iconColor: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
 
           //---------------------------------------------------
           // header text
           headerTextStyle: TextStyle(
-            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
             fontSize: 16.0,
             fontWeight: FontWeight.bold,
           ),
@@ -281,7 +304,11 @@ class CalendarBodyState extends ConsumerState<CalendarBody> {
                 : Color(
                     isDarkMode ? borderColorDark : borderColorLight,
                   );
-            if (isThisMonthDay && !isSelectable && !isSelectedDay && !isPrevMonthDay && !isNextMonthDay) {
+            if (isThisMonthDay &&
+                !isSelectable &&
+                !isSelectedDay &&
+                !isPrevMonthDay &&
+                !isNextMonthDay) {
               borderColor = Color(
                 isDarkMode ? borderColorDark : borderColorLight,
               );
@@ -301,16 +328,22 @@ class CalendarBodyState extends ConsumerState<CalendarBody> {
               backgroundColor = Color(
                 (isDarkMode ? (calendarDark) : (calendarLight)),
               );
-              backgroundColor = isDarkMode ? const Color(textColorDark) : const Color(textColorLight);
+              backgroundColor = isDarkMode
+                  ? const Color(textColorDark)
+                  : const Color(textColorLight);
               textStyle = TextStyle(
-                color: isDarkMode ? const Color(textMarkerColorDark) : const Color(textMarkerColorLight),
+                color: isDarkMode
+                    ? const Color(textMarkerColorDark)
+                    : const Color(textMarkerColorLight),
                 fontSize: 11.0,
                 fontWeight: FontWeight.bold,
               );
             }
             if (!isThisMonthDay) {
               textStyle = TextStyle(
-                color: isDarkMode ? const Color(textNotMonthDark) : const Color(textNotMonthLight),
+                color: isDarkMode
+                    ? const Color(textNotMonthDark)
+                    : const Color(textNotMonthLight),
                 fontSize: 11.0,
                 fontWeight: FontWeight.bold,
               );

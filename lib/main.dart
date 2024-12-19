@@ -49,10 +49,10 @@ Future<void> mainCommon(AppConfig config) async {
     runApp(
       ProviderScope(
         child: config.environment == "production"
-            ? AppProduction(
+            ? const AppProduction(
                 // pushNotificationService: pushService,
                 )
-            : AppStaging(
+            : const AppStaging(
                 // pushNotificationService: pushService,
                 ),
       ),

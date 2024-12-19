@@ -146,7 +146,6 @@ class CustomButtonRoundedDark extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap ??
           () {
-            print('pushName: $pushName');
             if (pushName != "") {
               Navigator.pushNamed(context, pushName!);
             }
@@ -196,7 +195,6 @@ class BottomNavigationBarHome extends HookConsumerWidget {
       child: HookBuilder(
         builder: (context) {
           final selectedIndex = ref.watch(navigatorStateProvider);
-          print('selected index provider: $selectedIndex');
           return ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(25.0),
@@ -279,7 +277,6 @@ class BottomNavigationBarHome extends HookConsumerWidget {
 
   Widget _buildIcon(String imagePath, BuildContext context, int selectedIndex,
       int index, bool isDarkMode) {
-    print('current index $selectedIndex');
     Color iconColor =
         isDarkMode ? const Color(primaryDark) : const Color(primaryLight);
     final isSelected = selectedIndex == index;
