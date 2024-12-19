@@ -186,11 +186,11 @@ class CapitalDetail extends ConsumerWidget {
           ? formatterSoles.format(item.amount)
           : formatterUSD.format(item.amount);
       final String rentTitle =
-          item.isActive ? "Fecha de pago" : "Fecha de pago próximo";
+          item.isActive ? "Capital pagado" : "Capital a depositar";
       final String date =
           "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
       final String dateTitle =
-          item.isActive ? "Capital pagado" : "Capital a depositar";
+          item.isActive ? "Fecha de pago" : "Fecha de pago próximo";
       final String time = "${item.paymentDate.hour}:${item.paymentDate.minute}";
 
       showCapitalModal(
