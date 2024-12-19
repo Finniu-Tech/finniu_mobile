@@ -185,7 +185,9 @@ class _BodyScaffold extends ConsumerWidget {
                         if (arguments.status !=
                             StatusInvestmentEnum.in_process) ...[
                           data.reinvestmentInfo != null &&
-                                  data.reinvestmentInfo!.hasValidValues()
+                                  data.reinvestmentInfo!.hasValidValues() &&
+                                  data.actionStatus ==
+                                      ActionStatusEnumV4.reInvestmentPending
                               ? ReInvestContainer(
                                   isDarkMode: isDarkMode,
                                   dataReinvest: data.reinvestmentInfo!,
