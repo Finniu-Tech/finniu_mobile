@@ -18,10 +18,10 @@ class NotificationPermissionHandler extends HookConsumerWidget {
   final Widget child;
 
   const NotificationPermissionHandler({
-    Key? key,
+    super.key,
     required this.profile,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,36 +40,39 @@ class NotificationPermissionHandler extends HookConsumerWidget {
     return child;
   }
 
-  Future<void> _initializeNotifications(BuildContext context, WidgetRef ref, UserProfile profile) async {
+  Future<void> _initializeNotifications(
+      BuildContext context, WidgetRef ref, UserProfile profile) async {
     await DebugLogger.log('Initializing notifications');
     await _handleNotificationPermission(context, ref, profile);
     await _handlePendingNavigation(ref);
     ref.read(notificationSetupStateNotifierProvider.notifier).markInitialized();
   }
 
-  Future<void> _handleNotificationPermission(BuildContext context, WidgetRef ref, UserProfile profile) async {
+  Future<void> _handleNotificationPermission(
+      BuildContext context, WidgetRef ref, UserProfile profile) async {
     await DebugLogger.log('Starting notification permission handling');
     final pushNotificationService = ref.read(pushNotificationServiceProvider);
-    final setupNotifier = ref.read(notificationSetupStateNotifierProvider.notifier);
+    final setupNotifier =
+        ref.read(notificationSetupStateNotifierProvider.notifier);
 
     try {
       final deviceInfo = await DeviceInfoService().getDeviceInfo(profile.id!);
       late NotificationPreferences preferences;
       await DebugLogger.log('Device info obtained: ${deviceInfo.toJson()}');
 
-      final existingDevice = await pushNotificationService.getDeviceById(deviceId: deviceInfo.deviceId);
-      print('existingDevice: $existingDevice');
+      final existingDevice = await pushNotificationService.getDeviceById(
+          deviceId: deviceInfo.deviceId);
+
       await DebugLogger.log('Existing device check: ${existingDevice != null}');
       if (existingDevice != null) {
-        print('Existing device found');
-        await DebugLogger.log('Existing device found: ${existingDevice.toJson()}');
+        await DebugLogger.log(
+            'Existing device found: ${existingDevice.toJson()}');
         return;
       }
       final settings = await pushNotificationService.requestPermissions();
       String? token;
 
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-        print('AuthorizationStatus.authorized');
         token = await pushNotificationService.getToken();
         preferences = NotificationPreferences(
           acceptsOperational: true,
@@ -77,7 +80,6 @@ class NotificationPermissionHandler extends HookConsumerWidget {
           permissionState: PushStatus.active,
         );
       } else {
-        print('AuthorizationStatus.denied');
         preferences = NotificationPreferences(
           acceptsOperational: false,
           acceptsMarketing: false,
@@ -97,8 +99,6 @@ class NotificationPermissionHandler extends HookConsumerWidget {
       }
       setupNotifier.markDialogShown();
     } catch (e, stackTrace) {
-      print('Error in notification handling: $e');
-      print('Error in notification handling: $e\n$stackTrace');
       await DebugLogger.log('Error in notification handling: $e\n$stackTrace');
 
       if (!ref.read(notificationSetupStateNotifierProvider).hasShownDialog) {
@@ -130,7 +130,8 @@ class NotificationPermissionHandler extends HookConsumerWidget {
     final pushNotificationService = ref.read(pushNotificationServiceProvider);
     final savedRoute = Preferences.pendingNotificationRoute;
 
-    await DebugLogger.log('Checking for pending navigation. Saved route: $savedRoute');
+    await DebugLogger.log(
+        'Checking for pending navigation. Saved route: $savedRoute');
 
     if (savedRoute != null) {
       await pushNotificationService.processPendingNotificationLog();
@@ -155,7 +156,8 @@ class NotificationPermissionHandler extends HookConsumerWidget {
     showThanksInvestmentDialog(
       context,
       textTitle: '¡Notificaciones activadas!',
-      textBody: 'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
+      textBody:
+          'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
       textButton: 'Entendido',
       onPressed: () => Navigator.pop(context),
       textTanks: '',
@@ -167,11 +169,11 @@ class NotificationPermissionHandler extends HookConsumerWidget {
   }
 
   Future<void> _showErrorDialog(BuildContext context) async {
-    print('showErrorDialog xxxx');
     showThanksInvestmentDialog(
       context,
       textTitle: 'Notificaciones',
-      textBody: 'No pudimos completar la configuración de notificaciones. Puedes intentarlo más tarde desde tu perfil.',
+      textBody:
+          'No pudimos completar la configuración de notificaciones. Puedes intentarlo más tarde desde tu perfil.',
       textButton: 'Entendido',
       onPressed: () => Navigator.pop(context),
       textTanks: '',

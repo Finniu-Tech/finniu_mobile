@@ -14,7 +14,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphicContainer extends ConsumerWidget {
   final FundEntity? fund;
-  GraphicContainer({super.key, this.fund});
+  const GraphicContainer({super.key, this.fund});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +23,9 @@ class GraphicContainer extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         border: Border.all(color: const Color(borderColorGray), width: 1),
-        color: currentTheme.isDarkMode ? const Color(backGroundColorGraphContainer) : Colors.white,
+        color: currentTheme.isDarkMode
+            ? const Color(backGroundColorGraphContainer)
+            : Colors.white,
       ),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.3,
@@ -63,8 +65,10 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
     return formattedDate[0].toUpperCase() + formattedDate.substring(1);
   }
 
-  List<RentabilityGraphicEntity> sortAndFormatData(List<RentabilityGraphicEntity> data) {
-    data.sort((a, b) => DateTime.parse(a.date!).compareTo(DateTime.parse(b.date!)));
+  List<RentabilityGraphicEntity> sortAndFormatData(
+      List<RentabilityGraphicEntity> data) {
+    data.sort(
+        (a, b) => DateTime.parse(a.date!).compareTo(DateTime.parse(b.date!)));
     return data
         .map((item) => RentabilityGraphicEntity(
               date: item.date,
@@ -78,18 +82,24 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
   Widget build(BuildContext context) {
     final isSoles = ref.watch(isSolesStateProvider);
     final timeLine = ref.watch(timePeriodProvider);
-    final rentabilityParams = RentabilityParamsProvider(timeline: timeLine.value, fundUUID: widget.fund?.uuid ?? '');
-    final rentabilityGraph = ref.watch(rentabilityGraphicFutureProvider(rentabilityParams).select((value) => value));
+    final rentabilityParams = RentabilityParamsProvider(
+        timeline: timeLine.value, fundUUID: widget.fund?.uuid ?? '');
+    final rentabilityGraph = ref.watch(
+        rentabilityGraphicFutureProvider(rentabilityParams)
+            .select((value) => value));
 
     return rentabilityGraph.when(
       data: (data) {
-        print('data: ${data.toString()}');
-        final chartData = sortAndFormatData(isSoles ? data.rentabilityInPen ?? [] : data.rentabilityInUsd ?? []);
+        final chartData = sortAndFormatData(isSoles
+            ? data.rentabilityInPen ?? []
+            : data.rentabilityInUsd ?? []);
 
-        final lenghtData = isSoles ? data.rentabilityInPen?.length ?? 0 : data.rentabilityInUsd?.length ?? 0;
+        final lenghtData = isSoles
+            ? data.rentabilityInPen?.length ?? 0
+            : data.rentabilityInUsd?.length ?? 0;
 
         final chartWidth =
-            max(MediaQuery.of(context).size.width, lenghtData * 80.0); // Ajusta este valor según necesites
+            max(MediaQuery.of(context).size.width, lenghtData * 80.0);
 
         return Stack(
           children: [
@@ -126,8 +136,10 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
                       color: const Color(primaryLight),
                       dataSource: chartData,
                       // xValueMapper: (RentabilityGraphicEntity rentability, _) => rentability.month.toUpperCase(),
-                      xValueMapper: (RentabilityGraphicEntity rentability, _) => formatDate(rentability.date!),
-                      yValueMapper: (RentabilityGraphicEntity rentability, _) => double.parse(rentability.amountPoint),
+                      xValueMapper: (RentabilityGraphicEntity rentability, _) =>
+                          formatDate(rentability.date!),
+                      yValueMapper: (RentabilityGraphicEntity rentability, _) =>
+                          double.parse(rentability.amountPoint),
                       markerSettings: const MarkerSettings(
                         isVisible: true,
                         shape: DataMarkerType.circle,
@@ -211,7 +223,9 @@ class TimeLineSelect extends ConsumerWidget {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: isDarkMode ? const Color(backgroundSelectDark) : const Color(backgroundSelectLight),
+          color: isDarkMode
+              ? const Color(backgroundSelectDark)
+              : const Color(backgroundSelectLight),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -227,7 +241,9 @@ class TimeLineSelect extends ConsumerWidget {
               child: Center(
                 child: Icon(
                   Icons.keyboard_arrow_down_outlined,
-                  color: isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  color: isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                 ),
               ),
             ),

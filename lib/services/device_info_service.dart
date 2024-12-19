@@ -13,7 +13,8 @@ class DeviceInfoService {
     String? installId = Preferences.installationId;
 
     if (installId == null) {
-      installId = '${DateTime.now().millisecondsSinceEpoch}_${const Uuid().v4()}';
+      installId =
+          '${DateTime.now().millisecondsSinceEpoch}_${const Uuid().v4()}';
       Preferences.installationId = installId;
     }
 
@@ -34,13 +35,6 @@ class DeviceInfoService {
       if (Platform.isAndroid) {
         final androidInfo = await deviceInfo.androidInfo;
         final deviceId = '${androidInfo.id}_$installationId';
-
-        // Agregar logs para debug
-        print('Android Info:');
-        print('Android ID: ${androidInfo.id}');
-        print('Installation ID: $installationId');
-        print('Final Device ID: $deviceId');
-
         return DeviceInfoModel(
           deviceId: deviceId,
           token: fcmToken,
