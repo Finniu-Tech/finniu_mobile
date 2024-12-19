@@ -56,9 +56,8 @@ class AddContainer extends ConsumerWidget {
     const int icon = 0xff0D3A5C;
     const int iconDark = 0xffFFFFFF;
     const int iconLight = 0xff0D3A5C;
-    final bankSelect = isSended
-        ? ref.read(selectedBankAccountSenderProvider)
-        : ref.read(selectedBankAccountReceiverProvider);
+    final bankSelect =
+        isSended ? ref.read(selectedBankAccountSenderProvider) : ref.read(selectedBankAccountReceiverProvider);
     return GestureDetector(
       onTap: () => showBankAccountModalV4(
         context: context,
@@ -72,9 +71,7 @@ class AddContainer extends ConsumerWidget {
         width: MediaQuery.of(context).size.width,
         height: 45,
         decoration: BoxDecoration(
-          color: isDarkMode
-              ? const Color(containerDark)
-              : const Color(containerLight),
+          color: isDarkMode ? const Color(containerDark) : const Color(containerLight),
           borderRadius: BorderRadius.circular(50),
         ),
         child: Row(
@@ -114,8 +111,7 @@ class AddContainer extends ConsumerWidget {
             Icon(
               Icons.arrow_forward_outlined,
               size: 24,
-              color:
-                  isDarkMode ? const Color(iconDark) : const Color(iconLight),
+              color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
             ),
           ],
         ),
@@ -181,9 +177,7 @@ class BankContainer extends ConsumerWidget {
         width: MediaQuery.of(context).size.width,
         height: 45,
         decoration: BoxDecoration(
-          color: isDarkMode
-              ? const Color(containerDark)
-              : const Color(containerLight),
+          color: isDarkMode ? const Color(containerDark) : const Color(containerLight),
           borderRadius: BorderRadius.circular(50),
         ),
         child: Row(
@@ -207,9 +201,7 @@ class BankContainer extends ConsumerWidget {
                   width: 35,
                   height: 35,
                   decoration: BoxDecoration(
-                    color: isDarkMode
-                        ? const Color(errorDark)
-                        : const Color(errorLight),
+                    color: isDarkMode ? const Color(errorDark) : const Color(errorLight),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(50),
                     ),
@@ -243,9 +235,7 @@ class BankContainer extends ConsumerWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: isDarkMode
-                    ? const Color(changeDark)
-                    : const Color(changeLight),
+                color: isDarkMode ? const Color(changeDark) : const Color(changeLight),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -254,9 +244,7 @@ class BankContainer extends ConsumerWidget {
                     "assets/svg_icons/card_add_icon.svg",
                     width: 20,
                     height: 20,
-                    color: isDarkMode
-                        ? const Color(changeTextDark)
-                        : const Color(changeTextLight),
+                    color: isDarkMode ? const Color(changeTextDark) : const Color(changeTextLight),
                   ),
                   const SizedBox(
                     width: 10,

@@ -49,7 +49,7 @@ class FormAccountsBody extends StatelessWidget {
 
 class FormAccounts extends HookConsumerWidget {
   FormAccounts({super.key});
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final controllerExpanded = ExpansionTileController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -262,8 +262,7 @@ class FormAccounts extends HookConsumerWidget {
                         showSnackBarV2(
                           context: context,
                           title: "Número de cuenta obligatorio",
-                          message:
-                              "Por favor, completa ingresar el número de cuenta.",
+                          message: "Por favor, completa ingresar el número de cuenta.",
                           snackType: SnackType.warning,
                         );
                         accountNumberError.value = true;
@@ -318,8 +317,7 @@ class FormAccounts extends HookConsumerWidget {
                         showSnackBarV2(
                           context: context,
                           title: "Número de cuenta CCI obligatorio",
-                          message:
-                              "Por favor, completa ingresar el número de cuenta CCI.",
+                          message: "Por favor, completa ingresar el número de cuenta CCI.",
                           snackType: SnackType.warning,
                         );
                         cciNumberError.value = true;
@@ -339,8 +337,7 @@ class FormAccounts extends HookConsumerWidget {
                         showSnackBarV2(
                           context: context,
                           title: "Número de cuenta obligatorio",
-                          message:
-                              "El número de cuenta CCI debe tener 10 digitos.",
+                          message: "El número de cuenta CCI debe tener 10 digitos.",
                           snackType: SnackType.warning,
                         );
                         cciNumberError.value = true;
@@ -419,9 +416,7 @@ class FormAccounts extends HookConsumerWidget {
                           'assets/svg_icons/message_question_icon.svg',
                           width: 20,
                           height: 20,
-                          color: isDarkMode
-                              ? const Color(iconDark)
-                              : const Color(iconLight),
+                          color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
                         ),
                         const SizedBox(width: 5),
                         TextPoppins(
@@ -449,8 +444,7 @@ class FormAccounts extends HookConsumerWidget {
                                   showSnackBarV2(
                                     context: context,
                                     title: "Nombres obligatorio",
-                                    message:
-                                        "Por favor, completa ingresar los nombres de la otra persona titular.",
+                                    message: "Por favor, completa ingresar los nombres de la otra persona titular.",
                                     snackType: SnackType.warning,
                                   );
                                   jointHolderNameError.value = true;
@@ -476,8 +470,7 @@ class FormAccounts extends HookConsumerWidget {
                                 child: InputTextFileAccounts(
                                   isRow: true,
                                   isError: isError,
-                                  onError: () =>
-                                      jointHolderLastNameError.value = false,
+                                  onError: () => jointHolderLastNameError.value = false,
                                   controller: jointHolderLastNameController,
                                   hintText: "Apellido paterno",
                                   validator: (value) {
@@ -510,10 +503,8 @@ class FormAccounts extends HookConsumerWidget {
                                 child: InputTextFileAccounts(
                                   isRow: true,
                                   isError: isError,
-                                  onError: () => jointHolderMothersLastNameError
-                                      .value = false,
-                                  controller:
-                                      jointHolderMothersLastNameController,
+                                  onError: () => jointHolderMothersLastNameError.value = false,
+                                  controller: jointHolderMothersLastNameController,
                                   hintText: "Apellido materno",
                                   validator: (value) {
                                     if (isJointAccount.value) {
@@ -525,8 +516,7 @@ class FormAccounts extends HookConsumerWidget {
                                               "Por favor, completa ingresar los nombres de la otra persona titular.",
                                           snackType: SnackType.warning,
                                         );
-                                        jointHolderMothersLastNameError.value =
-                                            true;
+                                        jointHolderMothersLastNameError.value = true;
                                         return null;
                                       }
                                     }
@@ -551,13 +541,10 @@ class FormAccounts extends HookConsumerWidget {
                                   isRow: true,
                                   title: "  Documento  ",
                                   options: documentType,
-                                  itemSelectedValue:
-                                      jointHolderDocTypeController.text,
+                                  itemSelectedValue: jointHolderDocTypeController.text,
                                   isError: isError,
-                                  onError: () =>
-                                      jointHolderDocTypeError.value = false,
-                                  selectController:
-                                      jointHolderDocTypeController,
+                                  onError: () => jointHolderDocTypeError.value = false,
+                                  selectController: jointHolderDocTypeController,
                                   hintText: "Tipo",
                                   validator: (value) {
                                     if (isJointAccount.value) {
@@ -565,8 +552,7 @@ class FormAccounts extends HookConsumerWidget {
                                         showSnackBarV2(
                                           context: context,
                                           title: "Tipo Documento obligatorio",
-                                          message:
-                                              "Por favor, seleccione tipo de documento.",
+                                          message: "Por favor, seleccione tipo de documento.",
                                           snackType: SnackType.warning,
                                         );
                                         jointHolderDocTypeError.value = true;
@@ -590,8 +576,7 @@ class FormAccounts extends HookConsumerWidget {
                                   isNumeric: true,
                                   isRow: true,
                                   isError: isError,
-                                  onError: () =>
-                                      jointHolderDocNumberError.value = false,
+                                  onError: () => jointHolderDocNumberError.value = false,
                                   controller: jointHolderDocNumberController,
                                   hintText: "Nº de documento",
                                   validator: (value) {
@@ -600,15 +585,13 @@ class FormAccounts extends HookConsumerWidget {
                                         showSnackBarV2(
                                           context: context,
                                           title: "Nº Documento obligatorio",
-                                          message:
-                                              "Por favor, ingresa el Nº de documento.",
+                                          message: "Por favor, ingresa el Nº de documento.",
                                           snackType: SnackType.warning,
                                         );
                                         jointHolderDocNumberError.value = true;
                                         return null;
                                       }
-                                      if (!RegExp(r'^[0-9]+$')
-                                          .hasMatch(value)) {
+                                      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
                                         showSnackBarV2(
                                           context: context,
                                           title: "Nº Documento incorrecto",
@@ -622,8 +605,7 @@ class FormAccounts extends HookConsumerWidget {
                                         showSnackBarV2(
                                           context: context,
                                           title: "Nº Documento incorrecto",
-                                          message:
-                                              'El DNI debe tener 8 caracteres',
+                                          message: 'El DNI debe tener 8 caracteres',
                                           snackType: SnackType.warning,
                                         );
                                         jointHolderDocNumberError.value = true;
@@ -659,8 +641,7 @@ class FormAccounts extends HookConsumerWidget {
                   CheckBoxWidget(
                     value: useForFutureOperations.value,
                     onChanged: (a) {
-                      useForFutureOperations.value =
-                          !useForFutureOperations.value;
+                      useForFutureOperations.value = !useForFutureOperations.value;
                     },
                   ),
                   const TextPoppins(
@@ -677,8 +658,7 @@ class FormAccounts extends HookConsumerWidget {
                         CheckBoxWidget(
                           value: personalAccountDeclaration.value,
                           onChanged: (a) {
-                            personalAccountDeclaration.value =
-                                !personalAccountDeclaration.value;
+                            personalAccountDeclaration.value = !personalAccountDeclaration.value;
                           },
                         ),
                         const TextPoppins(

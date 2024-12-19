@@ -49,18 +49,18 @@ class CreateReInvestmentResponse {
 
 class UpdateReInvestmentResponse {
   final bool success;
-  final String reInvestmentUuid;
+  final String? reInvestmentUuid;
   final List<GraphQLErrorMessage>? messages;
 
   UpdateReInvestmentResponse({
     required this.success,
-    required this.reInvestmentUuid,
+    this.reInvestmentUuid,
     this.messages,
   });
 
   factory UpdateReInvestmentResponse.fromJson(Map<String, dynamic> json) {
     return UpdateReInvestmentResponse(
-      success: json['success'],
+      success: json['success'] ?? false,
       reInvestmentUuid: json['reInvestmentUuid'],
       messages: (json['messages'] as List?)
           ?.where((e) => e != null)

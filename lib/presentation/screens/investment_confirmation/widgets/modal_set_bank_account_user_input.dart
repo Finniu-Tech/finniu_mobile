@@ -30,8 +30,8 @@ Future<void> showBankAccountSetBankMutationModal(
                 child: Text(
                   textAlign: TextAlign.center,
                   isSender
-                      ? '¿Desde qué cuenta nos transfieres el dinero? 💸'
-                      : '¿A qué cuenta transferimos tu rentabilidad? 💸',
+                      ? '¿Desde qué cuenta nos transfieres el dinero ? 💸'
+                      : '¿A qué cuenta transferimos tu rentabilidad ? 💸',
                   style: const TextStyle(
                     fontSize: 20,
                     color: Color(primaryDark),

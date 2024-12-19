@@ -70,9 +70,7 @@ class StepTwoBody extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height < 700
-            ? 650
-            : MediaQuery.of(context).size.height - 120,
+        height: MediaQuery.of(context).size.height < 700 ? 650 : MediaQuery.of(context).size.height - 120,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,7 +97,7 @@ class StepTwoBody extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             BankTranferContainer(
-              title: "Desde que banco nos transfieres",
+              title: "Desde que banco nos transfieres ",
               providerWatch: selectedBankAccountSenderProvider,
               isSended: true,
             ),
@@ -136,9 +134,8 @@ class ColumnPush extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final conditions = useState(false);
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    void pushData() {
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    Future<void> pushData() async {
       final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
       final bankSender = ref.read(selectedBankAccountSenderProvider);
       final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
@@ -208,7 +205,7 @@ class ColumnPush extends HookConsumerWidget {
       }
       context.loaderOverlay.show();
       FocusManager.instance.primaryFocus?.unfocus();
-      stepTwoPushData(
+      final success = await stepTwoPushData(
         context,
         ref,
         PushStepData(
@@ -220,10 +217,13 @@ class ColumnPush extends HookConsumerWidget {
           isReInvestment: args['isReInvestment'] ?? false,
         ),
       );
-      ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
-      ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
-      // Navigator.pushNamedAndRemoveUntil(
-      //           context, '/v4/home', (route) => false);
+
+      context.loaderOverlay.hide();
+
+      if (success) {
+        ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+        ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
+      }
     }
 
     return Column(
