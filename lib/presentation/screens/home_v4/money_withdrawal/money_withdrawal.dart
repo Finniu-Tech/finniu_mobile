@@ -1,7 +1,10 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
+import 'package:finniu/presentation/screens/home_v4/money_withdrawal/widget/modal_reasons.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MoneyWithdrawalScreen extends StatelessWidget {
   const MoneyWithdrawalScreen({super.key});
@@ -17,13 +20,14 @@ class MoneyWithdrawalScreen extends StatelessWidget {
   }
 }
 
-class MoneyBody extends StatelessWidget {
+class MoneyBody extends ConsumerWidget {
   const MoneyBody({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     const String title = "¡Gracias por depositar tu confianza en Finniu!";
     const String subTitle =
         "Si reinviertes, tu inversión crecerá en 1 año a este monto 👇🏻";
@@ -72,7 +76,7 @@ class MoneyBody extends StatelessWidget {
             const SizedBox(height: 10),
             ButtonInvestmentBorder(
               text: "Solicitar mi retiro",
-              onPressed: () {},
+              onPressed: () => showModalReasons(context, isDarkMode),
             ),
           ],
         ),
