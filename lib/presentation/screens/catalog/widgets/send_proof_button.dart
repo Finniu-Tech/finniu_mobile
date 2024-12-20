@@ -83,6 +83,59 @@ class ButtonInvestment extends ConsumerWidget {
   }
 }
 
+class ButtonInvestmentBorder extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  const ButtonInvestmentBorder({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xff0E0E0E;
+    const int backgroundLight = 0xffFFFFFF;
+    const int borderDark = 0xffA2E6FA;
+    const int borderLight = 0xff0D3A5C;
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: 50,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(
+                color: isDarkMode
+                    ? const Color(borderDark)
+                    : const Color(borderLight),
+              ),
+            ),
+          ),
+          elevation: WidgetStateProperty.all(0),
+          backgroundColor: WidgetStateProperty.all(
+            isDarkMode
+                ? const Color(backgroundDark)
+                : const Color(backgroundLight),
+          ),
+        ),
+        onPressed: onPressed,
+        child: TextPoppins(
+          text: text,
+          align: TextAlign.center,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          textDark: borderDark,
+          textLight: borderLight,
+        ),
+      ),
+    );
+  }
+}
+
 class ButtonIconInvestment extends ConsumerWidget {
   final String text;
   final VoidCallback? onPressed;
