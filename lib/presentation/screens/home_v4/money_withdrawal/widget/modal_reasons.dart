@@ -1,25 +1,43 @@
+import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_modal.dart';
+import 'package:finniu/presentation/screens/home_v4/widget/scaffold_home_v4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
-void showModalReasons(BuildContext context, bool isDarkMode) {
+void showModalReasons(BuildContext context, bool isDarkMode, String uuid) {
   const int backgroundDark = 0xff1A1A1A;
   const int backgroundLight = 0xffFFFFFF;
   showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (context) => Dialog(
-      backgroundColor: isDarkMode
-          ? const Color(backgroundDark)
-          : const Color(backgroundLight),
-      child: ReasonsBody(
-        isDarkMode: isDarkMode,
+    builder: (context) => LoaderOverlay(
+      useDefaultLoading: false,
+      overlayWidgetBuilder: (progress) {
+        return const Center(
+          child: LogoLoader(
+            width: 100,
+            height: 100,
+          ),
+        );
+      },
+      child: Dialog(
+        backgroundColor: isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
+        child: ReasonsBody(
+          isDarkMode: isDarkMode,
+          uuid: uuid,
+        ),
       ),
     ),
   );
@@ -29,8 +47,10 @@ class ReasonsBody extends StatelessWidget {
   const ReasonsBody({
     super.key,
     required this.isDarkMode,
+    required this.uuid,
   });
   final bool isDarkMode;
+  final String uuid;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -45,7 +65,9 @@ class ReasonsBody extends StatelessWidget {
               isDarkMode: isDarkMode,
               closeModal: () => Navigator.pop(context),
             ),
-            const ReasonAndComments(),
+            ReasonAndComments(
+              uuid: uuid,
+            ),
           ],
         ),
       ),
@@ -56,15 +78,16 @@ class ReasonsBody extends StatelessWidget {
 class ReasonAndComments extends HookConsumerWidget {
   const ReasonAndComments({
     super.key,
+    required this.uuid,
   });
-
+  final String uuid;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     final itemSelect = useState<String?>(null);
     final PageController pageController = usePageController();
     final areaController = useTextEditingController();
-
+    final date = DateTime.now();
     const List<String> reasons = [
       "Ya completé mi meta",
       "Necesito mi dinero",
@@ -72,12 +95,59 @@ class ReasonAndComments extends HookConsumerWidget {
       "Percibo mucho riesgo",
       "Otros",
     ];
+    String getReasonText(String reason) {
+      switch (reason) {
+        case "Ya completé mi meta":
+          return "GOAL_ACCOMPLISHED";
+        case "Necesito mi dinero":
+          return "NEED_MY_MONEY";
+        case "Me han ofrecido mejor rentabilidad":
+          return "BETTER_RENTABILITY";
+        case "Percibo mucho riesgo":
+          return "TOO_MUCH_RISK";
+        case "Otros":
+          return "OTHER";
+        default:
+          return "OTHER";
+      }
+    }
+
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const int containerDark = 0xff272728;
     const int containerLight = 0xffD9F6FF;
-    const String remember =
-        "Recuerda que el día 15 de Agosto estaremos realizando tu depósito de tu capital durante un plazo de 24 hrs";
+    String remember =
+        "Recuerda que el día ${date.day} de ${getMonthNameComplete(date.month)} estaremos realizando tu depósito de tu capital durante un plazo de 24 hrs";
+
+    void reinvestmentQuestion() async {
+      FocusManager.instance.primaryFocus?.unfocus();
+      context.loaderOverlay.show();
+      await ref.read(
+        rejectReInvestmentProvider(
+          RejectReInvestmentParams(
+            preInvestmentUUID: uuid,
+            rejectMotivation: getReasonText(itemSelect.value!),
+            textRejected: areaController.text,
+          ),
+        ).future,
+      );
+      pageController.animateToPage(
+        2,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      context.loaderOverlay.hide();
+
+      ref.read(navigatorStateProvider.notifier).state = 0;
+      Future.delayed(
+        const Duration(milliseconds: 500),
+        () => Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/v4/home',
+          (_) => false,
+        ),
+      );
+    }
 
     useEffect(
       () {
@@ -142,11 +212,7 @@ class ReasonAndComments extends HookConsumerWidget {
           ),
           ButtonInvestment(
             text: 'Enviar',
-            onPressed: () => pageController.animateToPage(
-              2,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            ),
+            onPressed: reinvestmentQuestion,
           ),
         ],
       ),
@@ -178,7 +244,7 @@ class ReasonAndComments extends HookConsumerWidget {
           const Spacer(),
           Container(
             width: MediaQuery.of(context).size.width * 0.7,
-            height: 90,
+            height: 80,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -199,14 +265,16 @@ class ReasonAndComments extends HookConsumerWidget {
                       : const Color(titleLight),
                 ),
                 const SizedBox(
-                  width: 10,
+                  width: 15,
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: const TextPoppins(
-                    text: remember,
-                    fontSize: 12,
-                    lines: 4,
+                Expanded(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: TextPoppins(
+                      text: remember,
+                      fontSize: 12,
+                      lines: 3,
+                    ),
                   ),
                 ),
               ],

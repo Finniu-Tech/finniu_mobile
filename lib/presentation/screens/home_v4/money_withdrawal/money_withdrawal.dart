@@ -125,7 +125,7 @@ class MoneyBody extends ConsumerWidget {
             const SizedBox(height: 10),
             ButtonInvestmentBorder(
               text: "Solicitar mi retiro",
-              onPressed: () => showModalReasons(context, isDarkMode),
+              onPressed: () => showModalReasons(context, isDarkMode, args.uuid),
             ),
           ],
         ),

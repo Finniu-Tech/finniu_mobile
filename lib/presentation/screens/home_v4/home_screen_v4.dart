@@ -7,7 +7,6 @@ import 'package:finniu/presentation/providers/last_operation_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/complete_profile.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
@@ -36,28 +35,25 @@ class HomeBodyV4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return const Stack(
       children: [
         Column(
           children: [
-            const InvestContainer(),
-            const SizedBox(
+            InvestContainer(),
+            SizedBox(
               height: 20,
             ),
-            const GetFundToSlider(),
+            GetFundToSlider(),
 
-            const ProfileCompletenessSection(),
+            ProfileCompletenessSection(),
             // ChangeContainer(),
-            ButtonInvestment(
-                text: "quiero retirar",
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/v4/money_withdrawal')),
-            const DividerHome(),
-            const NewsContainer(),
-            const SizedBox(height: 80),
+
+            DividerHome(),
+            NewsContainer(),
+            SizedBox(height: 80),
           ],
         ),
-        const SeeLaterWidgetV4(),
+        SeeLaterWidgetV4(),
       ],
     );
   }
