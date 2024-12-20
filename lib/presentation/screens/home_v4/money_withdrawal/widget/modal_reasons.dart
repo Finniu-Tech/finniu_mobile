@@ -178,7 +178,7 @@ class ReasonAndComments extends HookConsumerWidget {
           const Spacer(),
           Container(
             width: MediaQuery.of(context).size.width * 0.7,
-            height: 80,
+            height: 90,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -192,8 +192,8 @@ class ReasonAndComments extends HookConsumerWidget {
               children: [
                 SvgPicture.asset(
                   "assets/svg_icons/clock_icon.svg",
-                  width: 24,
-                  height: 24,
+                  width: 20,
+                  height: 20,
                   color: isDarkMode
                       ? const Color(titleDark)
                       : const Color(titleLight),
@@ -206,7 +206,7 @@ class ReasonAndComments extends HookConsumerWidget {
                   child: const TextPoppins(
                     text: remember,
                     fontSize: 12,
-                    lines: 3,
+                    lines: 4,
                   ),
                 ),
               ],
@@ -218,7 +218,7 @@ class ReasonAndComments extends HookConsumerWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: SizedBox(
-        height: 270,
+        height: 290,
         child: PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
