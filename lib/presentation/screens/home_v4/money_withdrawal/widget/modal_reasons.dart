@@ -5,6 +5,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void showModalReasons(BuildContext context, bool isDarkMode) {
@@ -73,6 +74,10 @@ class ReasonAndComments extends HookConsumerWidget {
     ];
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
+    const int containerDark = 0xff272728;
+    const int containerLight = 0xffD9F6FF;
+    const String remember =
+        "Recuerda que el día 15 de Agosto estaremos realizando tu depósito de tu capital durante un plazo de 24 hrs";
 
     useEffect(
       () {
@@ -161,11 +166,51 @@ class ReasonAndComments extends HookConsumerWidget {
             textDark: titleDark,
             textLight: titleLight,
           ),
+          const SizedBox(
+            height: 5,
+          ),
           const TextPoppins(
             text: "Esperamos verte pronto 💸",
             fontSize: 16,
             align: TextAlign.center,
             lines: 2,
+          ),
+          const Spacer(),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 80,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: isDarkMode
+                  ? const Color(containerDark)
+                  : const Color(containerLight),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SvgPicture.asset(
+                  "assets/svg_icons/clock_icon.svg",
+                  width: 24,
+                  height: 24,
+                  color: isDarkMode
+                      ? const Color(titleDark)
+                      : const Color(titleLight),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: const TextPoppins(
+                    text: remember,
+                    fontSize: 12,
+                    lines: 3,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
