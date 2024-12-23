@@ -1,12 +1,16 @@
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/pre_re_invest.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_re_invest.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/home_v4/money_withdrawal/widget/modal_reasons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MoneyWithdrawalScreen extends StatelessWidget {
@@ -73,7 +77,7 @@ class MoneyBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
-    // final isSoles = ref.read(isSolesStateProvider);
+    final isSoles = ref.read(isSolesStateProvider);
     // const int titleDark = 0xffFFFFFF;
     // const int titleLight = 0xff0D3A5C;
     // const int amountDark = 0xffA2E6FA;
@@ -92,9 +96,11 @@ class MoneyBody extends ConsumerWidget {
       PageOneMoney(
         isDarkMode: isDarkMode,
       ),
-      Container(
-        width: MediaQuery.of(context).size.width,
-        color: const Color(0xffA2E6FA),
+      PageTwoMoney(
+        isDarkMode: isDarkMode,
+        isSoles: isSoles,
+        amount: data.initialAmount.toString(),
+        rent: data.rentabilityAmount.toString(),
       ),
       Container(
         width: MediaQuery.of(context).size.width,
@@ -135,6 +141,154 @@ class MoneyBody extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class PageTwoMoney extends StatelessWidget {
+  const PageTwoMoney({
+    super.key,
+    required this.isDarkMode,
+    required this.isSoles,
+    required this.amount,
+    required this.rent,
+  });
+  final bool isDarkMode;
+  final bool isSoles;
+  final String amount;
+  final String rent;
+  @override
+  Widget build(BuildContext context) {
+    const int amountContainerDark = 0xffA2E6FA;
+    const int amountContainerLight = 0xffD9F7FF;
+    const int amountDark = 0xff0D3A5C;
+    const int amountLight = 0xff0D3A5C;
+    const int rentContainerDark = 0xffB5FF8A;
+    const int rentContainerLight = 0xffD6FFBF;
+    const int rentDark = 0xff0D3A5C;
+    const int rentLight = 0xff0D3A5C;
+    const int rentIconDark = 0xff55B63D;
+    const int rentIconLight = 0xff55B63D;
+    // const int rentDark = 0xffD6FFBF;
+    // const int rentLight = 0xffD6FFBF;
+
+    final int amountParsed = convertStringToInt(amount);
+    final int rentParsed = convertStringToInt(rent);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.85,
+          height: 146,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: isDarkMode
+                ? const Color(amountContainerDark)
+                : const Color(amountContainerLight),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "assets/svg_icons/dolar_money_icon.svg",
+                width: 35,
+                height: 35,
+                color: isDarkMode
+                    ? const Color(amountDark)
+                    : const Color(amountLight),
+              ),
+              const TextPoppins(
+                text: "Hace un año invertiste",
+                fontSize: 14,
+              ),
+              amountParsed == 0
+                  ? TextPoppins(
+                      text:
+                          formatNumberNotComa(isSoles: isSoles, number: amount),
+                      fontSize: 36,
+                      textDark: amountDark,
+                      textLight: amountLight,
+                    )
+                  : AnimationNumberNotComma(
+                      endNumber: amountParsed,
+                      fontSize: 36,
+                      duration: 1,
+                      isSoles: isSoles,
+                      beginNumber: 0,
+                      colorText: isDarkMode ? amountDark : amountLight,
+                    ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.85,
+          height: 146,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: isDarkMode
+                ? const Color(rentContainerDark)
+                : const Color(rentContainerLight),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "assets/svg_icons/status_up_icon_draft.svg",
+                width: 35,
+                height: 35,
+                color: isDarkMode
+                    ? const Color(rentIconDark)
+                    : const Color(rentIconLight),
+              ),
+              const TextPoppins(
+                text: "con nosotros y ya has ganado",
+                fontSize: 14,
+              ),
+              rentParsed == 0
+                  ? TextPoppins(
+                      text: formatNumberNotComa(isSoles: isSoles, number: rent),
+                      fontSize: 36,
+                      textDark: amountDark,
+                      textLight: amountLight,
+                    )
+                  : AnimationNumberNotComma(
+                      endNumber: rentParsed,
+                      fontSize: 36,
+                      duration: 1,
+                      isSoles: isSoles,
+                      beginNumber: 0,
+                      colorText: isDarkMode ? rentDark : rentLight,
+                    ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
+          child: const TextPoppins(
+            text: "¡Felicidades por tomar esa gran decisión!",
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            textDark: amountDark,
+            textLight: amountLight,
+            align: TextAlign.center,
+            lines: 2,
+          ),
+        ),
+        const SizedBox(height: 10),
+        const TextPoppins(
+          text: "pero....",
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          textDark: amountDark,
+          textLight: amountLight,
+          align: TextAlign.center,
+          lines: 2,
+        )
+      ],
     );
   }
 }

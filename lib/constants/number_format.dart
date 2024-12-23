@@ -87,3 +87,12 @@ String getMonthNameComplete(int month) {
 
   return monthes[month - 1];
 }
+
+int convertStringToInt(String value) {
+  try {
+    double doubleValue = double.parse(value);
+    return doubleValue.toInt();
+  } catch (e) {
+    return 0;
+  }
+}
