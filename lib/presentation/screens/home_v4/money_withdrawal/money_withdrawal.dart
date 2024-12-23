@@ -107,9 +107,8 @@ class MoneyBody extends ConsumerWidget {
         isSoles: isSoles,
         amountFuture: data.initialAmount.toString(),
       ),
-      Container(
-        width: MediaQuery.of(context).size.width,
-        color: const Color(0xffA2E6FA),
+      PageFourMoney(
+        isDarkMode: isDarkMode,
       ),
     ];
 
@@ -142,6 +141,60 @@ class MoneyBody extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class PageFourMoney extends StatelessWidget {
+  const PageFourMoney({
+    super.key,
+    required this.isDarkMode,
+  });
+  final bool isDarkMode;
+  @override
+  Widget build(BuildContext context) {
+    const String title =
+        "¡Dale a tu inversión la oportunidad de llegar más lejos!";
+    const String subTitle =
+        "¡Reinvierte hoy mismo y sigue avanzando hacia tus metas financieras!";
+    const String icons = "👇🏻💸";
+    const int titleDark = 0xffA2E6FA;
+    const int titleLight = 0xff0D3A5C;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
+          child: const TextPoppins(
+            text: title,
+            fontSize: 20,
+            lines: 2,
+            align: TextAlign.center,
+            fontWeight: FontWeight.w500,
+            textDark: titleDark,
+            textLight: titleLight,
+          ),
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.75,
+          child: const TextPoppins(
+            text: subTitle,
+            fontSize: 16,
+            align: TextAlign.center,
+            lines: 3,
+          ),
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: const TextPoppins(
+            text: icons,
+            fontSize: 32,
+            align: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 }
