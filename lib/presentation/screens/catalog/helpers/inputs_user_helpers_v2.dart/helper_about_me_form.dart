@@ -38,7 +38,7 @@ pushAboutMeDataForm(
       ref.read(reloadUserProfileFutureProvider);
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
-        isNavigate ? null : Navigator.pushNamed(context, '/home_v2');
+        isNavigate ? null : Navigator.pushNamed(context, '/v4/home');
         ScaffoldMessenger.of(context).clearSnackBars();
       });
     } else {

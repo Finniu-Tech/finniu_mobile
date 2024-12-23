@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
@@ -23,6 +24,7 @@ class StepTwoV2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StepScaffold(
+      useDefaultLoading: false,
       children: StepTwoBody(),
     );
   }
@@ -35,6 +37,32 @@ class StepTwoBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = ProductContainerStyles(
+      backgroundContainerDark: 0xff1B1B1B,
+      backgroundContainerLight: 0xffE9FAFF,
+      imageProduct: "🏢",
+      titleText: "Producto de inversión a Plazo Fijo",
+      minimumText: "1.000",
+      profitabilityText: "19",
+      titleDark: 0xffFFFFFF,
+      titleLight: 0xff0D3A5C,
+      minimumDark: 0xff0D3A5C,
+      minimumLight: 0xff0D3A5C,
+      profitabilityDark: 0xffB5FF8A,
+      profitabilityLight: 0xffD2FDBA,
+      isSoles: true,
+      uuid: "1",
+      buttonBackDark: 0xffA2E6FA,
+      buttonBackLight: 0xff0D3A5C,
+      buttonTextDark: 0xff0D3A5C,
+      buttonTextLight: 0xffFFFFFF,
+      textDark: 0xff000000,
+      textLight: 0xff000000,
+      minimunTextColorDark: 0xffFFFFFF,
+      minimumTextColorLight: 0xffFFFFFF,
+      minimumLightSoles: 0xffBBF0FF,
+      minimumTextColorLightSoles: 0xff000000,
+    );
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const int textDark = 0xffFFFFFF;
@@ -42,14 +70,14 @@ class StepTwoBody extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height < 700
-            ? 650
-            : MediaQuery.of(context).size.height - 120,
+        height: MediaQuery.of(context).size.height < 700 ? 650 : MediaQuery.of(context).size.height - 120,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const FundRowStep(),
+            FundRowStep(
+              icon: colors.imageProduct,
+            ),
             const TextPoppins(
               text: "Fondo prestamos\nempresariales",
               fontSize: 20,
@@ -67,16 +95,19 @@ class StepTwoBody extends StatelessWidget {
               textDark: textDark,
               textLight: textLight,
             ),
+            const SizedBox(height: 5),
             BankTranferContainer(
-              title: "Desde que banco nos transfieres",
+              title: "Desde que banco nos transfieres ",
               providerWatch: selectedBankAccountSenderProvider,
               isSended: true,
             ),
+            const SizedBox(height: 5),
             BankTranferContainer(
               title: "A que banco te depositamos",
               providerWatch: selectedBankAccountReceiverProvider,
               isSended: false,
             ),
+            const SizedBox(height: 5),
             const TextRickStep(),
             const FinniuAccountProvider(),
             const TextPoppins(
@@ -103,9 +134,8 @@ class ColumnPush extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final conditions = useState(false);
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    void pushData() {
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    Future<void> pushData() async {
       final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
       final bankSender = ref.read(selectedBankAccountSenderProvider);
       final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
@@ -175,7 +205,7 @@ class ColumnPush extends HookConsumerWidget {
       }
       context.loaderOverlay.show();
       FocusManager.instance.primaryFocus?.unfocus();
-      stepTwoPushData(
+      final success = await stepTwoPushData(
         context,
         ref,
         PushStepData(
@@ -187,10 +217,13 @@ class ColumnPush extends HookConsumerWidget {
           isReInvestment: args['isReInvestment'] ?? false,
         ),
       );
-      ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
-      ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
-      // Navigator.pushNamedAndRemoveUntil(
-      //           context, '/home_v2', (route) => false);
+
+      context.loaderOverlay.hide();
+
+      if (success) {
+        ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+        ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
+      }
     }
 
     return Column(

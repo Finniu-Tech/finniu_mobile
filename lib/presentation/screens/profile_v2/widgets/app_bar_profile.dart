@@ -43,7 +43,10 @@ class AppBarProfile extends ConsumerWidget implements PreferredSizeWidget {
       leading: IconButton(
         onPressed: () => onLeadingPressed != null
             ? onLeadingPressed!()
-            : Navigator.of(context).pop(),
+            : {
+                ScaffoldMessenger.of(context).clearSnackBars(),
+                Navigator.of(context).pop(),
+              },
         icon: Icon(
           Icons.arrow_back,
           color: isDarkMode

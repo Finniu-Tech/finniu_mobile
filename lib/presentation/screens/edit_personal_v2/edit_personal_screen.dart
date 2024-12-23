@@ -207,7 +207,7 @@ class EditPersonalForm extends HookConsumerWidget {
           context,
           data,
           ref,
-          navigate: '/home_v2',
+          navigate: '/v4/home',
           isEdit: true,
           isNavigate: true,
         );

@@ -1,4 +1,6 @@
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/domain/entities/user_profile_completeness.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
@@ -26,6 +28,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dar
 import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/home_v4/widget/select_bank.dart';
 import 'package:finniu/presentation/screens/login_v2/widgets/modal_new_password.dart';
 import 'package:finniu/presentation/screens/pay_out/widgets/modal_payment_bounced.dart';
 import 'package:finniu/presentation/screens/pay_out/widgets/modal_payment_voucher.dart';
@@ -44,6 +47,7 @@ class CatalogScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
 
     void setDarkMode() {
       if (!isDarkMode) {
@@ -65,7 +69,9 @@ class CatalogScreen extends HookConsumerWidget {
     final TextEditingController controller = TextEditingController();
 
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+      backgroundColor: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
         elevation: 0.0,
@@ -84,6 +90,45 @@ class CatalogScreen extends HookConsumerWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/debug_log');
               },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "nuevo home",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v4/home');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "form accoutns",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/form_accounts');
+              },
+            ),
+
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "new bank select",
+              onPressed: () {
+                showBankAccountModalV4(
+                    context: context,
+                    currency: isSoles ? CurrencyEnum.PEN : CurrencyEnum.USD,
+                    isSender: false,
+                    typeReInvestment: "",
+                    bankSelect: null);
+              },
+            ),
+            const SizedBox(
+              height: 10,
             ),
             const SizedBox(
               height: 10,
@@ -197,7 +242,8 @@ class CatalogScreen extends HookConsumerWidget {
                     profileComplete: 100,
                   ),
                   redirect: () {
-                    Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': ""});
+                    Navigator.pushNamed(context, '/v2/investment/step-1',
+                        arguments: {'fund': ""});
                   },
                 );
               },
@@ -283,7 +329,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.error,
                 );
               },
@@ -297,7 +344,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.warning,
                 );
               },
@@ -311,7 +359,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.success,
                 );
               },
@@ -325,7 +374,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.info,
                 );
               },
@@ -354,7 +404,6 @@ class CatalogScreen extends HookConsumerWidget {
             ButtonInvestment(
                 text: 'Log error on crashalytics',
                 onPressed: () async {
-                  print('log error on crashalytics');
                   FirebaseCrashlytics.instance.log('Esto es un log de prueba');
                   throw Exception();
                 }),
@@ -368,7 +417,8 @@ class CatalogScreen extends HookConsumerWidget {
               title: "Verificación  legal",
               children: [
                 ChildrenCheckboxTitle(
-                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
+                  text:
+                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
                   value: true,
                 ),
               ],
@@ -392,7 +442,8 @@ class CatalogScreen extends HookConsumerWidget {
             const ExpansionTitleProfile(
               icon: "assets/svg_icons/dark_mode_icon.svg",
               title: "Contraseñas",
-              subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
               children: [
                 ChildrenTitle(
                   title: "Visualización de contraseña",
@@ -410,7 +461,8 @@ class CatalogScreen extends HookConsumerWidget {
             ButtonSwitchProfile(
               icon: null,
               title: "Sobre mis inversiones",
-              subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
               onTap: () => setInvest(),
               value: invest,
             ),

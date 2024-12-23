@@ -1,5 +1,6 @@
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -147,6 +148,7 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
       months: widget.monthInvestment,
       currency: isSoles ? 'nuevo sol' : 'dolar',
       coupon: widget.coupon,
+      fundUuid: FundUUIDEnum.prodCorporateFund,
     );
 
     final response = ref.watch(calculateInvestmentFutureProvider(calculatorInput));

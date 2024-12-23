@@ -73,7 +73,7 @@ class SelectedBankDeposit extends ConsumerWidget {
                 fontSize: 14,
               ),
               TextPoppins(
-                text: "${bankAccountReceiver.bankName}",
+                text: bankAccountReceiver.bankSlug.toUpperCase(),
                 fontSize: 12,
               ),
               TextPoppins(

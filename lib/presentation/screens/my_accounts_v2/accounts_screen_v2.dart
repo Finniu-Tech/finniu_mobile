@@ -5,10 +5,7 @@ import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/account_card.dart';
-import 'package:finniu/domain/entities/re_investment_entity.dart';
-import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/add_accounts.dart';
-import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -29,8 +26,6 @@ class _BodyMyAccounts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSoles = ref.watch(isSolesStateProvider);
-    final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final bankAccounts = ref.watch(bankAccountFutureProvider);
 
     String getCurrency(String currency) {
@@ -80,11 +75,7 @@ class _BodyMyAccounts extends ConsumerWidget {
                           "add_account": "add_account",
                         },
                       ),
-                      showAccountTransferModal(
-                        context,
-                        currency,
-                        true,
-                      ),
+                      Navigator.pushNamed(context, '/v2/form_accounts'),
                     },
                     child: const AddAccounts(),
                   ),
@@ -108,13 +99,9 @@ class _BodyMyAccounts extends ConsumerWidget {
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       return AccointCard(
-                        notImage: data[index].bankLogoUrl == null ||
-                                data[index].bankLogoUrl == ""
-                            ? true
-                            : false,
+                        notImage: data[index].bankLogoUrl == null || data[index].bankLogoUrl == "" ? true : false,
                         title: data[index].bankName,
-                        subtitle:
-                            "${getCurrency(data[index].currency)} | ${hideNumbers(data[index].bankAccount)}  ",
+                        subtitle: "${getCurrency(data[index].currency)} | ${hideNumbers(data[index].bankAccount)}  ",
                         isJoint: data[index].isJointAccount,
                         logoUrl: data[index].bankLogoUrl ?? "",
                       );
@@ -131,11 +118,7 @@ class _BodyMyAccounts extends ConsumerWidget {
                         "add_account": "add_account",
                       },
                     ),
-                    showAccountTransferModal(
-                      context,
-                      currency,
-                      true,
-                    ),
+                    Navigator.pushNamed(context, '/v2/form_accounts'),
                   },
                   child: const AddAccounts(),
                 ),
