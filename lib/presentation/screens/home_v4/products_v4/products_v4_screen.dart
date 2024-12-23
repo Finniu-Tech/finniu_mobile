@@ -19,7 +19,9 @@ class ProductsV4Screen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(HomeV4Colors.backgroudDark) : const Color(HomeV4Colors.backgroudLight),
+      backgroundColor: isDarkMode
+          ? const Color(HomeV4Colors.backgroudDark)
+          : const Color(HomeV4Colors.backgroudLight),
       appBar: const AppBarProducts(),
       bottomNavigationBar: const NavBarV4(),
       body: const SingleChildScrollView(
@@ -59,7 +61,8 @@ class ListProducts extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
 
-    final PageController pageController = PageController(initialPage: isSoles ? 0 : 1);
+    final PageController pageController =
+        PageController(initialPage: isSoles ? 0 : 1);
 
     useEffect(
       () {
@@ -86,12 +89,12 @@ class ListProducts extends HookConsumerWidget {
             Column(
               children: [
                 ProductContainer(
-                  colors: product,
+                  colors: productFixedTerm,
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
                       '/v4/product',
-                      arguments: product,
+                      arguments: productFixedTerm,
                     );
                   },
                 ),
@@ -99,12 +102,12 @@ class ListProducts extends HookConsumerWidget {
                   height: 20,
                 ),
                 ProductContainer(
-                  colors: product2,
+                  colors: productRealEstate,
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
                       '/v4/product',
-                      arguments: product2,
+                      arguments: productRealEstate,
                     );
                   },
                 ),
@@ -115,7 +118,8 @@ class ListProducts extends HookConsumerWidget {
                 ProductContainer(
                   colors: product3,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/v4/product', arguments: product3);
+                    Navigator.pushNamed(context, '/v4/product',
+                        arguments: product3);
                   },
                 ),
               ],

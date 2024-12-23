@@ -99,7 +99,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
       height: item.isReinvestAvailable == true &&
               item.actionStatus == ActionStatusEnumV4.reInvestmentActivated
           ? 140
-          : 100,
+          : 140,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
@@ -281,32 +281,32 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               ),
             ],
           ),
-          if (item.isReinvestAvailable == true &&
-              item.actionStatus == ActionStatusEnum.activeReInvestment)
-            GestureDetector(
-              onTap: navigateToReinvest,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(ToValidateColorsV4.buttonReInvestDark)
-                      : const Color(ToValidateColorsV4.buttonReInvestLight),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(20),
-                  ),
+          // if (item.isReinvestAvailable == true &&
+          //     item.actionStatus == ActionStatusEnum.activeReInvestment)
+          GestureDetector(
+            onTap: navigateToReinvest,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 30,
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? const Color(ToValidateColorsV4.buttonReInvestDark)
+                    : const Color(ToValidateColorsV4.buttonReInvestLight),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
                 ),
-                child: const Center(
-                  child: TextPoppins(
-                    text: "Quiero reinvertir",
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    textDark: ToValidateColorsV4.textReInvestDark,
-                    textLight: ToValidateColorsV4.textReInvestLight,
-                  ),
+              ),
+              child: const Center(
+                child: TextPoppins(
+                  text: "Quiero reinvertir",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  textDark: ToValidateColorsV4.textReInvestDark,
+                  textLight: ToValidateColorsV4.textReInvestLight,
                 ),
               ),
             ),
+          ),
         ],
       ),
     );

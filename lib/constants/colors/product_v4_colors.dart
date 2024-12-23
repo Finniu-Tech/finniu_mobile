@@ -78,7 +78,7 @@ class ProductContainerStyles {
   get getMinimumLightColor => minimumTextColorLight;
 }
 
-final product = ProductContainerStyles(
+final productFixedTerm = ProductContainerStyles(
   backgroundContainerDark: 0xff1B1B1B,
   backgroundContainerLight: 0xffE9FAFF,
   imageProduct: "🏢",
@@ -92,7 +92,9 @@ final product = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
-  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodCorporateFund : FundUUIDEnum.qaCorporateFund,
+  uuid: appConfig.environment == 'production'
+      ? FundUUIDEnum.prodCorporateFund
+      : FundUUIDEnum.qaCorporateFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,
@@ -105,7 +107,7 @@ final product = ProductContainerStyles(
   minimumTextColorLightSoles: 0xff000000,
 );
 
-final product2 = ProductContainerStyles(
+final productRealEstate = ProductContainerStyles(
   backgroundContainerDark: 0xff1B1B1B,
   backgroundContainerLight: 0xffE9FAFF,
   imageProduct: "🏡",
@@ -119,7 +121,9 @@ final product2 = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
-  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodInmobiliariaFund : FundUUIDEnum.qaInmobiliariaFund,
+  uuid: appConfig.environment == 'production'
+      ? FundUUIDEnum.prodInmobiliariaFund
+      : FundUUIDEnum.qaInmobiliariaFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,
@@ -145,7 +149,9 @@ final product3 = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: false,
-  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodCorporateFund : FundUUIDEnum.qaCorporateFund,
+  uuid: appConfig.environment == 'production'
+      ? FundUUIDEnum.prodCorporateFund
+      : FundUUIDEnum.qaCorporateFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,

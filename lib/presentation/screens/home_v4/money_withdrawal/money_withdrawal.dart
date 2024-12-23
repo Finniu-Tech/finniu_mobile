@@ -1,6 +1,4 @@
 import 'package:finniu/domain/entities/fund_entity.dart';
-import 'package:finniu/domain/entities/re_investment_entity.dart';
-import 'package:finniu/presentation/providers/get_fund_investment.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
@@ -8,10 +6,8 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/home_v4/money_withdrawal/widget/modal_reasons.dart';
-import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 class NavigateToMoney {
   final String uuid;
@@ -66,22 +62,11 @@ class MoneyBody extends ConsumerWidget {
     const int reInvestRentNum = 400;
 
     void navigateToReinvest() async {
-      context.loaderOverlay.show();
-      final dtoReinvest =
-          await ref.read(getInvestFutureProvider(args.uuid).future);
-
-      context.loaderOverlay.hide();
-
-      reinvestmentQuestionModal(
+      Navigator.pushNamedAndRemoveUntil(
         context,
-        ref,
-        args.uuid,
-        args.amount.toDouble(),
-        isSoles ? currencyEnum.PEN : currencyEnum.USD,
-        true,
-        dtoReinvest?.fund,
-        dtoReinvest?.rentabilityPercent,
-        dtoReinvest?.deadline,
+        '/v4/re_invest_step_one',
+        arguments: args.uuid,
+        (route) => false,
       );
     }
 

@@ -44,6 +44,7 @@ import 'package:finniu/presentation/screens/home_v4/payment_schedule/payment_scr
 import 'package:finniu/presentation/screens/home_v4/product_v4/product_v4_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/products_v4_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/push_to_url/push_to_url_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/re_invest_step_one.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/step_one_v4.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
@@ -374,5 +375,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v4/documents': (BuildContext context) => const DocumentsScreen(),
     '/v4/money_withdrawal': (BuildContext context) =>
         const MoneyWithdrawalScreen(),
+    '/v4/re_invest_step_one': (BuildContext context) {
+      // final args = ModalRoute.of(context)!.settings.arguments as String;
+      return const ReInvestStepOneV4();
+    },
   };
 }
