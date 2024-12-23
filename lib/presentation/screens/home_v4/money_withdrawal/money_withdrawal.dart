@@ -102,9 +102,10 @@ class MoneyBody extends ConsumerWidget {
         amount: data.initialAmount.toString(),
         rent: data.rentabilityAmount.toString(),
       ),
-      Container(
-        width: MediaQuery.of(context).size.width,
-        color: const Color(0xff0D3A5C),
+      PageThreeMoney(
+        isDarkMode: isDarkMode,
+        isSoles: isSoles,
+        amountFuture: data.initialAmount.toString(),
       ),
       Container(
         width: MediaQuery.of(context).size.width,
@@ -145,6 +146,110 @@ class MoneyBody extends ConsumerWidget {
   }
 }
 
+class PageThreeMoney extends StatelessWidget {
+  const PageThreeMoney({
+    super.key,
+    required this.isDarkMode,
+    required this.isSoles,
+    required this.amountFuture,
+  });
+  final bool isDarkMode;
+  final bool isSoles;
+  final String amountFuture;
+  @override
+  Widget build(BuildContext context) {
+    const String title = "Si decides reinvertir este año";
+    const String subTitle =
+        "No solo conservarás tus ganancias, sino que podrías ganar hasta";
+    const String timeText = "más en los próximos 12 meses.🗓️";
+    const int amountContainerDark = 0xff0D3A5C;
+    const int amountContainerLight = 0xffD9F7FF;
+    const int amountDark = 0xffFFFFFF;
+    const int amountLight = 0xff0D3A5C;
+    final int amountParsed = convertStringToInt(amountFuture);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
+          child: const TextPoppins(
+            text: title,
+            fontSize: 20,
+            align: TextAlign.center,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
+          child: const TextPoppins(
+            text: subTitle,
+            fontSize: 16,
+            align: TextAlign.center,
+            lines: 2,
+          ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
+          height: 160,
+          child: Stack(
+            children: [
+              Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  height: 91,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: isDarkMode
+                        ? const Color(amountContainerDark)
+                        : const Color(amountContainerLight),
+                  ),
+                  child: amountParsed == 0
+                      ? TextPoppins(
+                          text: formatNumberNotComa(
+                            isSoles: isSoles,
+                            number: amountFuture,
+                          ),
+                          fontSize: 36,
+                          textDark: amountDark,
+                          textLight: amountLight,
+                        )
+                      : AnimationNumberNotComma(
+                          endNumber: amountParsed,
+                          fontSize: 36,
+                          duration: 1,
+                          isSoles: isSoles,
+                          beginNumber: 0,
+                          colorText: isDarkMode ? amountDark : amountLight,
+                        ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: Image.asset(
+                  "assets/home_v4/cash_image.png",
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
+          child: const TextPoppins(
+            text: timeText,
+            fontSize: 14,
+            align: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class PageTwoMoney extends StatelessWidget {
   const PageTwoMoney({
     super.key,
@@ -169,8 +274,6 @@ class PageTwoMoney extends StatelessWidget {
     const int rentLight = 0xff0D3A5C;
     const int rentIconDark = 0xff55B63D;
     const int rentIconLight = 0xff55B63D;
-    // const int rentDark = 0xffD6FFBF;
-    // const int rentLight = 0xffD6FFBF;
 
     final int amountParsed = convertStringToInt(amount);
     final int rentParsed = convertStringToInt(rent);
@@ -287,7 +390,7 @@ class PageTwoMoney extends StatelessWidget {
           textLight: amountLight,
           align: TextAlign.center,
           lines: 2,
-        )
+        ),
       ],
     );
   }
