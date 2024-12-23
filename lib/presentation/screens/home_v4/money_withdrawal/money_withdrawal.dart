@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/pre_re_invest.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -9,7 +10,9 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/home_v4/money_withdrawal/widget/modal_reasons.dart';
+import 'package:finniu/presentation/screens/on_boarding_v2/widgets/page_select.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -18,11 +21,10 @@ class MoneyWithdrawalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uuid = ModalRoute.of(context)!.settings.arguments as String;
-    return Scaffold(
-      appBar: const AppBarNull(),
+    return const Scaffold(
+      appBar: AppBarNull(),
       body: SingleChildScrollView(
-        child: MoneyProvider(uuid: uuid),
+        child: MoneyProvider(),
       ),
     );
   }
@@ -31,15 +33,12 @@ class MoneyWithdrawalScreen extends StatelessWidget {
 class MoneyProvider extends ConsumerWidget {
   const MoneyProvider({
     super.key,
-    required this.uuid,
   });
-
-  final String uuid;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final args = ModalRoute.of(context)?.settings.arguments as String;
-    print(args);
+
     return FutureBuilder(
       future: ref.watch(getPreReInvestFutureProvider(args).future),
       builder: (context, snapshot) {
@@ -57,7 +56,7 @@ class MoneyProvider extends ConsumerWidget {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
-          return MoneyBody(uuid: uuid, data: snapshot.data!);
+          return MoneyBody(uuid: args, data: snapshot.data!);
         } else {
           return const Center(child: Text('No data available'));
         }
@@ -66,7 +65,7 @@ class MoneyProvider extends ConsumerWidget {
   }
 }
 
-class MoneyBody extends ConsumerWidget {
+class MoneyBody extends HookConsumerWidget {
   const MoneyBody({
     super.key,
     required this.uuid,
@@ -78,11 +77,7 @@ class MoneyBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.read(isSolesStateProvider);
-    // const int titleDark = 0xffFFFFFF;
-    // const int titleLight = 0xff0D3A5C;
-    // const int amountDark = 0xffA2E6FA;
-    // const int amountLight = 0xff0D3A5C;
-
+    final index = useState(0);
     void navigateToReinvest() async {
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -91,6 +86,11 @@ class MoneyBody extends ConsumerWidget {
         (route) => false,
       );
     }
+
+    final PageController controller = usePageController(
+      initialPage: 0,
+    );
+    Timer? timer;
 
     final List<Widget> pages = [
       PageOneMoney(
@@ -112,6 +112,24 @@ class MoneyBody extends ConsumerWidget {
         isDarkMode: isDarkMode,
       ),
     ];
+    useEffect(
+      () {
+        timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+          if (index.value < pages.length - 1) {
+            index.value++;
+          } else {
+            timer.cancel();
+          }
+          controller.animateToPage(
+            index.value,
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeInOut,
+          );
+        });
+        return null;
+      },
+      [],
+    );
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -120,6 +138,10 @@ class MoneyBody extends ConsumerWidget {
         alignment: Alignment.center,
         children: [
           PageView.builder(
+            onPageChanged: (value) {
+              index.value = value;
+            },
+            controller: controller,
             itemBuilder: (context, index) => pages[index],
             itemCount: pages.length,
           ),
@@ -127,6 +149,11 @@ class MoneyBody extends ConsumerWidget {
             bottom: 20,
             child: Column(
               children: [
+                PageSelectMoney(
+                  isDarkMode: isDarkMode,
+                  index: index.value,
+                ),
+                const SizedBox(height: 30),
                 ButtonInvestment(
                   text: "Quiero reinvertir",
                   onPressed: navigateToReinvest,
@@ -139,6 +166,44 @@ class MoneyBody extends ConsumerWidget {
                 const SizedBox(height: 10),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageSelectMoney extends ConsumerWidget {
+  const PageSelectMoney({
+    super.key,
+    required this.isDarkMode,
+    required this.index,
+  });
+  final int index;
+  final bool isDarkMode;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.6,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ItemSelect(
+            isSelected: index == 0,
+            isDarkMode: isDarkMode,
+          ),
+          ItemSelect(
+            isSelected: index == 1,
+            isDarkMode: isDarkMode,
+          ),
+          ItemSelect(
+            isSelected: index == 2,
+            isDarkMode: isDarkMode,
+          ),
+          ItemSelect(
+            isSelected: index == 3,
+            isDarkMode: isDarkMode,
           ),
         ],
       ),

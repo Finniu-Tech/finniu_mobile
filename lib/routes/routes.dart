@@ -373,8 +373,11 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v4/experience': (BuildContext context) => const ExperienceScreenV4(),
     '/v4/detail_invest': (BuildContext context) => const DetailInvestV4(),
     '/v4/documents': (BuildContext context) => const DocumentsScreen(),
-    '/v4/money_withdrawal': (BuildContext context) =>
-        const MoneyWithdrawalScreen(),
+
+    '/v4/money_withdrawal': (BuildContext context) {
+      // final args = ModalRoute.of(context)?.settings.arguments as String;
+      return const MoneyWithdrawalScreen();
+    },
     '/v4/re_invest_step_one': (BuildContext context) {
       // final args = ModalRoute.of(context)!.settings.arguments as String;
       return const ReInvestStepOneV4();
