@@ -90,6 +90,7 @@ class MoneyBody extends HookConsumerWidget {
     final PageController controller = usePageController(
       initialPage: 0,
     );
+    // ignore: unused_local_variable
     Timer? timer;
 
     final List<Widget> pages = [
@@ -153,7 +154,7 @@ class MoneyBody extends HookConsumerWidget {
                   isDarkMode: isDarkMode,
                   index: index.value,
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 ButtonInvestment(
                   text: "Quiero reinvertir",
                   onPressed: navigateToReinvest,
@@ -586,7 +587,7 @@ class PageTwoMoney extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         Container(
           width: MediaQuery.of(context).size.width * 0.85,
           height: 130,
@@ -645,7 +646,6 @@ class PageTwoMoney extends StatelessWidget {
             lines: 2,
           ),
         ),
-        const SizedBox(height: 10),
         const TextPoppins(
           text: "pero....",
           fontSize: 16,
@@ -655,7 +655,7 @@ class PageTwoMoney extends StatelessWidget {
           lines: 2,
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.25,
+          height: MediaQuery.of(context).size.height * 0.30,
         ),
       ],
     );
