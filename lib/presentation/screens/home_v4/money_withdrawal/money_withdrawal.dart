@@ -106,6 +106,7 @@ class MoneyBody extends ConsumerWidget {
         isDarkMode: isDarkMode,
         isSoles: isSoles,
         amountFuture: data.initialAmount.toString(),
+        deadlineString: data.deadlineString.toString(),
       ),
       PageFourMoney(
         isDarkMode: isDarkMode,
@@ -114,7 +115,7 @@ class MoneyBody extends ConsumerWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height - 80,
+      height: MediaQuery.of(context).size.height - 60,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -153,36 +154,90 @@ class PageFourMoney extends StatelessWidget {
   final bool isDarkMode;
   @override
   Widget build(BuildContext context) {
-    const String title =
-        "¡Dale a tu inversión la oportunidad de llegar más lejos!";
-    const String subTitle =
-        "¡Reinvierte hoy mismo y sigue avanzando hacia tus metas financieras!";
     const String icons = "👇🏻💸";
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
+    const int subTitleDark = 0xffFFFFFF;
+    const int subTitleLight = 0xff000000;
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
-          child: const TextPoppins(
-            text: title,
-            fontSize: 20,
-            lines: 2,
-            align: TextAlign.center,
-            fontWeight: FontWeight.w500,
-            textDark: titleDark,
-            textLight: titleLight,
+          child: Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 20,
+                color: isDarkMode
+                    ? const Color(titleDark)
+                    : const Color(titleLight),
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.none,
+              ),
+              children: <TextSpan>[
+                const TextSpan(
+                  text: "¡Dale a tu inversión la oportunidad de ",
+                ),
+                TextSpan(
+                  text: "llegar más lejos!",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? const Color(titleDark)
+                        : const Color(titleLight),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 10),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.75,
-          child: const TextPoppins(
-            text: subTitle,
-            fontSize: 16,
-            align: TextAlign.center,
-            lines: 3,
+          width: MediaQuery.of(context).size.width * 0.85,
+          child: Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 16,
+                color: isDarkMode
+                    ? const Color(subTitleDark)
+                    : const Color(subTitleLight),
+                fontWeight: FontWeight.w400,
+                decoration: TextDecoration.none,
+              ),
+              children: <TextSpan>[
+                const TextSpan(
+                  text: "¡",
+                ),
+                TextSpan(
+                  text: "Reinvierte hoy mismo ",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? const Color(subTitleDark)
+                        : const Color(subTitleLight),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const TextSpan(
+                  text: "y sigue avanzando hacia tus ",
+                ),
+                TextSpan(
+                  text: "metas financieras!",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? const Color(subTitleDark)
+                        : const Color(subTitleLight),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -193,6 +248,9 @@ class PageFourMoney extends StatelessWidget {
             fontSize: 32,
             align: TextAlign.center,
           ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.3,
         ),
       ],
     );
@@ -205,41 +263,93 @@ class PageThreeMoney extends StatelessWidget {
     required this.isDarkMode,
     required this.isSoles,
     required this.amountFuture,
+    required this.deadlineString,
   });
   final bool isDarkMode;
   final bool isSoles;
   final String amountFuture;
+  final String deadlineString;
   @override
   Widget build(BuildContext context) {
-    const String title = "Si decides reinvertir este año";
-    const String subTitle =
-        "No solo conservarás tus ganancias, sino que podrías ganar hasta";
-    const String timeText = "más en los próximos 12 meses.🗓️";
     const int amountContainerDark = 0xff0D3A5C;
     const int amountContainerLight = 0xffD9F7FF;
     const int amountDark = 0xffFFFFFF;
     const int amountLight = 0xff0D3A5C;
+    const int titleDark = 0xffA2E6FA;
+    const int titleLight = 0xff0D3A5C;
+    const int subTitleDark = 0xffFFFFFF;
+    const int subTitleLight = 0xff000000;
     final int amountParsed = convertStringToInt(amountFuture);
+
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
-          child: const TextPoppins(
-            text: title,
-            fontSize: 20,
-            align: TextAlign.center,
-            fontWeight: FontWeight.w500,
+          child: Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 20,
+                color: isDarkMode
+                    ? const Color(titleDark)
+                    : const Color(titleLight),
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.none,
+              ),
+              children: <TextSpan>[
+                const TextSpan(
+                  text: "Si decides ",
+                ),
+                TextSpan(
+                  text: "reinvertir ",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? const Color(titleDark)
+                        : const Color(titleLight),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const TextSpan(
+                  text: "este año",
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
-          child: const TextPoppins(
-            text: subTitle,
-            fontSize: 16,
-            align: TextAlign.center,
-            lines: 2,
+          child: Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 16,
+                color: isDarkMode
+                    ? const Color(subTitleDark)
+                    : const Color(subTitleLight),
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.none,
+              ),
+              children: <TextSpan>[
+                const TextSpan(
+                  text: "No solo conservarás tus ganancias, sino que ",
+                ),
+                TextSpan(
+                  text: "podrías ganar hasta",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? const Color(titleDark)
+                        : const Color(titleLight),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(
@@ -292,11 +402,41 @@ class PageThreeMoney extends StatelessWidget {
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
-          child: const TextPoppins(
-            text: timeText,
-            fontSize: 14,
-            align: TextAlign.center,
+          child: Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 16,
+                color: isDarkMode
+                    ? const Color(subTitleDark)
+                    : const Color(subTitleLight),
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.none,
+              ),
+              children: <TextSpan>[
+                const TextSpan(
+                  text: "más en los próximos ",
+                ),
+                TextSpan(
+                  text: "$deadlineString.",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? const Color(subTitleDark)
+                        : const Color(subTitleLight),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const TextSpan(
+                  text: "🗓",
+                ),
+              ],
+            ),
           ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.3,
         ),
       ],
     );
@@ -327,15 +467,17 @@ class PageTwoMoney extends StatelessWidget {
     const int rentLight = 0xff0D3A5C;
     const int rentIconDark = 0xff55B63D;
     const int rentIconLight = 0xff55B63D;
+    const int textColor = 0xff000000;
+    const int tanksColor = 0xffA2E6FA;
 
     final int amountParsed = convertStringToInt(amount);
     final int rentParsed = convertStringToInt(rent);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
           width: MediaQuery.of(context).size.width * 0.85,
-          height: 146,
+          height: 130,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isDarkMode
@@ -357,6 +499,8 @@ class PageTwoMoney extends StatelessWidget {
               const TextPoppins(
                 text: "Hace un año invertiste",
                 fontSize: 14,
+                textDark: textColor,
+                textLight: textColor,
               ),
               amountParsed == 0
                   ? TextPoppins(
@@ -380,7 +524,7 @@ class PageTwoMoney extends StatelessWidget {
         const SizedBox(height: 20),
         Container(
           width: MediaQuery.of(context).size.width * 0.85,
-          height: 146,
+          height: 130,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isDarkMode
@@ -402,6 +546,8 @@ class PageTwoMoney extends StatelessWidget {
               const TextPoppins(
                 text: "con nosotros y ya has ganado",
                 fontSize: 14,
+                textDark: textColor,
+                textLight: textColor,
               ),
               rentParsed == 0
                   ? TextPoppins(
@@ -428,7 +574,7 @@ class PageTwoMoney extends StatelessWidget {
             text: "¡Felicidades por tomar esa gran decisión!",
             fontSize: 20,
             fontWeight: FontWeight.w600,
-            textDark: amountDark,
+            textDark: tanksColor,
             textLight: amountLight,
             align: TextAlign.center,
             lines: 2,
@@ -439,10 +585,12 @@ class PageTwoMoney extends StatelessWidget {
           text: "pero....",
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          textDark: amountDark,
           textLight: amountLight,
           align: TextAlign.center,
           lines: 2,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.25,
         ),
       ],
     );
@@ -457,24 +605,68 @@ class PageOneMoney extends StatelessWidget {
   final bool isDarkMode;
   @override
   Widget build(BuildContext context) {
-    const String title =
-        "¿Sabías que al quedarte con nosotros podrías duplicar tus ganancias?";
     const int titleDark = 0xffFFFFFF;
     const int titleLight = 0xff0D3A5C;
+    const int colorDark = 0xffA2E6FA;
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset("assets/home_v4/money_image.png", width: 170, height: 120),
         const SizedBox(height: 15),
-        const TextPoppins(
-          text: title,
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-          textDark: titleDark,
-          textLight: titleLight,
-          lines: 3,
-          align: TextAlign.center,
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
+          child: Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 16,
+                color: isDarkMode
+                    ? const Color(titleDark)
+                    : const Color(titleLight),
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.none,
+              ),
+              children: <TextSpan>[
+                const TextSpan(
+                  text: "¿Sabías que al ",
+                ),
+                TextSpan(
+                  text: "quedarte ",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? const Color(colorDark)
+                        : const Color(titleLight),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const TextSpan(
+                  text: "con nosotros podrías ",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                TextSpan(
+                  text: "duplicar tus ganancias",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? const Color(colorDark)
+                        : const Color(titleLight),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const TextSpan(
+                  text: "?",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
         const SizedBox(height: 15),
         const TextPoppins(
@@ -482,7 +674,14 @@ class PageOneMoney extends StatelessWidget {
           fontSize: 16,
           align: TextAlign.center,
         ),
-        Image.asset("assets/home_v4/arrow_image.png", width: 200, height: 120),
+        Image.asset(
+          "assets/home_v4/arrow_image_${isDarkMode ? "dark" : "light"}.png",
+          width: 200,
+          height: 120,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.25,
+        ),
       ],
     );
   }
