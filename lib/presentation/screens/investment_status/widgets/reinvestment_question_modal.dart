@@ -8,7 +8,6 @@ import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
-import 'package:finniu/presentation/screens/home_v4/money_withdrawal/money_withdrawal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
