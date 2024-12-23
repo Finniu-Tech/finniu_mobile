@@ -29,15 +29,19 @@ class ReInvestProvider extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final args = ModalRoute.of(context)?.settings.arguments as String;
-
+    print(args);
     return FutureBuilder(
       future: ref.watch(getInvestFutureProviderV4(args).future),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularLoader(
-              width: 50,
-              height: 50,
+          return SizedBox(
+            height: MediaQuery.of(context).size.height - 85,
+            width: MediaQuery.of(context).size.width,
+            child: const Center(
+              child: CircularLoader(
+                width: 50,
+                height: 50,
+              ),
             ),
           );
         } else if (snapshot.hasError) {

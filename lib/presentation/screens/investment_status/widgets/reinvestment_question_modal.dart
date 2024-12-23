@@ -304,11 +304,7 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                 Navigator.pushNamed(
                   context,
                   '/v4/money_withdrawal',
-                  arguments: NavigateToMoney(
-                    uuid: preInvestmentUUID,
-                    fund: fund,
-                    amount: preInvestmentAmount.toInt(),
-                  ),
+                  arguments: preInvestmentUUID,
                 );
                 // showDialogRefuseReasons(context, ref, preInvestmentUUID);
               },

@@ -1561,6 +1561,21 @@ class QueryRepository {
     ''';
   }
 
+  static String get preReinvest {
+    return '''
+    query preReinvest(\$preInvestmentUuid: String!){
+      reInvestmentQueries{
+        preReInvestment(preInvestmentUuid: \$preInvestmentUuid){
+          initialAmount
+          rentabilityAmount
+          deadlineString
+          futureRentabilityAmount
+        }
+      }
+    }
+    ''';
+  }
+
   static String get getInvestmentMonthlyReturns {
     return '''
       query getInvestmentMonthlyReturns(\$preInvestmentUuid: String!){
