@@ -27,12 +27,11 @@ class PushStepData {
 void stepTwoPushData(context, ref, PushStepData pushStepData) async {
   var response;
   if (pushStepData.isReInvestment == true) {
-    final UpdateReInvestmentParams updateReInvestmentParams =
-        UpdateReInvestmentParams(
+    final UpdateReInvestmentParams updateReInvestmentParams = UpdateReInvestmentParams(
       preInvestmentUUID: pushStepData.preInvestmentUUID,
       userReadContract: pushStepData.readContract,
       files: pushStepData.base64Image,
-      bankAccountReceiver: pushStepData.preInvestmentUUID,
+      bankAccountReceiver: pushStepData.bankAccountReceiverId,
       bankAccountSender: pushStepData.bankAccountSendedId,
     );
     response = await ref.read(
