@@ -1,7 +1,10 @@
 import 'package:finniu/constants/colors/product_v4_colors.dart';
+import 'package:finniu/domain/entities/re_invest_dto.dart';
 import 'package:finniu/presentation/providers/get_fund_investment.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/amount_reinvest.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/fund_row_step.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/step_scaffolf.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +32,7 @@ class ReInvestProvider extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final args = ModalRoute.of(context)?.settings.arguments as String;
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     print(args);
     return FutureBuilder(
       future: ref.watch(getInvestFutureProviderV4(args).future),
@@ -47,8 +51,11 @@ class ReInvestProvider extends ConsumerWidget {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
+          final data = snapshot.data!;
+
           return ReInvestBody(
-            investStyles: productFixedTerm,
+            data: data,
+            isDarkMode: isDarkMode,
           );
         } else {
           return const Center(child: Text('No data available'));
@@ -61,12 +68,16 @@ class ReInvestProvider extends ConsumerWidget {
 class ReInvestBody extends StatelessWidget {
   const ReInvestBody({
     super.key,
-    required this.investStyles,
+    required this.data,
+    required this.isDarkMode,
   });
-  final ProductContainerStyles investStyles;
+  final bool isDarkMode;
+  final ReInvestDtoV4 data;
   @override
   Widget build(BuildContext context) {
-    final invest = productFixedTerm;
+    final invest = data.fundName == "Fondo inversiones empresariales"
+        ? productFixedTerm
+        : productRealEstate;
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
@@ -80,7 +91,7 @@ class ReInvestBody extends StatelessWidget {
             FundRowStep(
               icon: invest.imageProduct,
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 10),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               child: TextPoppins(
@@ -94,11 +105,21 @@ class ReInvestBody extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const TextPoppins(
+            AmountReinvest(
+              amountReinvest: data.amount,
+              currency: data.currency,
+              isDarkMode: isDarkMode,
+              deadline: data.deadline,
+              rentabilityPercent: data.rentabilityPercent,
+            ),
+            const SizedBox(height: 10),
+            TextPoppins(
               text: "Completa los siguientes datos",
               fontSize: 14,
               fontWeight: FontWeight.w500,
               align: TextAlign.start,
+              textDark: invest.titleDark,
+              textLight: invest.titleLight,
             ),
           ],
         ),
