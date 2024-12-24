@@ -10,6 +10,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/home_v4/money_withdrawal/widget/modal_reasons.dart';
+import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/re_invest_step_one.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/widgets/page_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -82,7 +83,7 @@ class MoneyBody extends HookConsumerWidget {
       Navigator.pushNamedAndRemoveUntil(
         context,
         '/v4/re_invest_step_one',
-        arguments: uuid,
+        arguments: NavigateReinves(uuid: uuid, addAmount: true),
         (route) => false,
       );
     }

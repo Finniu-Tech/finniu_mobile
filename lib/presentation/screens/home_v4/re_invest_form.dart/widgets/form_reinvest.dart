@@ -27,6 +27,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
   final ReInvestDtoV4 data;
   final bool isDarkMode;
   final bool isSoles;
+  final bool addAmount;
   static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   const FormStepOneReinvest({
     super.key,
@@ -34,6 +35,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
     required this.data,
     required this.isDarkMode,
     required this.isSoles,
+    required this.addAmount,
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -175,7 +177,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               valueListenable: amountError,
               builder: (context, isError, child) {
                 return InputTextFileInvest(
-                  isDisable: false,
+                  isDisable: addAmount,
                   title: "  Monto adicional ",
                   isNumeric: true,
                   controller: amountAddController,

@@ -11,6 +11,15 @@ import 'package:finniu/presentation/screens/investment_process.dart/widgets/step
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+class NavigateReinves {
+  final String uuid;
+  final bool addAmount;
+  NavigateReinves({
+    required this.uuid,
+    required this.addAmount,
+  });
+}
+
 class ReInvestStepOneV4 extends StatelessWidget {
   const ReInvestStepOneV4({
     super.key,
@@ -32,11 +41,11 @@ class ReInvestProvider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args = ModalRoute.of(context)?.settings.arguments as String;
+    final args = ModalRoute.of(context)?.settings.arguments as NavigateReinves;
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     print(args);
     return FutureBuilder(
-      future: ref.watch(getInvestFutureProviderV4(args).future),
+      future: ref.watch(getInvestFutureProviderV4(args.uuid).future),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(
@@ -57,6 +66,7 @@ class ReInvestProvider extends ConsumerWidget {
           return ReInvestBody(
             data: data,
             isDarkMode: isDarkMode,
+            addAmount: args.addAmount,
           );
         } else {
           return const Center(child: Text('No data available'));
@@ -71,7 +81,9 @@ class ReInvestBody extends StatelessWidget {
     super.key,
     required this.data,
     required this.isDarkMode,
+    this.addAmount = false,
   });
+  final bool addAmount;
   final bool isDarkMode;
   final ReInvestDtoV4 data;
   @override
@@ -124,6 +136,7 @@ class ReInvestBody extends StatelessWidget {
               data: data,
               isDarkMode: isDarkMode,
               isSoles: data.currency == "NUEVO_SOL",
+              addAmount: addAmount,
             ),
           ],
         ),
