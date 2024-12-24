@@ -127,7 +127,7 @@ class MoneyBody extends HookConsumerWidget {
             curve: Curves.easeInOut,
           );
         });
-        return null;
+        return () => timer?.cancel();
       },
       [],
     );

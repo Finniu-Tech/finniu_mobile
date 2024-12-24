@@ -5,6 +5,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/amount_reinvest.dart';
+import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/form_reinvest.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/fund_row_step.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/step_scaffolf.dart';
 import 'package:flutter/material.dart';
@@ -120,6 +121,12 @@ class ReInvestBody extends StatelessWidget {
               align: TextAlign.start,
               textDark: invest.titleDark,
               textLight: invest.titleLight,
+            ),
+            FormStepOneReinvest(
+              product: invest,
+              data: data,
+              isDarkMode: isDarkMode,
+              isSoles: data.currency == "NUEVO_SOL",
             ),
           ],
         ),

@@ -10,11 +10,13 @@ class InputTextFileInvest extends ConsumerWidget {
     required this.hintText,
     required this.validator,
     required this.title,
+    this.isDisable = true,
     this.onError,
     this.isError = false,
     this.isNumeric = false,
     this.isRow = false,
   });
+  final bool isDisable;
   final bool isRow;
   final TextEditingController controller;
   final String? Function(String?)? validator;
@@ -38,6 +40,7 @@ class InputTextFileInvest extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return TextFormField(
+      enabled: isDisable,
       onTap: () {
         if (onError != null && isError) {
           onError!();
