@@ -38,7 +38,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timeController = useTextEditingController();
-    final amountController = useTextEditingController();
+    final amountAddController = useTextEditingController();
     final couponController = useTextEditingController();
     final ValueNotifier<bool> timeError = useState(false);
     final ValueNotifier<bool> originError = useState(false);
@@ -80,7 +80,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (couponError.value) return;
         context.loaderOverlay.show();
         final inputCalculator = CalculatorInput(
-          amount: int.parse(amountController.text),
+          amount: int.parse(amountAddController.text),
           months: int.parse(
             timeController.text.split(' ')[0],
           ),
@@ -129,8 +129,8 @@ class FormStepOneReinvest extends HookConsumerWidget {
 
         investmentSimulationModal(
           context,
-          startingAmount: int.parse(amountController.text),
-          finalAmount: int.parse(amountController.text),
+          startingAmount: int.parse(amountAddController.text),
+          finalAmount: int.parse(amountAddController.text),
           mouthInvestment: int.parse(timeController.text.split(' ')[0]),
           coupon: couponController.text,
           toInvestPressed: () async {
@@ -140,7 +140,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               context,
               ref,
               SaveCorporateInvestmentInput(
-                amount: amountController.text,
+                amount: amountAddController.text,
                 months: timeController.text.split(' ')[0],
                 coupon: couponController.text,
                 currency: isSoles ? currencyNuevoSol : currencyDollar,
@@ -154,7 +154,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               ref: ref,
               context: context,
               uuid: response.preInvestmentUUID ?? '',
-              amount: amountController.text,
+              amount: amountAddController.text,
             );
           },
           recalculatePressed: () => {
@@ -177,9 +177,9 @@ class FormStepOneReinvest extends HookConsumerWidget {
               builder: (context, isError, child) {
                 return InputTextFileInvest(
                   isDisable: false,
-                  title: "  Monto  ",
+                  title: "  Monto adicional ",
                   isNumeric: true,
-                  controller: amountController,
+                  controller: amountAddController,
                   isError: isError,
                   onError: () => amountError.value = false,
                   hintText: "Ingrese su monto de inversión",
@@ -200,6 +200,12 @@ class FormStepOneReinvest extends HookConsumerWidget {
                   },
                 );
               },
+            ),
+            const SizedBox(height: 25),
+            FinalAmountContainer(
+              isDarkMode: isDarkMode,
+              finalAmount: data.amount,
+              isSoles: isSoles,
             ),
             const SizedBox(height: 25),
             ValueListenableBuilder<bool>(
@@ -293,6 +299,89 @@ class FormStepOneReinvest extends HookConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class FinalAmountContainer extends StatelessWidget {
+  const FinalAmountContainer({
+    super.key,
+    required this.finalAmount,
+    required this.isDarkMode,
+    required this.isSoles,
+  });
+  final bool isSoles;
+  final double finalAmount;
+  final bool isDarkMode;
+  @override
+  Widget build(BuildContext context) {
+    const int containerDark = 0xff0D3A5C;
+    const int containerLight = 0xffC7F3FF;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
+    const int textDark = 0xffFFFFFF;
+    const int textLight = 0xff0D3A5C;
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: 60,
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? const Color(containerDark)
+            : const Color(containerLight),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              const SizedBox(
+                height: 5,
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Icon(
+                  Icons.monetization_on_outlined,
+                  size: 14,
+                  color: isDarkMode
+                      ? const Color(iconDark)
+                      : const Color(iconLight),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(width: 5),
+          const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextPoppins(
+                text: "Monto final",
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                textDark: textDark,
+                textLight: textLight,
+              ),
+              TextPoppins(
+                text: "(Capital de la operación en curso )",
+                fontSize: 7,
+                textDark: textDark,
+                textLight: textLight,
+              ),
+            ],
+          ),
+          const Spacer(),
+          TextPoppins(
+            text: " ${isSoles ? "s/" : "\$"} ${finalAmount.toStringAsFixed(0)}",
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            textDark: textDark,
+            textLight: textLight,
+          ),
+        ],
       ),
     );
   }
