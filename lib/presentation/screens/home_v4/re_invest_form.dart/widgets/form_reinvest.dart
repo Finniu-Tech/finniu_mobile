@@ -6,17 +6,21 @@ import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
+import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/final_amount_container.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/push_cupon.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/save_pre_invest.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/widgets/input_invest_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/widgets/select_invest_v4.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/bank_tranfer_container.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/term_condittions_step.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -46,6 +50,38 @@ class FormStepOneReinvest extends HookConsumerWidget {
     final ValueNotifier<bool> originError = useState(false);
     final ValueNotifier<bool> amountError = useState(false);
     final ValueNotifier<bool> couponError = useState(false);
+    final ValueNotifier<bool> conditions = useState(false);
+    final ValueNotifier<double> finalAmount = useState(data.amount);
+
+    useEffect(
+      () {
+        void listener() {
+          try {
+            if (amountAddController.text.trim().isEmpty) {
+              finalAmount.value = data.amount;
+              return;
+            }
+
+            final double parsedAmount = double.parse(
+              amountAddController.text.isEmpty ? "0" : amountAddController.text,
+            );
+            print(parsedAmount);
+            finalAmount.value = data.amount + parsedAmount;
+          } catch (e) {
+            showSnackBarV2(
+              context: context,
+              title: "Formato incorrecto",
+              message: "Por favor, el monto debe ser un número válido.",
+              snackType: SnackType.warning,
+            );
+          }
+        }
+
+        amountAddController.addListener(listener);
+        return () => amountAddController.removeListener(listener);
+      },
+      [amountAddController],
+    );
 
     final planSimulation = useState<PlanSimulation?>(null);
 
@@ -169,219 +205,150 @@ class FormStepOneReinvest extends HookConsumerWidget {
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
-      child: SizedBox(
-        child: Column(
-          children: [
-            const SizedBox(height: 25),
-            ValueListenableBuilder<bool>(
-              valueListenable: amountError,
-              builder: (context, isError, child) {
-                return InputTextFileInvest(
-                  isDisable: addAmount,
-                  title: "  Monto adicional ",
-                  isNumeric: true,
-                  controller: amountAddController,
-                  isError: isError,
-                  onError: () => amountError.value = false,
-                  hintText: "Ingrese su monto de inversión",
-                  validator: (value) {
-                    validateNumberMin(
-                      isSoles: isSoles,
-                      value: value,
-                      field: "Monto",
-                      context: context,
-                      boolNotifier: amountError,
-                      minValue: product.titleText ==
-                              "Producto de inversión a Plazo Fijo"
-                          ? 1000
-                          : 50000,
-                    );
-
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 25),
-            FinalAmountContainer(
-              isDarkMode: isDarkMode,
-              finalAmount: data.amount,
-              isSoles: isSoles,
-            ),
-            const SizedBox(height: 25),
-            ValueListenableBuilder<bool>(
-              valueListenable: timeError,
-              builder: (context, isError, child) {
-                return SelecDropdownInvest(
-                  isDarkMode: isDarkMode,
-                  isError: isError,
-                  onError: () => timeError.value = false,
-                  itemSelectedValue: timeController.text,
-                  title: "  Plazo  ",
-                  hintText: "Seleccione su plazo de inversión",
-                  selectController: timeController,
-                  options: optionsTime,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
+      child: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height - 310,
+          child: Column(
+            children: [
+              const SizedBox(height: 15),
+              ValueListenableBuilder<bool>(
+                valueListenable: amountError,
+                builder: (context, isError, child) {
+                  return InputTextFileInvest(
+                    isDisable: addAmount,
+                    title: "  Monto adicional ",
+                    isNumeric: true,
+                    controller: amountAddController,
+                    isError: isError,
+                    onError: () => amountError.value = false,
+                    hintText: "Ingrese su monto de inversión",
+                    validator: (value) {
+                      validateNumberMin(
+                        isSoles: isSoles,
+                        value: value,
+                        field: "Monto",
                         context: context,
-                        title: "Plazo obligatorio",
-                        message: "Por favor, completa el Plazo.",
-                        snackType: SnackType.warning,
+                        boolNotifier: amountError,
+                        minValue: product.titleText ==
+                                "Producto de inversión a Plazo Fijo"
+                            ? 1000
+                            : 50000,
                       );
-                      timeError.value = true;
+
                       return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 25),
-            Stack(
-              children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: couponError,
-                  builder: (context, isError, child) {
-                    return InputTextFileInvest(
-                      title: "  Si es que tienes un cupón  ",
-                      isNumeric: false,
-                      controller: couponController,
-                      isError: isError,
-                      onError: () => couponError.value = false,
-                      hintText: "Ingresa tu cupón",
-                      validator: (p0) {
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 15),
+              FinalAmountContainer(
+                isDarkMode: isDarkMode,
+                finalAmount: finalAmount.value,
+                isSoles: isSoles,
+              ),
+              const SizedBox(height: 15),
+              ValueListenableBuilder<bool>(
+                valueListenable: timeError,
+                builder: (context, isError, child) {
+                  return SelecDropdownInvest(
+                    isDarkMode: isDarkMode,
+                    isError: isError,
+                    onError: () => timeError.value = false,
+                    itemSelectedValue: timeController.text,
+                    title: "  Plazo  ",
+                    hintText: "Seleccione su plazo de inversión",
+                    selectController: timeController,
+                    options: optionsTime,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Plazo obligatorio",
+                          message: "Por favor, completa el Plazo.",
+                          snackType: SnackType.warning,
+                        );
+                        timeError.value = true;
                         return null;
-                      },
-                    );
-                  },
-                ),
-                Positioned(
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: onPressCupon,
-                    child: Center(
-                      child: Container(
-                        width: 100,
-                        height: 48,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color(buttonBorder),
-                            width: 1,
+                      }
+                      return null;
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 15),
+              Stack(
+                children: [
+                  ValueListenableBuilder<bool>(
+                    valueListenable: couponError,
+                    builder: (context, isError, child) {
+                      return InputTextFileInvest(
+                        title: "  Si es que tienes un cupón  ",
+                        isNumeric: false,
+                        controller: couponController,
+                        isError: isError,
+                        onError: () => couponError.value = false,
+                        hintText: "Ingresa tu cupón",
+                        validator: (p0) {
+                          return null;
+                        },
+                      );
+                    },
+                  ),
+                  Positioned(
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: onPressCupon,
+                      child: Center(
+                        child: Container(
+                          width: 100,
+                          height: 48,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: const Color(buttonBorder),
+                              width: 1,
+                            ),
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(25),
+                              bottomRight: Radius.circular(25),
+                            ),
+                            color: const Color(buttonBack),
                           ),
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
+                          child: const TextPoppins(
+                            text: "Aplicarlo",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            textDark: buttonText,
+                            textLight: buttonText,
                           ),
-                          color: const Color(buttonBack),
-                        ),
-                        child: const TextPoppins(
-                          text: "Aplicarlo",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          textDark: buttonText,
-                          textLight: buttonText,
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 25),
-            ButtonInvestment(
-              text: "Simular",
-              onPressed: onPressSimulator,
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class FinalAmountContainer extends StatelessWidget {
-  const FinalAmountContainer({
-    super.key,
-    required this.finalAmount,
-    required this.isDarkMode,
-    required this.isSoles,
-  });
-  final bool isSoles;
-  final double finalAmount;
-  final bool isDarkMode;
-  @override
-  Widget build(BuildContext context) {
-    const int containerDark = 0xff0D3A5C;
-    const int containerLight = 0xffC7F3FF;
-    const int iconDark = 0xffA2E6FA;
-    const int iconLight = 0xff0D3A5C;
-    const int textDark = 0xffFFFFFF;
-    const int textLight = 0xff0D3A5C;
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
-      height: 60,
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(containerDark)
-            : const Color(containerLight),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(10),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        children: [
-          Column(
-            children: [
+                ],
+              ),
+              const SizedBox(height: 15),
+              BankTranferContainer(
+                title: "A que banco te depositamos",
+                providerWatch: selectedBankAccountReceiverProvider,
+                isSended: false,
+              ),
+              const SizedBox(height: 15),
+              TermConditionsStepReinvest(
+                conditions: conditions,
+                uuid: data.uuid,
+              ),
+              const Spacer(),
+              ButtonInvestment(
+                text: "Simular",
+                onPressed: onPressSimulator,
+              ),
               const SizedBox(
-                height: 5,
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Icon(
-                  Icons.monetization_on_outlined,
-                  size: 14,
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
-                ),
+                height: 40,
               ),
             ],
           ),
-          const SizedBox(width: 5),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextPoppins(
-                text: "Monto final",
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                textDark: textDark,
-                textLight: textLight,
-              ),
-              TextPoppins(
-                text: "(Capital de la operación en curso )",
-                fontSize: 3,
-                textDark: textDark,
-                textLight: textLight,
-              ),
-            ],
-          ),
-          const Spacer(),
-          TextPoppins(
-            text: " ${isSoles ? "s/" : "\$"} ${finalAmount.toStringAsFixed(0)}",
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            textDark: textDark,
-            textLight: textLight,
-          ),
-        ],
+        ),
       ),
     );
   }
