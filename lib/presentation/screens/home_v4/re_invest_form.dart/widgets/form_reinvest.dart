@@ -168,7 +168,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height - 320,
         child: Column(
           children: [
             const SizedBox(height: 25),
@@ -289,7 +288,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 25),
-            const Spacer(),
             ButtonInvestment(
               text: "Simular",
               onPressed: onPressSimulator,
@@ -367,7 +365,7 @@ class FinalAmountContainer extends StatelessWidget {
               ),
               TextPoppins(
                 text: "(Capital de la operación en curso )",
-                fontSize: 7,
+                fontSize: 3,
                 textDark: textDark,
                 textLight: textLight,
               ),
@@ -376,7 +374,7 @@ class FinalAmountContainer extends StatelessWidget {
           const Spacer(),
           TextPoppins(
             text: " ${isSoles ? "s/" : "\$"} ${finalAmount.toStringAsFixed(0)}",
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w600,
             textDark: textDark,
             textLight: textLight,

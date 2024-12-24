@@ -82,9 +82,6 @@ class ReInvestBody extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height < 700
-            ? 650
-            : MediaQuery.of(context).size.height - 85,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
