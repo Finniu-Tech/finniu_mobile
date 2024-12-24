@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class StepScaffold extends ConsumerWidget {
             leading: IconButton(
               onPressed: () => {
                 ScaffoldMessenger.of(context).clearSnackBars(),
+                ref.read(navigatorStateProvider.notifier).state = 0,
                 Navigator.pushNamedAndRemoveUntil(
                     context, '/v4/home', (route) => false),
               },

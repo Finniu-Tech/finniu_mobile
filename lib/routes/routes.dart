@@ -36,6 +36,7 @@ import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/detail_inve
 import 'package:finniu/presentation/screens/home_v4/document/documents_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/experience/experience_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/home_screen_v4.dart';
+import 'package:finniu/presentation/screens/home_v4/money_withdrawal/money_withdrawal.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/my_investments_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/notice/notice_detail.dart';
 import 'package:finniu/presentation/screens/home_v4/notice/notice_screen.dart';
@@ -43,6 +44,7 @@ import 'package:finniu/presentation/screens/home_v4/payment_schedule/payment_scr
 import 'package:finniu/presentation/screens/home_v4/product_v4/product_v4_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/products_v4_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/push_to_url/push_to_url_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/re_invest_step_one.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/step_one_v4.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
@@ -371,5 +373,14 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v4/experience': (BuildContext context) => const ExperienceScreenV4(),
     '/v4/detail_invest': (BuildContext context) => const DetailInvestV4(),
     '/v4/documents': (BuildContext context) => const DocumentsScreen(),
+
+    '/v4/money_withdrawal': (BuildContext context) {
+      // final args = ModalRoute.of(context)?.settings.arguments as String;
+      return const MoneyWithdrawalScreen();
+    },
+    '/v4/re_invest_step_one': (BuildContext context) {
+      // final args = ModalRoute.of(context)!.settings.arguments as String;
+      return const ReInvestStepOneV4();
+    },
   };
 }

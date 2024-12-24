@@ -1541,6 +1541,41 @@ class QueryRepository {
     ''';
   }
 
+  static String get getFundInvestmentDetailV4 {
+    return '''
+       query getFundInvestmentDetail (\$preInvestmentUuid : String!) {
+      investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+       		deadline{
+            value
+          }
+          rentabilityPercent
+        uuid
+        amount
+        currency
+          investmentFund {
+            uuid
+            name
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get preReinvest {
+    return '''
+    query preReinvest(\$preInvestmentUuid: String!){
+      reInvestmentQueries{
+        preReInvestment(preInvestmentUuid: \$preInvestmentUuid){
+          initialAmount
+          rentabilityAmount
+          deadlineString
+          futureRentabilityAmount
+        }
+      }
+    }
+    ''';
+  }
+
   static String get getInvestmentMonthlyReturns {
     return '''
       query getInvestmentMonthlyReturns(\$preInvestmentUuid: String!){

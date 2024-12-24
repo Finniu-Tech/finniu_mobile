@@ -76,3 +76,35 @@ String getMonthName(int month) {
 
   return monthes[month - 1];
 }
+
+String getMonthNameComplete(int month) {
+  const monthes = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
+  ];
+
+  if (month < 1 || month > 12) {
+    throw ArgumentError('El número del mes debe estar entre 1 y 12.');
+  }
+
+  return monthes[month - 1];
+}
+
+int convertStringToInt(String value) {
+  try {
+    double doubleValue = double.parse(value);
+    return doubleValue.toInt();
+  } catch (e) {
+    return 0;
+  }
+}
