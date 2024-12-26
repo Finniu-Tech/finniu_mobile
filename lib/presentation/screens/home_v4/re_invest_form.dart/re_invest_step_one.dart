@@ -27,7 +27,7 @@ class ReInvestStepOneV4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const StepScaffold(
+    return const ReinvestScaffold(
       useDefaultLoading: true,
       children: ReInvestProvider(),
     );
@@ -43,6 +43,7 @@ class ReInvestProvider extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final args = ModalRoute.of(context)?.settings.arguments as NavigateReinves;
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+
     print(args);
     return FutureBuilder(
       future: ref.watch(getInvestFutureProviderV4(args.uuid).future),

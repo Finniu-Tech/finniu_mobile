@@ -6,9 +6,9 @@ import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
@@ -53,6 +53,16 @@ class FormStepOneReinvest extends HookConsumerWidget {
     final ValueNotifier<bool> conditions = useState(false);
     final ValueNotifier<double> finalAmount = useState(data.amount);
 
+    final planSimulation = useState<PlanSimulation?>(null);
+
+    final List<String> optionsTime =
+        product.titleText == "Producto de inversión a Plazo Fijo"
+            ? ["6 meses", "12 meses", "24 meses"]
+            : ["12 meses", "24 meses", "36 meses"];
+
+    const buttonBack = 0xffA2E6FA;
+    const buttonText = 0xff0D3A5C;
+    const buttonBorder = 0xff0D3A5C;
     useEffect(
       () {
         void listener() {
@@ -65,7 +75,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
             final double parsedAmount = double.parse(
               amountAddController.text.isEmpty ? "0" : amountAddController.text,
             );
-            print(parsedAmount);
+
             finalAmount.value = data.amount + parsedAmount;
           } catch (e) {
             showSnackBarV2(
@@ -82,17 +92,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
       },
       [amountAddController],
     );
-
-    final planSimulation = useState<PlanSimulation?>(null);
-
-    final List<String> optionsTime =
-        product.titleText == "Producto de inversión a Plazo Fijo"
-            ? ["6 meses", "12 meses", "24 meses"]
-            : ["12 meses", "24 meses", "36 meses"];
-
-    const buttonBack = 0xffA2E6FA;
-    const buttonText = 0xff0D3A5C;
-    const buttonBorder = 0xff0D3A5C;
 
     void onPressCupon() async {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -202,152 +201,154 @@ class FormStepOneReinvest extends HookConsumerWidget {
       }
     }
 
+    useEffect(() {
+      Future.microtask(() {
+        ref.read(nabbarProvider.notifier).updateNabbar(
+              NabbarProvider(
+                title: "Simular",
+                onTap: onPressSimulator,
+              ),
+            );
+      });
+
+      return null;
+    }, []);
+
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height - 310,
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              ValueListenableBuilder<bool>(
-                valueListenable: amountError,
-                builder: (context, isError, child) {
-                  return InputTextFileInvest(
-                    isDisable: addAmount,
-                    title: "  Monto adicional ",
-                    isNumeric: true,
-                    controller: amountAddController,
-                    isError: isError,
-                    onError: () => amountError.value = false,
-                    hintText: "Ingrese su monto de inversión",
-                    validator: (value) {
-                      validateNumberMin(
-                        isSoles: isSoles,
-                        value: value,
-                        field: "Monto",
-                        context: context,
-                        boolNotifier: amountError,
-                        minValue: product.titleText ==
-                                "Producto de inversión a Plazo Fijo"
-                            ? 1000
-                            : 50000,
-                      );
+        child: Column(
+          children: [
+            const SizedBox(height: 15),
+            ValueListenableBuilder<bool>(
+              valueListenable: amountError,
+              builder: (context, isError, child) {
+                return InputTextFileInvest(
+                  isDisable: addAmount,
+                  title: "  Monto adicional ",
+                  isNumeric: true,
+                  controller: amountAddController,
+                  isError: isError,
+                  onError: () => amountError.value = false,
+                  hintText: "Ingrese su monto de inversión",
+                  validator: (value) {
+                    validateNumberMin(
+                      isSoles: isSoles,
+                      value: value,
+                      field: "Monto",
+                      context: context,
+                      boolNotifier: amountError,
+                      minValue: product.titleText ==
+                              "Producto de inversión a Plazo Fijo"
+                          ? 1000
+                          : 50000,
+                    );
 
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 15),
-              FinalAmountContainer(
-                isDarkMode: isDarkMode,
-                finalAmount: finalAmount.value,
-                isSoles: isSoles,
-              ),
-              const SizedBox(height: 15),
-              ValueListenableBuilder<bool>(
-                valueListenable: timeError,
-                builder: (context, isError, child) {
-                  return SelecDropdownInvest(
-                    isDarkMode: isDarkMode,
-                    isError: isError,
-                    onError: () => timeError.value = false,
-                    itemSelectedValue: timeController.text,
-                    title: "  Plazo  ",
-                    hintText: "Seleccione su plazo de inversión",
-                    selectController: timeController,
-                    options: optionsTime,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Plazo obligatorio",
-                          message: "Por favor, completa el Plazo.",
-                          snackType: SnackType.warning,
-                        );
-                        timeError.value = true;
-                        return null;
-                      }
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 15),
-              Stack(
-                children: [
-                  ValueListenableBuilder<bool>(
-                    valueListenable: couponError,
-                    builder: (context, isError, child) {
-                      return InputTextFileInvest(
-                        title: "  Si es que tienes un cupón  ",
-                        isNumeric: false,
-                        controller: couponController,
-                        isError: isError,
-                        onError: () => couponError.value = false,
-                        hintText: "Ingresa tu cupón",
-                        validator: (p0) {
-                          return null;
-                        },
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 15),
+            FinalAmountContainer(
+              isDarkMode: isDarkMode,
+              finalAmount: finalAmount.value,
+              isSoles: isSoles,
+            ),
+            const SizedBox(height: 15),
+            ValueListenableBuilder<bool>(
+              valueListenable: timeError,
+              builder: (context, isError, child) {
+                return SelecDropdownInvest(
+                  isDarkMode: isDarkMode,
+                  isError: isError,
+                  onError: () => timeError.value = false,
+                  itemSelectedValue: timeController.text,
+                  title: "  Plazo  ",
+                  hintText: "Seleccione su plazo de inversión",
+                  selectController: timeController,
+                  options: optionsTime,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "Plazo obligatorio",
+                        message: "Por favor, completa el Plazo.",
+                        snackType: SnackType.warning,
                       );
-                    },
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: onPressCupon,
-                      child: Center(
-                        child: Container(
-                          width: 100,
-                          height: 48,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: const Color(buttonBorder),
-                              width: 1,
-                            ),
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(25),
-                              bottomRight: Radius.circular(25),
-                            ),
-                            color: const Color(buttonBack),
+                      timeError.value = true;
+                      return null;
+                    }
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 15),
+            Stack(
+              children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: couponError,
+                  builder: (context, isError, child) {
+                    return InputTextFileInvest(
+                      title: "  Si es que tienes un cupón  ",
+                      isNumeric: false,
+                      controller: couponController,
+                      isError: isError,
+                      onError: () => couponError.value = false,
+                      hintText: "Ingresa tu cupón",
+                      validator: (p0) {
+                        return null;
+                      },
+                    );
+                  },
+                ),
+                Positioned(
+                  right: 0,
+                  child: GestureDetector(
+                    onTap: onPressCupon,
+                    child: Center(
+                      child: Container(
+                        width: 100,
+                        height: 48,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color(buttonBorder),
+                            width: 1,
                           ),
-                          child: const TextPoppins(
-                            text: "Aplicarlo",
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            textDark: buttonText,
-                            textLight: buttonText,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(25),
+                            bottomRight: Radius.circular(25),
                           ),
+                          color: const Color(buttonBack),
+                        ),
+                        child: const TextPoppins(
+                          text: "Aplicarlo",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          textDark: buttonText,
+                          textLight: buttonText,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 15),
-              BankTranferContainer(
-                title: "A que banco te depositamos",
-                providerWatch: selectedBankAccountReceiverProvider,
-                isSended: false,
-              ),
-              const SizedBox(height: 15),
-              TermConditionsStepReinvest(
-                conditions: conditions,
-                uuid: data.uuid,
-              ),
-              const Spacer(),
-              ButtonInvestment(
-                text: "Simular",
-                onPressed: onPressSimulator,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            BankTranferContainer(
+              title: "A que banco te depositamos",
+              providerWatch: selectedBankAccountReceiverProvider,
+              isSended: false,
+            ),
+            const SizedBox(height: 15),
+            TermConditionsStepReinvest(
+              conditions: conditions,
+              uuid: data.uuid,
+            ),
+          ],
         ),
       ),
     );
