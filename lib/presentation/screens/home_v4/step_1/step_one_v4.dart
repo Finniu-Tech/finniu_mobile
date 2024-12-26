@@ -115,9 +115,9 @@ class FormStepOne extends HookConsumerWidget {
     final amountController = useTextEditingController();
     final couponController = useTextEditingController();
     final ValueNotifier<bool> timeError = useState(false);
-    final ValueNotifier<bool> originError = useState(false);
     final ValueNotifier<bool> amountError = useState(false);
     final ValueNotifier<bool> couponError = useState(false);
+    final ValueNotifier<bool> originError = useState(false);
     final ValueNotifier<bool> originOtherError = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
@@ -237,7 +237,6 @@ class FormStepOne extends HookConsumerWidget {
                 fundUUID: product.uuid,
               ),
             );
-            context.loaderOverlay.hide();
             navigateToNext(
               success: response.success,
               ref: ref,

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/re_invest_dto.dart';
@@ -6,15 +5,17 @@ import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
-import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/final_amount_container.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
+import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/push_cupon.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/save_pre_invest.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/widgets/input_invest_v4.dart';
@@ -46,11 +47,14 @@ class FormStepOneReinvest extends HookConsumerWidget {
     final timeController = useTextEditingController();
     final amountAddController = useTextEditingController();
     final couponController = useTextEditingController();
+    final originController = useTextEditingController();
+    final originOtherController = useTextEditingController();
     final ValueNotifier<bool> timeError = useState(false);
     final ValueNotifier<bool> originError = useState(false);
     final ValueNotifier<bool> amountError = useState(false);
     final ValueNotifier<bool> couponError = useState(false);
     final ValueNotifier<bool> conditions = useState(false);
+    final ValueNotifier<bool> originOtherError = useState(false);
     final ValueNotifier<double> finalAmount = useState(data.amount);
 
     final planSimulation = useState<PlanSimulation?>(null);
@@ -59,6 +63,16 @@ class FormStepOneReinvest extends HookConsumerWidget {
         product.titleText == "Producto de inversión a Plazo Fijo"
             ? ["6 meses", "12 meses", "24 meses"]
             : ["12 meses", "24 meses", "36 meses"];
+
+    const List<String> optionsOrigin = [
+      "Salario",
+      "Ahorros",
+      'Venta Bienes',
+      'Inversiones',
+      'Herencia',
+      'Préstamos',
+      'Otros',
+    ];
 
     const buttonBack = 0xffA2E6FA;
     const buttonText = 0xff0D3A5C;
@@ -115,9 +129,10 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (amountError.value) return;
         if (timeError.value) return;
         if (couponError.value) return;
+
         context.loaderOverlay.show();
         final inputCalculator = CalculatorInput(
-          amount: int.parse(amountAddController.text),
+          amount: finalAmount.value.toInt(),
           months: int.parse(
             timeController.text.split(' ')[0],
           ),
@@ -142,68 +157,9 @@ class FormStepOneReinvest extends HookConsumerWidget {
       context.loaderOverlay.hide();
     }
 
-    // Future<void> _saveReInvestment(
-    //   BuildContext context,
-    //   WidgetRef ref,
-    //   CreateReInvestmentParams input,
-    // ) async {
-    //   Navigator.pop(context);
-    //   context.loaderOverlay.show();
-    //   final CreateReInvestmentResponse response =
-    //       await ref.read(createReInvestmentProvider(input).future);
-    //   if (response.success == false || response.success == null) {
-    //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-    //       eventName: FirebaseAnalyticsEvents.pushDataError,
-    //       parameters: {
-    //         "screen": FirebaseScreen.investmentStep1V2,
-    //         "event": "save_re_investment_error",
-    //       },
-    //     );
-    //     context.loaderOverlay.hide();
-    //     showSnackBarV2(
-    //       context: context,
-    //       title: "Error interno",
-    //       message: response.messages?[0].message ??
-    //           'Hubo un problema, asegúrate de haber completado todos los campos',
-    //       snackType: SnackType.error,
-    //     );
-
-    //     return;
-    //   }
-    //   ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-    //     eventName: FirebaseAnalyticsEvents.pushDataSucces,
-    //     parameters: {
-    //       "screen": FirebaseScreen.investmentStep1V2,
-    //       "event": "save_re_investment_success",
-    //       "navigate_to": FirebaseScreen.investmentStep2V2,
-    //     },
-    //   );
-    //   context.loaderOverlay.hide();
-    //   if (addAmount) {
-    //     Navigator.pushNamedAndRemoveUntil(
-    //       context,
-    //       '/v2/investment/step-2',
-    //       (route) => false,
-    //       arguments: {
-    //         'preInvestmentUUID': response.reInvestmentUuid,
-    //         'amount': (int.parse(input.finalAmount)).toString(),
-    //       },
-    //     );
-    //   } else {
-    //     showThanksForInvestingModal(
-    //       context,
-    //       () {
-    //         Navigator.pushReplacementNamed(
-    //           context,
-    //           '/v4/experience',
-    //         );
-    //       },
-    //       true,
-    //     );
-    //   }
-    // }
-
     void onPressSimulator() {
+      FocusManager.instance.primaryFocus?.unfocus();
+
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.formValidateError,
@@ -218,21 +174,19 @@ class FormStepOneReinvest extends HookConsumerWidget {
           message: "Por favor, completa todos los campos.",
           snackType: SnackType.warning,
         );
+
         return;
       } else {
         if (amountError.value) return;
         if (timeError.value) return;
         if (couponError.value) return;
         if (originError.value) return;
+        if (originOtherError.value) return;
 
         investmentSimulationModal(
           context,
-          startingAmount: addAmount
-              ? int.parse(amountAddController.text)
-              : data.amount.toInt(),
-          finalAmount: addAmount
-              ? int.parse(amountAddController.text)
-              : data.amount.toInt(),
+          startingAmount: finalAmount.value.toInt(),
+          finalAmount: finalAmount.value.toInt(),
           mouthInvestment: int.parse(timeController.text.split(' ')[0]),
           coupon: couponController.text,
           toInvestPressed: () async {
@@ -242,39 +196,48 @@ class FormStepOneReinvest extends HookConsumerWidget {
               context,
               ref,
               SaveCorporateInvestmentInput(
-                amount: amountAddController.text,
+                amount: finalAmount.value.toStringAsFixed(2),
                 months: timeController.text.split(' ')[0],
                 coupon: couponController.text,
                 currency: isSoles ? currencyNuevoSol : currencyDollar,
-                originFunds: data.originFunds,
+                originFunds: OriginFunds(
+                  originFundsEnum: OriginFoundsUtil.fromReadableName(
+                    originController.text,
+                  ),
+                  otherText: originOtherController.text,
+                ),
                 fundUUID: product.uuid,
               ),
             );
-            log(response.toString());
-            context.loaderOverlay.hide();
+
+            navigateToNext(
+              success: response.success,
+              ref: ref,
+              context: context,
+              uuid: response.preInvestmentUUID ?? '',
+              amount: finalAmount.value.toStringAsFixed(2),
+            );
           },
-          recalculatePressed: () => {
-            Navigator.pop(context),
-          },
+          recalculatePressed: () => Navigator.pop(context),
         );
       }
     }
 
-    useEffect(
-      () {
-        Future.microtask(() {
-          ref.read(nabbarProvider.notifier).updateNabbar(
-                NabbarProvider(
-                  title: "Simular",
-                  onTap: onPressSimulator,
-                ),
-              );
-        });
+    // useEffect(
+    //   () {
+    //     Future.microtask(() {
+    //       ref.read(nabbarProvider.notifier).updateNabbar(
+    //             NabbarProvider(
+    //               title: "Simular",
+    //               onTap: onPressSimulator,
+    //             ),
+    //           );
+    //     });
 
-        return null;
-      },
-      [],
-    );
+    //     return null;
+    //   },
+    //   [],
+    // );
 
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
@@ -295,7 +258,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
                   onError: () => amountError.value = false,
                   hintText: "Ingrese su monto de inversión",
                   validator: (value) {
-                    if (!addAmount) return null;
+                    if (addAmount) return null;
                     validateNumberMin(
                       isSoles: isSoles,
                       value: value,
@@ -348,6 +311,65 @@ class FormStepOneReinvest extends HookConsumerWidget {
                 );
               },
             ),
+            const SizedBox(height: 15),
+            ValueListenableBuilder<bool>(
+              valueListenable: originError,
+              builder: (context, isError, child) {
+                return SelecDropdownInvest(
+                  isDarkMode: isDarkMode,
+                  isError: isError,
+                  onError: () => originError.value = false,
+                  itemSelectedValue: originController.text,
+                  title: "  Origen de procedencia  ",
+                  hintText: "Seleccione origen",
+                  selectController: originController,
+                  options: optionsOrigin,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "Origen obligatorio",
+                        message: "Por favor, completa el Origen.",
+                        snackType: SnackType.warning,
+                      );
+                      originError.value = true;
+                      return null;
+                    }
+                    return null;
+                  },
+                );
+              },
+            ),
+            originController.text == "Otros"
+                ? const SizedBox(height: 15)
+                : const SizedBox(),
+            originController.text == "Otros"
+                ? ValueListenableBuilder<bool>(
+                    valueListenable: originOtherError,
+                    builder: (context, isError, child) {
+                      return InputTextFileInvest(
+                        title: " Otro origen  ",
+                        controller: originOtherController,
+                        isError: isError,
+                        onError: () => originOtherError.value = false,
+                        hintText: "Ingrese su origen",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            showSnackBarV2(
+                              context: context,
+                              title: "Origen obligatorio",
+                              message: "Por favor, completa el Origen.",
+                              snackType: SnackType.warning,
+                            );
+                            originError.value = true;
+                            return null;
+                          }
+                          return null;
+                        },
+                      );
+                    },
+                  )
+                : const SizedBox(),
             const SizedBox(height: 15),
             Stack(
               children: [
@@ -415,6 +437,11 @@ class FormStepOneReinvest extends HookConsumerWidget {
                     uuid: data.uuid,
                   )
                 : const SizedBox.shrink(),
+            const SizedBox(height: 15),
+            ButtonInvestment(
+              text: "Simular",
+              onPressed: onPressSimulator,
+            ),
           ],
         ),
       ),

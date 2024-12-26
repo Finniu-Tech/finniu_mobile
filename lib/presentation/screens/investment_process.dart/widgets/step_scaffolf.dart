@@ -91,7 +91,7 @@ class ReinvestScaffold extends ConsumerWidget {
     return PopScope(
       canPop: false,
       child: LoaderOverlay(
-        useDefaultLoading: useDefaultLoading,
+        useDefaultLoading: false,
         overlayWidgetBuilder: (progress) {
           return const Center(
             child: CircularLoader(
@@ -106,11 +106,9 @@ class ReinvestScaffold extends ConsumerWidget {
             color: isDarkMode
                 ? const Color(backgroundDark)
                 : const Color(backgroundLight),
-            child: Center(
+            child: const Center(
               child: SizedBox(
                 height: 50,
-                width: MediaQuery.of(context).size.width * 0.85,
-                child: const NavBarButton(),
               ),
             ),
           ),
