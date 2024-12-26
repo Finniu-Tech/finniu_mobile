@@ -44,6 +44,9 @@ class FormStepOneReinvest extends HookConsumerWidget {
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const buttonBack = 0xffA2E6FA;
+    const buttonText = 0xff0D3A5C;
+    const buttonBorder = 0xff0D3A5C;
     final timeController = useTextEditingController();
     final amountAddController = useTextEditingController();
     final couponController = useTextEditingController();
@@ -56,7 +59,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
     final ValueNotifier<bool> conditions = useState(false);
     final ValueNotifier<bool> originOtherError = useState(false);
     final ValueNotifier<double> finalAmount = useState(data.amount);
-
+    final loader = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
     final List<String> optionsTime =
@@ -73,17 +76,13 @@ class FormStepOneReinvest extends HookConsumerWidget {
       'Préstamos',
       'Otros',
     ];
-    final loader = useState(false);
-    const buttonBack = 0xffA2E6FA;
-    const buttonText = 0xff0D3A5C;
-    const buttonBorder = 0xff0D3A5C;
+
     useEffect(
       () {
-        if (loader.value) {
-          context.loaderOverlay.show();
-        } else {
-          context.loaderOverlay.hide();
-        }
+        loader.value
+            ? context.loaderOverlay.show()
+            : context.loaderOverlay.hide();
+
         return null;
       },
       [loader.value],
@@ -229,6 +228,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               uuid: response.preInvestmentUUID ?? '',
               amount: finalAmount.value.toStringAsFixed(2),
             );
+            loader.value = false;
           },
           recalculatePressed: () => Navigator.pop(context),
         );
