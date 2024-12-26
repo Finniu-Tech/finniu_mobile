@@ -7,6 +7,7 @@ import 'package:finniu/infrastructure/models/fund/corporate_investment_models.da
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -73,10 +74,22 @@ class FormStepOneReinvest extends HookConsumerWidget {
       'Préstamos',
       'Otros',
     ];
-
+    final loader = useState(false);
     const buttonBack = 0xffA2E6FA;
     const buttonText = 0xff0D3A5C;
     const buttonBorder = 0xff0D3A5C;
+    useEffect(
+      () {
+        if (loader.value) {
+          context.loaderOverlay.show();
+        } else {
+          context.loaderOverlay.hide();
+        }
+        return null;
+      },
+      [loader.value],
+    );
+
     useEffect(
       () {
         void listener() {
@@ -190,8 +203,8 @@ class FormStepOneReinvest extends HookConsumerWidget {
           mouthInvestment: int.parse(timeController.text.split(' ')[0]),
           coupon: couponController.text,
           toInvestPressed: () async {
-            context.loaderOverlay.show();
             Navigator.pop(context);
+            loader.value = true;
             final response = await savePreInvestment(
               context,
               ref,
@@ -223,21 +236,21 @@ class FormStepOneReinvest extends HookConsumerWidget {
       }
     }
 
-    // useEffect(
-    //   () {
-    //     Future.microtask(() {
-    //       ref.read(nabbarProvider.notifier).updateNabbar(
-    //             NabbarProvider(
-    //               title: "Simular",
-    //               onTap: onPressSimulator,
-    //             ),
-    //           );
-    //     });
+    useEffect(
+      () {
+        Future.microtask(() {
+          ref.read(nabbarProvider.notifier).updateNabbar(
+                NabbarProvider(
+                  title: "Simular",
+                  onTap: onPressSimulator,
+                ),
+              );
+        });
 
-    //     return null;
-    //   },
-    //   [],
-    // );
+        return null;
+      },
+      [],
+    );
 
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
@@ -437,11 +450,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
                     uuid: data.uuid,
                   )
                 : const SizedBox.shrink(),
-            const SizedBox(height: 15),
-            ButtonInvestment(
-              text: "Simular",
-              onPressed: onPressSimulator,
-            ),
           ],
         ),
       ),

@@ -106,9 +106,11 @@ class ReinvestScaffold extends ConsumerWidget {
             color: isDarkMode
                 ? const Color(backgroundDark)
                 : const Color(backgroundLight),
-            child: const Center(
+            child: Center(
               child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.85,
                 height: 50,
+                child: const NavBarButton(),
               ),
             ),
           ),

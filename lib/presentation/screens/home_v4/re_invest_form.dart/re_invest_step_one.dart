@@ -28,7 +28,7 @@ class ReInvestStepOneV4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const StepScaffold(
+    return const ReinvestScaffold(
       useDefaultLoading: true,
       children: ReInvestProvider(),
     );
