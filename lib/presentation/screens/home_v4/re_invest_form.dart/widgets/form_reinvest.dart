@@ -10,7 +10,6 @@ import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
