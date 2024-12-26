@@ -379,7 +379,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
       return const MoneyWithdrawalScreen();
     },
     '/v4/re_invest_step_one': (BuildContext context) {
-      // final args = ModalRoute.of(context)!.settings.arguments as String;
+      // final args = ModalRoute.of(context)!.settings.arguments as NavigateReinves;
       return const ReInvestStepOneV4();
     },
   };

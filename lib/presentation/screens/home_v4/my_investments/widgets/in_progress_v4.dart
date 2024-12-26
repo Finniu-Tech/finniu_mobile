@@ -6,7 +6,6 @@ import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
-import 'package:finniu/presentation/providers/get_fund_investment.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
@@ -16,7 +15,6 @@ import 'package:finniu/presentation/screens/investment_status/widgets/reinvestme
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 class InProgressListV4 extends ConsumerWidget {
   final List<InvestmentV4> list;
@@ -71,12 +69,6 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
     final isSoles = ref.read(isSolesStateProvider);
 
     void navigateToReinvest() async {
-      context.loaderOverlay.show();
-      final dtoReinvest =
-          await ref.read(getInvestFutureProvider(item.uuid).future);
-
-      context.loaderOverlay.hide();
-
       reinvestmentQuestionModal(
         context,
         ref,
@@ -84,9 +76,6 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
         item.amount.toDouble(),
         isSoles ? currencyEnum.PEN : currencyEnum.USD,
         true,
-        dtoReinvest?.fund,
-        dtoReinvest?.rentabilityPercent,
-        dtoReinvest?.deadline,
       );
     }
 

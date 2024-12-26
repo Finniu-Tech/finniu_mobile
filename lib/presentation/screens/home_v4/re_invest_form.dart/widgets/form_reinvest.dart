@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/re_invest_dto.dart';
@@ -14,7 +15,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/final_amount_container.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
-import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/push_cupon.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/save_pre_invest.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/widgets/input_invest_v4.dart';
@@ -142,6 +142,67 @@ class FormStepOneReinvest extends HookConsumerWidget {
       context.loaderOverlay.hide();
     }
 
+    // Future<void> _saveReInvestment(
+    //   BuildContext context,
+    //   WidgetRef ref,
+    //   CreateReInvestmentParams input,
+    // ) async {
+    //   Navigator.pop(context);
+    //   context.loaderOverlay.show();
+    //   final CreateReInvestmentResponse response =
+    //       await ref.read(createReInvestmentProvider(input).future);
+    //   if (response.success == false || response.success == null) {
+    //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+    //       eventName: FirebaseAnalyticsEvents.pushDataError,
+    //       parameters: {
+    //         "screen": FirebaseScreen.investmentStep1V2,
+    //         "event": "save_re_investment_error",
+    //       },
+    //     );
+    //     context.loaderOverlay.hide();
+    //     showSnackBarV2(
+    //       context: context,
+    //       title: "Error interno",
+    //       message: response.messages?[0].message ??
+    //           'Hubo un problema, asegúrate de haber completado todos los campos',
+    //       snackType: SnackType.error,
+    //     );
+
+    //     return;
+    //   }
+    //   ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+    //     eventName: FirebaseAnalyticsEvents.pushDataSucces,
+    //     parameters: {
+    //       "screen": FirebaseScreen.investmentStep1V2,
+    //       "event": "save_re_investment_success",
+    //       "navigate_to": FirebaseScreen.investmentStep2V2,
+    //     },
+    //   );
+    //   context.loaderOverlay.hide();
+    //   if (addAmount) {
+    //     Navigator.pushNamedAndRemoveUntil(
+    //       context,
+    //       '/v2/investment/step-2',
+    //       (route) => false,
+    //       arguments: {
+    //         'preInvestmentUUID': response.reInvestmentUuid,
+    //         'amount': (int.parse(input.finalAmount)).toString(),
+    //       },
+    //     );
+    //   } else {
+    //     showThanksForInvestingModal(
+    //       context,
+    //       () {
+    //         Navigator.pushReplacementNamed(
+    //           context,
+    //           '/v4/experience',
+    //         );
+    //       },
+    //       true,
+    //     );
+    //   }
+    // }
+
     void onPressSimulator() {
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -166,8 +227,12 @@ class FormStepOneReinvest extends HookConsumerWidget {
 
         investmentSimulationModal(
           context,
-          startingAmount: int.parse(amountAddController.text),
-          finalAmount: int.parse(amountAddController.text),
+          startingAmount: addAmount
+              ? int.parse(amountAddController.text)
+              : data.amount.toInt(),
+          finalAmount: addAmount
+              ? int.parse(amountAddController.text)
+              : data.amount.toInt(),
           mouthInvestment: int.parse(timeController.text.split(' ')[0]),
           coupon: couponController.text,
           toInvestPressed: () async {
@@ -185,14 +250,8 @@ class FormStepOneReinvest extends HookConsumerWidget {
                 fundUUID: product.uuid,
               ),
             );
+            log(response.toString());
             context.loaderOverlay.hide();
-            navigateToNext(
-              success: response.success,
-              ref: ref,
-              context: context,
-              uuid: response.preInvestmentUUID ?? '',
-              amount: amountAddController.text,
-            );
           },
           recalculatePressed: () => {
             Navigator.pop(context),
@@ -201,18 +260,21 @@ class FormStepOneReinvest extends HookConsumerWidget {
       }
     }
 
-    useEffect(() {
-      Future.microtask(() {
-        ref.read(nabbarProvider.notifier).updateNabbar(
-              NabbarProvider(
-                title: "Simular",
-                onTap: onPressSimulator,
-              ),
-            );
-      });
+    useEffect(
+      () {
+        Future.microtask(() {
+          ref.read(nabbarProvider.notifier).updateNabbar(
+                NabbarProvider(
+                  title: "Simular",
+                  onTap: onPressSimulator,
+                ),
+              );
+        });
 
-      return null;
-    }, []);
+        return null;
+      },
+      [],
+    );
 
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
@@ -233,6 +295,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
                   onError: () => amountError.value = false,
                   hintText: "Ingrese su monto de inversión",
                   validator: (value) {
+                    if (!addAmount) return null;
                     validateNumberMin(
                       isSoles: isSoles,
                       value: value,
@@ -338,16 +401,20 @@ class FormStepOneReinvest extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 15),
-            BankTranferContainer(
-              title: "A que banco te depositamos",
-              providerWatch: selectedBankAccountReceiverProvider,
-              isSended: false,
-            ),
+            !addAmount
+                ? BankTranferContainer(
+                    title: "A que banco te depositamos",
+                    providerWatch: selectedBankAccountReceiverProvider,
+                    isSended: false,
+                  )
+                : const SizedBox.shrink(),
             const SizedBox(height: 15),
-            TermConditionsStepReinvest(
-              conditions: conditions,
-              uuid: data.uuid,
-            ),
+            !addAmount
+                ? TermConditionsStepReinvest(
+                    conditions: conditions,
+                    uuid: data.uuid,
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
       ),
