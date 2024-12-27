@@ -88,7 +88,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
       height: item.isReinvestAvailable == true &&
               item.actionStatus == ActionStatusEnumV4.reInvestmentActivated
           ? 140
-          : 140,
+          : 100,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
