@@ -1,9 +1,9 @@
+import 'dart:developer';
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/re_invest_dto.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
-import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
@@ -12,16 +12,16 @@ import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/final_amount_container.dart';
+import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/select_deadlines_provider.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/push_cupon.dart';
-import 'package:finniu/presentation/screens/home_v4/step_1/helpers/save_pre_invest.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/widgets/input_invest_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/widgets/select_invest_v4.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/bank_tranfer_container.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/term_condittions_step.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/modals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -203,29 +203,59 @@ class FormStepOneReinvest extends HookConsumerWidget {
           toInvestPressed: () async {
             Navigator.pop(context);
             loader.value = true;
-            final response = await savePreInvestment(
-              context,
-              ref,
-              SaveCorporateInvestmentInput(
-                amount: finalAmount.value.toStringAsFixed(2),
-                months: timeController.text.split(' ')[0],
-                coupon: couponController.text,
-                currency: isSoles ? currencyNuevoSol : currencyDollar,
-                originFunds: OriginFunds(
-                  originFundsEnum: OriginFoundsUtil.fromReadableName(
-                    originController.text,
-                  ),
-                  otherText: originOtherController.text,
-                ),
-                fundUUID: product.uuid,
-              ),
-            );
+            log(data.uuid);
 
+            log(finalAmount.value.toInt().toString());
+            log(isSoles ? currencyNuevoSol : currencyDollar);
+            log(timeController.text);
+            log(OriginFoundsUtil.fromReadableName(
+              originController.text,
+            ).toString());
+
+            final input = CreateReInvestmentParams(
+              preInvestmentUUID: data.uuid,
+              finalAmount: finalAmount.value.toInt().toString(),
+              currency: isSoles ? currencyNuevoSol : currencyDollar,
+              deadlineUUID: timeController.text,
+              originFounds: OriginFunds(
+                originFundsEnum: OriginFoundsUtil.fromReadableName(
+                  originController.text,
+                ),
+                otherText: originOtherController.text,
+              ),
+              coupon:
+                  couponController.text == "" ? null : couponController.text,
+              typeReinvestment: "CAPITAL_ADITIONAL",
+            );
+            final response =
+                await ref.read(createReInvestmentProvider(input).future);
+            log(response.toString());
+
+            if (response.success == false || response.success == null) {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.pushDataError,
+                parameters: {
+                  "screen": FirebaseScreen.investmentStep1V2,
+                  "event": "save_re_investment_error",
+                },
+              );
+              log(response.messages.toString());
+              context.loaderOverlay.hide();
+              showSnackBarV2(
+                context: context,
+                title: "Error interno",
+                message: response.messages?[0].message ??
+                    'Hubo un problema, asegúrate de haber completado todos los campos',
+                snackType: SnackType.error,
+              );
+              loader.value = false;
+              return;
+            }
             navigateToNext(
-              success: response.success,
+              success: response.success!,
               ref: ref,
               context: context,
-              uuid: response.preInvestmentUUID ?? '',
+              uuid: data.uuid,
               amount: finalAmount.value.toStringAsFixed(2),
             );
             loader.value = false;
@@ -235,13 +265,92 @@ class FormStepOneReinvest extends HookConsumerWidget {
       }
     }
 
+    void finalReinvest() async {
+      if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.formValidateError,
+          parameters: {
+            "screen": FirebaseScreen.formPersonalDataV2,
+            "error": "input_form",
+          },
+        );
+        showSnackBarV2(
+          context: context,
+          title: "Datos obligatorios incompletos",
+          message: "Por favor, completa todos los campos.",
+          snackType: SnackType.warning,
+        );
+
+        return;
+      } else {
+        FocusManager.instance.primaryFocus?.unfocus();
+        if (timeError.value) return;
+        if (couponError.value) return;
+        final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
+        if (bankReceiver == null) {
+          showSnackBarV2(
+            context: context,
+            title: "Datos obligatorios incompletos",
+            message: "Por favor, completa todos los campos.",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
+        log(bankReceiver.id.toString());
+        log(timeController.text);
+        loader.value = true;
+        final input = CreateReInvestmentParams(
+          preInvestmentUUID: data.uuid,
+          finalAmount: finalAmount.value.toInt().toString(),
+          currency: isSoles ? currencyNuevoSol : currencyDollar,
+          deadlineUUID: timeController.text,
+          originFounds: data.originFunds,
+          coupon: couponController.text,
+          typeReinvestment: "CAPITAL_ONLY",
+          bankAccountSender: bankReceiver.id,
+        );
+        final response =
+            await ref.read(createReInvestmentProvider(input).future);
+        if (response.success == false || response.success == null) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.investmentStep1V2,
+              "event": "save_re_investment_error",
+            },
+          );
+          context.loaderOverlay.hide();
+          showSnackBarV2(
+            context: context,
+            title: "Error interno",
+            message: response.messages?[0].message ??
+                'Hubo un problema, asegúrate de haber completado todos los campos',
+            snackType: SnackType.error,
+          );
+          loader.value = false;
+          return;
+        }
+        showThanksForInvestingModal(
+          context,
+          () {
+            Navigator.pushReplacementNamed(
+              context,
+              '/v4/experience',
+            );
+          },
+          true,
+        );
+        loader.value = false;
+      }
+    }
+
     useEffect(
       () {
         Future.microtask(() {
           ref.read(nabbarProvider.notifier).updateNabbar(
                 NabbarProvider(
-                  title: "Simular",
-                  onTap: onPressSimulator,
+                  title: addAmount ? "Simular" : "Finalizar mi proceso",
+                  onTap: addAmount ? onPressSimulator : finalReinvest,
                 ),
               );
         });
@@ -270,18 +379,18 @@ class FormStepOneReinvest extends HookConsumerWidget {
                   onError: () => amountError.value = false,
                   hintText: "Ingrese su monto de inversión",
                   validator: (value) {
-                    if (addAmount) return null;
-                    validateNumberMin(
-                      isSoles: isSoles,
-                      value: value,
-                      field: "Monto",
-                      context: context,
-                      boolNotifier: amountError,
-                      minValue: product.titleText ==
-                              "Producto de inversión a Plazo Fijo"
-                          ? 1000
-                          : 50000,
-                    );
+                    if (!addAmount) return null;
+                    // validateNumberMin(
+                    //   isSoles: isSoles,
+                    //   value: value,
+                    //   field: "Monto",
+                    //   context: context,
+                    //   boolNotifier: amountError,
+                    //   minValue: product.titleText ==
+                    //           "Producto de inversión a Plazo Fijo"
+                    //       ? 1000
+                    //       : 50000,
+                    // );
 
                     return null;
                   },
@@ -295,63 +404,90 @@ class FormStepOneReinvest extends HookConsumerWidget {
               isSoles: isSoles,
             ),
             const SizedBox(height: 15),
-            ValueListenableBuilder<bool>(
-              valueListenable: timeError,
-              builder: (context, isError, child) {
-                return SelecDropdownInvest(
-                  isDarkMode: isDarkMode,
-                  isError: isError,
-                  onError: () => timeError.value = false,
-                  itemSelectedValue: timeController.text,
-                  title: "  Plazo  ",
-                  hintText: "Seleccione su plazo de inversión",
-                  selectController: timeController,
-                  options: optionsTime,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "Plazo obligatorio",
-                        message: "Por favor, completa el Plazo.",
-                        snackType: SnackType.warning,
+            product.titleText == "Producto de inversión a Plazo Fijo"
+                ? ValueListenableBuilder<bool>(
+                    valueListenable: timeError,
+                    builder: (context, isError, child) {
+                      return ProviderSelectableDropdownInvest(
+                        isError: isError,
+                        onError: () => timeError.value = false,
+                        itemSelectedValue: timeController.text,
+                        selectController: timeController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            showSnackBarV2(
+                              context: context,
+                              title: "Plazo obligatorio",
+                              message: "Por favor, completa el Plazo.",
+                              snackType: SnackType.warning,
+                            );
+                            timeError.value = true;
+                            return null;
+                          }
+                          return null;
+                        },
                       );
-                      timeError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 15),
-            ValueListenableBuilder<bool>(
-              valueListenable: originError,
-              builder: (context, isError, child) {
-                return SelecDropdownInvest(
-                  isDarkMode: isDarkMode,
-                  isError: isError,
-                  onError: () => originError.value = false,
-                  itemSelectedValue: originController.text,
-                  title: "  Origen de procedencia  ",
-                  hintText: "Seleccione origen",
-                  selectController: originController,
-                  options: optionsOrigin,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "Origen obligatorio",
-                        message: "Por favor, completa el Origen.",
-                        snackType: SnackType.warning,
+                    },
+                  )
+                : ValueListenableBuilder<bool>(
+                    valueListenable: timeError,
+                    builder: (context, isError, child) {
+                      return SelecDropdownInvest(
+                        isDarkMode: isDarkMode,
+                        isError: isError,
+                        onError: () => timeError.value = false,
+                        itemSelectedValue: timeController.text,
+                        title: "  Plazo  ",
+                        hintText: "Seleccione su plazo de inversión",
+                        selectController: timeController,
+                        options: optionsTime,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            showSnackBarV2(
+                              context: context,
+                              title: "Plazo obligatorio",
+                              message: "Por favor, completa el Plazo.",
+                              snackType: SnackType.warning,
+                            );
+                            timeError.value = true;
+                            return null;
+                          }
+                          return null;
+                        },
                       );
-                      originError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
+                    },
+                  ),
+            addAmount ? const SizedBox(height: 15) : const SizedBox(),
+            addAmount
+                ? ValueListenableBuilder<bool>(
+                    valueListenable: originError,
+                    builder: (context, isError, child) {
+                      return SelecDropdownInvest(
+                        isDarkMode: isDarkMode,
+                        isError: isError,
+                        onError: () => originError.value = false,
+                        itemSelectedValue: originController.text,
+                        title: "  Origen de procedencia  ",
+                        hintText: "Seleccione origen",
+                        selectController: originController,
+                        options: optionsOrigin,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            showSnackBarV2(
+                              context: context,
+                              title: "Origen obligatorio",
+                              message: "Por favor, completa el Origen.",
+                              snackType: SnackType.warning,
+                            );
+                            originError.value = true;
+                            return null;
+                          }
+                          return null;
+                        },
+                      );
+                    },
+                  )
+                : const SizedBox(),
             originController.text == "Otros"
                 ? const SizedBox(height: 15)
                 : const SizedBox(),
