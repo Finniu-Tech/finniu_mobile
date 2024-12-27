@@ -1,13 +1,16 @@
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/app_bar_product.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/carrousel_detail.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/item_carrousel.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/row_products.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class ProductDetailV4 extends ConsumerWidget {
   final ProductContainerStyles product;
@@ -126,8 +129,33 @@ class ProductBody extends ConsumerWidget {
     }
 
     void onPressSimulator() {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/v4/step_one', arguments: product, (route) => false);
+      final profileCompletenessAsync =
+          ref.watch(userProfileCompletenessProvider);
+      return profileCompletenessAsync.when(
+        data: (profileCompleteness) {
+          if (!profileCompleteness.isComplete()) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/v4/step_one', arguments: product, (route) => false);
+          } else {
+            context.loaderOverlay.hide();
+            showVerifyIdentity(
+              context,
+              profileCompleteness,
+              redirect: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/v4/step_one',
+                  arguments: product,
+                  (route) => false,
+                );
+              },
+            );
+          }
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) =>
+            const Text('Error al cargar el estado del perfil'),
+      );
     }
 
     return Column(
