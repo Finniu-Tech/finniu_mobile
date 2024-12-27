@@ -132,6 +132,7 @@ class CreateReInvestmentParams {
   final OriginFunds originFounds;
   final String typeReinvestment;
   final String? bankAccountSender;
+  final String? bankAccountReceiver;
 
   CreateReInvestmentParams({
     required this.preInvestmentUUID,
@@ -142,6 +143,7 @@ class CreateReInvestmentParams {
     required this.originFounds,
     required this.typeReinvestment,
     this.bankAccountSender,
+    this.bankAccountReceiver,
   });
 }
 

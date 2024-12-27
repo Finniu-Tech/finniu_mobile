@@ -240,7 +240,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
                 },
               );
               log(response.messages.toString());
-              context.loaderOverlay.hide();
+
               showSnackBarV2(
                 context: context,
                 title: "Error interno",

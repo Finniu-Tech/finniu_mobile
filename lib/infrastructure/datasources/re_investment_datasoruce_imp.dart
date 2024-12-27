@@ -29,7 +29,8 @@ class ReInvestmentDataSource {
       throw result.exception!;
     }
     // return RejectReInvestmentResult(success: false, messages: []);
-    return RejectReInvestmentResult.fromJson(result.data!['rejectReInvestment']);
+    return RejectReInvestmentResult.fromJson(
+        result.data!['rejectReInvestment']);
   }
 
   Future<CreateReInvestmentResponse> createReInvestment({
@@ -41,6 +42,7 @@ class ReInvestmentDataSource {
     required OriginFunds originFounds,
     required String typeReinvestment,
     String? bankAccountSender,
+    String? bankAccountReceiver,
   }) async {
     final variables = {
       'preInvestmentUUID': preInvestmentUUID,
@@ -51,15 +53,18 @@ class ReInvestmentDataSource {
       'originFounds': originFounds.toJson(),
       'typeReinvestment': typeReinvestment,
       'bankAccountSender': bankAccountSender,
+      'bankAccountReceiver': bankAccountReceiver
     };
-    final MutationOptions options =
-        MutationOptions(document: gql(MutationRepository.createReInvestment()), variables: variables);
+    final MutationOptions options = MutationOptions(
+        document: gql(MutationRepository.createReInvestment()),
+        variables: variables);
 
     final QueryResult result = await client.mutate(options);
     if (result.hasException) {
       throw result.exception!;
     }
-    return CreateReInvestmentResponse.fromJson(result.data!['createReInvestment']);
+    return CreateReInvestmentResponse.fromJson(
+        result.data!['createReInvestment']);
   }
 
   Future<UpdateReInvestmentResponse> updateReInvestment({
@@ -85,7 +90,8 @@ class ReInvestmentDataSource {
     if (result.hasException) {
       throw result.exception!;
     }
-    return UpdateReInvestmentResponse.fromJson(result.data!['updateReInvestment']);
+    return UpdateReInvestmentResponse.fromJson(
+        result.data!['updateReInvestment']);
   }
 
   Future<SetBankAccountUserResponse> setBankAccountReceiver({
@@ -105,6 +111,7 @@ class ReInvestmentDataSource {
     if (result.hasException) {
       throw result.exception!;
     }
-    return SetBankAccountUserResponse.fromJson(result.data!['setBankAccountUser']);
+    return SetBankAccountUserResponse.fromJson(
+        result.data!['setBankAccountUser']);
   }
 }

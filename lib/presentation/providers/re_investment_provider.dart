@@ -44,6 +44,7 @@ final createReInvestmentProvider = FutureProvider.family
     originFounds: params.originFounds,
     typeReinvestment: params.typeReinvestment,
     bankAccountSender: params.bankAccountSender,
+    bankAccountReceiver: params.bankAccountReceiver,
   );
   return response;
 });

@@ -210,9 +210,11 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                             height: 14,
                             color: isDarkMode
                                 ? const Color(
-                                    ToValidateColorsV4.itemRentTextDark)
+                                    ToValidateColorsV4.itemRentTextDark,
+                                  )
                                 : const Color(
-                                    ToValidateColorsV4.itemRentTextLight),
+                                    ToValidateColorsV4.itemRentTextLight,
+                                  ),
                           ),
                           const SizedBox(
                             width: 5,
@@ -270,32 +272,32 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               ),
             ],
           ),
-          // if (item.isReinvestAvailable == true &&
-          //     item.actionStatus == ActionStatusEnum.activeReInvestment)
-          GestureDetector(
-            onTap: navigateToReinvest,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 30,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(ToValidateColorsV4.buttonReInvestDark)
-                    : const Color(ToValidateColorsV4.buttonReInvestLight),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
+          if (item.isReinvestAvailable == true &&
+              item.actionStatus == ActionStatusEnum.activeReInvestment)
+            GestureDetector(
+              onTap: navigateToReinvest,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? const Color(ToValidateColorsV4.buttonReInvestDark)
+                      : const Color(ToValidateColorsV4.buttonReInvestLight),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-              ),
-              child: const Center(
-                child: TextPoppins(
-                  text: "Quiero reinvertir",
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  textDark: ToValidateColorsV4.textReInvestDark,
-                  textLight: ToValidateColorsV4.textReInvestLight,
+                child: const Center(
+                  child: TextPoppins(
+                    text: "Quiero reinvertir",
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    textDark: ToValidateColorsV4.textReInvestDark,
+                    textLight: ToValidateColorsV4.textReInvestLight,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
