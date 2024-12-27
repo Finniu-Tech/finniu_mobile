@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finniu/constants/contact_whats_app.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
@@ -48,7 +50,7 @@ class _BodyScaffold extends ConsumerWidget {
     final isSoles = ref.read(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffFFFFFF;
-
+    log(arguments.uuid);
     final investmentDetailByUuid =
         ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
