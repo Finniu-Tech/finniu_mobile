@@ -6,6 +6,7 @@ import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
@@ -140,13 +141,13 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (amountError.value) return;
         if (timeError.value) return;
         if (couponError.value) return;
-
+        final timeList = ref.watch(deadLineFutureProvider);
+        final time = timeList.asData!.value
+            .firstWhere((element) => element.uuid == timeController.text);
         context.loaderOverlay.show();
         final inputCalculator = CalculatorInput(
           amount: finalAmount.value.toInt(),
-          months: int.parse(
-            timeController.text.split(' ')[0],
-          ),
+          months: time.value,
           currency: isSoles ? currencyNuevoSol : currencyDollar,
           coupon: couponController.text,
           fundUuid: product.uuid,
@@ -193,25 +194,19 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (couponError.value) return;
         if (originError.value) return;
         if (originOtherError.value) return;
+        final timeList = ref.watch(deadLineFutureProvider);
+        final time = timeList.asData!.value
+            .firstWhere((element) => element.uuid == timeController.text);
 
         investmentSimulationModal(
           context,
           startingAmount: finalAmount.value.toInt(),
           finalAmount: finalAmount.value.toInt(),
-          mouthInvestment: int.parse(timeController.text.split(' ')[0]),
+          mouthInvestment: time.value,
           coupon: couponController.text,
           toInvestPressed: () async {
             Navigator.pop(context);
             loader.value = true;
-            log(data.uuid);
-
-            log(finalAmount.value.toInt().toString());
-            log(isSoles ? currencyNuevoSol : currencyDollar);
-            log(timeController.text);
-            log(OriginFoundsUtil.fromReadableName(
-              originController.text,
-            ).toString());
-
             final input = CreateReInvestmentParams(
               preInvestmentUUID: data.uuid,
               finalAmount: finalAmount.value.toInt().toString(),
@@ -229,7 +224,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
             );
             final response =
                 await ref.read(createReInvestmentProvider(input).future);
-            log(response.toString());
 
             if (response.success == false || response.success == null) {
               ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -239,8 +233,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
                   "event": "save_re_investment_error",
                 },
               );
-              log(response.messages.toString());
-
               showSnackBarV2(
                 context: context,
                 title: "Error interno",
@@ -296,8 +288,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
           );
           return;
         }
-        log(bankReceiver.id.toString());
-        log(timeController.text);
         loader.value = true;
         final input = CreateReInvestmentParams(
           preInvestmentUUID: data.uuid,
@@ -319,7 +309,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
               "event": "save_re_investment_error",
             },
           );
-          context.loaderOverlay.hide();
           showSnackBarV2(
             context: context,
             title: "Error interno",
