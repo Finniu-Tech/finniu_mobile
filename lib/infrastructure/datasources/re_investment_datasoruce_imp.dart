@@ -41,6 +41,7 @@ class ReInvestmentDataSource {
     required OriginFunds originFounds,
     required String typeReinvestment,
     String? bankAccountSender,
+    String? bankAccountReceiver,
   }) async {
     final variables = {
       'preInvestmentUUID': preInvestmentUUID,
@@ -51,6 +52,7 @@ class ReInvestmentDataSource {
       'originFounds': originFounds.toJson(),
       'typeReinvestment': typeReinvestment,
       'bankAccountSender': bankAccountSender,
+      'bankAccountReceiver': bankAccountReceiver
     };
     final MutationOptions options =
         MutationOptions(document: gql(MutationRepository.createReInvestment()), variables: variables);
