@@ -23,32 +23,21 @@ class TabBarBusinessV4 extends HookConsumerWidget {
       initialIndex: isReinvest == true ? 1 : 0,
     );
     final currentIndex = useState(0);
+    final initeState = useState(true);
+
     List<InvestmentV4> userToValidateList = [];
     List<InvestmentV4> userInProgressList = [];
     List<InvestmentV4> userCompletedList = [];
-    useEffect(
-      () {
-        void listener() {
-          currentIndex.value = tabController.index;
-        }
+    useEffect(() {
+      void listener() {
+        currentIndex.value = tabController.index;
+      }
 
-        tabController.addListener(listener);
-        if (userToValidateList.isEmpty) {
-          if (userInProgressList.isNotEmpty) {
-            tabController.animateTo(1);
-          } else if (userCompletedList.isNotEmpty) {
-            tabController.animateTo(2);
-          }
-        }
-        return () => tabController.removeListener(listener);
-      },
-      [
-        tabController,
-        userToValidateList,
-        userInProgressList,
-        userCompletedList,
-      ],
-    );
+      tabController.addListener(listener);
+      return () => tabController.removeListener(listener);
+    }, [
+      tabController,
+    ]);
 
     return userInvestment.when(
       data: (data) {
@@ -65,6 +54,22 @@ class TabBarBusinessV4 extends HookConsumerWidget {
           userCompletedList =
               data?.investmentInDolares.investmentFinished ?? [];
         }
+        if (userToValidateList.isNotEmpty && initeState.value) {
+          initeState.value = false;
+          currentIndex.value = 0;
+        } else if (userInProgressList.isNotEmpty && initeState.value) {
+          initeState.value = false;
+          currentIndex.value = 1;
+        } else if (userCompletedList.isNotEmpty && initeState.value) {
+          initeState.value = false;
+          currentIndex.value = 2;
+        }
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (tabController.index != currentIndex.value) {
+            tabController.animateTo(currentIndex.value);
+          }
+        });
 
         return SizedBox(
           width: MediaQuery.of(context).size.width,
