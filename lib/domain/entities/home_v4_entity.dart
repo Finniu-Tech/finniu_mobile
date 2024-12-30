@@ -52,7 +52,7 @@ class AllInvestment {
       totalBalanceRentabilityIncreased:
           json['totalBalanceRentabilityIncreased'] as String?,
       percentageProfitabilityIncreaseMonthly:
-          json['totalPercentPerMonth'] as String?,
+          _formatToNumberStringTwoComa(json['totalPercentPerMonth']),
     );
   }
 
@@ -69,6 +69,16 @@ class AllInvestment {
     try {
       final number = double.parse(value);
       return number.toStringAsFixed(0);
+    } catch (e) {
+      return value;
+    }
+  }
+
+  static String? _formatToNumberStringTwoComa(String? value) {
+    if (value == null) return null;
+    try {
+      final number = double.parse(value);
+      return number.toStringAsFixed(2);
     } catch (e) {
       return value;
     }

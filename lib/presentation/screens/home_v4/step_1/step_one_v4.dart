@@ -9,9 +9,9 @@ import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
@@ -58,9 +58,6 @@ class StepOneBody extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height < 700
-            ? 650
-            : MediaQuery.of(context).size.height - 85,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -252,193 +249,195 @@ class FormStepOne extends HookConsumerWidget {
       }
     }
 
+    useEffect(
+      () {
+        Future.microtask(() {
+          ref.read(nabbarProvider.notifier).updateNabbar(
+                NabbarProvider(title: "Simular", onTap: onPressSimulator),
+              );
+        });
+
+        return null;
+      },
+      [],
+    );
+
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height - 245,
-        child: Column(
-          children: [
-            const SizedBox(height: 25),
-            ValueListenableBuilder<bool>(
-              valueListenable: amountError,
-              builder: (context, isError, child) {
-                return InputTextFileInvest(
-                  title: "  Monto  ",
-                  isNumeric: true,
-                  controller: amountController,
-                  isError: isError,
-                  onError: () => amountError.value = false,
-                  hintText: "Ingrese su monto de inversión",
-                  validator: (value) {
-                    validateNumberMin(
-                      isSoles: isSoles,
-                      value: value,
-                      field: "Monto",
-                      context: context,
-                      boolNotifier: amountError,
-                      minValue: product.titleText ==
-                              "Producto de inversión a Plazo Fijo"
-                          ? 1000
-                          : 50000,
-                    );
+      child: Column(
+        children: [
+          const SizedBox(height: 25),
+          ValueListenableBuilder<bool>(
+            valueListenable: amountError,
+            builder: (context, isError, child) {
+              return InputTextFileInvest(
+                title: "  Monto  ",
+                isNumeric: true,
+                controller: amountController,
+                isError: isError,
+                onError: () => amountError.value = false,
+                hintText: "Ingrese su monto de inversión",
+                validator: (value) {
+                  validateNumberMin(
+                    isSoles: isSoles,
+                    value: value,
+                    field: "Monto",
+                    context: context,
+                    boolNotifier: amountError,
+                    minValue: product.titleText ==
+                            "Producto de inversión a Plazo Fijo"
+                        ? 1000
+                        : 50000,
+                  );
 
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 25),
+          ValueListenableBuilder<bool>(
+            valueListenable: timeError,
+            builder: (context, isError, child) {
+              return SelecDropdownInvest(
+                isDarkMode: isDarkMode,
+                isError: isError,
+                onError: () => timeError.value = false,
+                itemSelectedValue: timeController.text,
+                title: "  Plazo  ",
+                hintText: "Seleccione su plazo de inversión",
+                selectController: timeController,
+                options: optionsTime,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Plazo obligatorio",
+                      message: "Por favor, completa el Plazo.",
+                      snackType: SnackType.warning,
+                    );
+                    timeError.value = true;
                     return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 25),
-            ValueListenableBuilder<bool>(
-              valueListenable: timeError,
-              builder: (context, isError, child) {
-                return SelecDropdownInvest(
-                  isDarkMode: isDarkMode,
-                  isError: isError,
-                  onError: () => timeError.value = false,
-                  itemSelectedValue: timeController.text,
-                  title: "  Plazo  ",
-                  hintText: "Seleccione su plazo de inversión",
-                  selectController: timeController,
-                  options: optionsTime,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "Plazo obligatorio",
-                        message: "Por favor, completa el Plazo.",
-                        snackType: SnackType.warning,
-                      );
-                      timeError.value = true;
-                      return null;
-                    }
+                  }
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 25),
+          ValueListenableBuilder<bool>(
+            valueListenable: originError,
+            builder: (context, isError, child) {
+              return SelecDropdownInvest(
+                isDarkMode: isDarkMode,
+                isError: isError,
+                onError: () => originError.value = false,
+                itemSelectedValue: originController.text,
+                title: "  Origen de procedencia  ",
+                hintText: "Seleccione origen",
+                selectController: originController,
+                options: optionsOrigin,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Origen obligatorio",
+                      message: "Por favor, completa el Origen.",
+                      snackType: SnackType.warning,
+                    );
+                    originError.value = true;
                     return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 25),
-            ValueListenableBuilder<bool>(
-              valueListenable: originError,
-              builder: (context, isError, child) {
-                return SelecDropdownInvest(
-                  isDarkMode: isDarkMode,
-                  isError: isError,
-                  onError: () => originError.value = false,
-                  itemSelectedValue: originController.text,
-                  title: "  Origen de procedencia  ",
-                  hintText: "Seleccione origen",
-                  selectController: originController,
-                  options: optionsOrigin,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "Origen obligatorio",
-                        message: "Por favor, completa el Origen.",
-                        snackType: SnackType.warning,
-                      );
-                      originError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            originController.text == "Otros"
-                ? const SizedBox(height: 25)
-                : const SizedBox(),
-            originController.text == "Otros"
-                ? ValueListenableBuilder<bool>(
-                    valueListenable: originOtherError,
-                    builder: (context, isError, child) {
-                      return InputTextFileInvest(
-                        title: " Otro origen  ",
-                        controller: originOtherController,
-                        isError: isError,
-                        onError: () => originOtherError.value = false,
-                        hintText: "Ingrese su origen",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            showSnackBarV2(
-                              context: context,
-                              title: "Origen obligatorio",
-                              message: "Por favor, completa el Origen.",
-                              snackType: SnackType.warning,
-                            );
-                            originError.value = true;
-                            return null;
-                          }
-                          return null;
-                        },
-                      );
-                    },
-                  )
-                : const SizedBox(),
-            const SizedBox(height: 25),
-            Stack(
-              children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: couponError,
+                  }
+                  return null;
+                },
+              );
+            },
+          ),
+          originController.text == "Otros"
+              ? const SizedBox(height: 25)
+              : const SizedBox(),
+          originController.text == "Otros"
+              ? ValueListenableBuilder<bool>(
+                  valueListenable: originOtherError,
                   builder: (context, isError, child) {
                     return InputTextFileInvest(
-                      title: "  Si es que tienes un cupón  ",
-                      isNumeric: false,
-                      controller: couponController,
+                      title: " Otro origen  ",
+                      controller: originOtherController,
                       isError: isError,
-                      onError: () => couponError.value = false,
-                      hintText: "Ingresa tu cupón",
-                      validator: (p0) {
+                      onError: () => originOtherError.value = false,
+                      hintText: "Ingrese su origen",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          showSnackBarV2(
+                            context: context,
+                            title: "Origen obligatorio",
+                            message: "Por favor, completa el Origen.",
+                            snackType: SnackType.warning,
+                          );
+                          originError.value = true;
+                          return null;
+                        }
                         return null;
                       },
                     );
                   },
-                ),
-                Positioned(
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: onPressCupon,
-                    child: Center(
-                      child: Container(
-                        width: 100,
-                        height: 48,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color(buttonBorder),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
-                          ),
-                          color: const Color(buttonBack),
+                )
+              : const SizedBox(),
+          const SizedBox(height: 25),
+          Stack(
+            children: [
+              ValueListenableBuilder<bool>(
+                valueListenable: couponError,
+                builder: (context, isError, child) {
+                  return InputTextFileInvest(
+                    title: "  Si es que tienes un cupón  ",
+                    isNumeric: false,
+                    controller: couponController,
+                    isError: isError,
+                    onError: () => couponError.value = false,
+                    hintText: "Ingresa tu cupón",
+                    validator: (p0) {
+                      return null;
+                    },
+                  );
+                },
+              ),
+              Positioned(
+                right: 0,
+                child: GestureDetector(
+                  onTap: onPressCupon,
+                  child: Center(
+                    child: Container(
+                      width: 100,
+                      height: 48,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color(buttonBorder),
+                          width: 1,
                         ),
-                        child: const TextPoppins(
-                          text: "Aplicarlo",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          textDark: buttonText,
-                          textLight: buttonText,
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
                         ),
+                        color: const Color(buttonBack),
+                      ),
+                      child: const TextPoppins(
+                        text: "Aplicarlo",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        textDark: buttonText,
+                        textLight: buttonText,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 25),
-            const Spacer(),
-            ButtonInvestment(
-              text: "Simular",
-              onPressed: onPressSimulator,
-            ),
-            const SizedBox(
-              height: 40,
-            )
-          ],
-        ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 25),
+        ],
       ),
     );
   }
