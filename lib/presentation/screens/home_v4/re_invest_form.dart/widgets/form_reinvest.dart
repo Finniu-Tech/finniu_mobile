@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/re_invest_dto.dart';
@@ -289,46 +288,66 @@ class FormStepOneReinvest extends HookConsumerWidget {
           return;
         }
         loader.value = true;
-        final input = CreateReInvestmentParams(
-          preInvestmentUUID: data.uuid,
-          finalAmount: finalAmount.value.toInt().toString(),
-          currency: isSoles ? currencyNuevoSol : currencyDollar,
-          deadlineUUID: timeController.text,
-          originFounds: data.originFunds,
-          coupon: couponController.text,
-          typeReinvestment: "CAPITAL_ONLY",
-          bankAccountSender: bankReceiver.id,
-        );
-        final response =
-            await ref.read(createReInvestmentProvider(input).future);
-        if (response.success == false || response.success == null) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.investmentStep1V2,
-              "event": "save_re_investment_error",
-            },
-          );
-          showSnackBarV2(
-            context: context,
-            title: "Error interno",
-            message: response.messages?[0].message ??
-                'Hubo un problema, asegúrate de haber completado todos los campos',
-            snackType: SnackType.error,
-          );
-          loader.value = false;
-          return;
-        }
-        showThanksForInvestingModal(
+        final timeList = ref.watch(deadLineFutureProvider);
+        final time = timeList.asData!.value
+            .firstWhere((element) => element.uuid == timeController.text);
+        investmentSimulationModal(
           context,
-          () {
-            Navigator.pushReplacementNamed(
-              context,
-              '/v4/experience',
+          startingAmount: finalAmount.value.toInt(),
+          finalAmount: finalAmount.value.toInt(),
+          mouthInvestment: time.value,
+          coupon: couponController.text,
+          toInvestPressed: () async {
+            loader.value = true;
+
+            Navigator.pop(context);
+            loader.value = true;
+            final input = CreateReInvestmentParams(
+              preInvestmentUUID: data.uuid,
+              finalAmount: finalAmount.value.toInt().toString(),
+              currency: isSoles ? currencyNuevoSol : currencyDollar,
+              deadlineUUID: timeController.text,
+              originFounds: data.originFunds,
+              coupon: couponController.text,
+              typeReinvestment: "CAPITAL_ONLY",
+              bankAccountSender: bankReceiver.id,
             );
+            final response =
+                await ref.read(createReInvestmentProvider(input).future);
+
+            if (response.success == false || response.success == null) {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.pushDataError,
+                parameters: {
+                  "screen": FirebaseScreen.investmentStep1V2,
+                  "event": "save_re_investment_error",
+                },
+              );
+              showSnackBarV2(
+                context: context,
+                title: "Error interno",
+                message: response.messages?[0].message ??
+                    'Hubo un problema, asegúrate de haber completado todos los campos',
+                snackType: SnackType.error,
+              );
+              loader.value = false;
+              return;
+            }
+            showThanksForInvestingModal(
+              context,
+              () {
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/v4/experience',
+                );
+              },
+              true,
+            );
+            loader.value = false;
           },
-          true,
+          recalculatePressed: () => Navigator.pop(context),
         );
+
         loader.value = false;
       }
     }
