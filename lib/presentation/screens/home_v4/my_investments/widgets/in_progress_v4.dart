@@ -86,7 +86,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
       ),
       width: MediaQuery.of(context).size.width * 0.9,
       height: item.isReinvestAvailable == true &&
-              item.actionStatus == ActionStatusEnumV4.reInvestmentActivated
+              item.actionStatus == ActionStatusEnumV4.reInvestmentDefault
           ? 140
           : 100,
       decoration: BoxDecoration(
@@ -273,7 +273,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
             ],
           ),
           if (item.isReinvestAvailable == true &&
-              item.actionStatus == ActionStatusEnum.activeReInvestment)
+              item.actionStatus == ActionStatusEnumV4.reInvestmentDefault)
             GestureDetector(
               onTap: navigateToReinvest,
               child: Container(

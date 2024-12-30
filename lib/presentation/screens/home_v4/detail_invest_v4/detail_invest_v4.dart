@@ -231,8 +231,7 @@ class _BodyScaffold extends ConsumerWidget {
                             if (arguments.status !=
                                     StatusInvestmentEnum.in_process &&
                                 data.actionStatus ==
-                                    ActionStatusEnumV4
-                                        .reInvestmentActivated) ...[
+                                    ActionStatusEnumV4.reInvestmentDefault) ...[
                               ButtonInvestment(
                                 text: 'Quiero reinvertir',
                                 onPressed: navigatoToReinvest,
