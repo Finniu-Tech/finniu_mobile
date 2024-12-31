@@ -54,16 +54,11 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   final TextEditingController accountTypeController = TextEditingController();
   final TextEditingController accountNumberController = TextEditingController();
   final TextEditingController accountNameController = TextEditingController();
-  final TextEditingController jointHolderNameController =
-      TextEditingController();
-  final TextEditingController jointHolderLastNameController =
-      TextEditingController();
-  final TextEditingController jointHolderMothersLastNameController =
-      TextEditingController();
-  final TextEditingController jointHolderDocTypeController =
-      TextEditingController();
-  final TextEditingController jointHolderDocNumberController =
-      TextEditingController();
+  final TextEditingController jointHolderNameController = TextEditingController();
+  final TextEditingController jointHolderLastNameController = TextEditingController();
+  final TextEditingController jointHolderMothersLastNameController = TextEditingController();
+  final TextEditingController jointHolderDocTypeController = TextEditingController();
+  final TextEditingController jointHolderDocNumberController = TextEditingController();
   final TextEditingController cciNumberController = TextEditingController();
   List<SnackBarContainerV2> errors = [];
 
@@ -117,8 +112,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
       jointHolderDocNumberController: jointHolderDocNumberController,
       jointHolderDocTypeController: jointHolderDocTypeController,
       jointHolderLastNameController: jointHolderLastNameController,
-      jointHolderMothersLastNameController:
-          jointHolderMothersLastNameController,
+      jointHolderMothersLastNameController: jointHolderMothersLastNameController,
       jointHolderNameController: jointHolderNameController,
       personalAccountDeclaration: personalAccountDeclaration,
     );
@@ -193,9 +187,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: theme.isDarkMode
-                              ? const Color(secondaryGrayText)
-                              : const Color(primaryDark),
+                          color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                         ),
                       ),
                     ),
@@ -217,7 +209,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     const SizedBox(height: 15),
                     CustomSelectButton(
                       textEditingController: accountTypeController,
-                      items: const ['Ahorros', 'Corriente'],
+                      items: const ['Ahorros', 'Corriente', 'Mancomunada'],
                       callbackOnChange: (value) {
                         accountTypeController.text = value;
                       },
@@ -242,8 +234,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       controller: cciNumberController,
                       decoration: const InputDecoration(
                         labelText: "Número de cuenta interbancaria(CCI)",
-                        hintText:
-                            "Escribe el número de cuenta interbancaria(CCI)",
+                        hintText: "Escribe el número de cuenta interbancaria(CCI)",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                         ),
@@ -269,9 +260,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: theme.isDarkMode
-                                ? const Color(secondaryGrayText)
-                                : const Color(primaryDark),
+                            color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                           ),
                         ),
                         Text(
@@ -279,9 +268,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: theme.isDarkMode
-                                ? const Color(secondaryGrayText)
-                                : const Color(primaryDark),
+                            color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                           ),
                         ),
                         Switch(
@@ -321,8 +308,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                               decoration: const InputDecoration(
                                 labelText: "Apellido Paterno",
                                 border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25)),
+                                  borderRadius: BorderRadius.all(Radius.circular(25)),
                                 ),
                               ),
                             ),
@@ -334,8 +320,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                               decoration: const InputDecoration(
                                 labelText: "Apellido Materno",
                                 border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25)),
+                                  borderRadius: BorderRadius.all(Radius.circular(25)),
                                 ),
                               ),
                             ),
@@ -349,8 +334,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: CustomSelectButton(
                               width: 154,
-                              textEditingController:
-                                  jointHolderDocTypeController,
+                              textEditingController: jointHolderDocTypeController,
                               items: const ['DNI', 'Carnet de Extranjería'],
                               callbackOnChange: (value) {
                                 jointHolderDocTypeController.text = value;
@@ -366,8 +350,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                               decoration: const InputDecoration(
                                 labelText: "Número de documento",
                                 border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25)),
+                                  borderRadius: BorderRadius.all(Radius.circular(25)),
                                 ),
                               ),
                             ),
@@ -391,9 +374,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: theme.isDarkMode
-                                ? const Color(secondaryGrayText)
-                                : const Color(primaryDark),
+                            color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                           ),
                         ),
                       ],
@@ -413,9 +394,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: theme.isDarkMode
-                                ? const Color(secondaryGrayText)
-                                : const Color(primaryDark),
+                            color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                           ),
                         ),
                       ],
@@ -426,8 +405,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                             carouselController: errorsCarouselController,
                             items: errors,
                             options: CarouselOptions(
-                              autoPlayAnimationDuration:
-                                  const Duration(seconds: 1),
+                              autoPlayAnimationDuration: const Duration(seconds: 1),
                               height: 80,
                               autoPlay: true,
                               viewportFraction: 1,
@@ -436,8 +414,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                                 if (index == errors.length - 1) {
                                   errorsCarouselController.stopAutoPlay();
 
-                                  Future.delayed(const Duration(seconds: 2),
-                                      () {
+                                  Future.delayed(const Duration(seconds: 2), () {
                                     setState(() {
                                       errors.clear();
                                     });
@@ -461,19 +438,15 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           Navigator.of(context).pop();
                         },
                         style: ButtonStyle(
-                          overlayColor:
-                              WidgetStateProperty.all(Colors.transparent),
-                          backgroundColor:
-                              WidgetStateProperty.all(Colors.transparent),
+                          overlayColor: WidgetStateProperty.all(Colors.transparent),
+                          backgroundColor: WidgetStateProperty.all(Colors.transparent),
                         ),
                         child: Text(
                           "Regresar",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: theme.isDarkMode
-                                ? const Color(secondaryGrayText)
-                                : const Color(primaryDark),
+                            color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                             decoration: TextDecoration.underline,
                           ),
                         ),
