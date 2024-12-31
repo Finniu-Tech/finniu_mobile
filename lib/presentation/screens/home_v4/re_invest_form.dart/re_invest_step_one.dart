@@ -45,7 +45,6 @@ class ReInvestProvider extends ConsumerWidget {
     final args = ModalRoute.of(context)?.settings.arguments as NavigateReinves;
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     context.loaderOverlay.show();
-    print(args);
     return FutureBuilder(
       future: ref.watch(getInvestFutureProviderV4(args.uuid).future),
       builder: (context, snapshot) {
