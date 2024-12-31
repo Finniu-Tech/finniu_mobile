@@ -29,32 +29,28 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class StepOneV4 extends StatelessWidget {
-  final ProductContainerStyles product;
-
   const StepOneV4({
     super.key,
-    required this.product,
   });
 
   @override
   Widget build(BuildContext context) {
-    return StepScaffold(
+    return const StepScaffold(
       useDefaultLoading: true,
-      children: StepOneBody(product: product),
+      children: StepOneBody(),
     );
   }
 }
 
 class StepOneBody extends StatelessWidget {
-  final ProductContainerStyles product;
-
   const StepOneBody({
     super.key,
-    required this.product,
   });
 
   @override
   Widget build(BuildContext context) {
+    final product =
+        ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
