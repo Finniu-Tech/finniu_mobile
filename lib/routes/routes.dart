@@ -1,4 +1,3 @@
-import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_account_v2.dart';
 import 'package:finniu/presentation/screens/additional_information/additional_information.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
