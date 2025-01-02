@@ -23,6 +23,7 @@ class CustomAppBarV4 extends ConsumerWidget implements PreferredSizeWidget {
           : const Color(HomeV4Colors.appBarColorLight),
       leading: Image.asset(
         'assets/images/logo_small.png',
+        filterQuality: FilterQuality.medium,
         width: 80,
         height: 80,
         color: isDarkMode

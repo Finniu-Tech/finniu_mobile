@@ -167,11 +167,13 @@ class NoticeItem extends ConsumerWidget {
                       child: AspectRatio(
                         aspectRatio: 16 / 9,
                         child: Image.network(
+                          filterQuality: FilterQuality.low,
                           item.imageUrl ?? '',
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               Image.asset(
                             "assets/home_v4/notice_exeption.png",
+                            filterQuality: FilterQuality.low,
                             fit: BoxFit.cover,
                           ),
                           loadingBuilder: (context, child, loadingProgress) {

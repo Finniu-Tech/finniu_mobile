@@ -17,7 +17,7 @@ class ScaffoldHomeV4 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void _setUserAnalytics(WidgetRef ref, UserProfile profile) {
+    void setUserAnalytics(WidgetRef ref, UserProfile profile) {
       final analytics = ref.read(firebaseAnalyticsServiceProvider);
       analytics.setUserId(
         "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
@@ -75,7 +75,7 @@ class ScaffoldHomeV4 extends ConsumerWidget {
                       await initializeNotifications(context, ref, profile);
                     }
                     context.loaderOverlay.hide();
-                    _setUserAnalytics(ref, profile);
+                    setUserAnalytics(ref, profile);
                   });
 
                   return null;

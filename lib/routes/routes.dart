@@ -1,4 +1,3 @@
-import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_account_v2.dart';
 import 'package:finniu/presentation/screens/additional_information/additional_information.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
@@ -343,12 +342,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         ),
     //
     '/v4/product': (context) {
-      final product =
-          ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
-      return Stack(
+      // final args =
+      //     ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
+      return const Stack(
         children: [
-          ProductDetailV4(product: product),
-          const JuliaBubble(),
+          ProductDetailV4(),
+          JuliaBubble(),
         ],
       );
     },
@@ -361,12 +360,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v4/notices_detail': (BuildContext context) => const NoticeDetail(),
     '/v4/push_to_url': (BuildContext context) => const PushToUrlScreen(),
     '/v4/step_one': (BuildContext context) {
-      final args =
-          ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
-      return Stack(
+      // final args =
+      //     ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
+      return const Stack(
         children: [
-          StepOneV4(product: args),
-          const JuliaBubble(),
+          StepOneV4(),
+          JuliaBubble(),
         ],
       );
     },

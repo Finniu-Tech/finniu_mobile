@@ -13,11 +13,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class ProductDetailV4 extends ConsumerWidget {
-  final ProductContainerStyles product;
-
   const ProductDetailV4({
     super.key,
-    required this.product,
   });
 
   @override
@@ -29,22 +26,22 @@ class ProductDetailV4 extends ConsumerWidget {
       backgroundColor:
           isDarkMode ? const Color(colorDark) : const Color(colorLight),
       appBar: const AppBarProduct(),
-      body: SingleChildScrollView(
-        child: ProductBody(product: product),
+      body: const SingleChildScrollView(
+        child: ProductBody(),
       ),
     );
   }
 }
 
 class ProductBody extends ConsumerWidget {
-  final ProductContainerStyles product;
   const ProductBody({
     super.key,
-    required this.product,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final product =
+        ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
     final isSoles = ref.watch(isSolesStateProvider);
     const String objective =
         "Inversión en préstamos para capital de trabajo o desarrollo de proyectos en empresas que pertenecen al portafolio diversificado de Finniu.";

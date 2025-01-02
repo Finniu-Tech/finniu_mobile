@@ -153,12 +153,14 @@ class NewItem extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
+                        filterQuality: FilterQuality.medium,
                       ),
                     )
                   : Image.asset(
                       "assets/home_v4/example_1.png",
                       fit: BoxFit.cover,
                       width: double.infinity,
+                      filterQuality: FilterQuality.medium,
                       height: double.infinity,
                     ),
             ),

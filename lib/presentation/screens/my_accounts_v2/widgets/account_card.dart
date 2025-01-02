@@ -64,6 +64,7 @@ class AccointCard extends ConsumerWidget {
                               : const Color(iconLight),
                         )
                       : Image.network(
+                          filterQuality: FilterQuality.medium,
                           logoUrl,
                           width: 50,
                           height: 50,
