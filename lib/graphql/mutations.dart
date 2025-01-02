@@ -428,6 +428,7 @@ class MutationRepository {
         \$originFounds: OriginFundsInput!,
         \$typeReinvestment: TypeReInvestmentEnum!,
         \$bankAccountSender: String,
+        \$bankAccountReceiver: String
       ){
         createReInvestment(input:{
           preInvestmentUuid: \$preInvestmentUUID,
@@ -438,6 +439,7 @@ class MutationRepository {
           originFunds: \$originFounds,
           typeReInvestment: \$typeReinvestment,
           bankAccountSender: \$bankAccountSender
+          bankAccountReceiver: \$bankAccountReceiver
         }){
           success
           reInvestmentUuid
