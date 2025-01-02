@@ -201,7 +201,9 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       callbackOnChange: (value) {
                         bankController.text = value;
                       },
-                      labelText: "Desde qué banco realizas la transferencia",
+                      labelText: widget.isSender
+                          ? "Desde qué banco realizas la transferencia"
+                          : "A qué banco transferimos tu rentabilidad",
                       hintText: "Seleccione su banco",
                       width: MediaQuery.of(context).size.width * 0.8,
                       enableColor: Colors.transparent,

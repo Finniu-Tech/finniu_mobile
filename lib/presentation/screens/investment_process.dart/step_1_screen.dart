@@ -969,7 +969,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       if (resultCalculator?.plan != null) {
                         // selectedPlan = resultCalculator!.plan!;
                         profitability = resultCalculator!.profitability;
-                        showInvestmentBoxes = true;
+                        // showInvestmentBoxes = true;
                       }
                     });
 
