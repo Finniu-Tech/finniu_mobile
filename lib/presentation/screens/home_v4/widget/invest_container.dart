@@ -65,6 +65,7 @@ class InvestBody extends ConsumerWidget {
     final isSoles = ref.watch(isSolesStateProvider);
     final AllInvestment investSelect =
         isSoles ? data.investmentInSoles! : data.investmentInDolares!;
+
     return Container(
       padding: const EdgeInsets.only(
         left: 20,
@@ -394,7 +395,7 @@ class Interest extends ConsumerWidget {
                               HomeV4Colors.interestGeneratedContLight),
                     ),
                     child: TextPoppins(
-                      text: '$totalBalanceRentabilityActually%',
+                      text: '${totalBalanceRentabilityActually}%',
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                       textDark: HomeV4Colors.interestGeneratedDark,

@@ -1,4 +1,5 @@
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 
 class ReInvestDto {
   final String uuid;
@@ -46,6 +47,7 @@ class ReInvestDtoV4 {
   final String currency;
   final int deadline;
   final int rentabilityPercent;
+  final OriginFunds originFunds;
 
   ReInvestDtoV4({
     required this.fundUUID,
@@ -55,6 +57,7 @@ class ReInvestDtoV4 {
     required this.deadline,
     required this.uuid,
     required this.rentabilityPercent,
+    required this.originFunds,
   });
   factory ReInvestDtoV4.fromJson(Map<String, dynamic> json) {
     return ReInvestDtoV4(
@@ -65,6 +68,7 @@ class ReInvestDtoV4 {
       amount: double.parse(json['amount']),
       currency: json['currency'],
       deadline: json['deadline']['value'],
+      originFunds: mapToOriginFunds(json['originFunds']),
     );
   }
   static int _parseAmount(String amount) {

@@ -45,6 +45,33 @@ class OriginFunds {
       };
 }
 
+OriginFunds mapToOriginFunds(String? category, [String? otherText]) {
+  switch (category) {
+    case 'SALARIOS_Y_SUELDOS':
+      return OriginFunds(originFundsEnum: OriginFoundsEnum.SALARIO);
+    case 'AHORROS_PERSONALES':
+      return OriginFunds(originFundsEnum: OriginFoundsEnum.AHORROS);
+    case 'VENTA_DE_BIENES':
+      return OriginFunds(originFundsEnum: OriginFoundsEnum.VENTA_BIENES);
+    case 'INVERSIONES':
+      return OriginFunds(originFundsEnum: OriginFoundsEnum.INVERSIONES);
+    case 'HERENCIA':
+      return OriginFunds(originFundsEnum: OriginFoundsEnum.HERENCIA);
+    case 'PRESTAMOS':
+      return OriginFunds(originFundsEnum: OriginFoundsEnum.PRESTAMOS);
+    case 'OTROS':
+      return OriginFunds(
+        originFundsEnum: OriginFoundsEnum.OTROS,
+        otherText: otherText,
+      );
+    default:
+      return OriginFunds(
+        originFundsEnum: OriginFoundsEnum.OTROS,
+        otherText: "Otros",
+      );
+  }
+}
+
 enum OriginFoundsEnum {
   SALARIO,
   AHORROS,
@@ -117,6 +144,7 @@ class CreateReInvestmentParams {
     required this.typeReinvestment,
     this.bankAccountReceiver,
     this.bankAccountSender,
+    this.bankAccountReceiver,
   });
 
   Map<String, dynamic> toJson() => {

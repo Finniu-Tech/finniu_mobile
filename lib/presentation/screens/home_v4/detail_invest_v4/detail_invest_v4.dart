@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:finniu/constants/contact_whats_app.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
-import 'package:finniu/presentation/providers/get_fund_investment.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -23,7 +24,6 @@ import 'package:finniu/presentation/screens/new_simulator/widgets/selected_bank_
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 class DetailInvestV4 extends StatelessWidget {
   const DetailInvestV4({super.key});
@@ -50,7 +50,7 @@ class _BodyScaffold extends ConsumerWidget {
     final isSoles = ref.read(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffFFFFFF;
-
+    log(arguments.uuid);
     final investmentDetailByUuid =
         ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
@@ -82,11 +82,7 @@ class _BodyScaffold extends ConsumerWidget {
             status: arguments.status,
           );
         }
-        void navigatoToReinvest() async {
-          context.loaderOverlay.show();
-          final dtoReinvest =
-              await ref.read(getInvestFutureProvider(arguments.uuid).future);
-          context.loaderOverlay.hide();
+        void navigatoToReinvest() {
           reinvestmentQuestionModal(
             context,
             ref,
@@ -94,9 +90,6 @@ class _BodyScaffold extends ConsumerWidget {
             data.amount.toDouble(),
             isSoles ? currencyEnum.PEN : currencyEnum.USD,
             true,
-            dtoReinvest?.fund,
-            data.rentabilityPercent,
-            data.month,
           );
         }
 
@@ -238,8 +231,7 @@ class _BodyScaffold extends ConsumerWidget {
                             if (arguments.status !=
                                     StatusInvestmentEnum.in_process &&
                                 data.actionStatus ==
-                                    ActionStatusEnumV4
-                                        .reInvestmentActivated) ...[
+                                    ActionStatusEnumV4.reInvestmentDefault) ...[
                               ButtonInvestment(
                                 text: 'Quiero reinvertir',
                                 onPressed: navigatoToReinvest,

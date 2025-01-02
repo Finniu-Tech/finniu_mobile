@@ -6,7 +6,6 @@ import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
-import 'package:finniu/presentation/providers/get_fund_investment.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
@@ -16,7 +15,6 @@ import 'package:finniu/presentation/screens/investment_status/widgets/reinvestme
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 class InProgressListV4 extends ConsumerWidget {
   final List<InvestmentV4> list;
@@ -71,12 +69,6 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
     final isSoles = ref.read(isSolesStateProvider);
 
     void navigateToReinvest() async {
-      context.loaderOverlay.show();
-      final dtoReinvest =
-          await ref.read(getInvestFutureProvider(item.uuid).future);
-
-      context.loaderOverlay.hide();
-
       reinvestmentQuestionModal(
         context,
         ref,
@@ -84,9 +76,6 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
         item.amount.toDouble(),
         isSoles ? currencyEnum.PEN : currencyEnum.USD,
         true,
-        dtoReinvest?.fund,
-        dtoReinvest?.rentabilityPercent,
-        dtoReinvest?.deadline,
       );
     }
 
@@ -97,9 +86,9 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
       ),
       width: MediaQuery.of(context).size.width * 0.9,
       height: item.isReinvestAvailable == true &&
-              item.actionStatus == ActionStatusEnumV4.reInvestmentActivated
+              item.actionStatus == ActionStatusEnumV4.reInvestmentDefault
           ? 140
-          : 140,
+          : 100,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
@@ -221,9 +210,11 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                             height: 14,
                             color: isDarkMode
                                 ? const Color(
-                                    ToValidateColorsV4.itemRentTextDark)
+                                    ToValidateColorsV4.itemRentTextDark,
+                                  )
                                 : const Color(
-                                    ToValidateColorsV4.itemRentTextLight),
+                                    ToValidateColorsV4.itemRentTextLight,
+                                  ),
                           ),
                           const SizedBox(
                             width: 5,
@@ -281,32 +272,32 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               ),
             ],
           ),
-          // if (item.isReinvestAvailable == true &&
-          //     item.actionStatus == ActionStatusEnum.activeReInvestment)
-          GestureDetector(
-            onTap: navigateToReinvest,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 30,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(ToValidateColorsV4.buttonReInvestDark)
-                    : const Color(ToValidateColorsV4.buttonReInvestLight),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
+          if (item.isReinvestAvailable == true &&
+              item.actionStatus == ActionStatusEnumV4.reInvestmentDefault)
+            GestureDetector(
+              onTap: navigateToReinvest,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? const Color(ToValidateColorsV4.buttonReInvestDark)
+                      : const Color(ToValidateColorsV4.buttonReInvestLight),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-              ),
-              child: const Center(
-                child: TextPoppins(
-                  text: "Quiero reinvertir",
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  textDark: ToValidateColorsV4.textReInvestDark,
-                  textLight: ToValidateColorsV4.textReInvestLight,
+                child: const Center(
+                  child: TextPoppins(
+                    text: "Quiero reinvertir",
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    textDark: ToValidateColorsV4.textReInvestDark,
+                    textLight: ToValidateColorsV4.textReInvestLight,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );

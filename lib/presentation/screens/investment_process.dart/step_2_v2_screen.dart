@@ -1,9 +1,9 @@
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/helpers/push_step_data.dart';
@@ -70,7 +70,6 @@ class StepTwoBody extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height < 700 ? 650 : MediaQuery.of(context).size.height - 120,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,6 +77,7 @@ class StepTwoBody extends StatelessWidget {
             FundRowStep(
               icon: colors.imageProduct,
             ),
+            const SizedBox(height: 15),
             const TextPoppins(
               text: "Fondo prestamos\nempresariales",
               fontSize: 20,
@@ -87,6 +87,7 @@ class StepTwoBody extends StatelessWidget {
               textDark: titleDark,
               textLight: titleLight,
             ),
+            const SizedBox(height: 15),
             const TextPoppins(
               text: "Agrega tus cuentas",
               fontSize: 14,
@@ -95,21 +96,23 @@ class StepTwoBody extends StatelessWidget {
               textDark: textDark,
               textLight: textLight,
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 15),
             BankTranferContainer(
               title: "Desde que banco nos transfieres ",
               providerWatch: selectedBankAccountSenderProvider,
               isSended: true,
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 15),
             BankTranferContainer(
               title: "A que banco te depositamos",
               providerWatch: selectedBankAccountReceiverProvider,
               isSended: false,
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 15),
             const TextRickStep(),
+            const SizedBox(height: 15),
             const FinniuAccountProvider(),
+            const SizedBox(height: 15),
             const TextPoppins(
               text: "Adjunta tu constancia de transferencia:",
               fontSize: 14,
@@ -117,7 +120,9 @@ class StepTwoBody extends StatelessWidget {
               textDark: textDark,
               textLight: textLight,
             ),
+            const SizedBox(height: 15),
             const ImageStep(),
+            const SizedBox(height: 15),
             const ColumnPush(),
           ],
         ),
@@ -134,7 +139,8 @@ class ColumnPush extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final conditions = useState(false);
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     Future<void> pushData() async {
       final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
       final bankSender = ref.read(selectedBankAccountSenderProvider);
@@ -226,14 +232,23 @@ class ColumnPush extends HookConsumerWidget {
       }
     }
 
+    useEffect(
+      () {
+        Future.microtask(() {
+          ref.read(nabbarProvider.notifier).updateNabbar(
+                NabbarProvider(title: "Enviar constancia", onTap: pushData),
+              );
+        });
+
+        return null;
+      },
+      [],
+    );
+
     return Column(
       children: [
         TermConditionsStep(
           conditions: conditions,
-        ),
-        ButtonInvestment(
-          text: "Enviar constancia",
-          onPressed: () => pushData(),
         ),
         const SizedBox(height: 15),
       ],

@@ -6,8 +6,8 @@ import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
+import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/re_invest_step_one.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -44,23 +44,19 @@ void reinvestmentQuestionModal(
       preInvestmentUUID: preInvestmentUUID,
       preInvestmentAmount: preInvestmentAmount,
       currency: currency,
-      isV2: isV2 ?? false,
-      fund: fund,
       rentability: rentability,
       deadline: deadline,
     ),
   );
 }
 
-class ReinvestmentQuestionBody extends HookConsumerWidget {
+class ReinvestmentQuestionBody extends ConsumerWidget {
   const ReinvestmentQuestionBody({
     super.key,
     required this.themeProvider,
     required this.preInvestmentUUID,
     required this.preInvestmentAmount,
     required this.currency,
-    this.isV2 = false,
-    this.fund,
     this.rentability,
     this.deadline,
     // required this.userNotification,
@@ -70,8 +66,7 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
   final String preInvestmentUUID;
   final double preInvestmentAmount;
   final String currency;
-  final bool isV2;
-  final FundEntity? fund;
+
   final int? rentability;
   final int? deadline;
   // final UserNotificationEntity userNotification;
@@ -95,11 +90,7 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
             SizedBox(
               width: 90,
               height: 90,
-              child: Image.asset(
-                isV2
-                    ? 'assets/reinvestment/reinvestment_image.png'
-                    : 'assets/reinvestment/avatar_with_money.png',
-              ),
+              child: Image.asset('assets/reinvestment/reinvestment_image.png'),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -171,36 +162,14 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  //navigate to reinvestment_step_1
-                  if (isV2) {
-                    Navigator.pushNamed(
-                      context,
-                      '/v2/investment/step-1',
-                      arguments: {
-                        'fund': fund,
-                        'preInvestmentUUID': preInvestmentUUID,
-                        'amount': preInvestmentAmount.toInt(),
-                        'isReInvestment': true,
-                        'reInvestmentType':
-                            typeReinvestmentEnum.CAPITAL_ADITIONAL,
-                        'currency': currency,
-                        'deadLine': deadline.toString(),
-                        'originInvestmentRentability': rentability,
-                      },
-                    );
-                  } else {
-                    Navigator.pushNamed(
-                      context,
-                      '/reinvestment_step_1',
-                      arguments: {
-                        'preInvestmentUUID': preInvestmentUUID,
-                        'preInvestmentAmount': preInvestmentAmount,
-                        'currency': currency,
-                        'reInvestmentType':
-                            typeReinvestmentEnum.CAPITAL_ADITIONAL,
-                      },
-                    );
-                  }
+                  Navigator.pushNamed(
+                    context,
+                    '/v4/re_invest_step_one',
+                    arguments: NavigateReinves(
+                      uuid: preInvestmentUUID,
+                      addAmount: true,
+                    ),
+                  );
                 },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
@@ -230,35 +199,14 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
               child: OutlinedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  if (isV2) {
-                    Navigator.pushNamed(
-                      context,
-                      '/v2/investment/step-1',
-                      arguments: {
-                        'fund': fund,
-                        'preInvestmentUUID': preInvestmentUUID,
-                        'amount': preInvestmentAmount.toInt(),
-                        'isReInvestment': true,
-                        'reInvestmentType': typeReinvestmentEnum.CAPITAL_ONLY,
-                        'currency': currency,
-                        'deadLine': deadline.toString(),
-                        'originInvestmentRentability': rentability,
-                      },
-                    );
-                  } else {
-                    Navigator.pushNamed(
-                      context,
-                      '/reinvestment_step_1',
-                      arguments: {
-                        'preInvestmentUUID': preInvestmentUUID,
-                        'preInvestmentAmount': preInvestmentAmount,
-                        'currency': currency,
-                        'reInvestmentType': typeReinvestmentEnum.CAPITAL_ONLY,
-                      },
-                    );
-                  }
-
-                  // showThanksModal(context);
+                  Navigator.pushNamed(
+                    context,
+                    '/v4/re_invest_step_one',
+                    arguments: NavigateReinves(
+                      uuid: preInvestmentUUID,
+                      addAmount: false,
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(

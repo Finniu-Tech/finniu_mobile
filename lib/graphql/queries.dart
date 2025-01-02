@@ -1469,27 +1469,7 @@ class QueryRepository {
           investmentFund{
             uuid
             name
-            icon
-            listBackgroundColorLight
-            listBackgroundColorDark
-            detailBackgroundColorLight
-            detailBackgroundColorDark
-            backgroundImageUrl
-            mainImageUrl
-            createdAt
-            isDeleted
-            isActive
-            fundType
-            tagDetailId
-            tagBenefitsId
-            tagDownloadInfoId
-            tagInvestmentButtonId
-            mainImageHorizontalUrl
-            detailBackgroundColorSecondaryLight
-            detailBackgroundColorDarkSecondary
-            lastRentability
-            netWorthAmount
-            assetsUnderManagement
+         
           }
         }
       }
@@ -1544,20 +1524,21 @@ class QueryRepository {
   static String get getFundInvestmentDetailV4 {
     return '''
        query getFundInvestmentDetail (\$preInvestmentUuid : String!) {
-      investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
-       		deadline{
-            value
-          }
-          rentabilityPercent
-        uuid
-        amount
-        currency
-          investmentFund {
+        investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+            deadline{
+              value
+            }
+            rentabilityPercent
+            originFunds
             uuid
-            name
+            amount
+            currency
+            investmentFund {
+              uuid
+              name
+            }
           }
         }
-      }
     ''';
   }
 
