@@ -109,8 +109,7 @@ List<SnackBarContainerV2> validateInputs({
         ),
       );
     }
-    if (jointHolderDocTypeController.text == 'DNI' &&
-        jointHolderDocNumberController.text.length != 8) {
+    if (jointHolderDocTypeController.text == 'DNI' && jointHolderDocNumberController.text.length != 8) {
       result.add(
         const SnackBarContainerV2(
           title: "El DNI debe tener 8 dígitos",
