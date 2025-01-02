@@ -5,9 +5,8 @@ import 'package:finniu/infrastructure/models/re_investment/responde_models.dart'
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final rejectReInvestmentProvider = FutureProvider.family
-    .autoDispose<RejectReInvestmentResult, RejectReInvestmentParams>(
-        (ref, params) async {
+final rejectReInvestmentProvider =
+    FutureProvider.family.autoDispose<RejectReInvestmentResult, RejectReInvestmentParams>((ref, params) async {
   final reinvestmentDataSource = ReInvestmentDataSource(
     ref.watch(gqlClientProvider).value!,
   );
@@ -19,19 +18,16 @@ final rejectReInvestmentProvider = FutureProvider.family
   return resp;
 });
 
-final selectedBankAccountSenderProvider =
-    StateProvider.autoDispose<BankAccount?>((ref) {
+final selectedBankAccountSenderProvider = StateProvider.autoDispose<BankAccount?>((ref) {
   return null;
 });
 
-final selectedBankAccountReceiverProvider =
-    StateProvider.autoDispose<BankAccount?>((ref) {
+final selectedBankAccountReceiverProvider = StateProvider.autoDispose<BankAccount?>((ref) {
   return null;
 });
 
-final createReInvestmentProvider = FutureProvider.family
-    .autoDispose<CreateReInvestmentResponse, CreateReInvestmentParams>(
-        (ref, params) async {
+final createReInvestmentProvider =
+    FutureProvider.family.autoDispose<CreateReInvestmentResponse, CreateReInvestmentParams>((ref, params) async {
   final reInvestmentDataSource = ReInvestmentDataSource(
     ref.watch(gqlClientProvider).value!,
   );
@@ -49,9 +45,8 @@ final createReInvestmentProvider = FutureProvider.family
   return response;
 });
 
-final updateReInvestmentProvider = FutureProvider.family
-    .autoDispose<UpdateReInvestmentResponse, UpdateReInvestmentParams>(
-        (ref, params) async {
+final updateReInvestmentProvider =
+    FutureProvider.family.autoDispose<UpdateReInvestmentResponse, UpdateReInvestmentParams>((ref, params) async {
   final reinvestmentDataSource = ReInvestmentDataSource(
     ref.watch(gqlClientProvider).value!,
   );
@@ -64,9 +59,8 @@ final updateReInvestmentProvider = FutureProvider.family
   );
 });
 
-final setBankAccountUserProvider = FutureProvider.autoDispose
-    .family<SetBankAccountUserResponse, SetBankAccountUserParams>(
-        (ref, params) async {
+final setBankAccountUserProvider =
+    FutureProvider.autoDispose.family<SetBankAccountUserResponse, SetBankAccountUserParams>((ref, params) async {
   final reinvestmentDataSource = ReInvestmentDataSource(
     ref.watch(gqlClientProvider).value!,
   );
