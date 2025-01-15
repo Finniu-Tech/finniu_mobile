@@ -144,7 +144,6 @@ class CreateReInvestmentParams {
     required this.typeReinvestment,
     this.bankAccountReceiver,
     this.bankAccountSender,
-    this.bankAccountReceiver,
   });
 
   Map<String, dynamic> toJson() => {

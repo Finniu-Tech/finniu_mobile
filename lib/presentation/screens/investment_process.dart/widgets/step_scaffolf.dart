@@ -37,9 +37,7 @@ class StepScaffold extends ConsumerWidget {
         child: Scaffold(
           bottomNavigationBar: Container(
             height: 70,
-            color: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             child: Center(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
@@ -54,22 +52,16 @@ class StepScaffold extends ConsumerWidget {
               onPressed: () => {
                 ScaffoldMessenger.of(context).clearSnackBars(),
                 ref.read(navigatorStateProvider.notifier).state = 0,
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/v4/home', (route) => false),
+                Navigator.pushNamedAndRemoveUntil(context, '/v4/home', (route) => false),
               },
               icon: Icon(
                 Icons.arrow_back,
-                color:
-                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
+                color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
               ),
             ),
-            backgroundColor: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           ),
-          backgroundColor: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           body: GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: SingleChildScrollView(
@@ -113,9 +105,7 @@ class ReinvestScaffold extends ConsumerWidget {
         child: Scaffold(
           bottomNavigationBar: Container(
             height: 70,
-            color: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             child: Center(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
@@ -130,22 +120,17 @@ class ReinvestScaffold extends ConsumerWidget {
               onPressed: () => {
                 ScaffoldMessenger.of(context).clearSnackBars(),
                 ref.read(navigatorStateProvider.notifier).state = 0,
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/v4/home', (route) => false),
+                // Navigator.pushNamedAndRemoveUntil(context, '/v4/home', (route) => false),
+                Navigator.pop(context),
               },
               icon: Icon(
                 Icons.arrow_back,
-                color:
-                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
+                color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
               ),
             ),
-            backgroundColor: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           ),
-          backgroundColor: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           body: GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: SingleChildScrollView(
