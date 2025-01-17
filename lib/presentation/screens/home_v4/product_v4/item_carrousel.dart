@@ -158,8 +158,7 @@ class ManagedAssetsV4 extends ConsumerWidget {
             textLight: numberColorLight,
           ),
           TextPoppins(
-            text:
-                "Los activos administrados representan el valor de mercado de las inversiones del fondo",
+            text: "Los activos administrados representan el valor de mercado de las inversiones del fondo",
             fontSize: 13,
             lines: 4,
             textDark: numberColorDark,
@@ -178,7 +177,7 @@ class ManagedAssetsV4 extends ConsumerWidget {
             textLight: numberColorLight,
           ),
           AnimationNumberNotComma(
-            isSoles: isSoles,
+            isSoles: true,
             endNumber: investmentsText,
             duration: 2,
             fontSize: 32,

@@ -55,7 +55,8 @@ class RowProducts extends StatelessWidget {
                   textLight: minimumTextColorLight,
                 ),
                 TextPoppins(
-                  text: "${isSoles ? "S/" : "\$"}$minimunText",
+                  // text: "${isSoles ? "S/" : "\$"}$minimunText",
+                  text: minimunText,
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   lines: 2,
@@ -92,7 +93,8 @@ class RowProducts extends StatelessWidget {
                 Row(
                   children: [
                     TextPoppins(
-                      text: "$profitabilityText% ",
+                      // text: "$profitabilityText% ",
+                      text: "$profitabilityText ",
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                       textDark: textDark,

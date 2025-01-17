@@ -33,6 +33,8 @@ class FundEntity {
   String? moreInfoDownloadUrl;
   String? minAmountInvestmentPEN;
   String? minAmountInvestmentUSD;
+  String? objectiveText;
+  List<FundFeature>? features;
 
   FundEntity({
     required this.uuid,
@@ -62,6 +64,8 @@ class FundEntity {
     this.moreInfoDownloadUrl,
     this.minAmountInvestmentPEN,
     this.minAmountInvestmentUSD,
+    this.objectiveText,
+    this.features,
   });
 
   bool getActive(bool isActive) {
@@ -130,6 +134,8 @@ class FundEntity {
       moreInfoDownloadUrl: data['moreInfoDownloadUrl'],
       minAmountInvestmentPEN: data['minAmountInvestmentPen'],
       minAmountInvestmentUSD: data['minAmountInvestmentUsd'],
+      objectiveText: data['objectiveFunds'],
+      features: FundFeature.listFromJson(data['characteristics']),
     );
   }
 
@@ -215,5 +221,45 @@ class FundBenefit {
       'isActive': isActive,
       'isDeleted': isDelete,
     };
+  }
+}
+
+class FundFeature {
+  String title;
+  String iconUrl;
+  bool isActive;
+
+  FundFeature({
+    required this.title,
+    required this.iconUrl,
+    required this.isActive,
+  });
+
+  static FundFeature fromJson(Map<String, dynamic> data) {
+    return FundFeature(
+      title: data['benefitText'],
+      iconUrl: data['icon'],
+      isActive: data['isActive'],
+    );
+  }
+
+  static List<FundFeature> listFromJson(List<dynamic>? data) {
+    if (data == null) {
+      return [];
+    }
+    return data.map((feature) => FundFeature.fromJson(feature)).toList();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'benefitText': title,
+      'icon': iconUrl,
+      'isActive': isActive,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'FundFeature(title: $title, iconUrl: $iconUrl, isActive: $isActive)';
   }
 }

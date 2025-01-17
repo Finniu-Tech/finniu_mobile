@@ -1637,6 +1637,14 @@ class QueryRepository {
        query getFunds{
         investmentFundsQueries{
           listInvestmentFundsAvailable{
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+            characteristics{
+              benefitText
+              icon
+              isActive
+            }
             uuid
             name
             icon
@@ -1670,12 +1678,12 @@ class QueryRepository {
               value
             }
             moreInfoDownloadUrl
-            minAmountInvestmentPen
-            minAmountInvestmentUsd
+  
             
           }
         }
       }
+      
     ''';
   }
 

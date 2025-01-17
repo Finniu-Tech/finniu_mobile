@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/main.dart';
 import 'package:flutter/material.dart';
@@ -92,9 +93,7 @@ final productFixedTerm = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
-  uuid: appConfig.environment == 'production'
-      ? FundUUIDEnum.prodCorporateFund
-      : FundUUIDEnum.qaCorporateFund,
+  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodCorporateFund : FundUUIDEnum.qaCorporateFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,
@@ -121,9 +120,7 @@ final productRealEstate = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
-  uuid: appConfig.environment == 'production'
-      ? FundUUIDEnum.prodInmobiliariaFund
-      : FundUUIDEnum.qaInmobiliariaFund,
+  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodInmobiliariaFund : FundUUIDEnum.qaInmobiliariaFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,
@@ -149,9 +146,7 @@ final product3 = ProductContainerStyles(
   profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: false,
-  uuid: appConfig.environment == 'production'
-      ? FundUUIDEnum.prodCorporateFund
-      : FundUUIDEnum.qaCorporateFund,
+  uuid: appConfig.environment == 'production' ? FundUUIDEnum.prodCorporateFund : FundUUIDEnum.qaCorporateFund,
   buttonBackDark: 0xffA2E6FA,
   buttonBackLight: 0xff0D3A5C,
   buttonTextDark: 0xff0D3A5C,
@@ -170,4 +165,137 @@ class ChartData {
   final Color color;
 
   ChartData(this.category, this.value, this.color);
+}
+
+// Para manejar los estilos
+class ProductStyle {
+  final int backgroundContainerDark;
+  final int backgroundContainerLight;
+  final int titleDark;
+  final int titleLight;
+  final int minimumDark;
+  final int minimumLight;
+  final int profitabilityDark;
+  final int profitabilityLight;
+  final int buttonBackDark;
+  final int buttonBackLight;
+  final int buttonTextDark;
+  final int buttonTextLight;
+  final int textDark;
+  final int textLight;
+  final int minimunTextColorDark;
+  final int minimumTextColorLight;
+  final int minimumLightSoles;
+  final int minimumTextColorLightSoles;
+
+  const ProductStyle({
+    required this.backgroundContainerDark,
+    required this.backgroundContainerLight,
+    required this.titleDark,
+    required this.titleLight,
+    required this.minimumDark,
+    required this.minimumLight,
+    required this.profitabilityDark,
+    required this.profitabilityLight,
+    required this.buttonBackDark,
+    required this.buttonBackLight,
+    required this.buttonTextDark,
+    required this.buttonTextLight,
+    required this.textDark,
+    required this.textLight,
+    required this.minimunTextColorDark,
+    required this.minimumTextColorLight,
+    required this.minimumLightSoles,
+    required this.minimumTextColorLightSoles,
+  });
+
+  // Estilo por defecto
+  static const defaultStyle = ProductStyle(
+    backgroundContainerDark: 0xff1B1B1B,
+    backgroundContainerLight: 0xffE9FAFF,
+    titleDark: 0xffFFFFFF,
+    titleLight: 0xff0D3A5C,
+    minimumDark: 0xff0D3A5C,
+    minimumLight: 0xffBBF0FF,
+    profitabilityDark: 0xffB5FF8A,
+    profitabilityLight: 0xffD2FDBA,
+    buttonBackDark: 0xffA2E6FA,
+    buttonBackLight: 0xff0D3A5C,
+    buttonTextDark: 0xff0D3A5C,
+    buttonTextLight: 0xffFFFFFF,
+    textDark: 0xff000000,
+    textLight: 0xff000000,
+    minimunTextColorDark: 0xffFFFFFF,
+    minimumTextColorLight: 0xff000000,
+    minimumLightSoles: 0xffBBF0FF,
+    minimumTextColorLightSoles: 0xff000000,
+  );
+}
+
+// Para manejar los datos del producto
+class ProductData {
+  final String uuid;
+  final String imageProduct;
+  final String titleText;
+  final String? minimumTextPEN;
+  final String? minimumTextUSD;
+  final String profitabilityText;
+  final bool isSoles;
+  final ProductStyle style;
+  final String? objetiveText;
+  final List<FundNetWorthEntity>? netWorths;
+  final List<FundFeature>? features;
+  final String? assetsUnderManagement;
+
+  const ProductData({
+    required this.uuid,
+    required this.imageProduct,
+    required this.titleText,
+    required this.minimumTextPEN,
+    required this.minimumTextUSD,
+    required this.profitabilityText,
+    required this.isSoles,
+    required this.objetiveText,
+    this.netWorths,
+    this.features,
+    this.assetsUnderManagement,
+    this.style = ProductStyle.defaultStyle,
+  });
+
+  // Factory para crear desde FundEntity
+  factory ProductData.fromFund(FundEntity fund) {
+    return ProductData(
+      uuid: fund.uuid,
+      imageProduct: fund.iconUrl ?? "🏢", // Emoji por defecto
+      titleText: fund.name,
+      minimumTextPEN: fund.minAmountInvestmentPEN,
+      minimumTextUSD: fund.minAmountInvestmentUSD,
+      profitabilityText: fund.lastRentability ?? "0",
+      isSoles: fund.minAmountInvestmentPEN != null,
+      objetiveText: fund.objectiveText ?? "",
+      netWorths: fund.netWorths,
+      features: fund.features,
+      assetsUnderManagement: fund.assetUnderManagementAmount,
+      style: ProductStyle(
+        backgroundContainerDark: fund.getHexDetailColorDark(),
+        backgroundContainerLight: fund.getHexDetailColorLight(),
+        titleDark: 0xffFFFFFF,
+        titleLight: 0xff0D3A5C,
+        minimumDark: 0xff0D3A5C,
+        minimumLight: 0xffBBF0FF,
+        profitabilityDark: 0xffB5FF8A,
+        profitabilityLight: 0xffD2FDBA,
+        buttonBackDark: 0xffA2E6FA,
+        buttonBackLight: 0xff0D3A5C,
+        buttonTextDark: 0xff0D3A5C,
+        buttonTextLight: 0xffFFFFFF,
+        textDark: 0xff000000,
+        textLight: 0xff000000,
+        minimunTextColorDark: 0xffFFFFFF,
+        minimumTextColorLight: 0xff000000,
+        minimumLightSoles: 0xffBBF0FF,
+        minimumTextColorLightSoles: 0xff000000,
+      ),
+    );
+  }
 }

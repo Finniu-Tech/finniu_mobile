@@ -1,6 +1,7 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/constants/colors/product_v4_colors.dart';
+import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -19,9 +20,7 @@ class ProductsV4Screen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(HomeV4Colors.backgroudDark)
-          : const Color(HomeV4Colors.backgroudLight),
+      backgroundColor: isDarkMode ? const Color(HomeV4Colors.backgroudDark) : const Color(HomeV4Colors.backgroudLight),
       appBar: const AppBarProducts(),
       bottomNavigationBar: const NavBarV4(),
       body: const SingleChildScrollView(
@@ -53,16 +52,14 @@ class ProductsBody extends StatelessWidget {
 }
 
 class ListProducts extends HookConsumerWidget {
-  const ListProducts({
-    super.key,
-  });
+  const ListProducts({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
+    final fundsData = ref.watch(fundListFutureProvider);
 
-    final PageController pageController =
-        PageController(initialPage: isSoles ? 0 : 1);
+    final PageController pageController = PageController(initialPage: isSoles ? 0 : 1);
 
     useEffect(
       () {
@@ -82,54 +79,222 @@ class ListProducts extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        child: ExpandablePageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: pageController,
-          children: [
-            Column(
+        child: fundsData.when(
+          data: (funds) {
+            final products = funds.map((fund) => ProductData.fromFund(fund)).toList();
+
+            final soleProducts =
+                products.where((p) => p.minimumTextPEN != null && p.minimumTextPEN!.isNotEmpty).toList();
+
+            final dollarProducts =
+                products.where((p) => p.minimumTextUSD != null && p.minimumTextUSD!.isNotEmpty).toList();
+
+            print('sole: ${soleProducts.length}, dollar: ${dollarProducts.length}');
+
+            // final soleProducts = products.where((p) => p.isSoles).toList();
+            // final dollarProducts = products.where((p) => !p.isSoles).toList();
+            // print('sole: ${soleProducts.length}, dollar: ${dollarProducts.length}');
+
+            return ExpandablePageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
               children: [
-                ProductContainer(
-                  colors: productFixedTerm,
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/v4/product',
-                      arguments: productFixedTerm,
-                    );
-                  },
+                Column(
+                  children: soleProducts
+                      .map(
+                        (product) => Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: ProductContainer(
+                            product: product,
+                            onPressed: () => Navigator.pushNamed(
+                              context,
+                              '/v4/product',
+                              arguments: product,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ProductContainer(
-                  colors: productRealEstate,
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/v4/product',
-                      arguments: productRealEstate,
-                    );
-                  },
+                Column(
+                  children: dollarProducts
+                      .map(
+                        (product) => Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: ProductContainer(
+                            product: product,
+                            onPressed: () => Navigator.pushNamed(
+                              context,
+                              '/v4/product',
+                              arguments: product,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
               ],
-            ),
-            Column(
-              children: [
-                ProductContainer(
-                  colors: product3,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/v4/product',
-                        arguments: product3);
-                  },
-                ),
-              ],
-            ),
-          ],
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(child: Text('Error al cargar los fondos: $error')),
         ),
+        // child: fundsData.when(
+        //   loading: () => const Center(
+        //     child: CircularProgressIndicator(),
+        //   ),
+        //   error: (error, stack) => Center(
+        //     child: Text('Error al cargar los fondos: $error'),
+        //   ),
+        //   data: (funds) {
+        //     // Separar fondos por tipo de moneda
+        //     final soleFunds = funds.where((fund) => fund.minAmountInvestmentPEN != null).toList();
+
+        //     final dollarFunds = funds.where((fund) => fund.minAmountInvestmentUSD != null).toList();
+
+        //     return ExpandablePageView(
+        //       physics: const NeverScrollableScrollPhysics(),
+        //       controller: pageController,
+        //       children: [
+        //         // Vista de soles
+        //         Column(
+        //           children: soleFunds
+        //               .map(
+        //                 (fund) => Padding(
+        //                   padding: const EdgeInsets.only(bottom: 20),
+        //                   child: ProductContainer(
+        //                     colors: productFixedTerm,
+        //                     // colors: ProductColors(
+        //                     //   backgroundColor: Color(fund.getHexListColorLight()),
+        //                     //   backgroundColorDark: Color(fund.getHexListColorDark()),
+        //                     // ),
+        //                     onPressed: () {
+        //                       Navigator.pushNamed(
+        //                         context,
+        //                         '/v4/product',
+        //                         arguments: fund,
+        //                       );
+        //                     },
+        //                   ),
+        //                 ),
+        //               )
+        //               .toList(),
+        //         ),
+        //         // Vista de dólares
+        //         Column(
+        //           children: dollarFunds
+        //               .map(
+        //                 (fund) => Padding(
+        //                   padding: const EdgeInsets.only(bottom: 20),
+        //                   child: ProductContainer(
+        //                     colors: productFixedTerm,
+        //                     onPressed: () {
+        //                       Navigator.pushNamed(
+        //                         context,
+        //                         '/v4/product',
+        //                         arguments: fund,
+        //                       );
+        //                     },
+        //                   ),
+        //                 ),
+        //               )
+        //               .toList(),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // ),
       ),
     );
   }
 }
+
+class ProductColors {
+  final Color backgroundColor;
+  final Color backgroundColorDark;
+
+  ProductColors({
+    required this.backgroundColor,
+    required this.backgroundColorDark,
+  });
+}
+
+// class ListProducts extends HookConsumerWidget {
+//   const ListProducts({
+//     super.key,
+//   });
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final isSoles = ref.watch(isSolesStateProvider);
+
+//     final PageController pageController = PageController(initialPage: isSoles ? 0 : 1);
+
+//     useEffect(
+//       () {
+//         WidgetsBinding.instance.addPostFrameCallback((_) {
+//           pageController.animateToPage(
+//             duration: const Duration(milliseconds: 500),
+//             isSoles ? 0 : 1,
+//             curve: Curves.easeInOut,
+//           );
+//         });
+//         return null;
+//       },
+//       [isSoles],
+//     );
+
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(vertical: 20),
+//       child: SizedBox(
+//         width: MediaQuery.of(context).size.width * 0.85,
+//         child: ExpandablePageView(
+//           physics: const NeverScrollableScrollPhysics(),
+//           controller: pageController,
+//           children: [
+//             Column(
+//               children: [
+//                 ProductContainer(
+//                   colors: productFixedTerm,
+//                   onPressed: () {
+//                     Navigator.pushNamed(
+//                       context,
+//                       '/v4/product',
+//                       arguments: productFixedTerm,
+//                     );
+//                   },
+//                 ),
+//                 const SizedBox(
+//                   height: 20,
+//                 ),
+//                 ProductContainer(
+//                   colors: productRealEstate,
+//                   onPressed: () {
+//                     Navigator.pushNamed(
+//                       context,
+//                       '/v4/product',
+//                       arguments: productRealEstate,
+//                     );
+//                   },
+//                 ),
+//               ],
+//             ),
+//             Column(
+//               children: [
+//                 ProductContainer(
+//                   colors: product3,
+//                   onPressed: () {
+//                     Navigator.pushNamed(context, '/v4/product', arguments: product3);
+//                   },
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class OurProducts extends StatelessWidget {
   const OurProducts({

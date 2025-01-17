@@ -13,7 +13,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/containers.dart';
-import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
 import 'package:finniu/utils/strings.dart';
 import 'package:finniu/widgets/analytics.dart';
 import 'package:finniu/widgets/switch.dart';

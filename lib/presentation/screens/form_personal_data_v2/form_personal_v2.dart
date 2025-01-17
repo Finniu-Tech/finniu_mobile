@@ -63,40 +63,27 @@ class PersonalForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, bool>?;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, bool>?;
 
     final userProfile = ref.watch(userProfileNotifierProvider);
     final String? imagePath = ref.watch(imagePathProvider);
     final String? imageBase64 = ref.watch(imageBase64Provider);
 
-    final firstNameController =
-        useTextEditingController(text: userProfile.firstName ?? '');
-    final lastNameFatherController =
-        useTextEditingController(text: userProfile.lastNameFather ?? '');
-    final lastNameMotherController =
-        useTextEditingController(text: userProfile.lastNameMother ?? '');
+    final firstNameController = useTextEditingController(text: userProfile.firstName ?? '');
+    final lastNameFatherController = useTextEditingController(text: userProfile.lastNameFather ?? '');
+    final lastNameMotherController = useTextEditingController(text: userProfile.lastNameMother ?? '');
     final documentTypeController = useTextEditingController(
-      text: userProfile.documentType == null
-          ? ""
-          : getTypeDocumentByUser(userProfile.documentType!),
+      text: userProfile.documentType == null ? "" : getTypeDocumentByUser(userProfile.documentType!),
     );
-    final documentNumberController =
-        useTextEditingController(text: userProfile.documentNumber);
+    final documentNumberController = useTextEditingController(text: userProfile.documentNumber);
     final civilStatusController = useTextEditingController(
-      text: userProfile.civilStatus == null
-          ? ""
-          : getCivilStatusByUser(userProfile.civilStatus!),
+      text: userProfile.civilStatus == null ? "" : getCivilStatusByUser(userProfile.civilStatus!),
     );
     final genderTypeController = useTextEditingController(
-      text: userProfile.gender == null
-          ? ""
-          : getGenderByUser(userProfile.gender!),
+      text: userProfile.gender == null ? "" : getGenderByUser(userProfile.gender!),
     );
     final dateController = useTextEditingController(
-      text: userProfile.birthDate == null
-          ? ""
-          : formatDate(userProfile.birthDate!),
+      text: userProfile.birthDate == null ? "" : formatDate(userProfile.birthDate!),
     );
 
     final ValueNotifier<bool> firstNameError = useState(false);
@@ -133,8 +120,7 @@ class PersonalForm extends HookConsumerWidget {
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
 
-        if (userProfile.imageProfileUrl == null ||
-            userProfile.imageProfileUrl == "") {
+        if (userProfile.imageProfileUrl == null || userProfile.imageProfileUrl == "") {
           if (imagePath == null) {
             ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
               eventName: FirebaseAnalyticsEvents.formValidateError,
@@ -163,12 +149,9 @@ class PersonalForm extends HookConsumerWidget {
         }
 
         context.loaderOverlay.show();
-        if (args != null &&
-            args.containsKey('birthday') &&
-            args['birthday'] == true) {
+        if (args != null && args.containsKey('birthday') && args['birthday'] == true) {
           FocusManager.instance.primaryFocus?.unfocus();
-          DateTime parsedDate =
-              DateFormat("d/M/yyyy").parse(dateController.text.trim());
+          DateTime parsedDate = DateFormat("d/M/yyyy").parse(dateController.text.trim());
           String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
           final DtoPersonalForm data = DtoPersonalForm(
             firstName: firstNameController.text.trim(),
@@ -176,11 +159,9 @@ class PersonalForm extends HookConsumerWidget {
             lastNameMother: lastNameMotherController.text.trim(),
             documentType: getTypeDocumentEnum(documentTypeController.text),
             documentNumber: documentNumberController.text.trim(),
-            civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-                CivilStatusEnum.SINGLE,
+            civilStatus: getCivilStatusEnum(civilStatusController.text) ?? CivilStatusEnum.SINGLE,
             imageProfile: imageBase64,
-            gender:
-                getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
+            gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
             birthday: formattedDate,
           );
 
@@ -198,11 +179,9 @@ class PersonalForm extends HookConsumerWidget {
             lastNameMother: lastNameMotherController.text.trim(),
             documentType: getTypeDocumentEnum(documentTypeController.text),
             documentNumber: documentNumberController.text.trim(),
-            civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-                CivilStatusEnum.SINGLE,
+            civilStatus: getCivilStatusEnum(civilStatusController.text) ?? CivilStatusEnum.SINGLE,
             imageProfile: imageBase64,
-            gender:
-                getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
+            gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
           );
 
           context.loaderOverlay.show();
@@ -222,9 +201,7 @@ class PersonalForm extends HookConsumerWidget {
       child: SizedBox(
         child: Column(
           children: [
-            imagePath == null
-                ? const AddImageProfile()
-                : const ImageProfileRender(),
+            imagePath == null ? const AddImageProfile() : const ImageProfileRender(),
             const SizedBox(height: 15),
             ValueListenableBuilder<bool>(
               valueListenable: firstNameError,
@@ -327,8 +304,7 @@ class PersonalForm extends HookConsumerWidget {
                   hintText: "Ingrese su Nº de documento de identidad",
                   validator: (value) {
                     validateNumberDocument(
-                      typeDocument:
-                          getTypeDocumentEnum(documentTypeController.text),
+                      typeDocument: getTypeDocumentEnum(documentTypeController.text),
                       value: value,
                       field: "Número de documento",
                       context: context,
@@ -399,9 +375,7 @@ class PersonalForm extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            args != null &&
-                    args.containsKey('birthday') &&
-                    args['birthday'] == true
+            args != null && args.containsKey('birthday') && args['birthday'] == true
                 ? ValueListenableBuilder<bool>(
                     valueListenable: birthDateError,
                     builder: (context, isError, child) {
