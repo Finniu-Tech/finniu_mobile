@@ -28,7 +28,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class FormStepOneReinvest extends HookConsumerWidget {
-  final ProductContainerStyles product;
+  final ProductData product;
   final ReInvestDtoV4 data;
   final bool isDarkMode;
   final bool isSoles;
@@ -62,10 +62,9 @@ class FormStepOneReinvest extends HookConsumerWidget {
     final loader = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
-    final List<String> optionsTime =
-        product.titleText == "Producto de inversión a Plazo Fijo"
-            ? ["6 meses", "12 meses", "24 meses"]
-            : ["12 meses", "24 meses", "36 meses"];
+    final List<String> optionsTime = product.titleText == "Producto de inversión a Plazo Fijo"
+        ? ["6 meses", "12 meses", "24 meses"]
+        : ["12 meses", "24 meses", "36 meses"];
 
     const List<String> optionsOrigin = [
       "Salario",
@@ -79,9 +78,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
 
     useEffect(
       () {
-        loader.value
-            ? context.loaderOverlay.show()
-            : context.loaderOverlay.hide();
+        loader.value ? context.loaderOverlay.show() : context.loaderOverlay.hide();
 
         return null;
       },
@@ -141,8 +138,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (timeError.value) return;
         if (couponError.value) return;
         final timeList = ref.watch(deadLineFutureProvider);
-        final time = timeList.asData!.value
-            .firstWhere((element) => element.uuid == timeController.text);
+        final time = timeList.asData!.value.firstWhere((element) => element.uuid == timeController.text);
         context.loaderOverlay.show();
         final inputCalculator = CalculatorInput(
           amount: finalAmount.value.toInt(),
@@ -194,8 +190,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (originError.value) return;
         if (originOtherError.value) return;
         final timeList = ref.watch(deadLineFutureProvider);
-        final time = timeList.asData!.value
-            .firstWhere((element) => element.uuid == timeController.text);
+        final time = timeList.asData!.value.firstWhere((element) => element.uuid == timeController.text);
 
         investmentSimulationModal(
           context,
@@ -217,12 +212,10 @@ class FormStepOneReinvest extends HookConsumerWidget {
                 ),
                 otherText: originOtherController.text,
               ),
-              coupon:
-                  couponController.text == "" ? null : couponController.text,
+              coupon: couponController.text == "" ? null : couponController.text,
               typeReinvestment: "CAPITAL_ADITIONAL",
             );
-            final response =
-                await ref.read(createReInvestmentProvider(input).future);
+            final response = await ref.read(createReInvestmentProvider(input).future);
 
             if (response.success == false || response.success == null) {
               ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -235,8 +228,8 @@ class FormStepOneReinvest extends HookConsumerWidget {
               showSnackBarV2(
                 context: context,
                 title: "Error interno",
-                message: response.messages?[0].message ??
-                    'Hubo un problema, asegúrate de haber completado todos los campos',
+                message:
+                    response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
                 snackType: SnackType.error,
               );
               loader.value = false;
@@ -248,6 +241,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               context: context,
               uuid: data.uuid,
               amount: finalAmount.value.toStringAsFixed(2),
+              productData: product,
             );
             loader.value = false;
           },
@@ -289,8 +283,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
         }
         loader.value = true;
         final timeList = ref.watch(deadLineFutureProvider);
-        final time = timeList.asData!.value
-            .firstWhere((element) => element.uuid == timeController.text);
+        final time = timeList.asData!.value.firstWhere((element) => element.uuid == timeController.text);
         investmentSimulationModal(
           context,
           startingAmount: finalAmount.value.toInt(),
@@ -312,8 +305,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               typeReinvestment: "CAPITAL_ONLY",
               bankAccountSender: bankReceiver.id,
             );
-            final response =
-                await ref.read(createReInvestmentProvider(input).future);
+            final response = await ref.read(createReInvestmentProvider(input).future);
 
             if (response.success == false || response.success == null) {
               ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -326,8 +318,8 @@ class FormStepOneReinvest extends HookConsumerWidget {
               showSnackBarV2(
                 context: context,
                 title: "Error interno",
-                message: response.messages?[0].message ??
-                    'Hubo un problema, asegúrate de haber completado todos los campos',
+                message:
+                    response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
                 snackType: SnackType.error,
               );
               loader.value = false;
@@ -496,9 +488,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
                     },
                   )
                 : const SizedBox(),
-            originController.text == "Otros"
-                ? const SizedBox(height: 15)
-                : const SizedBox(),
+            originController.text == "Otros" ? const SizedBox(height: 15) : const SizedBox(),
             originController.text == "Otros"
                 ? ValueListenableBuilder<bool>(
                     valueListenable: originOtherError,

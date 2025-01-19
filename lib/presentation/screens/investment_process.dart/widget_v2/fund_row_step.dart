@@ -35,9 +35,7 @@ class FundRowStep extends ConsumerWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: isDarkMode
-                    ? const Color(containerDark)
-                    : const Color(containerLight),
+                color: isDarkMode ? const Color(containerDark) : const Color(containerLight),
               ),
               child: const Row(
                 children: [
@@ -59,23 +57,27 @@ class FundRowStep extends ConsumerWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
+                  color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Center(
-                  child: isLoader
-                      ? const CircularLoader(
-                          width: 24,
-                          height: 24,
-                        )
-                      : TextPoppins(
-                          text: icon,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                ),
+                    child: isLoader
+                        ? const CircularLoader(
+                            width: 24,
+                            height: 24,
+                          )
+                        : Image.network(
+                            icon,
+                            width: 24,
+                            height: 24,
+                            fit: BoxFit.contain,
+                          )
+                    // : TextPoppins(
+                    //     text: icon,
+                    //     fontSize: 24,
+                    //     fontWeight: FontWeight.w600,
+                    //   ),
+                    ),
                 // child: Image.asset(
                 //   urlIcon,
                 // ),
@@ -89,9 +91,7 @@ class FundRowStep extends ConsumerWidget {
             height: 5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: isDarkMode
-                  ? const Color(dividerDark)
-                  : const Color(dividerLight),
+              color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
             ),
           ),
         ),

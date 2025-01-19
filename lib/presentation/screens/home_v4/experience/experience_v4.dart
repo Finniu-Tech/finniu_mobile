@@ -64,17 +64,14 @@ class ExperienceBody extends HookConsumerWidget {
     const borderDark = 0xff68C3DE;
     const borderLight = 0xff295984;
 
-    final TextEditingController feedbackNumerController =
-        TextEditingController();
-    final TextEditingController feedbackTextController =
-        TextEditingController();
+    final TextEditingController feedbackNumerController = useTextEditingController();
+    final TextEditingController feedbackTextController = useTextEditingController();
     final buttonTrue = useState(false);
     void pushFeedback() async {
       final data = DtoFedbackForm(
         question: "¿Qué tan satisfecho estás con el proceso de inversión?",
         answer: feedbackNumerController.text,
-        questionSecond:
-            "¿que podemos hacer para mejorar en el proceso de inversión?",
+        questionSecond: "¿que podemos hacer para mejorar en el proceso de inversión?",
         answerSecond: feedbackTextController.text,
       );
 
@@ -131,8 +128,7 @@ class ExperienceBody extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 10),
                 const TextPoppins(
-                  text:
-                      'Déjanos tus respuestas sobre tu experiencia dentro del proceso de inversión',
+                  text: 'Déjanos tus respuestas sobre tu experiencia dentro del proceso de inversión',
                   fontSize: 13,
                   lines: 2,
                   align: TextAlign.center,
@@ -145,15 +141,12 @@ class ExperienceBody extends HookConsumerWidget {
                   height: 5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: isDarkMode
-                        ? const Color(borderDark)
-                        : const Color(borderLight),
+                    color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const TextPoppins(
-                  text:
-                      '¿Cómo calificarías tu experiencia durante el proceso de inversión?',
+                  text: '¿Cómo calificarías tu experiencia durante el proceso de inversión?',
                   fontSize: 13,
                   lines: 2,
                   align: TextAlign.center,
@@ -170,8 +163,7 @@ class ExperienceBody extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 10),
                 const TextPoppins(
-                  text:
-                      '¿Tienes algún comentario o sugerencia para mejorar nuestro proceso? (Opcional)',
+                  text: '¿Tienes algún comentario o sugerencia para mejorar nuestro proceso? (Opcional)',
                   fontSize: 13,
                   lines: 2,
                   align: TextAlign.center,

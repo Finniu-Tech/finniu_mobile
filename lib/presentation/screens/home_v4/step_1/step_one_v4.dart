@@ -49,8 +49,8 @@ class StepOneBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product =
-        ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
+    final product = ModalRoute.of(context)!.settings.arguments as ProductData;
+    print('product  xxx${product.toJson()}');
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
@@ -70,8 +70,8 @@ class StepOneBody extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 lines: 2,
                 align: TextAlign.start,
-                textDark: product.titleDark,
-                textLight: product.titleLight,
+                textDark: product.style.titleDark,
+                textLight: product.style.textLight,
               ),
             ),
             const SizedBox(height: 10),
@@ -92,12 +92,31 @@ class StepOneBody extends StatelessWidget {
 }
 
 class FormStepOne extends HookConsumerWidget {
-  final ProductContainerStyles product;
+  final ProductData product;
   static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   const FormStepOne({
     super.key,
     required this.product,
   });
+
+  int parseMoneyString(String? moneyString) {
+    if (moneyString == null || moneyString.isEmpty) return 0;
+
+    // Remover todos los caracteres no numéricos excepto punto y coma
+    String cleanString = moneyString.replaceAll(RegExp(r'[^0-9.,]'), '');
+
+    // Remover comas
+    cleanString = cleanString.replaceAll(',', '');
+
+    // Si hay punto decimal, tomar solo la parte entera
+    if (cleanString.contains('.')) {
+      cleanString = cleanString.split('.')[0];
+    }
+
+    // Convertir a entero
+    return int.tryParse(cleanString) ?? 0;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.read(isSolesStateProvider);
@@ -114,10 +133,9 @@ class FormStepOne extends HookConsumerWidget {
     final ValueNotifier<bool> originOtherError = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
-    final List<String> optionsTime =
-        product.titleText == "Producto de inversión a Plazo Fijo"
-            ? ["6 meses", "12 meses", "24 meses"]
-            : ["12 meses", "24 meses", "36 meses"];
+    final List<String> optionsTime = product.titleText == "Producto de inversión a Plazo Fijo"
+        ? ["6 meses", "12 meses", "24 meses"]
+        : ["12 meses", "24 meses", "36 meses"];
     const List<String> optionsOrigin = [
       "Salario",
       "Ahorros",
@@ -236,6 +254,7 @@ class FormStepOne extends HookConsumerWidget {
               context: context,
               uuid: response.preInvestmentUUID ?? '',
               amount: amountController.text,
+              productData: product,
             );
           },
           recalculatePressed: () => {
@@ -281,10 +300,9 @@ class FormStepOne extends HookConsumerWidget {
                     field: "Monto",
                     context: context,
                     boolNotifier: amountError,
-                    minValue: product.titleText ==
-                            "Producto de inversión a Plazo Fijo"
-                        ? 1000
-                        : 50000,
+                    minValue: isSoles
+                        ? parseMoneyString(product.minimumTextPEN).toDouble()
+                        : parseMoneyString(product.minimumTextUSD).toDouble(),
                   );
 
                   return null;
@@ -350,9 +368,7 @@ class FormStepOne extends HookConsumerWidget {
               );
             },
           ),
-          originController.text == "Otros"
-              ? const SizedBox(height: 25)
-              : const SizedBox(),
+          originController.text == "Otros" ? const SizedBox(height: 25) : const SizedBox(),
           originController.text == "Otros"
               ? ValueListenableBuilder<bool>(
                   valueListenable: originOtherError,
@@ -476,8 +492,7 @@ class CouponApplyRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text:
-                      '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
+                  text: '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,
@@ -518,10 +533,8 @@ class CouponApplyRow extends StatelessWidget {
               children: [
                 TextPoppins(
                   text: isSoles
-                      ? formatterSoles
-                          .format(planSimulation.value?.profitability)
-                      : formatterUSD
-                          .format(planSimulation.value?.profitability),
+                      ? formatterSoles.format(planSimulation.value?.profitability)
+                      : formatterUSD.format(planSimulation.value?.profitability),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,

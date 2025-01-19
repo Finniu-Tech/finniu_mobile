@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -10,16 +11,15 @@ void navigateToNext({
   required BuildContext context,
   required String uuid,
   required String amount,
+  required ProductData productData,
 }) {
+  print('navegar a siguiente ${productData.toJson()}');
   if (success) {
     Navigator.pushNamedAndRemoveUntil(
       context,
       '/v2/investment/step-2',
       (route) => false,
-      arguments: {
-        'preInvestmentUUID': uuid,
-        'amount': amount,
-      },
+      arguments: {'preInvestmentUUID': uuid, 'amount': amount, 'productData': productData},
     );
   } else {
     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -32,8 +32,7 @@ void navigateToNext({
     showSnackBarV2(
       context: context,
       title: "Error interno",
-      message:
-          'Hubo un problema, asegúrate de haber completado todos los campos',
+      message: 'Hubo un problema, asegúrate de haber completado todos los campos',
       snackType: SnackType.error,
     );
   }

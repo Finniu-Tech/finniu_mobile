@@ -167,10 +167,12 @@ class ProductBody extends ConsumerWidget {
     }
 
     void onPressSimulator() {
+      print('press simulator');
       final profileCompletenessAsync = ref.watch(userProfileCompletenessProvider);
       return profileCompletenessAsync.when(
         data: (profileCompleteness) {
-          if (!profileCompleteness.isComplete()) {
+          print('user profiels complete ${profileCompleteness.toJson()}');
+          if (profileCompleteness.isComplete()) {
             Navigator.pushNamedAndRemoveUntil(context, '/v4/step_one', arguments: product, (route) => false);
           } else {
             context.loaderOverlay.hide();

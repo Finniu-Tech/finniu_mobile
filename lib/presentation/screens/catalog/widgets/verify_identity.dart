@@ -14,8 +14,7 @@ void showVerifyIdentity(
 }) {
   showModalBottomSheet(
     context: context,
-    builder: (context) => _BodyVerify(
-        userCompletenessProfile: userCompletenessProfile, redirect: redirect),
+    builder: (context) => _BodyVerify(userCompletenessProfile: userCompletenessProfile, redirect: redirect),
   );
 }
 
@@ -27,6 +26,8 @@ class _BodyVerify extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('userCompletenessProfile: ${userCompletenessProfile.toJson()}');
+
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     // final userProfile = ref.watch(userProfileNotifierProvider);
     const int backgroundDark = 0xff1A1A1A;
@@ -46,9 +47,7 @@ class _BodyVerify extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: 350,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(20),
         ),
@@ -118,8 +117,7 @@ class _BodyVerify extends ConsumerWidget {
                   height: 15,
                 ),
                 TextPoppins(
-                  text:
-                      "Es importante completar tus datos para comenzar a invertir en Finniu sin problemas ",
+                  text: "Es importante completar tus datos para comenzar a invertir en Finniu sin problemas ",
                   fontSize: 14,
                   lines: 2,
                 ),

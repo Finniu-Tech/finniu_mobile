@@ -298,4 +298,20 @@ class ProductData {
       ),
     );
   }
+
+  toJson() {
+    return {
+      "uuid": uuid,
+      "imageProduct": imageProduct,
+      "titleText": titleText,
+      "minimumTextPEN": minimumTextPEN,
+      "minimumTextUSD": minimumTextUSD,
+      "profitabilityText": profitabilityText,
+      "isSoles": isSoles,
+      "objetiveText": objetiveText,
+      "netWorths": netWorths,
+      "features": features,
+      "assetsUnderManagement": assetsUnderManagement,
+    };
+  }
 }
