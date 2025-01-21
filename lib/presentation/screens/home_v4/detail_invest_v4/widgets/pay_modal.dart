@@ -24,7 +24,7 @@ class _ModalBody extends ConsumerWidget {
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     const String title = "Fecha del pago de mi capital";
     const String text =
-        "La fecha del pago del capital se define según el día que haya adjuntado la constancia de transferencia cuando realizaste tu inversión ";
+        "La fecha del pago del capital se define según el día en que se haya validado la transferencia de su inversión";
     const int tableTitleDark = 0xffA2E6FA;
     const int tableTitleLight = 0xff08273F;
     const int tableTitleTextDark = 0xff000000;

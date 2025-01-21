@@ -403,7 +403,7 @@ class QuestionDeclineReasonsModal extends HookConsumerWidget {
                   child: Text(
                     'Cancelar',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
                       color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
@@ -466,7 +466,7 @@ class QuestionDeclineReasonsModal extends HookConsumerWidget {
                   child: Text(
                     'Enviar',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
                       color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,

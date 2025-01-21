@@ -186,7 +186,7 @@ class _BodyScaffold extends ConsumerWidget {
               ),
               arguments.status == StatusInvestmentEnum.in_process
                   ? Positioned(
-                      bottom: 20,
+                      bottom: 50,
                       child: Container(
                         alignment: Alignment.center,
                         height: 80,
@@ -200,7 +200,7 @@ class _BodyScaffold extends ConsumerWidget {
                       ),
                     )
                   : Positioned(
-                      bottom: 20,
+                      bottom: 50,
                       child: Container(
                         alignment: Alignment.center,
                         color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
