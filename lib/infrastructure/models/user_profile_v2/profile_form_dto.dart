@@ -175,18 +175,35 @@ CivilStatusEnum? getCivilStatusEnum(String valor) {
 
 class DtoLocationForm {
   final String country;
-  final String region;
-  final String province;
-  final String district;
+  final String? region;
+  final String? province;
+  final String? district;
   final String address;
+  final String? extRegion;
+  final String? extProvince;
+  final String? extDistrict;
 
   DtoLocationForm({
     required this.country,
-    required this.region,
-    required this.province,
-    required this.district,
     required this.address,
+    this.region,
+    this.province,
+    this.district,
+    this.extRegion,
+    this.extProvince,
+    this.extDistrict,
   });
+  toJson() => {
+        "country": country,
+        "region": region,
+        "province": province,
+        "district": district,
+        "address": address,
+        "regionExt": extRegion,
+        "provinceExt": extProvince,
+        "districtExt": extDistrict,
+        // "houseNumber": data.houseNumber,
+      };
 }
 
 class DtoOccupationForm {

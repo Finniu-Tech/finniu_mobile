@@ -64,13 +64,13 @@ class ExperienceBody extends HookConsumerWidget {
     const borderDark = 0xff68C3DE;
     const borderLight = 0xff295984;
 
-    final TextEditingController feedbackNumerController = useTextEditingController();
+    final TextEditingController feedbackNumberController = useTextEditingController();
     final TextEditingController feedbackTextController = useTextEditingController();
     final buttonTrue = useState(false);
     void pushFeedback() async {
       final data = DtoFedbackForm(
         question: "¿Qué tan satisfecho estás con el proceso de inversión?",
-        answer: feedbackNumerController.text,
+        answer: feedbackNumberController.text,
         questionSecond: "¿que podemos hacer para mejorar en el proceso de inversión?",
         answerSecond: feedbackTextController.text,
       );
@@ -157,7 +157,7 @@ class ExperienceBody extends HookConsumerWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: SelectFeedback(
-                    controller: feedbackNumerController,
+                    controller: feedbackNumberController,
                     buttonTrue: buttonTrue,
                   ),
                 ),

@@ -33,6 +33,10 @@ class QueryRepository {
         distrito{
           id
         }
+        country
+        regionExt
+        provinciaExt
+        distritoExt
       	address
         houseNumber
         postalCode
