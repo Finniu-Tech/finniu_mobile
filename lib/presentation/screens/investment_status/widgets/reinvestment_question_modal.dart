@@ -19,8 +19,8 @@ void reinvestmentQuestionModal(
   String preInvestmentUUID,
   double preInvestmentAmount,
   String currency, [
-  bool? isV2 = false,
   FundEntity? fund,
+  bool? isV2 = false,
   int? rentability,
   int? deadline,
 ]) {
@@ -45,7 +45,7 @@ void reinvestmentQuestionModal(
       currency: currency,
       rentability: rentability,
       deadline: deadline,
-      fund: fund!,
+      fund: fund,
     ),
   );
 }
@@ -59,7 +59,7 @@ class ReinvestmentQuestionBody extends ConsumerWidget {
     required this.currency,
     this.rentability,
     this.deadline,
-    required this.fund,
+    this.fund,
     // required this.userNotification,
   });
 
@@ -67,7 +67,7 @@ class ReinvestmentQuestionBody extends ConsumerWidget {
   final String preInvestmentUUID;
   final double preInvestmentAmount;
   final String currency;
-  final FundEntity fund;
+  final FundEntity? fund;
 
   final int? rentability;
   final int? deadline;
@@ -79,7 +79,8 @@ class ReinvestmentQuestionBody extends ConsumerWidget {
       // customize background color
       color: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
 
-      height: 400,
+      height: MediaQuery.of(context).size.height * 0.50,
+      constraints: const BoxConstraints(maxHeight: 500),
       width: double.infinity,
       child: SingleChildScrollView(
         child: Column(
@@ -160,7 +161,7 @@ class ReinvestmentQuestionBody extends ConsumerWidget {
                     arguments: NavigateReinvest(
                       uuid: preInvestmentUUID,
                       addAmount: true,
-                      product: ProductData.fromFund(fund),
+                      product: ProductData.fromFund(fund!),
                     ),
                   );
                 },
@@ -196,7 +197,7 @@ class ReinvestmentQuestionBody extends ConsumerWidget {
                     arguments: NavigateReinvest(
                       uuid: preInvestmentUUID,
                       addAmount: false,
-                      product: ProductData.fromFund(fund),
+                      product: ProductData.fromFund(fund!),
                     ),
                   );
                 },
@@ -252,6 +253,9 @@ class ReinvestmentQuestionBody extends ConsumerWidget {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 30,
+            )
           ],
         ),
       ),

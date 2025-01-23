@@ -120,7 +120,7 @@ class ExperienceBody extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const TextPoppins(
-                  text: 'Tu experiencia es primero',
+                  text: 'Tu experiencia es primero ',
                   fontSize: 40,
                   fontWeight: FontWeight.w600,
                   textDark: titleDark,

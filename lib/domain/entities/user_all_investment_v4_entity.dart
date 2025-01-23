@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 
 enum ActionStatusEnumV4 {
@@ -36,29 +37,29 @@ class InvestmentV4 {
   final ActionStatusEnumV4? actionStatus;
   final bool isCapital;
   final List<ProfitabilityItem> paymentRentability;
+  final FundEntity? fundEntity;
 
-  InvestmentV4({
-    required this.uuid,
-    required this.amount,
-    required this.finishDateInvestment,
-    required this.paymentRentability,
-    this.fundUuid,
-    this.rentability,
-    this.isReinvestAvailable = false,
-    this.isReinvestment = false,
-    this.actionStatus,
-    this.boucherImage,
-    this.fundName,
-    this.isCapital = true,
-  });
+  InvestmentV4(
+      {required this.uuid,
+      required this.amount,
+      required this.finishDateInvestment,
+      required this.paymentRentability,
+      this.fundUuid,
+      this.rentability,
+      this.isReinvestAvailable = false,
+      this.isReinvestment = false,
+      this.actionStatus,
+      this.boucherImage,
+      this.fundName,
+      this.isCapital = true,
+      this.fundEntity});
 
   factory InvestmentV4.fromJson(Map<String, dynamic> json) {
+    print('from json:xxxxx');
     return InvestmentV4(
       paymentRentability: json['paymentRentability'] == null
           ? []
-          : (json['paymentRentability'] as List<dynamic>)
-              .map((item) => ProfitabilityItem.fromJson(item))
-              .toList(),
+          : (json['paymentRentability'] as List<dynamic>).map((item) => ProfitabilityItem.fromJson(item)).toList(),
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       finishDateInvestment: _formatDate(json['finishDateInvestment']),
@@ -73,12 +74,12 @@ class InvestmentV4 {
       boucherImage: json['boucherList'] == null
           ? null
           : (json['boucherList'] as List).firstWhere(
-              (item) =>
-                  item['boucherImage'] != null && item['boucherImage'] != "",
+              (item) => item['boucherImage'] != null && item['boucherImage'] != "",
               orElse: () => null,
             )?['boucherImage'],
       fundName: json['investmentFund']?['name'],
       fundUuid: json['investmentFund']?['uuid'],
+      fundEntity: json['investmentFund'] != null ? FundEntity.fromJson(json['investmentFund']) : null,
     );
   }
 
@@ -134,9 +135,7 @@ class InvestmentCategoryV4 {
 
   static List<InvestmentV4> _parseInvestmentList(dynamic jsonList) {
     if (jsonList == null) return [];
-    return (jsonList as List)
-        .map((item) => InvestmentV4.fromJson(item))
-        .toList();
+    return (jsonList as List).map((item) => InvestmentV4.fromJson(item)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -159,16 +158,14 @@ class UserInfoAllInvestmentV4 {
 
   factory UserInfoAllInvestmentV4.fromJson(Map<String, dynamic> json) {
     return UserInfoAllInvestmentV4(
-      investmentInSoles: json['invesmentInSoles'] != null &&
-              json['invesmentInSoles'].isNotEmpty
+      investmentInSoles: json['invesmentInSoles'] != null && json['invesmentInSoles'].isNotEmpty
           ? InvestmentCategoryV4.fromJson(json['invesmentInSoles'][0])
           : InvestmentCategoryV4(
               investmentInCourse: [],
               investmentFinished: [],
               investmentInProcess: [],
             ),
-      investmentInDolares: json['invesmentInDolares'] != null &&
-              json['invesmentInDolares'].isNotEmpty
+      investmentInDolares: json['invesmentInDolares'] != null && json['invesmentInDolares'].isNotEmpty
           ? InvestmentCategoryV4.fromJson(json['invesmentInDolares'][0])
           : InvestmentCategoryV4(
               investmentInCourse: [],

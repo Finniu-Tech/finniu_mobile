@@ -113,7 +113,7 @@ class SelectBankBody extends ConsumerWidget {
                         width: MediaQuery.of(context).size.width * 0.7,
                         child: TextPoppins(
                           text: isSender
-                              ? '¿Desde qué cuenta nos tranasfieres? 💸'
+                              ? '¿Desde qué cuenta nos transfieres? 💸'
                               : '¿A qué cuenta transferimos tu rentabilidad? 💸',
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
@@ -183,7 +183,7 @@ class SelectBankBody extends ConsumerWidget {
                       ),
                       TextPoppins(
                         text: isSender
-                            ? '¿Desde qué cuenta nos tranasfieres el dinero? 💸'
+                            ? '¿Desde qué cuenta nos transfieres el dinero? 💸'
                             : '¿A qué cuenta transferimos tu rentabilidad? 💸',
                         fontSize: 20,
                         fontWeight: FontWeight.w500,

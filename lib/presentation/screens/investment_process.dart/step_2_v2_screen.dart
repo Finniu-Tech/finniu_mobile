@@ -221,7 +221,7 @@ class ColumnPush extends HookConsumerWidget {
           bankAccountReceiverId: bankReceiver.id,
           readContract: conditions.value,
           base64Image: voucherImageBase64,
-          isReInvestment: args['isReInvestment'] ?? false,
+          isReInvestment: args['isReinvestment'] ?? false,
         ),
       );
 

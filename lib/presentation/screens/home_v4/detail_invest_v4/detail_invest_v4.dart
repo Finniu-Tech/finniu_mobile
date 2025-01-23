@@ -49,8 +49,7 @@ class _BodyScaffold extends ConsumerWidget {
     final isSoles = ref.read(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffFFFFFF;
-    log('investment uuid ${arguments.uuid}');
-    log('investment status ${arguments.status}');
+
     final investmentDetailByUuid = ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
     return investmentDetailByUuid.when(
@@ -88,6 +87,7 @@ class _BodyScaffold extends ConsumerWidget {
             arguments.uuid,
             data.amount.toDouble(),
             isSoles ? currencyEnum.PEN : currencyEnum.USD,
+            data.fund,
             true,
           );
         }
@@ -209,19 +209,23 @@ class _BodyScaffold extends ConsumerWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            if (arguments.status != StatusInvestmentEnum.in_process &&
-                                data.actionStatus == ActionStatusEnumV4.reInvestmentDefault) ...[
+                            if (arguments.status == StatusInvestmentEnum.in_course &&
+                                data.actionStatus == ActionStatusEnumV4.reInvestmentDefault &&
+                                arguments.isReinvestAvailable) ...[
                               ButtonInvestment(
                                 text: 'Quiero reinvertir',
                                 onPressed: navigatoToReinvest,
                               ),
                             ],
-                            if (arguments.status != StatusInvestmentEnum.in_process) ...[
+                            if ((arguments.status == StatusInvestmentEnum.in_course ||
+                                    arguments.status == StatusInvestmentEnum.finished) &&
+                                data.actionStatus == ActionStatusEnumV4.reInvestmentDefault &&
+                                arguments.isReinvestAvailable == false) ...[
                               // const SizedBox(height: 10),
-                              if (data.profitabilityListMonth.isNotEmpty &&
-                                  arguments.status != StatusInvestmentEnum.in_process &&
-                                  data.actionStatus == ActionStatusEnumV4.reInvestmentDefault)
-                                const SizedBox(height: 10),
+                              // if (data.profitabilityListMonth.isNotEmpty &&
+                              //     arguments.status != StatusInvestmentEnum.in_course &&
+                              //     data.actionStatus == ActionStatusEnumV4.reInvestmentDefault)
+                              const SizedBox(height: 10),
 
                               if (data.profitabilityListMonth.isNotEmpty) ...[
                                 ButtonSvgIconInvestmentSecond(

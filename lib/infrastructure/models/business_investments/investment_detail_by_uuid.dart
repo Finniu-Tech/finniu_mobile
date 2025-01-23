@@ -57,22 +57,15 @@ class InvestmentDetailUuid {
       finishDateInvestment: json['finishDateInvestment'],
       contract: json['contract'],
       voucher: (json['boucherList'] as List<dynamic>).firstWhere(
-        (item) =>
-            item['boucherImage'] != null && item['boucherImage'].isNotEmpty,
+        (item) => item['boucherImage'] != null && item['boucherImage'].isNotEmpty,
         orElse: () => null,
       )?['boucherImage'],
-      bankAccountReceiver: json['bankAccountReceiver'] != null
-          ? BankAccount.fromJson(json['bankAccountReceiver'])
-          : null,
-      bankAccountSender: json['bankAccountSender'] != null
-          ? BankAccount.fromJson(json['bankAccountSender'])
-          : null,
-      profitabilityListMonth: (json['paymentRentability'] as List<dynamic>)
-          .map((item) => ProfitabilityItem.fromJson(item))
-          .toList(),
-      fund: json['investmentFund'] != null
-          ? FundEntity.fromJson(json['investmentFund'])
-          : null,
+      bankAccountReceiver:
+          json['bankAccountReceiver'] != null ? BankAccount.fromJson(json['bankAccountReceiver']) : null,
+      bankAccountSender: json['bankAccountSender'] != null ? BankAccount.fromJson(json['bankAccountSender']) : null,
+      profitabilityListMonth:
+          (json['paymentRentability'] as List<dynamic>).map((item) => ProfitabilityItem.fromJson(item)).toList(),
+      fund: json['investmentFund'] != null ? FundEntity.fromJson(json['investmentFund']) : null,
       isReInvestment: json['isReInvestment'] ?? false,
       reinvestmentInfo: ReInvestmentInfo.fromJson(json['reinvestmentInfo']),
     );
@@ -164,11 +157,9 @@ class TablePayV4 {
       rentabilityAmount: double.parse(investmentDetail['rentabilityAmmount']),
       rentabilityPercent: double.parse(investmentDetail['rentabilityPercent']),
       amount: double.parse(investmentDetail['amount']),
-      paymentCapitalDateInvestment:
-          DateTime.parse(investmentDetail['paymentCapitalDateInvestment']),
-      profitabilityListMonth: (investmentDetail['paymentRentability'] as List)
-          .map((item) => ProfitabilityItemV4.fromJson(item))
-          .toList(),
+      paymentCapitalDateInvestment: DateTime.parse(investmentDetail['paymentCapitalDateInvestment']),
+      profitabilityListMonth:
+          (investmentDetail['paymentRentability'] as List).map((item) => ProfitabilityItemV4.fromJson(item)).toList(),
       bankAccountSender: investmentDetail['bankAccountReceiver'] != null
           ? BankAccount.fromJson(investmentDetail['bankAccountReceiver'])
           : null,

@@ -107,8 +107,8 @@ class FundEntity {
 
   static FundEntity fromJson(Map<String, dynamic> data) {
     return FundEntity(
-      uuid: data['uuid'],
-      name: data['name'],
+      uuid: data['uuid'] ?? '',
+      name: data['name'] ?? '',
       iconUrl: data['icon'],
       mainImageUrl: data['mainImageUrl'],
       mainImageHorizontalUrl: data['mainImageHorizontalUrl'],

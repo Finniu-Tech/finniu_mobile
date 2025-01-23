@@ -59,19 +59,18 @@ class ButtonCalculate extends ConsumerWidget {
         showSnackBarV2(
           context: context,
           title: "Error en el monto",
-          message:
-              "Por favor, ingresa un monto mayor a ${isSoles ? "S/" : "\$"}1.000",
+          message: "Por favor, ingresa un monto mayor a ${isSoles ? "S/" : "\$"}1.000",
           snackType: SnackType.warning,
         );
       } else {
-        investmentSimulationModal(
-          context,
-          finalAmount: 1,
-          startingAmount: amount,
-          mouthInvestment: months.getMonthValue(),
-          toInvestPressed: toInvestPressed,
-          recalculatePressed: recalculatePressed,
-        );
+        // investmentSimulationModal(
+        //   context,
+        //   finalAmount: 1,
+        //   startingAmount: amount,
+        //   mouthInvestment: months.getMonthValue(),
+        //   toInvestPressed: toInvestPressed,
+        //   recalculatePressed: recalculatePressed,
+        // );
       }
     }
 

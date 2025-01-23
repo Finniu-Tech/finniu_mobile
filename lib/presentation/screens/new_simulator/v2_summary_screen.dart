@@ -36,9 +36,7 @@ class V2SummaryScreen extends HookConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
+      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
       bottomNavigationBar: const NavigationBarHome(),
       body: const SingleChildScrollView(
@@ -53,14 +51,12 @@ class _BodyScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ArgumentsNavigator arguments =
-        ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
+    final ArgumentsNavigator arguments = ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
-    final investmentDetailByUuid =
-        ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
+    final investmentDetailByUuid = ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
     return investmentDetailByUuid.when(
       error: (error, stack) {
@@ -91,9 +87,7 @@ class _BodyScaffold extends ConsumerWidget {
           );
         }
         return Container(
-          color: isDarkMode
-              ? const Color(columnColorDark)
-              : const Color(columnColorLight),
+          color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
           width: MediaQuery.of(context).size.width,
           // height: MediaQuery.of(context).size.height,
           child: Padding(
@@ -103,8 +97,7 @@ class _BodyScaffold extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TitleModal(
-                  status:
-                      StatusInvestmentEnum.getLabelForStatus(arguments.status),
+                  status: StatusInvestmentEnum.getLabelForStatus(arguments.status),
                   isReInvestment: data.isReInvestment,
                 ),
                 const SizedBox(height: 10),
@@ -133,9 +126,7 @@ class _BodyScaffold extends ConsumerWidget {
                       )
                     : const SizedBox(),
                 const SizedBox(height: 15),
-                data.bankAccountReceiver != null
-                    ? const SizedBox()
-                    : const SizedBox(),
+                data.bankAccountReceiver != null ? const SizedBox() : const SizedBox(),
                 data.bankAccountReceiver != null
                     ? SelectedBankDeposit(
                         bankAccountReceiver: data.bankAccountReceiver!,
@@ -170,8 +161,8 @@ class _BodyScaffold extends ConsumerWidget {
                             arguments.uuid,
                             data.amount.toDouble(),
                             isSoles ? currencyEnum.PEN : currencyEnum.USD,
-                            true,
                             data.fund,
+                            true,
                             data.rentabilityPercent,
                             data.month,
                           ),

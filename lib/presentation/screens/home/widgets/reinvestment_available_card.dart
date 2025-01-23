@@ -162,7 +162,13 @@ class ReinvestmentAvailableCard extends ConsumerWidget {
                         final preInvestmentUUID = notification.metaData?.preinvestmentUUID ?? '';
                         final amount = notification.metaData?.amount ?? 0;
                         final currency = notification.metaData?.currency ?? 'PEN'; //PEN or USD
-                        reinvestmentQuestionModal(context, ref, preInvestmentUUID, amount, currency);
+                        reinvestmentQuestionModal(
+                          context,
+                          ref,
+                          preInvestmentUUID,
+                          amount,
+                          currency,
+                        );
                       }
                     },
             ),

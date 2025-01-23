@@ -25,7 +25,7 @@ class ButtonSendProof extends StatelessWidget {
     }
 
     return ButtonInvestment(
-      text: 'Enviar constancia',
+      text: 'Enviar constancia ',
       onPressed: () => showThanksInvestmentDialog(
         context,
         textBody: textBody,
@@ -59,9 +59,7 @@ class ButtonInvestment extends ConsumerWidget {
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode
-                  ? buttonBackgroundColorDark
-                  : buttonBackgroundColorLight,
+              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -70,9 +68,7 @@ class ButtonInvestment extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode
-                ? const Color(colorTextButtonDarkColor)
-                : const Color(colorTextButtonLightColor),
+            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,
@@ -109,17 +105,13 @@ class ButtonInvestmentBorder extends ConsumerWidget {
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
               side: BorderSide(
-                color: isDarkMode
-                    ? const Color(borderDark)
-                    : const Color(borderLight),
+                color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
               ),
             ),
           ),
           elevation: WidgetStateProperty.all(0),
           backgroundColor: WidgetStateProperty.all(
-            isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           ),
         ),
         onPressed: onPressed,
@@ -161,9 +153,7 @@ class ButtonIconInvestment extends ConsumerWidget {
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode
-                  ? buttonBackgroundColorDark
-                  : buttonBackgroundColorLight,
+              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -174,9 +164,7 @@ class ButtonIconInvestment extends ConsumerWidget {
           children: [
             Icon(
               icon,
-              color: isDarkMode
-                  ? const Color(colorTextButtonDarkColor)
-                  : const Color(colorTextButtonLightColor),
+              color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
               size: 24,
             ),
             const SizedBox(
@@ -186,9 +174,7 @@ class ButtonIconInvestment extends ConsumerWidget {
               text,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isDarkMode
-                    ? const Color(colorTextButtonDarkColor)
-                    : const Color(colorTextButtonLightColor),
+                color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
                 fontSize: 16,
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w500,
@@ -228,9 +214,7 @@ class ButtonSvgIconInvestment extends ConsumerWidget {
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode
-                  ? buttonBackgroundColorDark
-                  : buttonBackgroundColorLight,
+              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -241,9 +225,7 @@ class ButtonSvgIconInvestment extends ConsumerWidget {
           children: [
             SvgPicture.asset(
               icon,
-              color: isDarkMode
-                  ? const Color(colorTextButtonDarkColor)
-                  : const Color(colorTextButtonLightColor),
+              color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
               width: size,
               height: size,
             ),
@@ -254,9 +236,7 @@ class ButtonSvgIconInvestment extends ConsumerWidget {
               text,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isDarkMode
-                    ? const Color(colorTextButtonDarkColor)
-                    : const Color(colorTextButtonLightColor),
+                color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
                 fontSize: 16,
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w500,
@@ -300,9 +280,7 @@ class ButtonSvgIconInvestmentSecond extends ConsumerWidget {
             RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
                 side: BorderSide(
-                  color: isDarkMode
-                      ? const Color(textColorDark)
-                      : const Color(colorLight),
+                  color: isDarkMode ? const Color(textColorDark) : const Color(colorLight),
                 )),
           ),
           elevation: WidgetStateProperty.all(5),
@@ -317,9 +295,7 @@ class ButtonSvgIconInvestmentSecond extends ConsumerWidget {
           children: [
             SvgPicture.asset(
               icon,
-              color: isDarkMode
-                  ? const Color(textColorDark)
-                  : const Color(textColorLight),
+              color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
               width: size,
               height: size,
             ),
@@ -366,9 +342,7 @@ class ButtonForm extends ConsumerWidget {
                 return Colors.grey;
               }
               return Color(
-                isDarkMode
-                    ? buttonBackgroundColorDark
-                    : buttonBackgroundColorLight,
+                isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
               );
             },
           ),
@@ -377,9 +351,7 @@ class ButtonForm extends ConsumerWidget {
               if (states.contains(WidgetState.disabled)) {
                 return Colors.black38;
               }
-              return isDarkMode
-                  ? const Color(colorTextButtonDarkColor)
-                  : const Color(colorTextButtonLightColor);
+              return isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor);
             },
           ),
         ),
@@ -451,9 +423,7 @@ class ButtonDialog extends ConsumerWidget {
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode
-                  ? buttonBackgroundColorDark
-                  : buttonBackgroundColorLight,
+              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -462,9 +432,7 @@ class ButtonDialog extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode
-                ? const Color(colorTextButtonDarkColor)
-                : const Color(colorTextButtonLightColor),
+            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
           ),
@@ -551,9 +519,7 @@ class BodyDialog extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode
-                            ? const Color(labelTextDarkColor)
-                            : const Color(labelTextLightColor),
+                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                       ),
                     ),
                     Image.asset('assets/icons/icon_tanks.png'),
@@ -581,9 +547,7 @@ class BodyDialog extends ConsumerWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Poppins",
-                        color: isDarkMode
-                            ? const Color(labelTextDarkColor)
-                            : const Color(labelTextLightColor),
+                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                       ),
                       maxLines: 1,
                       textAlign: TextAlign.start,

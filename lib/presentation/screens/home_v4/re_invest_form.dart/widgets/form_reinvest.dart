@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/re_invest_dto.dart';
@@ -42,6 +44,25 @@ class FormStepOneReinvest extends HookConsumerWidget {
     required this.isSoles,
     required this.addAmount,
   });
+
+  int parseMoneyString(String? moneyString) {
+    if (moneyString == null || moneyString.isEmpty) return 0;
+
+    // Remover todos los caracteres no numéricos excepto punto y coma
+    String cleanString = moneyString.replaceAll(RegExp(r'[^0-9.,]'), '');
+
+    // Remover comas
+    cleanString = cleanString.replaceAll(',', '');
+
+    // Si hay punto decimal, tomar solo la parte entera
+    if (cleanString.contains('.')) {
+      cleanString = cleanString.split('.')[0];
+    }
+
+    // Convertir a entero
+    return int.tryParse(cleanString) ?? 0;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const buttonBack = 0xffA2E6FA;
@@ -62,7 +83,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
     final loader = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
-    final List<String> optionsTime = product.titleText == "Producto de inversión a Plazo Fijo"
+    final List<String> optionsTime = product.titleText == "Fondo inversiones empresariales"
         ? ["6 meses", "12 meses", "24 meses"]
         : ["12 meses", "24 meses", "36 meses"];
 
@@ -115,7 +136,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
       [amountAddController],
     );
 
-    void onPressCupon() async {
+    void onPressCoupon() async {
       FocusManager.instance.primaryFocus?.unfocus();
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -166,7 +187,8 @@ class FormStepOneReinvest extends HookConsumerWidget {
 
     void onPressSimulator() {
       FocusManager.instance.primaryFocus?.unfocus();
-
+      final int minAmountToSimulate =
+          isSoles ? parseMoneyString(product.minimumTextPEN) : parseMoneyString(product.minimumTextUSD);
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.formValidateError,
@@ -189,7 +211,20 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (couponError.value) return;
         if (originError.value) return;
         if (originOtherError.value) return;
+
+        if (finalAmount.value.toInt() < minAmountToSimulate) {
+          showSnackBarV2(
+            context: context,
+            title: "Monto insuficiente",
+            message:
+                "El monto mínimo para invertir es de ${isSoles ? product.minimumTextPEN : product.minimumTextUSD}",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
+
         final timeList = ref.watch(deadLineFutureProvider);
+
         final time = timeList.asData!.value.firstWhere((element) => element.uuid == timeController.text);
 
         investmentSimulationModal(
@@ -197,6 +232,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
           startingAmount: finalAmount.value.toInt(),
           finalAmount: finalAmount.value.toInt(),
           mouthInvestment: time.value,
+          fundUUID: product.uuid,
           coupon: couponController.text,
           toInvestPressed: () async {
             Navigator.pop(context);
@@ -205,7 +241,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               preInvestmentUUID: data.uuid,
               finalAmount: finalAmount.value.toInt().toString(),
               currency: isSoles ? currencyNuevoSol : currencyDollar,
-              deadlineUUID: timeController.text,
+              deadlineUUID: time.uuid,
               originFounds: OriginFunds(
                 originFundsEnum: OriginFoundsUtil.fromReadableName(
                   originController.text,
@@ -216,7 +252,6 @@ class FormStepOneReinvest extends HookConsumerWidget {
               typeReinvestment: "CAPITAL_ADITIONAL",
             );
             final response = await ref.read(createReInvestmentProvider(input).future);
-
             if (response.success == false || response.success == null) {
               ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                 eventName: FirebaseAnalyticsEvents.pushDataError,
@@ -239,9 +274,10 @@ class FormStepOneReinvest extends HookConsumerWidget {
               success: response.success!,
               ref: ref,
               context: context,
-              uuid: data.uuid,
+              uuid: response.reInvestmentUuid!,
               amount: finalAmount.value.toStringAsFixed(2),
               productData: product,
+              isReinvestment: true,
             );
             loader.value = false;
           },
@@ -269,8 +305,30 @@ class FormStepOneReinvest extends HookConsumerWidget {
         return;
       } else {
         FocusManager.instance.primaryFocus?.unfocus();
+        final int minAmountToSimulate =
+            isSoles ? parseMoneyString(product.minimumTextPEN) : parseMoneyString(product.minimumTextUSD);
         if (timeError.value) return;
         if (couponError.value) return;
+        if (conditions.value == false) {
+          showSnackBarV2(
+            context: context,
+            title: "Datos obligatorios incompletos",
+            message: "Por favor, acepta los términos y condiciones",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
+        if (finalAmount.value.toInt() < minAmountToSimulate) {
+          showSnackBarV2(
+            context: context,
+            title: "Monto insuficiente",
+            message:
+                "El monto mínimo para invertir es de ${isSoles ? product.minimumTextPEN : product.minimumTextUSD}",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
+
         final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
         if (bankReceiver == null) {
           showSnackBarV2(
@@ -284,12 +342,14 @@ class FormStepOneReinvest extends HookConsumerWidget {
         loader.value = true;
         final timeList = ref.watch(deadLineFutureProvider);
         final time = timeList.asData!.value.firstWhere((element) => element.uuid == timeController.text);
+
         investmentSimulationModal(
           context,
           startingAmount: finalAmount.value.toInt(),
           finalAmount: finalAmount.value.toInt(),
           mouthInvestment: time.value,
           coupon: couponController.text,
+          fundUUID: data.uuid,
           toInvestPressed: () async {
             loader.value = true;
 
@@ -303,7 +363,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               originFounds: data.originFunds,
               coupon: couponController.text,
               typeReinvestment: "CAPITAL_ONLY",
-              bankAccountSender: bankReceiver.id,
+              bankAccountReceiver: bankReceiver.id,
             );
             final response = await ref.read(createReInvestmentProvider(input).future);
 
@@ -404,7 +464,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               isSoles: isSoles,
             ),
             const SizedBox(height: 15),
-            product.titleText == "Producto de inversión a Plazo Fijo"
+            product.titleText == "Fondo inversiones empresariales"
                 ? ValueListenableBuilder<bool>(
                     valueListenable: timeError,
                     builder: (context, isError, child) {
@@ -538,7 +598,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
                 Positioned(
                   right: 0,
                   child: GestureDetector(
-                    onTap: onPressCupon,
+                    onTap: onPressCoupon,
                     child: Center(
                       child: Container(
                         width: 100,

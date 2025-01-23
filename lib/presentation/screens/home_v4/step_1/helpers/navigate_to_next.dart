@@ -5,21 +5,25 @@ import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void navigateToNext({
-  required bool success,
-  required WidgetRef ref,
-  required BuildContext context,
-  required String uuid,
-  required String amount,
-  required ProductData productData,
-}) {
-  print('navegar a siguiente ${productData.toJson()}');
+void navigateToNext(
+    {required bool success,
+    required WidgetRef ref,
+    required BuildContext context,
+    required String uuid,
+    required String amount,
+    required ProductData productData,
+    bool? isReinvestment}) {
   if (success) {
     Navigator.pushNamedAndRemoveUntil(
       context,
       '/v2/investment/step-2',
       (route) => false,
-      arguments: {'preInvestmentUUID': uuid, 'amount': amount, 'productData': productData},
+      arguments: {
+        'preInvestmentUUID': uuid,
+        'amount': amount,
+        'productData': productData,
+        'isReinvestment': isReinvestment
+      },
     );
   } else {
     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(

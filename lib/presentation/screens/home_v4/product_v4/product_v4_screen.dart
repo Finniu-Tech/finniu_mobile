@@ -132,33 +132,6 @@ class ProductBody extends ConsumerWidget {
       ),
     ];
 
-    // final colors = ProductContainerStyles(
-    //   backgroundContainerDark: 0xff1B1B1B,
-    //   backgroundContainerLight: 0xffE9FAFF,
-    //   imageProduct: "🏢",
-    //   titleText: "Producto de inversión a Plazo Fijo",
-    //   minimumText: "1,000.00",
-    //   profitabilityText: "19",
-    //   titleDark: 0xffFFFFFF,
-    //   titleLight: 0xff0D3A5C,
-    //   minimumDark: 0xff0D3A5C,
-    //   minimumLight: 0xff0D3A5C,
-    //   profitabilityDark: 0xffB5FF8A,
-    //   profitabilityLight: 0xffD2FDBA,
-    //   isSoles: true,
-    //   uuid: "1",
-    //   buttonBackDark: 0xffA2E6FA,
-    //   buttonBackLight: 0xff0D3A5C,
-    //   buttonTextDark: 0xff0D3A5C,
-    //   buttonTextLight: 0xffFFFFFF,
-    //   textDark: 0xff000000,
-    //   textLight: 0xff000000,
-    //   minimunTextColorDark: 0xffFFFFFF,
-    //   minimumTextColorLight: 0xffFFFFFF,
-    //   minimumLightSoles: 0xffBBF0FF,
-    //   minimumTextColorLightSoles: 0xff000000,
-    // );
-
     Future<void> onPressCall() async {
       Navigator.pushNamed(context, '/v4/push_to_url', arguments: 'https://calendly.com/finniumeet/30min?month=2024-12');
       // final meetUrl =
@@ -167,32 +140,7 @@ class ProductBody extends ConsumerWidget {
     }
 
     void onPressSimulator() {
-      print('press simulator');
-      final profileCompletenessAsync = ref.watch(userProfileCompletenessProvider);
-      return profileCompletenessAsync.when(
-        data: (profileCompleteness) {
-          print('user profiels complete ${profileCompleteness.toJson()}');
-          if (profileCompleteness.isComplete()) {
-            Navigator.pushNamedAndRemoveUntil(context, '/v4/step_one', arguments: product, (route) => false);
-          } else {
-            context.loaderOverlay.hide();
-            showVerifyIdentity(
-              context,
-              profileCompleteness,
-              redirect: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/v4/step_one',
-                  arguments: product,
-                  (route) => false,
-                );
-              },
-            );
-          }
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => const Text('Error al cargar el estado del perfil'),
-      );
+      Navigator.pushNamedAndRemoveUntil(context, '/v4/step_one', arguments: product, (route) => false);
     }
 
     return Column(

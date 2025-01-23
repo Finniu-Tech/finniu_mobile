@@ -77,8 +77,13 @@ class ReInvestProvider extends ConsumerWidget {
 }
 
 class ReInvestBody extends StatelessWidget {
-  const ReInvestBody(
-      {super.key, required this.data, required this.isDarkMode, this.addAmount = false, required this.product});
+  const ReInvestBody({
+    super.key,
+    required this.data,
+    required this.isDarkMode,
+    this.addAmount = false,
+    required this.product,
+  });
   final bool addAmount;
   final bool isDarkMode;
   final ReInvestDtoV4 data;
