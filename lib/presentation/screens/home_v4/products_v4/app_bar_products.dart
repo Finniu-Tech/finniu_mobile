@@ -38,10 +38,64 @@ class AppBarProducts extends ConsumerWidget implements PreferredSizeWidget {
           Navigator.pop(context);
         },
       ),
-      title: TextPoppins(
-        text: title,
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextPoppins(
+          align: TextAlign.left,
+          text: title,
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(50);
+}
+
+class AppBarNoticesDetail extends ConsumerWidget
+    implements PreferredSizeWidget {
+  const AppBarNoticesDetail({
+    super.key,
+    this.title = 'Productos',
+  });
+  final String title;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    return AppBar(
+      backgroundColor: isDarkMode
+          ? const Color(NavBarV4Colors.backgroundColorDark)
+          : const Color(NavBarV4Colors.backgroundColorLight),
+      iconTheme: isDarkMode
+          ? const IconThemeData(color: Color(NavBarV4Colors.iconDark))
+          : const IconThemeData(color: Color(NavBarV4Colors.iconLight)),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(1),
+        child: Container(
+          color: isDarkMode
+              ? const Color(NavBarV4Colors.borderDark)
+              : const Color(NavBarV4Colors.borderLight),
+          height: 1,
+        ),
+      ),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          ref.read(navigatorStateProvider.notifier).state = 3;
+          Navigator.pop(context);
+        },
+      ),
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextPoppins(
+          align: TextAlign.left,
+          text: title,
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

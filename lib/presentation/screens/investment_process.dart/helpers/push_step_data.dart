@@ -24,57 +24,76 @@ class PushStepData {
   });
 }
 
-void stepTwoPushData(context, ref, PushStepData pushStepData) async {
-  var response;
-  if (pushStepData.isReInvestment == true) {
-    final UpdateReInvestmentParams updateReInvestmentParams =
-        UpdateReInvestmentParams(
-      preInvestmentUUID: pushStepData.preInvestmentUUID,
-      userReadContract: pushStepData.readContract,
-      files: pushStepData.base64Image,
-      bankAccountReceiver: pushStepData.preInvestmentUUID,
-      bankAccountSender: pushStepData.bankAccountSendedId,
-    );
-    response = await ref.read(
-      updateReInvestmentProvider(updateReInvestmentParams).future,
-    );
-  } else {
-    response = await PreInvestmentDataSourceImp().update(
-      client: ref.watch(gqlClientProvider).value!,
-      uuid: pushStepData.preInvestmentUUID,
-      readContract: pushStepData.readContract,
-      bankAccountReceiverUUID: pushStepData.bankAccountReceiverId,
-      bankAccountSenderUUID: pushStepData.bankAccountSendedId,
-      files: pushStepData.base64Image,
-    );
-  }
+Future<bool> stepTwoPushData(context, ref, PushStepData pushStepData) async {
+  try {
+    bool success;
+    String? errorMessage;
 
-  if (response.success == false) {
-    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-      eventName: FirebaseAnalyticsEvents.pushDataError,
-      parameters: {
-        "screen": FirebaseScreen.investmentStep2V2,
-        "event": "error_push_data",
-      },
-    );
+    if (pushStepData.isReInvestment) {
+      final updateReInvestmentParams = UpdateReInvestmentParams(
+        preInvestmentUUID: pushStepData.preInvestmentUUID,
+        userReadContract: pushStepData.readContract,
+        files: pushStepData.base64Image,
+        bankAccountReceiver: pushStepData.bankAccountReceiverId,
+        bankAccountSender: pushStepData.bankAccountSendedId,
+      );
+
+      final reInvestmentResponse = await ref.read(
+        updateReInvestmentProvider(updateReInvestmentParams).future,
+      );
+      success = reInvestmentResponse.success;
+      errorMessage = reInvestmentResponse.messages?.firstOrNull?.message;
+    } else {
+      final preInvestmentResponse = await PreInvestmentDataSourceImp().update(
+        client: ref.watch(gqlClientProvider).value!,
+        uuid: pushStepData.preInvestmentUUID,
+        readContract: pushStepData.readContract,
+        bankAccountReceiverUUID: pushStepData.bankAccountReceiverId,
+        bankAccountSenderUUID: pushStepData.bankAccountSendedId,
+        files: pushStepData.base64Image,
+      );
+      success = preInvestmentResponse.success;
+      errorMessage = preInvestmentResponse.error;
+    }
+
+    if (!success) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep2V2,
+          "event": "error_push_data",
+        },
+      );
+
+      showSnackBarV2(
+        context: context,
+        title: "Error al guardar",
+        message: errorMessage ?? 'Hubo un problema al guardar',
+        snackType: SnackType.error,
+      );
+      return false;
+    } else {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataSucces,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep2V2,
+          "event": "success_push_data",
+        },
+      );
+
+      showFeedbackModal(
+        context,
+        isReInvestment: pushStepData.isReInvestment,
+      );
+      return true;
+    }
+  } catch (e) {
     showSnackBarV2(
       context: context,
-      title: "Error al guardar",
-      message: response.error ?? 'Hubo un problema al guardar',
+      title: "Error",
+      message: "Hubo un problema inesperado",
       snackType: SnackType.error,
     );
-  } else {
-    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-      eventName: FirebaseAnalyticsEvents.pushDataSucces,
-      parameters: {
-        "screen": FirebaseScreen.investmentStep2V2,
-        "event": "success_push_data",
-      },
-    );
-
-    showFeedbackModal(
-      context,
-      isReInvestment: pushStepData.isReInvestment,
-    );
+    return false;
   }
 }

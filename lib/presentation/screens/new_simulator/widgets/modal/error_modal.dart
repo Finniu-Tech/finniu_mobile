@@ -22,7 +22,7 @@ void showErrorGetDetail(BuildContext context) {
                 ),
                 ButtonInvestment(
                   onPressed: () {
-                    Navigator.pushNamed(context, "/v2/investment");
+                    Navigator.pushNamed(context, "/v2/my_investments");
                   },
                   text: "Presionar para Mis inversiones",
                 ),

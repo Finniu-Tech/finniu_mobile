@@ -1,14 +1,18 @@
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
+import 'package:finniu/presentation/providers/get_table_invest_pay.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/capital_modal.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_list.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_modal.dart';
 import 'package:flutter/material.dart';
-import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/rent_contaiener.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/title_fond.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PaymentScreenV4 extends StatelessWidget {
@@ -18,61 +22,82 @@ class PaymentScreenV4 extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    return const Scaffold(
-      appBar: AppBarProducts(
+    final args = ModalRoute.of(context)!.settings.arguments as String;
+    return Scaffold(
+      appBar: const AppBarProducts(
         title: "Cronograma de pagos",
       ),
       body: SingleChildScrollView(
-        child: PaymentBody(),
+        child: PaymentBodyProvider(args: args),
       ),
     );
   }
 }
 
-class PaymentBody extends StatelessWidget {
-  const PaymentBody({
+class PaymentBodyProvider extends ConsumerWidget {
+  const PaymentBodyProvider({
     super.key,
+    required this.args,
   });
 
+  final String args;
+
   @override
-  Widget build(BuildContext context) {
-    const String rent = "S/70.90";
-    const String percent = "+1.40";
-    const String dateInfo = "Actualizado Jul/2024";
-    final List<ProfitabilityItem> list = [
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 7, 1),
-        amount: 50,
-        numberPayment: 1,
-        isPaid: true,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 8, 1),
-        amount: 50,
-        numberPayment: 1,
-        isPaid: true,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 9, 1),
-        amount: 50,
-        numberPayment: 1,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 10, 1),
-        amount: 50,
-        numberPayment: 1,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 11, 1),
-        amount: 50,
-        numberPayment: 1,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime.now(),
-        amount: 50,
-        numberPayment: 1,
-      ),
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profitabilityData = ref.watch(getMonthlyPaymentProviderV4(args));
+    return profitabilityData.when(
+      data: (data) {
+        return PaymentBody(
+          item: args,
+          data: data,
+        );
+      },
+      error: (error, stackTrace) {
+        return Center(
+          child: Text(error.toString()),
+        );
+      },
+      loading: () {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height - 160,
+          width: MediaQuery.of(context).size.width,
+          child: const Center(
+            child: CircularLoader(
+              width: 50,
+              height: 50,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class PaymentBody extends ConsumerWidget {
+  const PaymentBody({
+    super.key,
+    required this.item,
+    required this.data,
+  });
+  final String item;
+  final TablePayV4 data;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rent = data.rentabilityAmount;
+    final DateTime date = DateTime.now();
+    final String percent = data.rentabilityPercent.toStringAsFixed(2);
+    final String dateInfo =
+        "Actualizado ${getMonthName(date.month)}/${date.year}";
+    final List<ProfitabilityItemV4> listPay = [];
+    ProfitabilityItemV4? capitalPay;
+    for (var element in data.profitabilityListMonth) {
+      if (element.isCapitalPayment) {
+        capitalPay = element;
+      } else {
+        listPay.add(element);
+      }
+    }
+
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -82,12 +107,14 @@ class PaymentBody extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const TitleFond(),
+            TitleFond(
+              fundName: data.fundName,
+            ),
             const SizedBox(
               height: 15,
             ),
-            const RentContainer(
-              rent: rent,
+            RentContainer(
+              rent: rent.toString(),
               percent: percent,
               dateInfo: dateInfo,
               isRender: true,
@@ -103,15 +130,26 @@ class PaymentBody extends StatelessWidget {
               children: [
                 const TitleDataV4(),
                 ProfitabilityListV4(
-                  list: list,
+                  list: listPay,
+                  operation: data.operationCode,
+                  bankTransfer: data.bankAccountSender,
                 ),
               ],
             ),
-            const Column(
-              children: [
-                TitleCapitalV4(),
-                CapitalDetail(),
-              ],
+            capitalPay == null
+                ? const SizedBox()
+                : Column(
+                    children: [
+                      const TitleCapitalV4(),
+                      CapitalDetail(
+                        item: capitalPay,
+                        operation: data.operationCode,
+                        bankTransfer: data.bankAccountSender,
+                      ),
+                    ],
+                  ),
+            const SizedBox(
+              height: 20,
             ),
           ],
         ),
@@ -123,11 +161,17 @@ class PaymentBody extends StatelessWidget {
 class CapitalDetail extends ConsumerWidget {
   const CapitalDetail({
     super.key,
+    required this.item,
+    required this.operation,
+    required this.bankTransfer,
   });
-
+  final ProfitabilityItemV4 item;
+  final String operation;
+  final BankAccount? bankTransfer;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.read(isSolesStateProvider);
     const int titleTableDark = 0xffFFFFFF;
     const int titleTableLight = 0xff000000;
     const int borderColorDark = 0xffD0D0D0;
@@ -136,24 +180,18 @@ class CapitalDetail extends ConsumerWidget {
     const int iconLight = 0xff0D3A5C;
 
     void voucherOnPress() {
-      const String title = "Operación #001";
+      final String title = "Operación #$operation";
       const String bankTitle = "Banco a donde te depositamos";
-      const String rent = "S/70.90";
-      const String rentTitle = "Capital a depositar";
-      const String date = "12/Ene/2024";
-      const String dateTitle = "Fecha de pago próximo";
-      const String time = "12:30";
-      final BankAccount bankAccount = BankAccount(
-        id: "1",
-        bankAccount: "234242424244",
-        bankName: "BBVA",
-        currency: "nuevo sol",
-        typeAccount: "cuenta_ahorros",
-        isJointAccount: false,
-        isDefaultAccount: true,
-        bankSlug: "bbva",
-      );
-      print("pon tap voucher");
+      final String rent = isSoles
+          ? formatterSoles.format(item.amount)
+          : formatterUSD.format(item.amount);
+      final String rentTitle =
+          item.isActive ? "Capital pagado" : "Capital a depositar";
+      final String date =
+          "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
+      final String dateTitle =
+          item.isActive ? "Fecha de pago" : "Fecha de pago próximo";
+      final String time = "${item.paymentDate.hour}:${item.paymentDate.minute}";
 
       showCapitalModal(
         context,
@@ -165,11 +203,11 @@ class CapitalDetail extends ConsumerWidget {
           date: date,
           dateTitle: dateTitle,
           time: time,
-          bankAccount: bankAccount,
-          numberAccount: bankAccount.bankAccount,
-          downloadVoucher: "",
+          bankAccount: bankTransfer,
+          numberAccount: "",
+          downloadVoucher: item.voucher ?? "",
         ),
-        isPaid: true,
+        isPaid: item.isActive,
       );
     }
 
@@ -194,8 +232,10 @@ class CapitalDetail extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const TextPoppins(
-            text: "S/10.000",
+          TextPoppins(
+            text: isSoles
+                ? formatterSolesNotComma.format(item.amount)
+                : formatterUSDNotComma.format(item.amount),
             fontSize: 14,
             fontWeight: FontWeight.w500,
             textDark: titleTableDark,
@@ -212,8 +252,9 @@ class CapitalDetail extends ConsumerWidget {
               const SizedBox(
                 width: 5,
               ),
-              const TextPoppins(
-                text: "15 En/2025",
+              TextPoppins(
+                text:
+                    "${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}",
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 textDark: titleTableDark,
@@ -244,9 +285,10 @@ class TitleTable extends ConsumerWidget {
     const int iconLight = 0xff0D3A5C;
     return Row(
       children: [
-        Icon(
-          Icons.table_chart_outlined,
-          size: 20,
+        SvgPicture.asset(
+          "assets/svg_icons/square_half.svg",
+          width: 25,
+          height: 25,
           color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
         ),
         const SizedBox(
@@ -258,6 +300,135 @@ class TitleTable extends ConsumerWidget {
           fontWeight: FontWeight.w500,
         ),
       ],
+    );
+  }
+}
+
+class RentContainer extends ConsumerWidget {
+  const RentContainer({
+    super.key,
+    required this.rent,
+    required this.percent,
+    required this.dateInfo,
+    required this.isRender,
+  });
+  final String rent;
+  final String percent;
+  final String dateInfo;
+  final bool isRender;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.read(isSolesStateProvider);
+
+    const int backgroundDark = 0xffB5FF8A;
+    const int backgroundLight = 0xffD0FFB5;
+    const int dateDark = 0xff0D3A5C;
+    const int dateLight = 0xff0D3A5C;
+    const int percentDark = 0xff109B60;
+    const int percentLight = 0xff109B60;
+    const int percentContainerDark = 0xffA5FD72;
+    const int percentContainerLight = 0xffBDFF97;
+    const int textColor = 0xff000000;
+
+    return Container(
+      padding: const EdgeInsets.all(10),
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: isRender ? 100 : 80,
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/svg_icons/status_up.svg',
+                width: 20,
+                height: 20,
+                color:
+                    isDarkMode ? const Color(dateDark) : const Color(dateLight),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              const TextPoppins(
+                text: "Rentabilidad acumulada",
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                textDark: textColor,
+                textLight: textColor,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextPoppins(
+                text: "+${isSoles ? "S/" : "\$"}$rent ",
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                textDark: textColor,
+                textLight: textColor,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Container(
+                width: 45,
+                height: 20,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? const Color(percentContainerDark)
+                      : const Color(percentContainerLight),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                child: TextPoppins(
+                  text: "+ $percent",
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  textDark: percentDark,
+                  textLight: percentLight,
+                ),
+              ),
+            ],
+          ),
+          if (isRender)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/svg_icons/clock_icon.svg',
+                  width: 20,
+                  height: 20,
+                  color: isDarkMode
+                      ? const Color(dateDark)
+                      : const Color(dateLight),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                TextPoppins(
+                  text: dateInfo,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  textDark: dateDark,
+                  textLight: dateLight,
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 enum InvestmentRoute {
   fundDetail,
@@ -26,30 +28,31 @@ class ScaffoldInvestment extends StatelessWidget {
     this.additionalArgs,
   });
 
-  void _handleNavigation(BuildContext context) {
-    switch (currentRoute) {
-      case InvestmentRoute.step2:
-        Navigator.pushReplacementNamed(
-          context,
-          '/v2/investment/step-1',
-          arguments: {
-            'fund': fundEntity,
-            ...?additionalArgs,
-          },
-        );
-      case InvestmentRoute.step1:
-        Navigator.pushReplacementNamed(
-          context,
-          '/fund_detail',
-          arguments: {'fund': fundEntity},
-        );
-      case InvestmentRoute.fundDetail:
-        Navigator.pushReplacementNamed(
-          context,
-          '/home_v2',
-        );
-    }
-  }
+  // void _handleNavigation(BuildContext context, WidgetRef ref) {
+  //   switch (currentRoute) {
+  //     case InvestmentRoute.step2:
+  //       Navigator.pushReplacementNamed(
+  //         context,
+  //         '/v2/investment/step-1',
+  //         arguments: {
+  //           'fund': fundEntity,
+  //           ...?additionalArgs,
+  //         },
+  //       );
+  //     case InvestmentRoute.step1:
+  //       Navigator.pushReplacementNamed(
+  //         context,
+  //         '/fund_detail',
+  //         arguments: {'fund': fundEntity},
+  //       );
+  //     case InvestmentRoute.fundDetail:
+  //       ref.read(navigatorStateProvider.notifier).state = 3;
+  //       Navigator.pushReplacementNamed(
+  //         context,
+  //         '/v4/home',
+  //       );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +62,25 @@ class ScaffoldInvestment extends StatelessWidget {
         scrolledUnderElevation: 0,
         backgroundColor: backgroundColor,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            color: isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-            Icons.arrow_back,
-          ),
-          onPressed: () => _handleNavigation(context),
+        leading: Consumer(
+          builder: (context, ref, child) {
+            return IconButton(
+              icon: Icon(
+                color: isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+                Icons.arrow_back,
+              ),
+              onPressed: () => {
+                ref.read(navigatorStateProvider.notifier).state = 0,
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/v4/home',
+                  (route) => false,
+                )
+              },
+            );
+          },
         ),
       ),
       body: body,

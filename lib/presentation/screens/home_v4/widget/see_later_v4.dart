@@ -1,27 +1,26 @@
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/show_tour_v4.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SeeLaterWidgetV4 extends ConsumerWidget {
+class SeeLaterWidgetV4 extends StatefulWidget {
   const SeeLaterWidgetV4({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // final seeLater = ref.watch(seeLaterProvider);
-    // final userProfile = ref.watch(userProfileNotifierProvider);
-    // if (seeLater == true && userProfile.hasCompletedTour == false) {
-    //   return Positioned(
-    //     left: 0,
-    //     top: MediaQuery.of(context).size.height * 0.2,
-    //     child: const ShowTourContainer(),
-    //   );
-    // } else {
-    //   return const SizedBox();
-    // }
-    return const ShowTourContainerV4();
+  State<SeeLaterWidgetV4> createState() => _SeeLaterWidgetV4State();
+}
+
+class _SeeLaterWidgetV4State extends State<SeeLaterWidgetV4> {
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: Preferences.tourHomeNotifier,
+      builder: (context, tourHome, child) {
+        return tourHome ? const ShowTourContainerV4() : const SizedBox();
+      },
+    );
   }
 }
 

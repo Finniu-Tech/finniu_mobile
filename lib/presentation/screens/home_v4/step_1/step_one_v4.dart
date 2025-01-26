@@ -9,10 +9,13 @@ import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/nabbar_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
@@ -28,7 +31,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class StepOneV4 extends StatelessWidget {
-  const StepOneV4({super.key});
+  const StepOneV4({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,57 +51,40 @@ class StepOneBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    const String fundUUID = "cbeff767-93f6-493f-9a55-faf5c380b0f9";
-    const int titleDark = 0xffA2E6FA;
-    const int titleLight = 0xff0D3A5C;
-    const int textDark = 0xffFFFFFF;
-    const int textLight = 0xff0D3A5C;
-
+    final product = ModalRoute.of(context)!.settings.arguments as ProductData;
+    print('product  xxx${product.toJson()}');
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height < 700
-            ? 650
-            : MediaQuery.of(context).size.height - 80,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             FundRowStep(
-              icon: args.imageProduct,
+              icon: product.imageProduct,
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 14),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               child: TextPoppins(
-                text: args.titleText,
+                text: product.titleText,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 lines: 2,
                 align: TextAlign.start,
-                textDark: titleDark,
-                textLight: titleLight,
+                textDark: product.style.titleDark,
+                textLight: product.style.textLight,
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 10),
             const TextPoppins(
               text: "Completa los siguientes datos",
               fontSize: 14,
               fontWeight: FontWeight.w500,
               align: TextAlign.start,
-              textDark: textDark,
-              textLight: textLight,
             ),
             FormStepOne(
-              formKey: formKey,
-              fundUuid: fundUUID,
+              product: product,
             ),
           ],
         ),
@@ -106,30 +94,50 @@ class StepOneBody extends StatelessWidget {
 }
 
 class FormStepOne extends HookConsumerWidget {
+  final ProductData product;
+  static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   const FormStepOne({
     super.key,
-    required this.formKey,
-    required this.fundUuid,
+    required this.product,
   });
-  final GlobalKey<FormState> formKey;
-  final String fundUuid;
+
+  int parseMoneyString(String? moneyString) {
+    if (moneyString == null || moneyString.isEmpty) return 0;
+
+    // Remover todos los caracteres no numéricos excepto punto y coma
+    String cleanString = moneyString.replaceAll(RegExp(r'[^0-9.,]'), '');
+
+    // Remover comas
+    cleanString = cleanString.replaceAll(',', '');
+
+    // Si hay punto decimal, tomar solo la parte entera
+    if (cleanString.contains('.')) {
+      cleanString = cleanString.split('.')[0];
+    }
+
+    // Convertir a entero
+    return int.tryParse(cleanString) ?? 0;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSoles = ref.watch(isSolesStateProvider);
-
+    final isSoles = ref.read(isSolesStateProvider);
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     final timeController = useTextEditingController();
     final originController = useTextEditingController();
     final originOtherController = useTextEditingController();
     final amountController = useTextEditingController();
     final couponController = useTextEditingController();
     final ValueNotifier<bool> timeError = useState(false);
-    final ValueNotifier<bool> originError = useState(false);
     final ValueNotifier<bool> amountError = useState(false);
     final ValueNotifier<bool> couponError = useState(false);
+    final ValueNotifier<bool> originError = useState(false);
     final ValueNotifier<bool> originOtherError = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
-    const List<String> optionsTime = ["6 meses", "12 meses", "24 meses"];
+    final List<String> optionsTime = product.titleText == "Fondo inversiones empresariales"
+        ? ["6 meses", "12 meses", "24 meses"]
+        : ["12 meses", "24 meses", "36 meses"];
     const List<String> optionsOrigin = [
       "Salario",
       "Ahorros",
@@ -174,6 +182,7 @@ class FormStepOne extends HookConsumerWidget {
           ),
           currency: isSoles ? currencyNuevoSol : currencyDollar,
           coupon: couponController.text,
+          fundUuid: product.uuid,
         );
         planSimulation.value = await pushCupon(
           inputCalculator: inputCalculator,
@@ -192,7 +201,60 @@ class FormStepOne extends HookConsumerWidget {
       context.loaderOverlay.hide();
     }
 
-    void onPressSimulator() {
+    Future<void> _handleCompleteProfile({
+      required BuildContext context,
+      required WidgetRef ref,
+      required ProductData product,
+      required TextEditingController amountController,
+      required TextEditingController timeController,
+      required TextEditingController couponController,
+      required bool isSoles,
+      required TextEditingController originController,
+      required TextEditingController originOtherController,
+    }) async {
+      try {
+        context.loaderOverlay.show();
+        Navigator.pop(context);
+
+        final response = await savePreInvestment(
+          context,
+          ref,
+          SaveCorporateInvestmentInput(
+            amount: amountController.text,
+            months: timeController.text.split(' ')[0],
+            coupon: couponController.text,
+            currency: isSoles ? currencyNuevoSol : currencyDollar,
+            originFunds: OriginFunds(
+              originFundsEnum: OriginFoundsUtil.fromReadableName(
+                originController.text,
+              ),
+              otherText: originOtherController.text,
+            ),
+            fundUUID: product.uuid,
+          ),
+        );
+
+        navigateToNext(
+          success: response.success,
+          ref: ref,
+          context: context,
+          uuid: response.preInvestmentUUID ?? '',
+          amount: amountController.text,
+          productData: product,
+        );
+      } catch (e, _) {
+        context.loaderOverlay.hide();
+        showSnackBarV2(
+          context: context,
+          title: "Error",
+          message: "Ocurrió un error al procesar la inversión",
+          snackType: SnackType.error,
+        );
+      }
+    }
+
+    Future<void> onPressSimulator() async {
+      print('on press simulator xxxx');
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.formValidateError,
@@ -215,40 +277,53 @@ class FormStepOne extends HookConsumerWidget {
         if (originError.value) return;
         if (originOtherError.value) return;
 
+        final profileCompletenessAsync = await ref.read(userProfileCompletenessProvider.future);
+
         investmentSimulationModal(
           context,
           startingAmount: int.parse(amountController.text),
           finalAmount: int.parse(amountController.text),
           mouthInvestment: int.parse(timeController.text.split(' ')[0]),
+          fundUUID: product.uuid,
           coupon: couponController.text,
           toInvestPressed: () async {
-            context.loaderOverlay.show();
-            Navigator.pop(context);
-            final response = await savePreInvestment(
-              context,
-              ref,
-              SaveCorporateInvestmentInput(
-                amount: amountController.text,
-                months: timeController.text.split(' ')[0],
-                coupon: couponController.text,
-                currency: isSoles ? currencyNuevoSol : currencyDollar,
-                originFunds: OriginFunds(
-                  originFundsEnum: OriginFoundsUtil.fromReadableName(
-                    originController.text,
-                  ),
-                  otherText: originOtherController.text,
-                ),
-                fundUUID: fundUuid,
-              ),
-            );
-            context.loaderOverlay.hide();
-            navigateToNext(
-              success: response.success,
-              ref: ref,
-              context: context,
-              uuid: response.preInvestmentUUID ?? '',
-              amount: amountController.text,
-            );
+            try {
+              if (!profileCompletenessAsync.isComplete()) {
+                Navigator.pop(context);
+                showVerifyIdentity(
+                  context,
+                  profileCompletenessAsync,
+                  redirect: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/v4/step_one',
+                      arguments: product,
+                      (route) => false,
+                    );
+                  },
+                );
+              } else {
+                await _handleCompleteProfile(
+                  context: context,
+                  ref: ref,
+                  product: product,
+                  amountController: amountController,
+                  timeController: timeController,
+                  couponController: couponController,
+                  isSoles: isSoles,
+                  originController: originController,
+                  originOtherController: originOtherController,
+                );
+              }
+            } catch (e, _) {
+              Navigator.pop(context);
+              showSnackBarV2(
+                context: context,
+                title: "Error",
+                message: "Ocurrió un error inesperado",
+                snackType: SnackType.error,
+              );
+            }
           },
           recalculatePressed: () => {
             Navigator.pop(context),
@@ -257,197 +332,199 @@ class FormStepOne extends HookConsumerWidget {
       }
     }
 
+    useEffect(
+      () {
+        Future.microtask(() {
+          ref.read(nabbarProvider.notifier).updateNabbar(
+                NabbarProvider(title: "Simular", onTap: onPressSimulator),
+              );
+        });
+
+        return null;
+      },
+      [],
+    );
+
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height - 250,
-        child: Column(
-          children: [
-            const SizedBox(height: 25),
-            ValueListenableBuilder<bool>(
-              valueListenable: amountError,
-              builder: (context, isError, child) {
-                return InputTextFileInvest(
-                  title: "  Monto  ",
-                  isNumeric: true,
-                  controller: amountController,
-                  isError: isError,
-                  onError: () => amountError.value = false,
-                  hintText: "Ingrese su monto de inversión",
-                  validator: (value) {
-                    validateNumberMin(
-                      value: value,
-                      field: "Monto",
-                      context: context,
-                      boolNotifier: amountError,
-                      minValue: 1000,
-                    );
+      child: Column(
+        children: [
+          const SizedBox(height: 25),
+          ValueListenableBuilder<bool>(
+            valueListenable: amountError,
+            builder: (context, isError, child) {
+              return InputTextFileInvest(
+                title: "  Monto  ",
+                isNumeric: true,
+                controller: amountController,
+                isError: isError,
+                onError: () => amountError.value = false,
+                hintText: "Ingrese su monto de inversión",
+                validator: (value) {
+                  validateNumberMin(
+                    isSoles: isSoles,
+                    value: value,
+                    field: "Monto",
+                    context: context,
+                    boolNotifier: amountError,
+                    minValue: isSoles
+                        ? parseMoneyString(product.minimumTextPEN).toDouble()
+                        : parseMoneyString(product.minimumTextUSD).toDouble(),
+                  );
 
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 25),
+          ValueListenableBuilder<bool>(
+            valueListenable: timeError,
+            builder: (context, isError, child) {
+              return SelecDropdownInvest(
+                isDarkMode: isDarkMode,
+                isError: isError,
+                onError: () => timeError.value = false,
+                itemSelectedValue: timeController.text,
+                title: "  Plazo  ",
+                hintText: "Seleccione su plazo de inversión",
+                selectController: timeController,
+                options: optionsTime,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Plazo obligatorio",
+                      message: "Por favor, completa el Plazo.",
+                      snackType: SnackType.warning,
+                    );
+                    timeError.value = true;
                     return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 25),
-            ValueListenableBuilder<bool>(
-              valueListenable: timeError,
-              builder: (context, isError, child) {
-                return SelecDropdownInvest(
-                  isError: isError,
-                  onError: () => timeError.value = false,
-                  itemSelectedValue: timeController.text,
-                  title: "  Plazo  ",
-                  hintText: "Seleccione su plazo de inversión",
-                  selectController: timeController,
-                  options: optionsTime,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "Plazo obligatorio",
-                        message: "Por favor, completa el Plazo.",
-                        snackType: SnackType.warning,
-                      );
-                      timeError.value = true;
-                      return null;
-                    }
+                  }
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 25),
+          ValueListenableBuilder<bool>(
+            valueListenable: originError,
+            builder: (context, isError, child) {
+              return SelecDropdownInvest(
+                isDarkMode: isDarkMode,
+                isError: isError,
+                onError: () => originError.value = false,
+                itemSelectedValue: originController.text,
+                title: "  Origen de procedencia  ",
+                hintText: "Seleccione origen",
+                selectController: originController,
+                options: optionsOrigin,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Origen obligatorio",
+                      message: "Por favor, completa el Origen.",
+                      snackType: SnackType.warning,
+                    );
+                    originError.value = true;
                     return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 25),
-            ValueListenableBuilder<bool>(
-              valueListenable: originError,
-              builder: (context, isError, child) {
-                return SelecDropdownInvest(
-                  isError: isError,
-                  onError: () => originError.value = false,
-                  itemSelectedValue: originController.text,
-                  title: "  Origen de procedencia  ",
-                  hintText: "Seleccione origen",
-                  selectController: originController,
-                  options: optionsOrigin,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "Origen obligatorio",
-                        message: "Por favor, completa el Origen.",
-                        snackType: SnackType.warning,
-                      );
-                      originError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            originController.text == "Otros"
-                ? const SizedBox(height: 25)
-                : const SizedBox(),
-            originController.text == "Otros"
-                ? ValueListenableBuilder<bool>(
-                    valueListenable: originOtherError,
-                    builder: (context, isError, child) {
-                      return InputTextFileInvest(
-                        title: " Otro origen  ",
-                        controller: originOtherController,
-                        isError: isError,
-                        onError: () => originOtherError.value = false,
-                        hintText: "Ingrese su origen",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            showSnackBarV2(
-                              context: context,
-                              title: "Origen obligatorio",
-                              message: "Por favor, completa el Origen.",
-                              snackType: SnackType.warning,
-                            );
-                            originError.value = true;
-                            return null;
-                          }
-                          return null;
-                        },
-                      );
-                    },
-                  )
-                : const SizedBox(),
-            const SizedBox(height: 25),
-            Stack(
-              children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: couponError,
+                  }
+                  return null;
+                },
+              );
+            },
+          ),
+          originController.text == "Otros" ? const SizedBox(height: 25) : const SizedBox(),
+          originController.text == "Otros"
+              ? ValueListenableBuilder<bool>(
+                  valueListenable: originOtherError,
                   builder: (context, isError, child) {
                     return InputTextFileInvest(
-                      title: "  Si es que tienes un cupón  ",
-                      isNumeric: true,
-                      controller: couponController,
+                      title: " Otro origen  ",
+                      controller: originOtherController,
                       isError: isError,
-                      onError: () => couponError.value = false,
-                      hintText: "Ingresa tu cupón",
-                      validator: (p0) {
+                      onError: () => originOtherError.value = false,
+                      hintText: "Ingrese su origen",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          showSnackBarV2(
+                            context: context,
+                            title: "Origen obligatorio",
+                            message: "Por favor, completa el Origen.",
+                            snackType: SnackType.warning,
+                          );
+                          originError.value = true;
+                          return null;
+                        }
                         return null;
                       },
                     );
                   },
-                ),
-                Positioned(
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: onPressCupon,
-                    child: Center(
-                      child: Container(
-                        width: 100,
-                        height: 48,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color(buttonBorder),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
-                          ),
-                          color: const Color(buttonBack),
+                )
+              : const SizedBox(),
+          const SizedBox(height: 25),
+          Stack(
+            children: [
+              ValueListenableBuilder<bool>(
+                valueListenable: couponError,
+                builder: (context, isError, child) {
+                  return InputTextFileInvest(
+                    title: "  Si es que tienes un cupón  ",
+                    isNumeric: false,
+                    controller: couponController,
+                    isError: isError,
+                    onError: () => couponError.value = false,
+                    hintText: "Ingresa tu cupón",
+                    validator: (p0) {
+                      return null;
+                    },
+                  );
+                },
+              ),
+              Positioned(
+                right: 0,
+                child: GestureDetector(
+                  onTap: onPressCupon,
+                  child: Center(
+                    child: Container(
+                      width: 100,
+                      height: 48,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color(buttonBorder),
+                          width: 1,
                         ),
-                        child: const TextPoppins(
-                          text: "Aplicarlo",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          textDark: buttonText,
-                          textLight: buttonText,
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
                         ),
+                        color: const Color(buttonBack),
+                      ),
+                      child: const TextPoppins(
+                        text: "Aplicarlo",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        textDark: buttonText,
+                        textLight: buttonText,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 25),
-            if (planSimulation.value != null)
-              CuponApliyRow(
-                planSimulation: planSimulation,
-                isSoles: isSoles,
-              )
-            else
-              const SizedBox(),
-            ButtonInvestment(
-              text: "Simular",
-              onPressed: onPressSimulator,
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 25),
+        ],
       ),
     );
   }
 }
 
-class CuponApliyRow extends StatelessWidget {
-  const CuponApliyRow({
+class CouponApplyRow extends StatelessWidget {
+  const CouponApplyRow({
     super.key,
     required this.planSimulation,
     required this.isSoles,
@@ -483,8 +560,7 @@ class CuponApliyRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text:
-                      '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
+                  text: '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,
@@ -525,10 +601,8 @@ class CuponApliyRow extends StatelessWidget {
               children: [
                 TextPoppins(
                   text: isSoles
-                      ? formatterSoles
-                          .format(planSimulation.value?.profitability)
-                      : formatterUSD
-                          .format(planSimulation.value?.profitability),
+                      ? formatterSoles.format(planSimulation.value?.profitability)
+                      : formatterUSD.format(planSimulation.value?.profitability),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,

@@ -1,4 +1,4 @@
-import 'package:finniu/domain/entities/user_all_investment_entity.dart';
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/user_info_all_investment.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
@@ -17,28 +17,27 @@ class TabBarBusinessV4 extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
-    final userInvestment = ref.watch(userInfoAllInvestmentFutureProvider);
+    final userInvestment = ref.watch(userInfoAllInvestmentV4FutureProvider);
     final tabController = useTabController(
-      initialLength: 4,
+      initialLength: 3,
       initialIndex: isReinvest == true ? 1 : 0,
     );
     final currentIndex = useState(0);
-    useEffect(
-      () {
-        void listener() {
-          currentIndex.value = tabController.index;
-        }
+    final initeState = useState(true);
 
-        tabController.addListener(listener);
-        return () => tabController.removeListener(listener);
-      },
-      [tabController],
-    );
+    List<InvestmentV4> userToValidateList = [];
+    List<InvestmentV4> userInProgressList = [];
+    List<InvestmentV4> userCompletedList = [];
+    useEffect(() {
+      void listener() {
+        currentIndex.value = tabController.index;
+      }
 
-    List<Investment> userInPendingList = [];
-    List<Investment> userToValidateList = [];
-    List<Investment> userInProgressList = [];
-    List<Investment> userCompletedList = [];
+      tabController.addListener(listener);
+      return () => tabController.removeListener(listener);
+    }, [
+      tabController,
+    ]);
 
     return userInvestment.when(
       data: (data) {
@@ -46,44 +45,31 @@ class TabBarBusinessV4 extends HookConsumerWidget {
           userToValidateList =
               data?.investmentInSoles.investmentInProcess ?? [];
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
-          userInPendingList = data?.investmentInSoles.investmentPending ?? [];
-          data?.investmentInSoles.investmentFinished.forEach((element) {
-            userCompletedList.add(element);
-            if (element.rentability != null) {
-              userCompletedList.add(
-                Investment(
-                  uuid: element.uuid,
-                  amount: element.rentability!,
-                  finishDateInvestment: element.finishDateInvestment,
-                  rentability: element.rentability,
-                  isCapital: false,
-                  boucherImage: null,
-                ),
-              );
-            }
-          });
+          userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
         } else {
           userToValidateList =
               data?.investmentInDolares.investmentInProcess ?? [];
           userInProgressList =
               data?.investmentInDolares.investmentInCourse ?? [];
-          userInPendingList = data?.investmentInDolares.investmentPending ?? [];
-          data?.investmentInDolares.investmentFinished.forEach((element) {
-            userCompletedList.add(element);
-            if (element.rentability != null) {
-              userCompletedList.add(
-                Investment(
-                  uuid: element.uuid,
-                  amount: element.rentability!,
-                  finishDateInvestment: element.finishDateInvestment,
-                  rentability: element.rentability,
-                  isCapital: false,
-                  boucherImage: element.boucherImage,
-                ),
-              );
-            }
-          });
+          userCompletedList =
+              data?.investmentInDolares.investmentFinished ?? [];
         }
+        if (userToValidateList.isNotEmpty && initeState.value) {
+          initeState.value = false;
+          currentIndex.value = 0;
+        } else if (userInProgressList.isNotEmpty && initeState.value) {
+          initeState.value = false;
+          currentIndex.value = 1;
+        } else if (userCompletedList.isNotEmpty && initeState.value) {
+          initeState.value = false;
+          currentIndex.value = 2;
+        }
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (tabController.index != currentIndex.value) {
+            tabController.animateTo(currentIndex.value);
+          }
+        });
 
         return SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -91,12 +77,11 @@ class TabBarBusinessV4 extends HookConsumerWidget {
             children: [
               TabBar(
                 labelPadding: const EdgeInsets.symmetric(horizontal: 5),
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 dividerColor: Colors.transparent,
                 indicatorColor: Colors.transparent,
                 overlayColor: WidgetStateProperty.all(Colors.transparent),
                 controller: tabController,
-                isScrollable: true,
                 tabs: [
                   ButtonHistory(
                     isSelected: currentIndex.value == 0,
@@ -108,10 +93,6 @@ class TabBarBusinessV4 extends HookConsumerWidget {
                   ),
                   ButtonHistory(
                     isSelected: currentIndex.value == 2,
-                    text: 'Pendientes',
-                  ),
-                  ButtonHistory(
-                    isSelected: currentIndex.value == 3,
                     text: 'Finalizadas',
                   ),
                 ],
@@ -119,7 +100,7 @@ class TabBarBusinessV4 extends HookConsumerWidget {
               const SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.5,
                 alignment: Alignment.topCenter,
                 child: TabBarView(
                   controller: tabController,
@@ -128,9 +109,6 @@ class TabBarBusinessV4 extends HookConsumerWidget {
                       list: userToValidateList,
                     ),
                     InProgressListV4(list: userInProgressList),
-                    CompletListV4(
-                      list: userInPendingList,
-                    ),
                     CompletListV4(list: userCompletedList),
                   ],
                 ),

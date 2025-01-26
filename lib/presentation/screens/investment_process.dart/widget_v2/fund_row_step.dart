@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,8 +8,10 @@ class FundRowStep extends ConsumerWidget {
   const FundRowStep({
     super.key,
     required this.icon,
+    this.isLoader = false,
   });
   final String icon;
+  final bool isLoader;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -32,9 +35,7 @@ class FundRowStep extends ConsumerWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: isDarkMode
-                    ? const Color(containerDark)
-                    : const Color(containerLight),
+                color: isDarkMode ? const Color(containerDark) : const Color(containerLight),
               ),
               child: const Row(
                 children: [
@@ -56,18 +57,27 @@ class FundRowStep extends ConsumerWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
+                  color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Center(
-                  child: TextPoppins(
-                    text: icon,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                    child: isLoader
+                        ? const CircularLoader(
+                            width: 24,
+                            height: 24,
+                          )
+                        : Image.network(
+                            icon,
+                            width: 24,
+                            height: 24,
+                            fit: BoxFit.contain,
+                          )
+                    // : TextPoppins(
+                    //     text: icon,
+                    //     fontSize: 24,
+                    //     fontWeight: FontWeight.w600,
+                    //   ),
+                    ),
                 // child: Image.asset(
                 //   urlIcon,
                 // ),
@@ -81,9 +91,7 @@ class FundRowStep extends ConsumerWidget {
             height: 5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: isDarkMode
-                  ? const Color(dividerDark)
-                  : const Color(dividerLight),
+              color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
             ),
           ),
         ),

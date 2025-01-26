@@ -85,6 +85,86 @@ class TermConditionsStep extends ConsumerWidget {
   }
 }
 
+class TermConditionsStepReinvest extends ConsumerWidget {
+  const TermConditionsStepReinvest({
+    super.key,
+    required this.conditions,
+    required this.uuid,
+  });
+  final String uuid;
+  final ValueNotifier<bool> conditions;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int textDark = 0xffFFFFFF;
+    const int textLight = 0xff0D3A5C;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        CheckBoxWidget(
+          value: conditions.value,
+          onChanged: (value) {
+            conditions.value = conditions.value ? false : true;
+          },
+        ),
+        GestureDetector(
+          onTap: () async {
+            String contractURL = await ContractDataSourceImp().getContract(
+              uuid: uuid,
+              client: ref.watch(gqlClientProvider).value!,
+            );
+
+            if (contractURL.isNotEmpty) {
+              conditions.value = true;
+
+              Navigator.pushNamed(
+                context,
+                '/contract_view',
+                arguments: {
+                  'contractURL': contractURL,
+                },
+              );
+            }
+          },
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Text.rich(
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              TextSpan(
+                text: "He leído y acepto el ",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  color: isDarkMode
+                      ? const Color(textDark)
+                      : const Color(textLight),
+                ),
+                children: [
+                  TextSpan(
+                    text: 'Contrato de Inversión de Finniu',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: isDarkMode
+                          ? const Color(textDark)
+                          : const Color(textLight),
+                    ),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class TextRickStep extends ConsumerWidget {
   const TextRickStep({
     super.key,

@@ -54,10 +54,7 @@ class FundInfoSlider extends StatelessWidget {
     //   {"x": "Feb", "y": 40},
     //   {"x": "Mar", "y": 50},
     // ];
-
     final netWorthFormattedData = formatNetWorthData(netWorthData!);
-    print('netWorthFormattedData: $netWorthFormattedData');
-
     final items = [
       ManagedAssets(
         investmentsText: totalAssetsUnderManagement.toInt(),

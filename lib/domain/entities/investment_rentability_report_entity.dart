@@ -1,10 +1,25 @@
+class LabelDetail {
+  final String label;
+  final int containerColorDark;
+  final int containerColorLight;
+  final int textColorDark;
+  final int textColorLight;
+
+  LabelDetail({
+    required this.label,
+    required this.containerColorDark,
+    required this.containerColorLight,
+    required this.textColorDark,
+    required this.textColorLight,
+  });
+}
+
 class StatusInvestmentEnum {
   static const String in_course = 'active';
   static const String finished = 'finished';
   static const String pending = 'pending';
   static const String in_process = 'in_process';
 
-  //add a compare method , that compares a given string with the enum , it proves in lowercase
   static bool compare(String given, String targetStatus) {
     return given.toLowerCase() == targetStatus.toLowerCase();
   }
@@ -21,6 +36,51 @@ class StatusInvestmentEnum {
         return 'Finalizada';
       default:
         return 'En curso';
+    }
+  }
+
+  static LabelDetail getColorForStatus(String status) {
+    switch (status) {
+      case 'En curso':
+        return LabelDetail(
+          label: 'En curso',
+          containerColorDark: 0xff55B63D,
+          containerColorLight: 0xff55B63D,
+          textColorDark: 0xffFFFFFF,
+          textColorLight: 0xffFFFFFF,
+        );
+      case 'Por validar':
+        return LabelDetail(
+          label: 'Por validar',
+          containerColorDark: 0xff0D3A5C,
+          containerColorLight: 0xffA2E6FA,
+          textColorDark: 0xffA2E6FA,
+          textColorLight: 0xff0D3A5C,
+        );
+      case 'Pendiente':
+        return LabelDetail(
+          label: 'En curso',
+          containerColorDark: 0xff55B63D,
+          containerColorLight: 0xff55B63D,
+          textColorDark: 0xffFFFFFF,
+          textColorLight: 0xffFFFFFF,
+        );
+      case 'Finalizada':
+        return LabelDetail(
+          label: 'Finalizada',
+          containerColorDark: 0xffAB6BFF,
+          containerColorLight: 0xffAB6BFF,
+          textColorDark: 0xffFFFFFF,
+          textColorLight: 0xffFFFFFF,
+        );
+      default:
+        return LabelDetail(
+          label: 'Por validar',
+          containerColorDark: 0xff0D3A5C,
+          containerColorLight: 0xffA2E6FA,
+          textColorDark: 0xffA2E6FA,
+          textColorLight: 0xff0D3A5C,
+        );
     }
   }
 }

@@ -67,4 +67,15 @@ class UserProfileCompleteness {
 
     return null;
   }
+
+  toJson() {
+    return {
+      'personalDataComplete': personalDataComplete,
+      'locationComplete': locationComplete,
+      'occupationComplete': occupationComplete,
+      'legalTermsCompleteness': legalTermsCompleteness,
+      'profileComplete': profileComplete,
+      'completionPercentage': completionPercentage,
+    };
+  }
 }

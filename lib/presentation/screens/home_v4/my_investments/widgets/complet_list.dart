@@ -1,6 +1,6 @@
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
-import 'package:finniu/domain/entities/user_all_investment_entity.dart';
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
@@ -9,10 +9,11 @@ import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart
 import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CompletListV4 extends ConsumerWidget {
-  final List<Investment> list;
+  final List<InvestmentV4> list;
   const CompletListV4({super.key, required this.list});
 
   @override
@@ -21,7 +22,7 @@ class CompletListV4 extends ConsumerWidget {
       // width: 336,
       child: list.isEmpty
           ? const NoInvestmentCase(
-              title: "Aún no tienes inversiones en curso",
+              title: "Aún no tienes inversiones finalizadas",
               textBody:
                   "Recuerda que vas a poder visualizar tus inversiones finalizadas cuando finaliza el plazo de tu inversión",
             )
@@ -37,15 +38,15 @@ class CompletListV4 extends ConsumerWidget {
                         parameters: {
                           "screen": FirebaseScreen.investmentV2,
                           "navigate_to": FirebaseScreen.summaryV2,
-                          "status": StatusInvestmentEnum.in_process,
+                          "status": StatusInvestmentEnum.finished,
                         },
                       );
                       Navigator.pushNamed(
                         context,
-                        '/v2/summary',
+                        '/v4/detail_invest',
                         arguments: ArgumentsNavigator(
                           uuid: list[index].uuid,
-                          status: StatusInvestmentEnum.in_process,
+                          status: StatusInvestmentEnum.finished,
                         ),
                       );
                     },
@@ -65,7 +66,7 @@ class CompleteItemV4 extends ConsumerWidget {
     super.key,
     required this.item,
   });
-  final Investment item;
+  final InvestmentV4 item;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -76,7 +77,7 @@ class CompleteItemV4 extends ConsumerWidget {
         vertical: 10,
       ),
       width: MediaQuery.of(context).size.width * 0.9,
-      height: 140,
+      height: item.paymentRentability.isEmpty ? 100 : 140,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
@@ -89,12 +90,15 @@ class CompleteItemV4 extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const TextPoppins(
-                text: "Inversión fondo empresarial ++",
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                textDark: ToValidateColorsV4.fundTitleDark,
-                textLight: ToValidateColorsV4.fundTitleLight,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.45,
+                child: TextPoppins(
+                  text: item.fundName ?? "Inversion",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  textDark: ToValidateColorsV4.fundTitleDark,
+                  textLight: ToValidateColorsV4.fundTitleLight,
+                ),
               ),
               const Spacer(),
               Icon(
@@ -189,16 +193,15 @@ class CompleteItemV4 extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.show_chart,
-                            size: 12,
+                          SvgPicture.asset(
+                            "assets/svg_icons/rent_icon.svg",
+                            width: 14,
+                            height: 14,
                             color: isDarkMode
                                 ? const Color(
-                                    ToValidateColorsV4.itemRentTextDark,
-                                  )
+                                    ToValidateColorsV4.itemRentTextDark)
                                 : const Color(
-                                    ToValidateColorsV4.itemRentTextLight,
-                                  ),
+                                    ToValidateColorsV4.itemRentTextLight),
                           ),
                           const SizedBox(
                             width: 5,
@@ -248,26 +251,53 @@ class CompleteItemV4 extends ConsumerWidget {
               ),
             ],
           ),
-          Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            height: 30,
-            decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(ToValidateColorsV4.completeButtonDark)
-                  : const Color(ToValidateColorsV4.completeButtonLight),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            child: const TextPoppins(
-              text: "Ver mi tabla de pagos",
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              textDark: ToValidateColorsV4.completeTextDark,
-              textLight: ToValidateColorsV4.completeTextLight,
-            ),
-          ),
+          item.paymentRentability.isEmpty
+              ? const SizedBox()
+              : GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    '/v4/payment_schedule',
+                    arguments: item.uuid,
+                  ),
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: isDarkMode
+                          ? const Color(ToValidateColorsV4.completeButtonDark)
+                          : const Color(ToValidateColorsV4.completeButtonLight),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg_icons/square_half.svg",
+                          width: 20,
+                          height: 20,
+                          color: isDarkMode
+                              ? const Color(
+                                  ToValidateColorsV4.completeButtonLight)
+                              : const Color(
+                                  ToValidateColorsV4.completeButtonDark),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const TextPoppins(
+                          text: "Ver mi tabla de pagos",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          textDark: ToValidateColorsV4.completeTextDark,
+                          textLight: ToValidateColorsV4.completeTextLight,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
         ],
       ),
     );

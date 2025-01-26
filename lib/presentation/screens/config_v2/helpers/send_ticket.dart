@@ -62,7 +62,7 @@ Future<bool?> sendTicketSupport(
       );
       Navigator.pushNamedAndRemoveUntil(
         context,
-        '/home_v2',
+        '/v4/home',
         (route) => false,
       );
       return value;

@@ -1,10 +1,10 @@
-import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
+import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
+import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/detail_invest_v4.dart';
+import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/re_invest_container.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/title_simulator.dart';
 import 'package:flutter/material.dart';
 
 class LoaderContainer extends StatelessWidget {
@@ -33,8 +33,10 @@ class LoaderContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TitleModal(
-              status: status,
+            TitleModalV4(
+              status: StatusInvestmentEnum.getLabelForStatus(
+                status,
+              ),
             ),
             const SizedBox(height: 10),
             const IconFund(),
@@ -45,10 +47,12 @@ class LoaderContainer extends StatelessWidget {
               isLoading: true,
             ),
             const SizedBox(height: 15),
-            const RowButtons(
+            RowOperationAndVoucher(
+              isDarkMode: isDarkMode,
               voucher: "",
-              contract: "",
+              operation: "",
             ),
+            const SizedBox(height: 15),
             const SizedBox(height: 15),
             const TermProfitabilityRow(
               month: null,
@@ -61,11 +65,6 @@ class LoaderContainer extends StatelessWidget {
                 width: 140,
                 height: 140,
               ),
-            ),
-            const SizedBox(height: 15),
-            const SizedBox(height: 15),
-            const InvestmentEnds(
-              finalDate: null,
             ),
           ],
         ),

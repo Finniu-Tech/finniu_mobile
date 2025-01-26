@@ -55,13 +55,16 @@ class BodyModalBenefits extends ConsumerWidget {
     const backgroundDark = 0xff0E0E0E;
     const backgroundLight = 0xffFFFFFF;
 
-    final benefitListAsyncValue = ref.watch(benefitListFutureProvider(fundUUID));
+    final benefitListAsyncValue =
+        ref.watch(benefitListFutureProvider(fundUUID));
 
     return Dialog(
       insetPadding: const EdgeInsets.all(15),
       child: Container(
         decoration: BoxDecoration(
-          color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+          color: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
@@ -78,23 +81,25 @@ class BodyModalBenefits extends ConsumerWidget {
               Expanded(
                 child: benefitListAsyncValue.when(
                   data: (benefitList) {
-                    print('benefitList: ${benefitList[0].toJson()}');
-                    print('get background color: ${benefitList[0].getHexBackgroundColorDark}');
                     final gridItems = benefitList
                         .map(
                           (benefit) => GridItem(
                             image: benefit.iconUrl,
                             text: benefit.title,
-                            backgroundColorDark: benefit.getHexBackgroundColorDark,
-                            backgroundColorLight: benefit.getHexBackgroundColorLight,
+                            backgroundColorDark:
+                                benefit.getHexBackgroundColorDark,
+                            backgroundColorLight:
+                                benefit.getHexBackgroundColorLight,
                           ),
                         )
                         .toList();
 
                     return GridContainer(items: gridItems);
                   },
-                  loading: () => const Center(child: CircularProgressIndicator()),
-                  error: (error, stackTrace) => Center(child: Text('Error: $error')),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stackTrace) =>
+                      Center(child: Text('Error: $error')),
                 ),
               ),
             ],
@@ -196,7 +201,9 @@ class GridContainer extends ConsumerWidget {
           return Container(
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-              color: isDarkMode ? Color(item.backgroundColorDark) : Color(item.backgroundColorLight),
+              color: isDarkMode
+                  ? Color(item.backgroundColorDark)
+                  : Color(item.backgroundColorLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(15),
               ),
@@ -213,7 +220,9 @@ class GridContainer extends ConsumerWidget {
                   item.text,
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDarkMode ? const Color(0xffFFFFFF) : const Color(0xff000000),
+                    color: isDarkMode
+                        ? const Color(0xffFFFFFF)
+                        : const Color(0xff000000),
                     fontWeight: FontWeight.bold,
                   ),
                   maxLines: 3,
@@ -246,7 +255,8 @@ class TextTitle extends ConsumerWidget {
         Text(
           "Beneficios",
           style: TextStyle(
-            color: isDarkMode ? const Color(colorDark) : const Color(colorLight),
+            color:
+                isDarkMode ? const Color(colorDark) : const Color(colorLight),
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -279,7 +289,9 @@ class CloseButton extends ConsumerWidget {
               child: Icon(
                 Icons.add_circle_outline,
                 size: 25,
-                color: isDarkMode ? const Color(colorDark) : const Color(colorLight),
+                color: isDarkMode
+                    ? const Color(colorDark)
+                    : const Color(colorLight),
               ),
             ),
           ),

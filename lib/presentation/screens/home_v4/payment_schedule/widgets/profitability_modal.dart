@@ -1,13 +1,14 @@
 import 'dart:ui';
-
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/constants/colors/select_bank_account.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:math' as math;
 
@@ -20,8 +21,8 @@ class ProfModal {
   final String dateTitle;
   final String time;
   final String numberAccount;
-  final String? downloadVoucher;
-  final BankAccount bankAccount;
+  final String downloadVoucher;
+  final BankAccount? bankAccount;
   const ProfModal({
     required this.title,
     required this.bankTitle,
@@ -36,8 +37,10 @@ class ProfModal {
   });
 }
 
-void showProfitabilityModal(BuildContext context,
-    {required ProfModal profModal}) {
+void showProfitabilityModal(
+  BuildContext context, {
+  required ProfModal profModal,
+}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -55,10 +58,19 @@ class ProfModalBody extends ConsumerWidget {
   final ProfModal profModal;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
 
     void downloadVoucher() {
-      print("download voucher ${profModal.downloadVoucher}");
+      if (profModal.downloadVoucher.trim().isEmpty) {
+        showSnackBarV2(
+            context: context,
+            title: "Voucher no disponible",
+            message: "Voucher no disponible",
+            snackType: SnackType.warning);
+      } else {
+        Navigator.pushNamed(context, '/v4/push_to_url',
+            arguments: profModal.downloadVoucher);
+      }
     }
 
     const int titleDark = 0xffA2E6FA;
@@ -67,50 +79,57 @@ class ProfModalBody extends ConsumerWidget {
     void closeModal() => Navigator.pop(context);
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: profModal.downloadVoucher != null ? 600 : 400,
       padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CloseIcon(
-            isDarkMode: isDarkMode,
-            closeModal: closeModal,
-          ),
-          TextPoppins(
-            text: profModal.title,
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            textDark: titleDark,
-            textLight: titleLight,
-          ),
-          RowDate(
-            dateTitle: profModal.dateTitle,
-            date: profModal.date,
-          ),
-          const SizedBox(height: 15),
-          RowRent(
-            rentTitle: profModal.rentTitle,
-            rent: profModal.rent,
-          ),
-          const SizedBox(height: 15),
-          TextPoppins(
-            text: profModal.bankTitle,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-          const SizedBox(height: 15),
-          BankItemDetail(
-            bankAccount: profModal.bankAccount,
-          ),
-          const SizedBox(height: 15),
-          if (profModal.downloadVoucher != null)
-            VouvherContainer(
-              rent: profModal.rent,
-              numberAccount: getMaskedNumber(profModal.bankAccount.bankAccount),
-              time: profModal.time,
-              downloadVoucher: downloadVoucher,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CloseIcon(
+              isDarkMode: isDarkMode,
+              closeModal: closeModal,
             ),
-        ],
+            TextPoppins(
+              text: profModal.title,
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              textDark: titleDark,
+              textLight: titleLight,
+            ),
+            RowDate(
+              dateTitle: profModal.dateTitle,
+              date: profModal.date,
+            ),
+            const SizedBox(height: 15),
+            RowRent(
+              rentTitle: profModal.rentTitle,
+              rent: profModal.rent,
+            ),
+            const SizedBox(height: 15),
+            profModal.bankAccount != null
+                ? TextPoppins(
+                    text: profModal.bankTitle,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  )
+                : const SizedBox(),
+            const SizedBox(height: 15),
+            profModal.bankAccount != null
+                ? BankItemDetail(
+                    bankAccount: profModal.bankAccount!,
+                  )
+                : const SizedBox(),
+            const SizedBox(height: 15),
+            if (profModal.downloadVoucher != "")
+              VouvherContainer(
+                rent: profModal.rent,
+                numberAccount: profModal.bankAccount?.bankAccount == null
+                    ? "************0000"
+                    : getMaskedNumber(profModal.bankAccount!.bankAccount),
+                time: profModal.time,
+                downloadVoucher: downloadVoucher,
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -321,9 +340,10 @@ class RowRent extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Icon(
-                    Icons.trending_up_outlined,
-                    size: 16,
+                  SvgPicture.asset(
+                    'assets/svg_icons/status_up.svg',
+                    width: 16,
+                    height: 16,
                     color: isDarkMode
                         ? const Color(lineDark)
                         : const Color(lineLight),

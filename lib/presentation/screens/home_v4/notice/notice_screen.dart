@@ -1,5 +1,5 @@
-import 'package:finniu/domain/entities/notice_entity.dart';
-import 'package:finniu/presentation/providers/notices_provider.dart';
+import 'package:finniu/infrastructure/models/news_model.dart';
+import 'package:finniu/presentation/providers/news_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -8,6 +8,7 @@ import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products
 import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class NoticeScreenV4 extends StatelessWidget {
   const NoticeScreenV4({super.key});
@@ -29,13 +30,11 @@ class NoticeScreenV4 extends StatelessWidget {
 }
 
 class NoticesColumn extends ConsumerWidget {
-  const NoticesColumn({
-    super.key,
-  });
+  const NoticesColumn({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notices = ref.watch(noticesProvider);
+    final notices = ref.watch(newsProvider);
 
     return notices.when(
       data: (notices) => SizedBox(
@@ -69,7 +68,8 @@ class NoticeItem extends ConsumerWidget {
     required this.item,
   });
   final int index;
-  final Notice item;
+  final NewsModel item;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -88,18 +88,20 @@ class NoticeItem extends ConsumerWidget {
     final int buttonLight = index % 2 == 0 ? 0xff0D3A5C : 0xff0D3A5C;
 
     void onTap() {
-      if (item.linkUrl.isEmpty) {
+      if (item.newsUrl == null || item.newsUrl!.isEmpty) {
         showSnackBarV2(
           context: context,
           title: "Lo sentimos",
-          message: "Noticio no disponible",
+          message: "Noticia no disponible",
           snackType: SnackType.warning,
         );
         return;
       } else {
-        print("on tap ${item.linkUrl}");
-        Navigator.pushNamed(context, '/v4/notices_detail',
-            arguments: item.linkUrl);
+        Navigator.pushNamed(
+          context,
+          '/v4/notices_detail',
+          arguments: item.newsUrl,
+        );
       }
     }
 
@@ -136,7 +138,8 @@ class NoticeItem extends ConsumerWidget {
                   ),
                   const SizedBox(width: 5),
                   TextPoppins(
-                    text: item.date,
+                    text:
+                        DateFormat('dd MMM, yyyy').format(item.publicationDate),
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     lines: 2,
@@ -147,9 +150,7 @@ class NoticeItem extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Expanded(
             child: Row(
               children: [
@@ -161,19 +162,31 @@ class NoticeItem extends ConsumerWidget {
                           ? Colors.white.withOpacity(0.3)
                           : Colors.black.withOpacity(0.1),
                     ),
-                    child: Image.network(
-                      item.linkImage,
-                      fit: BoxFit.fill,
-                      errorBuilder: (context, error, stackTrace) => Image.asset(
-                        "assets/home_v4/notice_exeption.png",
-                        fit: BoxFit.fill,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.network(
+                          filterQuality: FilterQuality.low,
+                          item.imageUrl ?? '',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Image.asset(
+                            "assets/home_v4/notice_exeption.png",
+                            filterQuality: FilterQuality.low,
+                            fit: BoxFit.cover,
+                          ),
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                              child: CircularLoader(
+                                width: 50,
+                                height: 50,
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return const CircularLoader(width: 50, height: 50);
-                      },
                     ),
                   ),
                 ),
@@ -183,7 +196,7 @@ class NoticeItem extends ConsumerWidget {
                     child: Column(
                       children: [
                         TextPoppins(
-                          text: item.description,
+                          text: item.summary,
                           fontSize: 10,
                           fontWeight: FontWeight.w400,
                           lines: 5,
@@ -193,23 +206,21 @@ class NoticeItem extends ConsumerWidget {
                         const Spacer(),
                         GestureDetector(
                           onTap: onTap,
-                          child: Expanded(
-                            child: Container(
-                              height: 32,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: isDarkMode
-                                    ? Color(buttonDark)
-                                    : Color(buttonLight),
-                              ),
-                              alignment: Alignment.center,
-                              child: TextPoppins(
-                                text: "Leer más",
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                textDark: textButtonDark,
-                                textLight: textButtonLight,
-                              ),
+                          child: Container(
+                            height: 32,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: isDarkMode
+                                  ? Color(buttonDark)
+                                  : Color(buttonLight),
+                            ),
+                            alignment: Alignment.center,
+                            child: TextPoppins(
+                              text: "Leer más",
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              textDark: textButtonDark,
+                              textLight: textButtonLight,
                             ),
                           ),
                         ),

@@ -13,7 +13,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/containers.dart';
-import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
 import 'package:finniu/utils/strings.dart';
 import 'package:finniu/widgets/analytics.dart';
 import 'package:finniu/widgets/switch.dart';
@@ -75,72 +74,22 @@ class FundDetailBody extends ConsumerWidget {
           text: fund.fundType == FundTypeEnum.corporate ? 'Quiero invertir' : 'Quiero simular',
           onPressed: () async {
             context.loaderOverlay.show();
-            final userProfileCompleteness = await ref.read(userProfileCompletenessProvider.future);
-            // final userProfileCompleteness = UserProfileCompleteness(
-            //   profileComplete: userProfile.completeData(),
-            //   personalDataComplete:
-            //       userProfile.completePersonalData() ? 100 : 0,
-            //   locationComplete: userProfile.completeLocationData() ? 100 : 0,
-            //   occupationComplete: userProfile.completeJobData() ? 100 : 0,
-            //   legalTermsCompleteness: 100,
-            //   completionPercentage: 100,
-            // );
-            if (!userProfileCompleteness.hasCompleteProfile()) {
-              if (fund.fundType == FundTypeEnum.corporate) {
-                ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-                  eventName: FirebaseAnalyticsEvents.screenView,
-                  parameters: {
-                    "screen": FirebaseScreen.fundDetail,
-                    'navigatedTo': fund.name,
-                  },
-                );
-                ref.read(firebaseAnalyticsServiceProvider).logScreenView(
-                  screenName: 'fund_detail',
-                  screenClass: 'fund_detail',
-                  parameters: {
-                    'navigated_from': fund.name,
-                  },
-                );
-                showVerifyIdentity(
-                  context,
-                  userProfileCompleteness,
-                  redirect: () {
-                    Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': fund});
-                  },
-                );
-              } else {
-                ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-                  eventName: FirebaseAnalyticsEvents.screenView,
-                  parameters: {
-                    "screen": FirebaseScreen.fundDetail,
-                    'navigated_from': fund.name,
-                  },
-                );
-                ref.read(firebaseAnalyticsServiceProvider).logScreenView(
-                  screenName: 'fund_detail',
-                  screenClass: 'fund_detail',
-                  parameters: {
-                    'navigated_from': fund.name,
-                  },
-                );
-                showVerifyIdentity(context, userProfileCompleteness, redirect: () {
-                  Navigator.pushNamed(context, '/v2/aggro-investment', arguments: {'fund': fund});
-                });
-              }
+            // final userProfileCompleteness = await ref.read(userProfileCompletenessProvider.future);
+
+            // if (!userProfileCompleteness.hasCompleteProfile()) {
+
+            if (fund.fundType == FundTypeEnum.corporate) {
+              Navigator.pushNamed(
+                context,
+                '/v2/investment/step-1',
+                arguments: {'fund': fund},
+              );
             } else {
-              if (fund.fundType == FundTypeEnum.corporate) {
-                Navigator.pushNamed(
-                  context,
-                  '/v2/investment/step-1',
-                  arguments: {'fund': fund},
-                );
-              } else {
-                Navigator.pushNamed(
-                  context,
-                  '/v2/aggro-investment',
-                  arguments: {'fund': fund},
-                );
-              }
+              Navigator.pushNamed(
+                context,
+                '/v2/aggro-investment',
+                arguments: {'fund': fund},
+              );
             }
 
             context.loaderOverlay.hide();

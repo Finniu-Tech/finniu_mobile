@@ -3,8 +3,8 @@ import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
@@ -24,7 +24,7 @@ class FormAccountsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScaffoldConfig(
+    return const ScaffoldAddAcount(
       title: "Agregar cuenta bancaria",
       children: FormAccountsBody(),
     );
@@ -49,11 +49,11 @@ class FormAccountsBody extends StatelessWidget {
 
 class FormAccounts extends HookConsumerWidget {
   FormAccounts({super.key});
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final controllerExpanded = ExpansionTileController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
     const int activeColor = 0xff0D3A5C;
@@ -176,530 +176,556 @@ class FormAccounts extends HookConsumerWidget {
       }
     }
 
-    return Stack(
-      children: [
-        Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    useEffect(() {
+      accountTypeController.addListener(() {
+        accountTypeController.text == "Mancomunada"
+            ? {
+                isJointAccount.value = true,
+                controllerExpanded.expand(),
+                personalAccountDeclaration.value = false
+              }
+            : {
+                isJointAccount.value = false,
+                controllerExpanded.collapse(),
+                jointHolderNameError.value = false,
+                jointHolderLastNameError.value = false,
+                jointHolderMothersLastNameError.value = false,
+                jointHolderDocTypeError.value = false,
+                jointHolderDocNumberError.value = false,
+                jointHolderNameController.clear(),
+                jointHolderLastNameController.clear(),
+                jointHolderMothersLastNameController.clear(),
+                jointHolderDocTypeController.clear(),
+                jointHolderDocNumberController.clear(),
+              };
+      });
+
+      return () {
+        accountTypeController.removeListener(() {});
+      };
+    }, [accountTypeController]);
+    useEffect(
+      () {
+        Future.microtask(() {
+          ref.read(nabbarProvider.notifier).updateNabbar(
+                NabbarProvider(
+                  title: "Guardar cuenta",
+                  onTap: pushData,
+                ),
+              );
+        });
+
+        return null;
+      },
+      [],
+    );
+
+    return Form(
+      key: formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 15),
+          ValueListenableBuilder<bool>(
+            valueListenable: bankError,
+            builder: (context, isError, child) {
+              return BankDropdownAccounts(
+                itemSelectedValue: bankController.text,
+                isError: isError,
+                onError: () => bankError.value = false,
+                selectController: bankController,
+                hintText: "Selecione su banco",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Banco obligatorio",
+                      message: "Por favor, completa seleccione su banco.",
+                      snackType: SnackType.warning,
+                    );
+                    bankError.value = true;
+                    return null;
+                  }
+
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 15),
+          ValueListenableBuilder<bool>(
+            valueListenable: accountTypeError,
+            builder: (context, isError, child) {
+              return SelectableDropdownAccounts(
+                title: "  Tipo de cuenta  ",
+                options: const ['Ahorros', 'Corriente', 'Mancomunada'],
+                itemSelectedValue: accountTypeController.text,
+                isError: isError,
+                onError: () => accountTypeError.value = false,
+                selectController: accountTypeController,
+                hintText: "Selecciona el tipo de cuenta",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Tipo de cuenta obligatorio",
+                      message: "Por favor, completa el tipo de cuenta.",
+                      snackType: SnackType.warning,
+                    );
+                    accountTypeError.value = true;
+                    return null;
+                  }
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 10),
+          const TextPoppins(
+            text: "Número de cuenta",
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            textDark: 0xffA2E6FA,
+            textLight: 0xff0D3A5C,
+            align: TextAlign.start,
+          ),
+          const SizedBox(height: 5),
+          ValueListenableBuilder<bool>(
+            valueListenable: accountNumberError,
+            builder: (context, isError, child) {
+              return InputTextFileAccounts(
+                isError: isError,
+                onError: () => accountNumberError.value = false,
+                controller: accountNumberController,
+                hintText: "Escribe el número de cuenta",
+                isNumeric: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta obligatorio",
+                      message:
+                          "Por favor, completa ingresar el número de cuenta.",
+                      snackType: SnackType.warning,
+                    );
+                    accountNumberError.value = true;
+                    return null;
+                  }
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta incorrecto",
+                      message: 'Solo puedes usar números',
+                      snackType: SnackType.warning,
+                    );
+                    accountNumberError.value = true;
+                    return null;
+                  }
+                  if (value.length < 10) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta obligatorio",
+                      message: "El número de cuenta debe tener 10 digitos.",
+                      snackType: SnackType.warning,
+                    );
+                    accountNumberError.value = true;
+                    return null;
+                  }
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 10),
+          const TextPoppins(
+            text: "Número de cuenta interbancaria (CCI)",
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            textDark: 0xffA2E6FA,
+            textLight: 0xff0D3A5C,
+            align: TextAlign.start,
+          ),
+          const SizedBox(height: 5),
+          ValueListenableBuilder<bool>(
+            valueListenable: cciNumberError,
+            builder: (context, isError, child) {
+              return InputTextFileAccounts(
+                isError: isError,
+                onError: () => cciNumberError.value = false,
+                controller: cciNumberController,
+                hintText: "Escribe el número de cuenta CCI",
+                isNumeric: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta CCI obligatorio",
+                      message:
+                          "Por favor, completa ingresar el número de cuenta CCI.",
+                      snackType: SnackType.warning,
+                    );
+                    cciNumberError.value = true;
+                    return null;
+                  }
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta CCI incorrecto",
+                      message: 'Solo puedes usar números',
+                      snackType: SnackType.warning,
+                    );
+                    cciNumberError.value = true;
+                    return null;
+                  }
+                  if (value.length < 10) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta obligatorio",
+                      message: "El número de cuenta CCI debe tener 10 digitos.",
+                      snackType: SnackType.warning,
+                    );
+                    cciNumberError.value = true;
+                    return null;
+                  }
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 10),
+          const Row(
             children: [
-              const SizedBox(height: 15),
-              ValueListenableBuilder<bool>(
-                valueListenable: bankError,
-                builder: (context, isError, child) {
-                  return BankDropdownAccounts(
-                    itemSelectedValue: bankController.text,
-                    isError: isError,
-                    onError: () => bankError.value = false,
-                    selectController: bankController,
-                    hintText: "Selecione su banco",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Banco obligatorio",
-                          message: "Por favor, completa seleccione su banco.",
-                          snackType: SnackType.warning,
-                        );
-                        bankError.value = true;
-                        return null;
-                      }
-
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 15),
-              ValueListenableBuilder<bool>(
-                valueListenable: accountTypeError,
-                builder: (context, isError, child) {
-                  return SelectableDropdownAccounts(
-                    title: "  Tipo de cuenta  ",
-                    options: const ['Ahorros', 'Corriente'],
-                    itemSelectedValue: accountTypeController.text,
-                    isError: isError,
-                    onError: () => accountTypeError.value = false,
-                    selectController: accountTypeController,
-                    hintText: "Selecciona el tipo de cuenta",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Tipo de cuenta obligatorio",
-                          message: "Por favor, completa el tipo de cuenta.",
-                          snackType: SnackType.warning,
-                        );
-                        accountTypeError.value = true;
-                        return null;
-                      }
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              const TextPoppins(
-                text: "Número de cuenta",
+              TextPoppins(
+                text: "Nombre de la cuenta ",
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 textDark: 0xffA2E6FA,
                 textLight: 0xff0D3A5C,
                 align: TextAlign.start,
               ),
-              const SizedBox(height: 5),
-              ValueListenableBuilder<bool>(
-                valueListenable: accountNumberError,
-                builder: (context, isError, child) {
-                  return InputTextFileAccounts(
-                    isError: isError,
-                    onError: () => accountNumberError.value = false,
-                    controller: accountNumberController,
-                    hintText: "Escribe el número de cuenta",
-                    isNumeric: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Número de cuenta obligatorio",
-                          message:
-                              "Por favor, completa ingresar el número de cuenta.",
-                          snackType: SnackType.warning,
-                        );
-                        accountNumberError.value = true;
-                        return null;
-                      }
-                      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Número de cuenta incorrecto",
-                          message: 'Solo puedes usar números',
-                          snackType: SnackType.warning,
-                        );
-                        accountNumberError.value = true;
-                        return null;
-                      }
-                      if (value.length < 10) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Número de cuenta obligatorio",
-                          message: "El número de cuenta debe tener 10 digitos.",
-                          snackType: SnackType.warning,
-                        );
-                        accountNumberError.value = true;
-                        return null;
-                      }
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              const TextPoppins(
-                text: "Número de cuenta interbancaria (CCI)",
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+              TextPoppins(
+                text: "*Opcional",
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
                 textDark: 0xffA2E6FA,
                 textLight: 0xff0D3A5C,
                 align: TextAlign.start,
               ),
-              const SizedBox(height: 5),
-              ValueListenableBuilder<bool>(
-                valueListenable: cciNumberError,
-                builder: (context, isError, child) {
-                  return InputTextFileAccounts(
-                    isError: isError,
-                    onError: () => cciNumberError.value = false,
-                    controller: cciNumberController,
-                    hintText: "Escribe el número de cuenta CCI",
-                    isNumeric: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Número de cuenta CCI obligatorio",
-                          message:
-                              "Por favor, completa ingresar el número de cuenta CCI.",
-                          snackType: SnackType.warning,
-                        );
-                        cciNumberError.value = true;
-                        return null;
-                      }
-                      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Número de cuenta CCI incorrecto",
-                          message: 'Solo puedes usar números',
-                          snackType: SnackType.warning,
-                        );
-                        cciNumberError.value = true;
-                        return null;
-                      }
-                      if (value.length < 10) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Número de cuenta obligatorio",
-                          message:
-                              "El número de cuenta CCI debe tener 10 digitos.",
-                          snackType: SnackType.warning,
-                        );
-                        cciNumberError.value = true;
-                        return null;
-                      }
-                      return null;
-                    },
-                  );
+            ],
+          ),
+          const SizedBox(height: 5),
+          ValueListenableBuilder<bool>(
+            valueListenable: accountNameError,
+            builder: (context, isError, child) {
+              return InputTextFileAccounts(
+                isError: isError,
+                onError: () => accountNameError.value = false,
+                controller: accountNameController,
+                hintText: "Escribe el nombre de cuenta",
+                validator: (value) {
+                  return null;
                 },
-              ),
-              const SizedBox(height: 10),
-              const Row(
-                children: [
-                  TextPoppins(
-                    text: "Nombre de la cuenta ",
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    textDark: 0xffA2E6FA,
-                    textLight: 0xff0D3A5C,
-                    align: TextAlign.start,
-                  ),
-                  TextPoppins(
-                    text: "*Opcional",
-                    fontSize: 10,
-                    fontWeight: FontWeight.w400,
-                    textDark: 0xffA2E6FA,
-                    textLight: 0xff0D3A5C,
-                    align: TextAlign.start,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 5),
-              ValueListenableBuilder<bool>(
-                valueListenable: accountNameError,
-                builder: (context, isError, child) {
-                  return InputTextFileAccounts(
-                    isError: isError,
-                    onError: () => accountNameError.value = false,
-                    controller: accountNameController,
-                    hintText: "Escribe el nombre de cuenta",
-                    validator: (value) {
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              ValueListenableBuilder<bool>(
-                valueListenable: isJointAccount,
-                builder: (context, value, child) {
-                  return ExpansionTile(
-                    tilePadding: EdgeInsets.zero,
-                    initiallyExpanded: isJointAccount.value,
-                    trailing: Switch(
-                      value: isJointAccount.value,
-                      activeColor: const Color(activeColor),
-                      inactiveThumbColor: const Color(inactiveThumbColor),
-                      activeTrackColor: const Color(activeTrackColor),
-                      inactiveTrackColor: const Color(inactiveTrackColor),
-                      onChanged: (_) => {onTap()},
-                    ),
-                    controller: controllerExpanded,
-                    shape: const Border(),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Expanded(
-                          child: TextPoppins(
-                            text: '¿Es una cuenta mancomunada?',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            align: TextAlign.start,
-                          ),
-                        ),
-                        SvgPicture.asset(
-                          'assets/svg_icons/message_question_icon.svg',
-                          width: 20,
-                          height: 20,
-                          color: isDarkMode
-                              ? const Color(iconDark)
-                              : const Color(iconLight),
-                        ),
-                        const SizedBox(width: 5),
-                        TextPoppins(
-                          text: value ? 'Si' : 'No',
-                          fontSize: 11,
-                          align: TextAlign.start,
-                        ),
-                      ],
-                    ),
-                    children: [
-                      const SizedBox(
-                        height: 5,
+              );
+            },
+          ),
+          const SizedBox(height: 10),
+          ValueListenableBuilder<bool>(
+            valueListenable: isJointAccount,
+            builder: (context, value, child) {
+              return ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                initiallyExpanded: isJointAccount.value,
+                trailing: Switch(
+                  value: isJointAccount.value,
+                  activeColor: const Color(activeColor),
+                  inactiveThumbColor: const Color(inactiveThumbColor),
+                  activeTrackColor: const Color(activeTrackColor),
+                  inactiveTrackColor: const Color(inactiveTrackColor),
+                  onChanged: (_) => {onTap()},
+                ),
+                controller: controllerExpanded,
+                shape: const Border(),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: TextPoppins(
+                        text: '¿Es una cuenta mancomunada?',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        align: TextAlign.start,
                       ),
-                      ValueListenableBuilder<bool>(
-                        valueListenable: jointHolderNameError,
-                        builder: (context, isError, child) {
-                          return InputTextFileAccounts(
-                            isError: isError,
-                            onError: () => jointHolderNameError.value = false,
-                            controller: jointHolderNameController,
-                            hintText: "Nombres de la otra persona titular",
-                            validator: (value) {
-                              if (isJointAccount.value) {
-                                if (value == null || value.isEmpty) {
-                                  showSnackBarV2(
-                                    context: context,
-                                    title: "Nombres obligatorio",
-                                    message:
-                                        "Por favor, completa ingresar los nombres de la otra persona titular.",
-                                    snackType: SnackType.warning,
-                                  );
-                                  jointHolderNameError.value = true;
-                                  return null;
-                                }
-                              }
-
+                    ),
+                    SvgPicture.asset(
+                      'assets/svg_icons/message_question_icon.svg',
+                      width: 20,
+                      height: 20,
+                      color: isDarkMode
+                          ? const Color(iconDark)
+                          : const Color(iconLight),
+                    ),
+                    const SizedBox(width: 5),
+                    TextPoppins(
+                      text: value ? 'Si' : 'No',
+                      fontSize: 11,
+                      align: TextAlign.start,
+                    ),
+                  ],
+                ),
+                children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: jointHolderNameError,
+                    builder: (context, isError, child) {
+                      return InputTextFileAccounts(
+                        isError: isError,
+                        onError: () => jointHolderNameError.value = false,
+                        controller: jointHolderNameController,
+                        hintText: "Nombres de la otra persona titular",
+                        validator: (value) {
+                          if (isJointAccount.value) {
+                            if (value == null || value.isEmpty) {
+                              showSnackBarV2(
+                                context: context,
+                                title: "Nombres obligatorio",
+                                message:
+                                    "Por favor, completa ingresar los nombres de la otra persona titular.",
+                                snackType: SnackType.warning,
+                              );
+                              jointHolderNameError.value = true;
                               return null;
-                            },
+                            }
+                          }
+
+                          return null;
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ValueListenableBuilder<bool>(
+                        valueListenable: jointHolderLastNameError,
+                        builder: (context, isError, child) {
+                          return Expanded(
+                            child: InputTextFileAccounts(
+                              isRow: true,
+                              isError: isError,
+                              onError: () =>
+                                  jointHolderLastNameError.value = false,
+                              controller: jointHolderLastNameController,
+                              hintText: "Apellido paterno",
+                              validator: (value) {
+                                if (isJointAccount.value) {
+                                  if (value == null || value.isEmpty) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nombres Paterno obligatorio",
+                                      message:
+                                          "Por favor, completa ingresar los nombres de la otra persona titular.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderLastNameError.value = true;
+                                    return null;
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
                           );
                         },
                       ),
                       const SizedBox(
-                        height: 10,
+                        width: 10,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ValueListenableBuilder<bool>(
-                            valueListenable: jointHolderLastNameError,
-                            builder: (context, isError, child) {
-                              return Expanded(
-                                child: InputTextFileAccounts(
-                                  isRow: true,
-                                  isError: isError,
-                                  onError: () =>
-                                      jointHolderLastNameError.value = false,
-                                  controller: jointHolderLastNameController,
-                                  hintText: "Apellido paterno",
-                                  validator: (value) {
-                                    if (isJointAccount.value) {
-                                      if (value == null || value.isEmpty) {
-                                        showSnackBarV2(
-                                          context: context,
-                                          title: "Nombres Paterno obligatorio",
-                                          message:
-                                              "Por favor, completa ingresar los nombres de la otra persona titular.",
-                                          snackType: SnackType.warning,
-                                        );
-                                        jointHolderLastNameError.value = true;
-                                        return null;
-                                      }
-                                    }
+                      ValueListenableBuilder<bool>(
+                        valueListenable: jointHolderMothersLastNameError,
+                        builder: (context, isError, child) {
+                          return Expanded(
+                            child: InputTextFileAccounts(
+                              isRow: true,
+                              isError: isError,
+                              onError: () =>
+                                  jointHolderMothersLastNameError.value = false,
+                              controller: jointHolderMothersLastNameController,
+                              hintText: "Apellido materno",
+                              validator: (value) {
+                                if (isJointAccount.value) {
+                                  if (value == null || value.isEmpty) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nombres Materno obligatorio",
+                                      message:
+                                          "Por favor, completa ingresar los nombres de la otra persona titular.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderMothersLastNameError.value =
+                                        true;
                                     return null;
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          ValueListenableBuilder<bool>(
-                            valueListenable: jointHolderMothersLastNameError,
-                            builder: (context, isError, child) {
-                              return Expanded(
-                                child: InputTextFileAccounts(
-                                  isRow: true,
-                                  isError: isError,
-                                  onError: () => jointHolderMothersLastNameError
-                                      .value = false,
-                                  controller:
-                                      jointHolderMothersLastNameController,
-                                  hintText: "Apellido materno",
-                                  validator: (value) {
-                                    if (isJointAccount.value) {
-                                      if (value == null || value.isEmpty) {
-                                        showSnackBarV2(
-                                          context: context,
-                                          title: "Nombres Materno obligatorio",
-                                          message:
-                                              "Por favor, completa ingresar los nombres de la otra persona titular.",
-                                          snackType: SnackType.warning,
-                                        );
-                                        jointHolderMothersLastNameError.value =
-                                            true;
-                                        return null;
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          ValueListenableBuilder<bool>(
-                            valueListenable: jointHolderDocTypeError,
-                            builder: (context, isError, child) {
-                              return Expanded(
-                                child: SelectableDropdownAccounts(
-                                  isRow: true,
-                                  title: "  Documento  ",
-                                  options: documentType,
-                                  itemSelectedValue:
-                                      jointHolderDocTypeController.text,
-                                  isError: isError,
-                                  onError: () =>
-                                      jointHolderDocTypeError.value = false,
-                                  selectController:
-                                      jointHolderDocTypeController,
-                                  hintText: "Tipo",
-                                  validator: (value) {
-                                    if (isJointAccount.value) {
-                                      if (value == null || value.isEmpty) {
-                                        showSnackBarV2(
-                                          context: context,
-                                          title: "Tipo Documento obligatorio",
-                                          message:
-                                              "Por favor, seleccione tipo de documento.",
-                                          snackType: SnackType.warning,
-                                        );
-                                        jointHolderDocTypeError.value = true;
-                                        return null;
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          ValueListenableBuilder<bool>(
-                            valueListenable: jointHolderDocNumberError,
-                            builder: (context, isError, child) {
-                              return Expanded(
-                                child: InputTextFileAccounts(
-                                  isNumeric: true,
-                                  isRow: true,
-                                  isError: isError,
-                                  onError: () =>
-                                      jointHolderDocNumberError.value = false,
-                                  controller: jointHolderDocNumberController,
-                                  hintText: "Nº de documento",
-                                  validator: (value) {
-                                    if (isJointAccount.value) {
-                                      if (value == null || value.isEmpty) {
-                                        showSnackBarV2(
-                                          context: context,
-                                          title: "Nº Documento obligatorio",
-                                          message:
-                                              "Por favor, ingresa el Nº de documento.",
-                                          snackType: SnackType.warning,
-                                        );
-                                        jointHolderDocNumberError.value = true;
-                                        return null;
-                                      }
-                                      if (!RegExp(r'^[0-9]+$')
-                                          .hasMatch(value)) {
-                                        showSnackBarV2(
-                                          context: context,
-                                          title: "Nº Documento incorrecto",
-                                          message: 'Solo puedes usar números',
-                                          snackType: SnackType.warning,
-                                        );
-                                        jointHolderDocNumberError.value = true;
-                                        return null;
-                                      }
-                                      if (value.length != 8) {
-                                        showSnackBarV2(
-                                          context: context,
-                                          title: "Nº Documento incorrecto",
-                                          message:
-                                              'El DNI debe tener 8 caracteres',
-                                          snackType: SnackType.warning,
-                                        );
-                                        jointHolderDocNumberError.value = true;
-                                        return null;
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ],
-                    onExpansionChanged: (expanded) {
-                      if (isJointAccount.value) {
-                        controllerExpanded.expand();
-                      } else {
-                        controllerExpanded.collapse();
-                        jointHolderNameController.clear();
-                        jointHolderLastNameController.clear();
-                        jointHolderMothersLastNameController.clear();
-                        jointHolderDocTypeController.clear();
-                        jointHolderDocNumberController.clear();
-                      }
-                    },
-                  );
-                },
-              ),
-              Row(
-                children: [
-                  CheckBoxWidget(
-                    value: useForFutureOperations.value,
-                    onChanged: (a) {
-                      useForFutureOperations.value =
-                          !useForFutureOperations.value;
-                    },
                   ),
-                  const TextPoppins(
-                    text: "Usar en mis futuras operaciones",
-                    fontSize: 10,
-                    fontWeight: FontWeight.w400,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      ValueListenableBuilder<bool>(
+                        valueListenable: jointHolderDocTypeError,
+                        builder: (context, isError, child) {
+                          return Expanded(
+                            child: SelectableDropdownAccounts(
+                              isRow: true,
+                              title: "  Documento  ",
+                              options: documentType,
+                              itemSelectedValue:
+                                  jointHolderDocTypeController.text,
+                              isError: isError,
+                              onError: () =>
+                                  jointHolderDocTypeError.value = false,
+                              selectController: jointHolderDocTypeController,
+                              hintText: "Tipo",
+                              validator: (value) {
+                                if (isJointAccount.value) {
+                                  if (value == null || value.isEmpty) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Tipo Documento obligatorio",
+                                      message:
+                                          "Por favor, seleccione tipo de documento.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderDocTypeError.value = true;
+                                    return null;
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ValueListenableBuilder<bool>(
+                        valueListenable: jointHolderDocNumberError,
+                        builder: (context, isError, child) {
+                          return Expanded(
+                            child: InputTextFileAccounts(
+                              isNumeric: true,
+                              isRow: true,
+                              isError: isError,
+                              onError: () =>
+                                  jointHolderDocNumberError.value = false,
+                              controller: jointHolderDocNumberController,
+                              hintText: "Nº de documento",
+                              validator: (value) {
+                                if (isJointAccount.value) {
+                                  if (value == null || value.isEmpty) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nº Documento obligatorio",
+                                      message:
+                                          "Por favor, ingresa el Nº de documento.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderDocNumberError.value = true;
+                                    return null;
+                                  }
+                                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nº Documento incorrecto",
+                                      message: 'Solo puedes usar números',
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderDocNumberError.value = true;
+                                    return null;
+                                  }
+                                  if (value.length != 8) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nº Documento incorrecto",
+                                      message: 'El DNI debe tener 8 caracteres',
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderDocNumberError.value = true;
+                                    return null;
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ],
+                onExpansionChanged: (expanded) {
+                  if (isJointAccount.value) {
+                    controllerExpanded.expand();
+                  } else {
+                    controllerExpanded.collapse();
+                    jointHolderNameController.clear();
+                    jointHolderLastNameController.clear();
+                    jointHolderMothersLastNameController.clear();
+                    jointHolderDocTypeController.clear();
+                    jointHolderDocNumberController.clear();
+                  }
+                },
+              );
+            },
+          ),
+          Row(
+            children: [
+              CheckBoxWidget(
+                value: useForFutureOperations.value,
+                onChanged: (a) {
+                  useForFutureOperations.value = !useForFutureOperations.value;
+                },
               ),
-              isJointAccount.value
-                  ? const SizedBox()
-                  : Row(
-                      children: [
-                        CheckBoxWidget(
-                          value: personalAccountDeclaration.value,
-                          onChanged: (a) {
-                            personalAccountDeclaration.value =
-                                !personalAccountDeclaration.value;
-                          },
-                        ),
-                        const TextPoppins(
-                          text: "Declaro que es mi cuenta personal",
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ],
-                    ),
-              const SizedBox(height: 80),
+              const TextPoppins(
+                text: "Usar en mis futuras operaciones",
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+              ),
             ],
           ),
-        ),
-        Positioned(
-          bottom: 20,
-          child: ButtonInvestment(
-            text: "Guardar cuenta",
-            onPressed: () => pushData(),
-          ),
-        ),
-      ],
+          isJointAccount.value
+              ? const SizedBox()
+              : Row(
+                  children: [
+                    CheckBoxWidget(
+                      value: personalAccountDeclaration.value,
+                      onChanged: (a) {
+                        personalAccountDeclaration.value =
+                            !personalAccountDeclaration.value;
+                      },
+                    ),
+                    const TextPoppins(
+                      text: "Declaro que es mi cuenta personal",
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ],
+                ),
+        ],
+      ),
     );
   }
 }

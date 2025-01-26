@@ -164,13 +164,14 @@ class MutationRepository {
 
   static String calculateInvestment() {
     return '''
-        mutation calculateInvestment(\$amount: Int!, \$deadline: Int!,  \$currency: String, \$coupon: String){
+        mutation calculateInvestment(\$amount: Int!, \$deadline: Int!,  \$currency: String, \$coupon: String, \$investmentFundUuid: String!){
             calculateInvestment(
               input: {
                 ammount: \$amount,
                 deadline:\$deadline,
                 coupon: \$coupon,
-                currency: \$currency
+                currency: \$currency,
+                investmentFundUuid: \$investmentFundUuid
               }
             ){
               rentabilityPerMonth
@@ -427,6 +428,8 @@ class MutationRepository {
         \$originFounds: OriginFundsInput!,
         \$typeReinvestment: TypeReInvestmentEnum!,
         \$bankAccountSender: String,
+        \$bankAccountReceiver:String
+
       ){
         createReInvestment(input:{
           preInvestmentUuid: \$preInvestmentUUID,
@@ -436,7 +439,8 @@ class MutationRepository {
           coupon: \$coupon,
           originFunds: \$originFounds,
           typeReInvestment: \$typeReinvestment,
-          bankAccountSender: \$bankAccountSender
+          bankAccountSender: \$bankAccountSender,
+          bankAccountReceiver: \$bankAccountReceiver
         }){
           success
           reInvestmentUuid
@@ -631,11 +635,14 @@ class MutationRepository {
   static String saveLocationDataV2() {
     return '''
   mutation RegisterUserUbication(
-      \$country: String!
-      \$region: String!
-      \$province: String!
-      \$district: String!
-      \$address: String!
+      \$country: String
+      \$region: String
+      \$province: String
+      \$district: String
+      \$address: String
+      \$regionExt: String
+      \$provinceExt: String
+      \$districtExt: String
   ){
     registerUserUbication(input:{
       country: \$country,
@@ -643,6 +650,10 @@ class MutationRepository {
       province: \$province,
       district: \$district,
       address: \$address,
+      regionExt: \$regionExt,
+      provinciaExt: \$provinceExt,
+      distritoExt: \$districtExt
+
     }){
       success
       messages {

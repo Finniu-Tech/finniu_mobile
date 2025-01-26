@@ -4,8 +4,8 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userInvestmentByUuidFutureProvider =
-    FutureProvider.family.autoDispose<InvestmentDetailUuid?, String>((ref, uuid) async {
+final userInvestmentByUuidFutureProvider = FutureProvider.family
+    .autoDispose<InvestmentDetailUuid?, String>((ref, uuid) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
     final result = await client!.query(
@@ -18,15 +18,17 @@ final userInvestmentByUuidFutureProvider =
     if (data == null) {
       return null;
     }
-
-    final investmentDetail = InvestmentDetailUuid.fromJson(data['investmentDetail']);
+    final investmentDetail =
+        InvestmentDetailUuid.fromJson(data['investmentDetail']);
     return investmentDetail;
   } catch (e) {
+    print(e);
     return null;
   }
 });
 
-final getMonthlyPaymentProvider = FutureProvider.family.autoDispose<List<ProfitabilityItem>, String>(
+final getMonthlyPaymentProvider =
+    FutureProvider.family.autoDispose<List<ProfitabilityItem>, String>(
   (ref, preInvestmentUUID) async {
     try {
       final client = ref.watch(gqlClientProvider).value;
@@ -50,7 +52,8 @@ final getMonthlyPaymentProvider = FutureProvider.family.autoDispose<List<Profita
         return [];
       }
 
-      final paymentRentabilityList = data['investmentDetail']['paymentRentability'] as List<dynamic>?;
+      final paymentRentabilityList =
+          data['investmentDetail']['paymentRentability'] as List<dynamic>?;
       if (paymentRentabilityList == null) {
         return [];
       }
@@ -58,7 +61,6 @@ final getMonthlyPaymentProvider = FutureProvider.family.autoDispose<List<Profita
       final profitabilityItems = paymentRentabilityList
           .map((item) {
             if (item is! Map<String, dynamic>) {
-              print('Invalid item in paymentRentability: $item');
               return null;
             }
             return ProfitabilityItem.fromJson(item);
@@ -68,7 +70,7 @@ final getMonthlyPaymentProvider = FutureProvider.family.autoDispose<List<Profita
 
       return profitabilityItems;
     } catch (e, _) {
-      rethrow; // Re-throw the error to be caught by the FutureProvider
+      rethrow;
     }
   },
 );

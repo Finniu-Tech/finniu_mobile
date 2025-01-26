@@ -1,5 +1,6 @@
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_feedback.dart';
@@ -63,17 +64,14 @@ class ExperienceBody extends HookConsumerWidget {
     const borderDark = 0xff68C3DE;
     const borderLight = 0xff295984;
 
-    final TextEditingController feedbackNumerController =
-        TextEditingController();
-    final TextEditingController feedbackTextController =
-        TextEditingController();
+    final TextEditingController feedbackNumberController = useTextEditingController();
+    final TextEditingController feedbackTextController = useTextEditingController();
     final buttonTrue = useState(false);
     void pushFeedback() async {
       final data = DtoFedbackForm(
         question: "¿Qué tan satisfecho estás con el proceso de inversión?",
-        answer: feedbackNumerController.text,
-        questionSecond:
-            "¿que podemos hacer para mejorar en el proceso de inversión?",
+        answer: feedbackNumberController.text,
+        questionSecond: "¿que podemos hacer para mejorar en el proceso de inversión?",
         answerSecond: feedbackTextController.text,
       );
 
@@ -98,6 +96,7 @@ class ExperienceBody extends HookConsumerWidget {
           },
         );
       }
+      ref.read(navigatorStateProvider.notifier).state = 0;
       Navigator.pushNamedAndRemoveUntil(context, '/v4/home', (route) => false);
       context.loaderOverlay.hide();
     }
@@ -121,7 +120,7 @@ class ExperienceBody extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const TextPoppins(
-                  text: 'Tu experiencia es primero',
+                  text: 'Tu experiencia es primero ',
                   fontSize: 40,
                   fontWeight: FontWeight.w600,
                   textDark: titleDark,
@@ -129,8 +128,7 @@ class ExperienceBody extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 10),
                 const TextPoppins(
-                  text:
-                      'Déjanos tus respuestas sobre tu experiencia dentro del proceso de inversión',
+                  text: 'Déjanos tus respuestas sobre tu experiencia dentro del proceso de inversión',
                   fontSize: 13,
                   lines: 2,
                   align: TextAlign.center,
@@ -143,15 +141,12 @@ class ExperienceBody extends HookConsumerWidget {
                   height: 5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: isDarkMode
-                        ? const Color(borderDark)
-                        : const Color(borderLight),
+                    color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const TextPoppins(
-                  text:
-                      '¿Cómo calificarías tu experiencia durante el proceso de inversión?',
+                  text: '¿Cómo calificarías tu experiencia durante el proceso de inversión?',
                   fontSize: 13,
                   lines: 2,
                   align: TextAlign.center,
@@ -162,14 +157,13 @@ class ExperienceBody extends HookConsumerWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: SelectFeedback(
-                    controller: feedbackNumerController,
+                    controller: feedbackNumberController,
                     buttonTrue: buttonTrue,
                   ),
                 ),
                 const SizedBox(height: 10),
                 const TextPoppins(
-                  text:
-                      '¿Tienes algún comentario o sugerencia para mejorar nuestro proceso? (Opcional)',
+                  text: '¿Tienes algún comentario o sugerencia para mejorar nuestro proceso? (Opcional)',
                   fontSize: 13,
                   lines: 2,
                   align: TextAlign.center,

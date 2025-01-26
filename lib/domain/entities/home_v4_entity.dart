@@ -30,38 +30,58 @@ class HomeUserInvest {
 
 class AllInvestment {
   final int? countPlanesActive;
-  final String? totalBalanceRentability;
   final int? capitalInCourse;
-  final String? totalBalanceRentabilityActually;
   final String? totalBalanceRentabilityIncreased;
+  final String? averageProfitability;
+  final String? percentageProfitabilityIncreaseMonthly;
 
   AllInvestment({
     required this.countPlanesActive,
-    required this.totalBalanceRentability,
+    required this.averageProfitability,
     required this.capitalInCourse,
     required this.totalBalanceRentabilityIncreased,
-    required this.totalBalanceRentabilityActually,
+    required this.percentageProfitabilityIncreaseMonthly,
   });
 
   factory AllInvestment.fromJson(Map<String, dynamic> json) {
     return AllInvestment(
+      averageProfitability:
+          _formatToNumberString(json['averageProfitability'] as String?),
       countPlanesActive: json['countPlanesActive'] as int?,
-      totalBalanceRentability: json['totalBalanceRentability'] as String?,
       capitalInCourse: json['capitalInCourse'] as int?,
       totalBalanceRentabilityIncreased:
           json['totalBalanceRentabilityIncreased'] as String?,
-      totalBalanceRentabilityActually:
-          json['totalBalanceRentabilityActually'] as String?,
+      percentageProfitabilityIncreaseMonthly:
+          _formatToNumberStringTwoComa(json['totalPercentPerMonth']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'countPlanesActive': countPlanesActive,
-      'totalBalanceRentability': totalBalanceRentability,
       'capitalInCourse': capitalInCourse,
       'totalBalanceRentabilityIncreased': totalBalanceRentabilityIncreased,
     };
+  }
+
+  static String? _formatToNumberString(String? value) {
+    if (value == null) return null;
+    try {
+      final number = double.parse(value);
+      return number.toStringAsFixed(0);
+    } catch (e) {
+      return value;
+    }
+  }
+
+  static String? _formatToNumberStringTwoComa(String? value) {
+    if (value == null) return null;
+    try {
+      final number = double.parse(value);
+      return number.toStringAsFixed(2);
+    } catch (e) {
+      return value;
+    }
   }
 }
 
@@ -71,18 +91,18 @@ extension ListExtension<E> on List<E> {
 
 final AllInvestment investmentErrorInSoles = AllInvestment(
   countPlanesActive: 0,
-  totalBalanceRentability: "----",
+  averageProfitability: "0",
   capitalInCourse: 0,
-  totalBalanceRentabilityIncreased: "----",
-  totalBalanceRentabilityActually: "----",
+  totalBalanceRentabilityIncreased: "0",
+  percentageProfitabilityIncreaseMonthly: "0",
 );
 
 final AllInvestment investmentErrorInDolares = AllInvestment(
   countPlanesActive: 0,
-  totalBalanceRentability: "----",
+  averageProfitability: "0",
   capitalInCourse: 0,
-  totalBalanceRentabilityIncreased: "----",
-  totalBalanceRentabilityActually: "----",
+  totalBalanceRentabilityIncreased: "0",
+  percentageProfitabilityIncreaseMonthly: "0",
 );
 
 final HomeUserInvest homeUserErrorInvest = HomeUserInvest(

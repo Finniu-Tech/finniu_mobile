@@ -32,12 +32,10 @@ class _LessYearBlueGoldCardState extends State<LessYearBlueGoldCard> {
   }
 
   void onTapVoucher() {
-    print("pon tap voucher ${widget.uuidVoucher}");
     voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
   }
 
   void onTapReport() {
-    print("pon tap report ${widget.uuidReport}");
     voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
   }
 

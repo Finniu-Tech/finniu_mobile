@@ -397,7 +397,6 @@ class CatalogScreen extends HookConsumerWidget {
             ButtonInvestment(
                 text: 'Log error on crashalytics',
                 onPressed: () async {
-                  print('log error on crashalytics');
                   FirebaseCrashlytics.instance.log('Esto es un log de prueba');
                   throw Exception();
                 }),
@@ -655,7 +654,7 @@ class CatalogScreen extends HookConsumerWidget {
               },
               child: const Text('go to blue gold'),
             ),
-            const InvestmentSimulationButton(),
+            // const InvestmentSimulationButton(),
             const CompletedBlueGoldCard(
               daysPassed: 0,
               daysMissing: 365,

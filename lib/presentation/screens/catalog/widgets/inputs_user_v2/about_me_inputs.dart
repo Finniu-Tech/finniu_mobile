@@ -115,8 +115,9 @@ class InputTextAreaUserProfile extends ConsumerWidget {
     required this.hintText,
     required this.validator,
     this.isNumeric = false,
+    this.lines = 5,
   });
-
+  final int lines;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final String hintText;
@@ -140,7 +141,7 @@ class InputTextAreaUserProfile extends ConsumerWidget {
       children: [
         TextFormField(
           keyboardType: TextInputType.multiline,
-          maxLines: 5,
+          maxLines: lines,
           controller: controller,
           style: TextStyle(
             fontSize: 12,

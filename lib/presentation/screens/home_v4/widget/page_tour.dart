@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -14,6 +15,7 @@ class PageSevenTour extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     void onPress() {
+      Preferences.tourHome = false;
       Navigator.pop(context);
     }
 
