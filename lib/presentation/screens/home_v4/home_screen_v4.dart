@@ -9,6 +9,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/complete_profile.dart';
+import 'package:finniu/presentation/screens/home_v4/widget/change_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/last_operation_slider_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/news_container.dart';
@@ -44,10 +45,8 @@ class HomeBodyV4 extends StatelessWidget {
               height: 20,
             ),
             GetFundToSlider(),
-
             ProfileCompletenessSection(),
-            // ChangeContainer(),
-
+            ChangeContainer(),
             DividerHome(),
             NewsContainer(),
             SizedBox(height: 80),
@@ -87,8 +86,7 @@ class SliderContainer extends ConsumerWidget {
   final FundEntity fund;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lastOperationsAsyncValue =
-        ref.watch(lastOperationsFutureProvider(fund.uuid));
+    final lastOperationsAsyncValue = ref.watch(lastOperationsFutureProvider(fund.uuid));
     // List<LastOperation> reinvestmentOperations = [];
     final isSoles = ref.watch(isSolesStateProvider);
     final selectedCurrency = isSoles ? 'nuevo sol' : 'dolar';
@@ -98,10 +96,8 @@ class SliderContainer extends ConsumerWidget {
       data: (lastOperations) {
         if (fund.fundType == FundTypeEnum.corporate) {
           // reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
-          filteredOperations = lastOperations
-              .where((element) =>
-                  element.enterprisePreInvestment?.currency == selectedCurrency)
-              .toList();
+          filteredOperations =
+              lastOperations.where((element) => element.enterprisePreInvestment?.currency == selectedCurrency).toList();
 
           lastOperations = filteredOperations;
         }
@@ -174,9 +170,7 @@ class DividerHome extends ConsumerWidget {
       ),
       child: Divider(
         thickness: 2,
-        color: isDarkMode
-            ? const Color(HomeV4Colors.dividerDark)
-            : const Color(HomeV4Colors.dividerLight),
+        color: isDarkMode ? const Color(HomeV4Colors.dividerDark) : const Color(HomeV4Colors.dividerLight),
       ),
     );
   }

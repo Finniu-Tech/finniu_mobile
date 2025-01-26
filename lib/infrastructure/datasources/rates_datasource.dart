@@ -1,71 +1,33 @@
+// lib/infrastructure/datasources/rates_datasource.dart
 import 'package:dio/dio.dart';
-import 'package:finniu/infrastructure/models/money_rate_model.dart';
+import 'package:finniu/domain/entities/rates_entity.dart';
+import 'package:finniu/main.dart';
 
-class MoneyRatesDataSource {
-  static const String sunatRateApi = "https://api.apis.net.pe/v2/sunat/tipo-cambio";
-  static const String rextieAuthApi = "https://api.rextie.com/api/v1/auth/token";
-  static const String rextieRateApi = "https://api.rextie.com/api/ext/v1/services/quotes";
+abstract class RatesDataSource {
+  Future<RatesResponseEntity> getRates();
+}
 
-  final Dio _dio;
-  String? _rextieToken;
+class RatesDataSourceImpl implements RatesDataSource {
+  final Dio dio;
 
-  MoneyRatesDataSource() : _dio = Dio();
+  RatesDataSourceImpl({required this.dio});
 
-  Future<SunatRateResponse> getSunatRate(String date) async {
+  @override
+  Future<RatesResponseEntity> getRates() async {
+    late String url;
     try {
-      final response = await _dio.get(
-        '$sunatRateApi?date=$date',
-        options: Options(
-          headers: {
-            'Authorization': 'apis-token-12152.tA7uF92fnrOKC4GEs7Q2KxAqjw7hVHB1',
-          },
-        ),
-      );
-      return SunatRateResponse.fromJson(response.data);
-    } catch (e) {
-      throw Exception('Failed to fetch SUNAT rate: $e');
-    }
-  }
+      if (appConfig.environment == "production") {
+        url = 'https://nsipetgisa.execute-api.us-east-1.amazonaws.com/rates';
+      } else {
+        url = 'https://nsipetgisa.execute-api.us-east-2.amazonaws.com/rates';
+      }
 
-  Future<void> authenticateRextie(String username, String password) async {
-    try {
-      final response = await _dio.post(
-        rextieAuthApi,
-        data: {
-          'username': username,
-          'password': password,
-        },
-      );
-      _rextieToken = RextieAuthResponse.fromJson(response.data).accessToken;
-    } catch (e) {
-      throw Exception('Failed to authenticate with Rextie: $e');
-    }
-  }
+      final response = await dio.get(url);
 
-  Future<RextieRateResponse> getRextieRate(int profileId) async {
-    if (_rextieToken == null) {
-      throw Exception('Must authenticate with Rextie first');
-    }
-
-    try {
-      final response = await _dio.post(
-        '$rextieRateApi?profile_id=$profileId',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $_rextieToken',
-            'Content-Type': 'application/json',
-          },
-        ),
-        data: {
-          'profile_id': profileId,
-          'source_currency': 'USD',
-          'source_amount': '1000.00',
-          'target_currency': 'PEN',
-        },
-      );
-      return RextieRateResponse.fromJson(response.data);
+      final ratesResponse = RatesResponseModel.fromJson(response.data);
+      return ratesResponse.toEntity();
     } catch (e) {
-      throw Exception('Failed to fetch Rextie rate: $e');
+      throw Exception('Error getting rates: $e');
     }
   }
 }
