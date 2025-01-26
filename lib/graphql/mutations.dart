@@ -635,11 +635,14 @@ class MutationRepository {
   static String saveLocationDataV2() {
     return '''
   mutation RegisterUserUbication(
-      \$country: String!
-      \$region: String!
-      \$province: String!
-      \$district: String!
-      \$address: String!
+      \$country: String
+      \$region: String
+      \$province: String
+      \$district: String
+      \$address: String
+      \$regionExt: String
+      \$provinceExt: String
+      \$districtExt: String
   ){
     registerUserUbication(input:{
       country: \$country,
@@ -647,6 +650,10 @@ class MutationRepository {
       province: \$province,
       district: \$district,
       address: \$address,
+      regionExt: \$regionExt,
+      provinciaExt: \$provinceExt,
+      distritoExt: \$districtExt
+
     }){
       success
       messages {

@@ -11,9 +11,11 @@ import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/nabbar_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
@@ -49,8 +51,8 @@ class StepOneBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product =
-        ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
+    final product = ModalRoute.of(context)!.settings.arguments as ProductData;
+    print('product  xxx${product.toJson()}');
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
@@ -70,8 +72,8 @@ class StepOneBody extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 lines: 2,
                 align: TextAlign.start,
-                textDark: product.titleDark,
-                textLight: product.titleLight,
+                textDark: product.style.titleDark,
+                textLight: product.style.textLight,
               ),
             ),
             const SizedBox(height: 10),
@@ -92,12 +94,31 @@ class StepOneBody extends StatelessWidget {
 }
 
 class FormStepOne extends HookConsumerWidget {
-  final ProductContainerStyles product;
+  final ProductData product;
   static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   const FormStepOne({
     super.key,
     required this.product,
   });
+
+  int parseMoneyString(String? moneyString) {
+    if (moneyString == null || moneyString.isEmpty) return 0;
+
+    // Remover todos los caracteres no numéricos excepto punto y coma
+    String cleanString = moneyString.replaceAll(RegExp(r'[^0-9.,]'), '');
+
+    // Remover comas
+    cleanString = cleanString.replaceAll(',', '');
+
+    // Si hay punto decimal, tomar solo la parte entera
+    if (cleanString.contains('.')) {
+      cleanString = cleanString.split('.')[0];
+    }
+
+    // Convertir a entero
+    return int.tryParse(cleanString) ?? 0;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.read(isSolesStateProvider);
@@ -114,10 +135,9 @@ class FormStepOne extends HookConsumerWidget {
     final ValueNotifier<bool> originOtherError = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
-    final List<String> optionsTime =
-        product.titleText == "Producto de inversión a Plazo Fijo"
-            ? ["6 meses", "12 meses", "24 meses"]
-            : ["12 meses", "24 meses", "36 meses"];
+    final List<String> optionsTime = product.titleText == "Fondo inversiones empresariales"
+        ? ["6 meses", "12 meses", "24 meses"]
+        : ["12 meses", "24 meses", "36 meses"];
     const List<String> optionsOrigin = [
       "Salario",
       "Ahorros",
@@ -181,7 +201,60 @@ class FormStepOne extends HookConsumerWidget {
       context.loaderOverlay.hide();
     }
 
-    void onPressSimulator() {
+    Future<void> _handleCompleteProfile({
+      required BuildContext context,
+      required WidgetRef ref,
+      required ProductData product,
+      required TextEditingController amountController,
+      required TextEditingController timeController,
+      required TextEditingController couponController,
+      required bool isSoles,
+      required TextEditingController originController,
+      required TextEditingController originOtherController,
+    }) async {
+      try {
+        context.loaderOverlay.show();
+        Navigator.pop(context);
+
+        final response = await savePreInvestment(
+          context,
+          ref,
+          SaveCorporateInvestmentInput(
+            amount: amountController.text,
+            months: timeController.text.split(' ')[0],
+            coupon: couponController.text,
+            currency: isSoles ? currencyNuevoSol : currencyDollar,
+            originFunds: OriginFunds(
+              originFundsEnum: OriginFoundsUtil.fromReadableName(
+                originController.text,
+              ),
+              otherText: originOtherController.text,
+            ),
+            fundUUID: product.uuid,
+          ),
+        );
+
+        navigateToNext(
+          success: response.success,
+          ref: ref,
+          context: context,
+          uuid: response.preInvestmentUUID ?? '',
+          amount: amountController.text,
+          productData: product,
+        );
+      } catch (e, _) {
+        context.loaderOverlay.hide();
+        showSnackBarV2(
+          context: context,
+          title: "Error",
+          message: "Ocurrió un error al procesar la inversión",
+          snackType: SnackType.error,
+        );
+      }
+    }
+
+    Future<void> onPressSimulator() async {
+      print('on press simulator xxxx');
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.formValidateError,
@@ -204,39 +277,53 @@ class FormStepOne extends HookConsumerWidget {
         if (originError.value) return;
         if (originOtherError.value) return;
 
+        final profileCompletenessAsync = await ref.read(userProfileCompletenessProvider.future);
+
         investmentSimulationModal(
           context,
           startingAmount: int.parse(amountController.text),
           finalAmount: int.parse(amountController.text),
           mouthInvestment: int.parse(timeController.text.split(' ')[0]),
+          fundUUID: product.uuid,
           coupon: couponController.text,
           toInvestPressed: () async {
-            context.loaderOverlay.show();
-            Navigator.pop(context);
-            final response = await savePreInvestment(
-              context,
-              ref,
-              SaveCorporateInvestmentInput(
-                amount: amountController.text,
-                months: timeController.text.split(' ')[0],
-                coupon: couponController.text,
-                currency: isSoles ? currencyNuevoSol : currencyDollar,
-                originFunds: OriginFunds(
-                  originFundsEnum: OriginFoundsUtil.fromReadableName(
-                    originController.text,
-                  ),
-                  otherText: originOtherController.text,
-                ),
-                fundUUID: product.uuid,
-              ),
-            );
-            navigateToNext(
-              success: response.success,
-              ref: ref,
-              context: context,
-              uuid: response.preInvestmentUUID ?? '',
-              amount: amountController.text,
-            );
+            try {
+              if (!profileCompletenessAsync.isComplete()) {
+                Navigator.pop(context);
+                showVerifyIdentity(
+                  context,
+                  profileCompletenessAsync,
+                  redirect: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/v4/step_one',
+                      arguments: product,
+                      (route) => false,
+                    );
+                  },
+                );
+              } else {
+                await _handleCompleteProfile(
+                  context: context,
+                  ref: ref,
+                  product: product,
+                  amountController: amountController,
+                  timeController: timeController,
+                  couponController: couponController,
+                  isSoles: isSoles,
+                  originController: originController,
+                  originOtherController: originOtherController,
+                );
+              }
+            } catch (e, _) {
+              Navigator.pop(context);
+              showSnackBarV2(
+                context: context,
+                title: "Error",
+                message: "Ocurrió un error inesperado",
+                snackType: SnackType.error,
+              );
+            }
           },
           recalculatePressed: () => {
             Navigator.pop(context),
@@ -281,10 +368,9 @@ class FormStepOne extends HookConsumerWidget {
                     field: "Monto",
                     context: context,
                     boolNotifier: amountError,
-                    minValue: product.titleText ==
-                            "Producto de inversión a Plazo Fijo"
-                        ? 1000
-                        : 50000,
+                    minValue: isSoles
+                        ? parseMoneyString(product.minimumTextPEN).toDouble()
+                        : parseMoneyString(product.minimumTextUSD).toDouble(),
                   );
 
                   return null;
@@ -350,9 +436,7 @@ class FormStepOne extends HookConsumerWidget {
               );
             },
           ),
-          originController.text == "Otros"
-              ? const SizedBox(height: 25)
-              : const SizedBox(),
+          originController.text == "Otros" ? const SizedBox(height: 25) : const SizedBox(),
           originController.text == "Otros"
               ? ValueListenableBuilder<bool>(
                   valueListenable: originOtherError,
@@ -476,8 +560,7 @@ class CouponApplyRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text:
-                      '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
+                  text: '${planSimulation.value?.finalRentability?.toString() ?? 0}% ',
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,
@@ -518,10 +601,8 @@ class CouponApplyRow extends StatelessWidget {
               children: [
                 TextPoppins(
                   text: isSoles
-                      ? formatterSoles
-                          .format(planSimulation.value?.profitability)
-                      : formatterUSD
-                          .format(planSimulation.value?.profitability),
+                      ? formatterSoles.format(planSimulation.value?.profitability)
+                      : formatterUSD.format(planSimulation.value?.profitability),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   textDark: primaryDark,

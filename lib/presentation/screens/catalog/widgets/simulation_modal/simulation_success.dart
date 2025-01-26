@@ -193,7 +193,7 @@ class SimulationSuccess extends ConsumerWidget {
             ),
           ),
           ButtonInvestment(
-            text: "Continuar",
+            text: "Quiero invertir",
             onPressed: toInvestPressed,
           ),
           GestureDetector(

@@ -12,12 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class NavigateReinves {
+class NavigateReinvest {
   final String uuid;
   final bool addAmount;
-  NavigateReinves({
+  final ProductData product;
+  NavigateReinvest({
     required this.uuid,
     required this.addAmount,
+    required this.product,
   });
 }
 
@@ -42,7 +44,8 @@ class ReInvestProvider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args = ModalRoute.of(context)?.settings.arguments as NavigateReinves;
+    final args = ModalRoute.of(context)?.settings.arguments as NavigateReinvest;
+    final productData = args.product;
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     context.loaderOverlay.show();
     return FutureBuilder(
@@ -62,6 +65,7 @@ class ReInvestProvider extends ConsumerWidget {
             data: data,
             isDarkMode: isDarkMode,
             addAmount: args.addAmount,
+            product: productData,
           );
         } else {
           context.loaderOverlay.hide();
@@ -78,15 +82,17 @@ class ReInvestBody extends StatelessWidget {
     required this.data,
     required this.isDarkMode,
     this.addAmount = false,
+    required this.product,
   });
   final bool addAmount;
   final bool isDarkMode;
   final ReInvestDtoV4 data;
+  final ProductData product;
   @override
   Widget build(BuildContext context) {
-    final invest = data.fundName == "Fondo inversiones empresariales"
-        ? productFixedTerm
-        : productRealEstate;
+    // final invest = data.fundName == "Fondo inversiones empresariales"
+    //     ? productFixedTerm
+    //     : productRealEstate;
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
@@ -95,19 +101,19 @@ class ReInvestBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             FundRowStep(
-              icon: invest.imageProduct,
+              icon: product.imageProduct,
             ),
             const SizedBox(height: 10),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               child: TextPoppins(
-                text: invest.titleText,
+                text: product.titleText,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 lines: 2,
                 align: TextAlign.start,
-                textDark: invest.titleDark,
-                textLight: invest.titleLight,
+                textDark: product.style.textDark,
+                textLight: product.style.textLight,
               ),
             ),
             const SizedBox(height: 10),
@@ -124,11 +130,11 @@ class ReInvestBody extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w500,
               align: TextAlign.start,
-              textDark: invest.titleDark,
-              textLight: invest.titleLight,
+              textDark: product.style.titleDark,
+              textLight: product.style.titleLight,
             ),
             FormStepOneReinvest(
-              product: invest,
+              product: product,
               data: data,
               isDarkMode: isDarkMode,
               isSoles: data.currency == "NUEVO_SOL",

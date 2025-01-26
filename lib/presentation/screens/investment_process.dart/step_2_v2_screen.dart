@@ -37,32 +37,34 @@ class StepTwoBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ProductContainerStyles(
-      backgroundContainerDark: 0xff1B1B1B,
-      backgroundContainerLight: 0xffE9FAFF,
-      imageProduct: "🏢",
-      titleText: "Producto de inversión a Plazo Fijo",
-      minimumText: "1.000",
-      profitabilityText: "19",
-      titleDark: 0xffFFFFFF,
-      titleLight: 0xff0D3A5C,
-      minimumDark: 0xff0D3A5C,
-      minimumLight: 0xff0D3A5C,
-      profitabilityDark: 0xffB5FF8A,
-      profitabilityLight: 0xffD2FDBA,
-      isSoles: true,
-      uuid: "1",
-      buttonBackDark: 0xffA2E6FA,
-      buttonBackLight: 0xff0D3A5C,
-      buttonTextDark: 0xff0D3A5C,
-      buttonTextLight: 0xffFFFFFF,
-      textDark: 0xff000000,
-      textLight: 0xff000000,
-      minimunTextColorDark: 0xffFFFFFF,
-      minimumTextColorLight: 0xffFFFFFF,
-      minimumLightSoles: 0xffBBF0FF,
-      minimumTextColorLightSoles: 0xff000000,
-    );
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final product = args['productData'] as ProductData;
+    // final colors = ProductContainerStyles(
+    //   backgroundContainerDark: 0xff1B1B1B,
+    //   backgroundContainerLight: 0xffE9FAFF,
+    //   imageProduct: "🏢",
+    //   titleText: "Producto de inversión a Plazo Fijo",
+    //   minimumText: "1.000",
+    //   profitabilityText: "19",
+    //   titleDark: 0xffFFFFFF,
+    //   titleLight: 0xff0D3A5C,
+    //   minimumDark: 0xff0D3A5C,
+    //   minimumLight: 0xff0D3A5C,
+    //   profitabilityDark: 0xffB5FF8A,
+    //   profitabilityLight: 0xffD2FDBA,
+    //   isSoles: true,
+    //   uuid: "1",
+    //   buttonBackDark: 0xffA2E6FA,
+    //   buttonBackLight: 0xff0D3A5C,
+    //   buttonTextDark: 0xff0D3A5C,
+    //   buttonTextLight: 0xffFFFFFF,
+    //   textDark: 0xff000000,
+    //   textLight: 0xff000000,
+    //   minimunTextColorDark: 0xffFFFFFF,
+    //   minimumTextColorLight: 0xffFFFFFF,
+    //   minimumLightSoles: 0xffBBF0FF,
+    //   minimumTextColorLightSoles: 0xff000000,
+    // );
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const int textDark = 0xffFFFFFF;
@@ -75,11 +77,11 @@ class StepTwoBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FundRowStep(
-              icon: colors.imageProduct,
+              icon: product.imageProduct,
             ),
             const SizedBox(height: 15),
-            const TextPoppins(
-              text: "Fondo prestamos\nempresariales",
+            TextPoppins(
+              text: product.titleText,
               fontSize: 20,
               fontWeight: FontWeight.w600,
               lines: 2,
@@ -98,13 +100,13 @@ class StepTwoBody extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             BankTranferContainer(
-              title: "Desde que banco nos transfieres ",
+              title: "Desde qué banco nos transfieres ",
               providerWatch: selectedBankAccountSenderProvider,
               isSended: true,
             ),
             const SizedBox(height: 15),
             BankTranferContainer(
-              title: "A que banco te depositamos",
+              title: "A qué banco te depositamos",
               providerWatch: selectedBankAccountReceiverProvider,
               isSended: false,
             ),
@@ -139,8 +141,7 @@ class ColumnPush extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final conditions = useState(false);
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     Future<void> pushData() async {
       final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
       final bankSender = ref.read(selectedBankAccountSenderProvider);
@@ -220,7 +221,7 @@ class ColumnPush extends HookConsumerWidget {
           bankAccountReceiverId: bankReceiver.id,
           readContract: conditions.value,
           base64Image: voucherImageBase64,
-          isReInvestment: args['isReInvestment'] ?? false,
+          isReInvestment: args['isReinvestment'] ?? false,
         ),
       );
 

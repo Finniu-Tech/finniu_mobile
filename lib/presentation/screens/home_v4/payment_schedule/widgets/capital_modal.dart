@@ -42,8 +42,7 @@ class CapitalModalBody extends HookConsumerWidget {
             message: "Voucher no disponible",
             snackType: SnackType.warning);
       } else {
-        Navigator.pushNamed(context, '/v4/push_to_url',
-            arguments: profModal.downloadVoucher);
+        Navigator.pushNamed(context, '/v4/push_to_url', arguments: profModal.downloadVoucher);
       }
     }
 
@@ -100,7 +99,7 @@ class CapitalModalBody extends HookConsumerWidget {
                       SizedBox(height: 10),
                       TextPoppins(
                         text:
-                            "La fecha del pago del capital se define según el día que haya adjuntado la constancia de transferencia cuando realizaste tu inversión ",
+                            "La fecha del pago del capital se define según el día en que se haya validado la transferencia de su inversión ",
                         fontSize: 11,
                         lines: 4,
                       ),
@@ -167,9 +166,7 @@ class DatePay extends ConsumerWidget {
           width: double.infinity,
           height: 30,
           decoration: BoxDecoration(
-            color: isDarkMode
-                ? const Color(backgroundColorDark)
-                : const Color(backgroundColorLight),
+            color: isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
             border: Border.all(
               width: 1,
               color: const Color(border),

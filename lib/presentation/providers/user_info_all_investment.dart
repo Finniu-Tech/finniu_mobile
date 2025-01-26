@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:finniu/domain/entities/user_all_investment_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/graphql/queries.dart';
@@ -5,8 +7,7 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userInfoAllInvestmentFutureProvider =
-    FutureProvider.autoDispose<UserInfoAllInvestment?>((ref) async {
+final userInfoAllInvestmentFutureProvider = FutureProvider.autoDispose<UserInfoAllInvestment?>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
 
@@ -31,8 +32,7 @@ final userInfoAllInvestmentFutureProvider =
     return null;
   }
 });
-final userInfoAllInvestmentV4FutureProvider =
-    FutureProvider.autoDispose<UserInfoAllInvestmentV4?>((ref) async {
+final userInfoAllInvestmentV4FutureProvider = FutureProvider.autoDispose<UserInfoAllInvestmentV4?>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
 
@@ -50,11 +50,14 @@ final userInfoAllInvestmentV4FutureProvider =
     if (data == null) {
       return null;
     }
-    UserInfoAllInvestmentV4 user = UserInfoAllInvestmentV4.fromJson(data);
 
-    return user;
-  } catch (e) {
-    print(e);
+    try {
+      UserInfoAllInvestmentV4 user = UserInfoAllInvestmentV4.fromJson(data);
+      return user;
+    } catch (parseError, stackTrace) {
+      rethrow; // Esto propagará el error con el stack trace
+    }
+  } catch (e, _) {
     return null;
   }
 });

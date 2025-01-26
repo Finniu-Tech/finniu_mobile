@@ -87,6 +87,7 @@ class MoneyBody extends HookConsumerWidget {
         uuid,
         0,
         isSoles ? currencyEnum.PEN : currencyEnum.USD,
+        null,
         true,
       );
     }
@@ -151,7 +152,7 @@ class MoneyBody extends HookConsumerWidget {
             itemCount: pages.length,
           ),
           Positioned(
-            bottom: 20,
+            bottom: 50,
             child: Column(
               children: [
                 PageSelectMoney(
@@ -240,9 +241,7 @@ class PageFourMoney extends StatelessWidget {
               style: TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 20,
-                color: isDarkMode
-                    ? const Color(titleDark)
-                    : const Color(titleLight),
+                color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                 fontWeight: FontWeight.w500,
                 decoration: TextDecoration.none,
               ),
@@ -253,9 +252,7 @@ class PageFourMoney extends StatelessWidget {
                 TextSpan(
                   text: "llegar más lejos!",
                   style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(titleDark)
-                        : const Color(titleLight),
+                    color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -273,9 +270,7 @@ class PageFourMoney extends StatelessWidget {
               style: TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 16,
-                color: isDarkMode
-                    ? const Color(subTitleDark)
-                    : const Color(subTitleLight),
+                color: isDarkMode ? const Color(subTitleDark) : const Color(subTitleLight),
                 fontWeight: FontWeight.w400,
                 decoration: TextDecoration.none,
               ),
@@ -286,9 +281,7 @@ class PageFourMoney extends StatelessWidget {
                 TextSpan(
                   text: "Reinvierte hoy mismo ",
                   style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(subTitleDark)
-                        : const Color(subTitleLight),
+                    color: isDarkMode ? const Color(subTitleDark) : const Color(subTitleLight),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -299,9 +292,7 @@ class PageFourMoney extends StatelessWidget {
                 TextSpan(
                   text: "metas financieras!",
                   style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(subTitleDark)
-                        : const Color(subTitleLight),
+                    color: isDarkMode ? const Color(subTitleDark) : const Color(subTitleLight),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -362,9 +353,7 @@ class PageThreeMoney extends StatelessWidget {
               style: TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 20,
-                color: isDarkMode
-                    ? const Color(titleDark)
-                    : const Color(titleLight),
+                color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                 fontWeight: FontWeight.w500,
                 decoration: TextDecoration.none,
               ),
@@ -375,9 +364,7 @@ class PageThreeMoney extends StatelessWidget {
                 TextSpan(
                   text: "reinvertir ",
                   style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(titleDark)
-                        : const Color(titleLight),
+                    color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -398,9 +385,7 @@ class PageThreeMoney extends StatelessWidget {
               style: TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 16,
-                color: isDarkMode
-                    ? const Color(subTitleDark)
-                    : const Color(subTitleLight),
+                color: isDarkMode ? const Color(subTitleDark) : const Color(subTitleLight),
                 fontWeight: FontWeight.w500,
                 decoration: TextDecoration.none,
               ),
@@ -411,9 +396,7 @@ class PageThreeMoney extends StatelessWidget {
                 TextSpan(
                   text: "podrías ganar hasta",
                   style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(titleDark)
-                        : const Color(titleLight),
+                    color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -434,9 +417,7 @@ class PageThreeMoney extends StatelessWidget {
                   height: 91,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: isDarkMode
-                        ? const Color(amountContainerDark)
-                        : const Color(amountContainerLight),
+                    color: isDarkMode ? const Color(amountContainerDark) : const Color(amountContainerLight),
                   ),
                   child: amountParsed == 0
                       ? TextPoppins(
@@ -478,9 +459,7 @@ class PageThreeMoney extends StatelessWidget {
               style: TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 16,
-                color: isDarkMode
-                    ? const Color(subTitleDark)
-                    : const Color(subTitleLight),
+                color: isDarkMode ? const Color(subTitleDark) : const Color(subTitleLight),
                 fontWeight: FontWeight.w500,
                 decoration: TextDecoration.none,
               ),
@@ -491,9 +470,7 @@ class PageThreeMoney extends StatelessWidget {
                 TextSpan(
                   text: "$deadlineString.",
                   style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(subTitleDark)
-                        : const Color(subTitleLight),
+                    color: isDarkMode ? const Color(subTitleDark) : const Color(subTitleLight),
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -550,9 +527,7 @@ class PageTwoMoney extends StatelessWidget {
           height: 130,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode
-                ? const Color(amountContainerDark)
-                : const Color(amountContainerLight),
+            color: isDarkMode ? const Color(amountContainerDark) : const Color(amountContainerLight),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -562,9 +537,7 @@ class PageTwoMoney extends StatelessWidget {
                 "assets/svg_icons/dolar_money_icon.svg",
                 width: 35,
                 height: 35,
-                color: isDarkMode
-                    ? const Color(amountDark)
-                    : const Color(amountLight),
+                color: isDarkMode ? const Color(amountDark) : const Color(amountLight),
               ),
               const TextPoppins(
                 text: "Hace un año invertiste",
@@ -574,8 +547,7 @@ class PageTwoMoney extends StatelessWidget {
               ),
               amountParsed == 0
                   ? TextPoppins(
-                      text:
-                          formatNumberNotComa(isSoles: isSoles, number: amount),
+                      text: formatNumberNotComa(isSoles: isSoles, number: amount),
                       fontSize: 36,
                       textDark: amountDark,
                       textLight: amountLight,
@@ -597,9 +569,7 @@ class PageTwoMoney extends StatelessWidget {
           height: 130,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode
-                ? const Color(rentContainerDark)
-                : const Color(rentContainerLight),
+            color: isDarkMode ? const Color(rentContainerDark) : const Color(rentContainerLight),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -609,9 +579,7 @@ class PageTwoMoney extends StatelessWidget {
                 "assets/svg_icons/status_up_icon_draft.svg",
                 width: 35,
                 height: 35,
-                color: isDarkMode
-                    ? const Color(rentIconDark)
-                    : const Color(rentIconLight),
+                color: isDarkMode ? const Color(rentIconDark) : const Color(rentIconLight),
               ),
               const TextPoppins(
                 text: "con nosotros y ya has ganado",
@@ -691,9 +659,7 @@ class PageOneMoney extends StatelessWidget {
               style: TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 16,
-                color: isDarkMode
-                    ? const Color(titleDark)
-                    : const Color(titleLight),
+                color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                 fontWeight: FontWeight.w500,
                 decoration: TextDecoration.none,
               ),
@@ -704,9 +670,7 @@ class PageOneMoney extends StatelessWidget {
                 TextSpan(
                   text: "quedarte ",
                   style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(colorDark)
-                        : const Color(titleLight),
+                    color: isDarkMode ? const Color(colorDark) : const Color(titleLight),
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -720,9 +684,7 @@ class PageOneMoney extends StatelessWidget {
                 TextSpan(
                   text: "duplicar tus ganancias",
                   style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(colorDark)
-                        : const Color(titleLight),
+                    color: isDarkMode ? const Color(colorDark) : const Color(titleLight),
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),

@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-ScanUserModel scanModelFromJson(String str) =>
-    ScanUserModel.fromJson(json.decode(str));
+ScanUserModel scanModelFromJson(String str) => ScanUserModel.fromJson(json.decode(str));
 
 String scanModelToJson(ScanUserModel data) => json.encode(data.toJson());
 
@@ -17,9 +16,7 @@ class ScanUserModel {
   RegisterUser? registerUser;
 
   factory ScanUserModel.fromJson(Map<String, dynamic> json) => ScanUserModel(
-        registerUser: json["registerUser"] == null
-            ? null
-            : RegisterUser.fromJson(json["registerUser"]),
+        registerUser: json["registerUser"] == null ? null : RegisterUser.fromJson(json["registerUser"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,9 +58,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         email: json["email"],
-        userProfile: json["userProfile"] == null
-            ? null
-            : UserProfile.fromJson(json["userProfile"]),
+        userProfile: json["userProfile"] == null ? null : UserProfile.fromJson(json["userProfile"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -91,6 +86,10 @@ class UserProfile {
     this.occupation,
     this.provincia,
     this.region,
+    this.country,
+    this.extDistrict,
+    this.extProvince,
+    this.extRegion,
     this.typeDocument,
     this.phoneNumber,
     this.uuid,
@@ -125,6 +124,7 @@ class UserProfile {
   String? nickName;
   String? civilStatus;
   String? distrito;
+
   String? documentNumber;
   String? gender;
   bool? hasCompletedOnboarding;
@@ -133,6 +133,10 @@ class UserProfile {
   String? occupation;
   String? provincia;
   String? region;
+  String? extDistrict;
+  String? extProvince;
+  String? extRegion;
+  String? country;
   String? typeDocument;
   String? uuid;
   String? phoneNumber;
@@ -167,16 +171,18 @@ class UserProfile {
         id: json["userId"],
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
-        documentNumber: json["documentNumber"].toString() == 'null'
-            ? ''
-            : json["documentNumber"].toString(),
+        documentNumber: json["documentNumber"].toString() == 'null' ? '' : json["documentNumber"].toString(),
         gender: json["gender"],
         hasCompletedOnboarding: json["hasCompletedOnboarding"],
         hasCompletedTour: json["hasCompletedTour"],
         isActive: json["isActive"],
         occupation: json["occupation"],
         distrito: json["distrito"]?["id"],
+        country: json["country"],
         provincia: json["provincia"]?["id"],
+        extDistrict: json["distritoExt"],
+        extProvince: json["provinciaExt"],
+        extRegion: json["regionExt"],
         region: json["region"]?["id"],
         typeDocument: json["typeDocument"],
         uuid: json["uuid"],
@@ -184,9 +190,8 @@ class UserProfile {
         imageProfile: json["imageProfile"],
         imageProfileUrl: json["imageProfileUrl"],
         address: json["address"],
-        percentCompleteProfile: json["percentCompleteProfile"] != null
-            ? double.parse(json["percentCompleteProfile"].toString())
-            : 0.0,
+        percentCompleteProfile:
+            json["percentCompleteProfile"] != null ? double.parse(json["percentCompleteProfile"].toString()) : 0.0,
         lastNameFather: json["lastNameFather"],
         lastNameMother: json["lastNameMother"],
         countryPrefix: json["countryPrefix"],
@@ -200,8 +205,7 @@ class UserProfile {
         facebook: json["facebook"],
         instagram: json["instagram"],
         linkedin: json["linkedin"],
-        isDirectorOrShareholder10Percent:
-            json["isDirectorOrShareholder10Percent"],
+        isDirectorOrShareholder10Percent: json["isDirectorOrShareholder10Percent"],
         isPublicOfficialOrFamily: json["isPublicOfficialOrFamily"],
         acceptPrivacyPolicy: json["acceptPrivacyPolicy"],
         acceptTermsConditions: json["acceptTermsConditions"],
@@ -216,6 +220,7 @@ class UserProfile {
         "nickName": nickName,
         "civilStatus": civilStatus,
         "distrito": distrito,
+        "country": country,
         "documentNumber": documentNumber,
         "gender": gender,
         "hasCompletedOnboarding": hasCompletedOnboarding,
@@ -272,6 +277,10 @@ class UserProfile {
     bool? acceptPrivacyPolicy,
     bool? acceptTermsConditions,
     String? birthDate,
+    String? extDistrict,
+    String? extProvince,
+    String? extRegion,
+    String? country,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -283,6 +292,10 @@ class UserProfile {
       region: region ?? this.region,
       provincia: provincia ?? this.provincia,
       distrito: distrito ?? this.distrito,
+      extDistrict: extDistrict ?? this.extDistrict,
+      extProvince: extProvince ?? this.extProvince,
+      extRegion: extRegion ?? this.extRegion,
+      country: country ?? this.country,
       hasCompletedOnboarding: hasCompletedOnboarding,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
@@ -291,8 +304,7 @@ class UserProfile {
       documentNumber: documentNumber ?? this.documentNumber,
       address: address ?? this.address,
       occupation: occupation ?? this.occupation,
-      percentCompleteProfile:
-          percentCompleteProfile ?? this.percentCompleteProfile,
+      percentCompleteProfile: percentCompleteProfile ?? this.percentCompleteProfile,
       hasCompletedTour: hasCompletedTour ?? this.hasCompletedTour,
       lastNameFather: lastNameFather ?? this.lastNameFather,
       lastNameMother: lastNameMother ?? this.lastNameMother,
@@ -308,13 +320,10 @@ class UserProfile {
       facebook: facebook ?? this.facebook,
       instagram: instagram ?? this.instagram,
       linkedin: linkedin ?? this.linkedin,
-      isDirectorOrShareholder10Percent: isDirectorOrShareholder10Percent ??
-          this.isDirectorOrShareholder10Percent,
-      isPublicOfficialOrFamily:
-          isPublicOfficialOrFamily ?? this.isPublicOfficialOrFamily,
+      isDirectorOrShareholder10Percent: isDirectorOrShareholder10Percent ?? this.isDirectorOrShareholder10Percent,
+      isPublicOfficialOrFamily: isPublicOfficialOrFamily ?? this.isPublicOfficialOrFamily,
       acceptPrivacyPolicy: acceptPrivacyPolicy ?? this.acceptPrivacyPolicy,
-      acceptTermsConditions:
-          acceptTermsConditions ?? this.acceptTermsConditions,
+      acceptTermsConditions: acceptTermsConditions ?? this.acceptTermsConditions,
       birthDate: birthDate ?? this.birthDate,
     );
   }
@@ -347,28 +356,21 @@ class UserProfile {
 
   bool completeLocationData() {
     return region != null &&
-        region!.isNotEmpty &&
-        distrito != null &&
-        distrito!.isNotEmpty &&
-        provincia != null &&
-        provincia!.isNotEmpty &&
+        (region!.isNotEmpty || extRegion != null) &&
+        (distrito != null || extDistrict != null) &&
+        (distrito!.isNotEmpty || extDistrict!.isNotEmpty) &&
+        (provincia != null || extProvince != null) &&
+        (provincia!.isNotEmpty || extProvince!.isNotEmpty) &&
         address != null &&
         address!.isNotEmpty;
   }
 
   bool completeJobData() {
-    return occupation != null &&
-        occupation!.isNotEmpty &&
-        companyName != null &&
-        companyName!.isNotEmpty;
+    return occupation != null && occupation!.isNotEmpty && companyName != null && companyName!.isNotEmpty;
   }
 
   bool completeAboutData() {
-    return imageProfileUrl != null &&
-        biography != null &&
-        facebook != null &&
-        instagram != null &&
-        linkedin != null;
+    return imageProfileUrl != null && biography != null && facebook != null && instagram != null && linkedin != null;
   }
 
   double completeData() {

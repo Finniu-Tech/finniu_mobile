@@ -60,15 +60,27 @@ class UserProfileDataSourceImp {
   }
 
   Future<UserProfileCompleteness> getUserProfileCompleteness({required GraphQLClient client}) async {
-    final response = await client.query(
-      QueryOptions(
-        document: gql(
-          QueryRepository.getProfileCompleteness,
+    try {
+      final response = await client.query(
+        QueryOptions(
+          document: gql(
+            QueryRepository.getProfileCompleteness,
+          ),
+          fetchPolicy: FetchPolicy.noCache,
         ),
-        fetchPolicy: FetchPolicy.noCache,
-      ),
-    );
+      );
 
-    return UserProfileCompleteness.fromJson(response.data?['userCompletenessProfile']);
+      if (response.data == null || response.data?['userCompletenessProfile'] == null) {
+        throw Exception('No se encontraron datos del perfil');
+      }
+
+      final profileData = response.data?['userCompletenessProfile'];
+
+      final profile = UserProfileCompleteness.fromJson(profileData);
+
+      return profile;
+    } catch (e, _) {
+      rethrow;
+    }
   }
 }

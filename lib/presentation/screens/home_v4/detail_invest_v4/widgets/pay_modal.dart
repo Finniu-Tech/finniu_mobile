@@ -24,7 +24,7 @@ class _ModalBody extends ConsumerWidget {
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     const String title = "Fecha del pago de mi capital";
     const String text =
-        "La fecha del pago del capital se define según el día que haya adjuntado la constancia de transferencia cuando realizaste tu inversión ";
+        "La fecha del pago del capital se define según el día en que se haya validado la transferencia de su inversión";
     const int tableTitleDark = 0xffA2E6FA;
     const int tableTitleLight = 0xff08273F;
     const int tableTitleTextDark = 0xff000000;
@@ -67,9 +67,7 @@ class _ModalBody extends ConsumerWidget {
                     height: 36,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: isDarkMode
-                          ? const Color(tableTitleDark)
-                          : const Color(tableTitleLight),
+                      color: isDarkMode ? const Color(tableTitleDark) : const Color(tableTitleLight),
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                       ),
@@ -88,9 +86,7 @@ class _ModalBody extends ConsumerWidget {
                     height: 36,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: isDarkMode
-                          ? const Color(tableTitleDark)
-                          : const Color(tableTitleLight),
+                      color: isDarkMode ? const Color(tableTitleDark) : const Color(tableTitleLight),
                       borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(10),
                       ),
@@ -116,20 +112,14 @@ class _ModalBody extends ConsumerWidget {
                       border: Border(
                         right: BorderSide(
                           width: 1,
-                          color: isDarkMode
-                              ? const Color(borderDark)
-                              : const Color(borderLight),
+                          color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
                         ),
                         bottom: BorderSide(
                           width: 1,
-                          color: isDarkMode
-                              ? const Color(borderDark)
-                              : const Color(borderLight),
+                          color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
                         ),
                       ),
-                      color: isDarkMode
-                          ? const Color(dayTitleDark)
-                          : const Color(dayTitleLight),
+                      color: isDarkMode ? const Color(dayTitleDark) : const Color(dayTitleLight),
                     ),
                     child: const TextPoppins(
                       text: "Día 13 al 27",
@@ -148,14 +138,10 @@ class _ModalBody extends ConsumerWidget {
                       border: Border(
                         bottom: BorderSide(
                           width: 1,
-                          color: isDarkMode
-                              ? const Color(borderDark)
-                              : const Color(borderLight),
+                          color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
                         ),
                       ),
-                      color: isDarkMode
-                          ? const Color(dayTitleDark)
-                          : const Color(dayTitleLight),
+                      color: isDarkMode ? const Color(dayTitleDark) : const Color(dayTitleLight),
                     ),
                     child: const TextPoppins(
                       text: "Día 30",
@@ -181,14 +167,10 @@ class _ModalBody extends ConsumerWidget {
                       border: Border(
                         right: BorderSide(
                           width: 1,
-                          color: isDarkMode
-                              ? const Color(borderDark)
-                              : const Color(borderLight),
+                          color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
                         ),
                       ),
-                      color: isDarkMode
-                          ? const Color(dayTitleDark)
-                          : const Color(dayTitleLight),
+                      color: isDarkMode ? const Color(dayTitleDark) : const Color(dayTitleLight),
                     ),
                     child: const TextPoppins(
                       text: "Día 28 al 12",
@@ -207,9 +189,7 @@ class _ModalBody extends ConsumerWidget {
                       borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(10),
                       ),
-                      color: isDarkMode
-                          ? const Color(dayTitleDark)
-                          : const Color(dayTitleLight),
+                      color: isDarkMode ? const Color(dayTitleDark) : const Color(dayTitleLight),
                     ),
                     child: const TextPoppins(
                       text: "Día 15",

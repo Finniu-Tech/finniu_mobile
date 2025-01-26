@@ -75,6 +75,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
         item.uuid,
         item.amount.toDouble(),
         isSoles ? currencyEnum.PEN : currencyEnum.USD,
+        item.fundEntity!,
         true,
       );
     }
@@ -85,10 +86,8 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
         vertical: 10,
       ),
       width: MediaQuery.of(context).size.width * 0.9,
-      height: item.isReinvestAvailable == true &&
-              item.actionStatus == ActionStatusEnumV4.reInvestmentDefault
-          ? 140
-          : 100,
+      height:
+          item.isReinvestAvailable == true && item.actionStatus == ActionStatusEnumV4.reInvestmentDefault ? 140 : 100,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
@@ -115,9 +114,8 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               Icon(
                 Icons.calendar_today_outlined,
                 size: 16,
-                color: isDarkMode
-                    ? const Color(ToValidateColorsV4.iconDark)
-                    : const Color(ToValidateColorsV4.iconLight),
+                color:
+                    isDarkMode ? const Color(ToValidateColorsV4.iconDark) : const Color(ToValidateColorsV4.iconLight),
               ),
               const SizedBox(
                 width: 5,
@@ -176,9 +174,8 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                         endNumber: item.amount,
                         duration: 2,
                         fontSize: 16,
-                        colorText: isDarkMode
-                            ? ToValidateColorsV4.itemAmonutTextDark
-                            : ToValidateColorsV4.itemAmountTextLight,
+                        colorText:
+                            isDarkMode ? ToValidateColorsV4.itemAmonutTextDark : ToValidateColorsV4.itemAmountTextLight,
                         beginNumber: 0,
                       ),
                     ],
@@ -228,9 +225,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                         ],
                       ),
                       TextPoppins(
-                        text: item.rentability != null
-                            ? item.rentability!.toStringAsFixed(2)
-                            : "0.00",
+                        text: item.rentability != null ? item.rentability!.toStringAsFixed(2) : "0.00",
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         textDark: ToValidateColorsV4.itemRentTextDark,
@@ -250,6 +245,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                   arguments: ArgumentsNavigator(
                     uuid: item.uuid,
                     status: StatusInvestmentEnum.in_course,
+                    isReinvestAvailable: item.isReinvestAvailable!,
                   ),
                 ),
                 child: Container(
@@ -272,8 +268,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               ),
             ],
           ),
-          if (item.isReinvestAvailable == true &&
-              item.actionStatus == ActionStatusEnumV4.reInvestmentDefault)
+          if (item.isReinvestAvailable == true && item.actionStatus == ActionStatusEnumV4.reInvestmentDefault)
             GestureDetector(
               onTap: navigateToReinvest,
               child: Container(

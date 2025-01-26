@@ -593,63 +593,63 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     String amount,
     CreateReInvestmentParams? reinvestmentParams,
   ) {
-    investmentSimulationModal(
-      context,
-      startingAmount: int.parse(amount),
-      finalAmount: int.parse(widget.amountController.text),
-      mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
-      coupon: widget.couponController.text,
-      toInvestPressed: () async {
-        if (widget.isReInvestment) {
-          _saveReInvestment(context, ref, reinvestmentParams!);
-        } else {
-          _savePreInvestment(
-            context,
-            ref,
-            SaveCorporateInvestmentInput(
-              amount: amount,
-              months: widget.deadLineController.text.split(' ')[0],
-              coupon: widget.couponController.text,
-              currency: widget.isSoles! ? currencyNuevoSol : currencyDollar,
-              originFunds: OriginFunds(
-                originFundsEnum: OriginFoundsUtil.fromReadableName(
-                  widget.originFundsController.text,
-                ),
-                otherText: widget.otherFundOriginController.text,
-              ),
-              fundUUID: widget.fund.uuid,
-            ),
-          );
-        }
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.continueSimulation,
-          parameters: {
-            "amout": amount,
-            "isReInvestment": widget.isReInvestment.toString(),
-            "coupon": widget.couponController.text,
-            "currency": widget.isSoles! ? currencyNuevoSol : currencyDollar,
-            "originFunds": widget.originFundsController.text,
-            "months": widget.deadLineController.text.split(' ')[0],
-          },
-        );
-      },
-      recalculatePressed: () => {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.editSimulation,
-          parameters: {
-            "screen": FirebaseScreen.investmentStep1V2,
-            "amout": amount,
-            "isReInvestment": widget.isReInvestment.toString(),
-            "coupon": widget.couponController.text,
-            "currency": widget.isSoles! ? currencyNuevoSol : currencyDollar,
-            "originFunds": widget.originFundsController.text,
-            "months": widget.deadLineController.text.split(' ')[0],
-            "reinvestment": reinvestmentParams!.preInvestmentUUID,
-          },
-        ),
-        Navigator.pop(context),
-      },
-    );
+    // investmentSimulationModal(
+    //   context,
+    //   startingAmount: int.parse(amount),
+    //   finalAmount: int.parse(widget.amountController.text),
+    //   mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
+    //   coupon: widget.couponController.text,
+    //   toInvestPressed: () async {
+    //     if (widget.isReInvestment) {
+    //       _saveReInvestment(context, ref, reinvestmentParams!);
+    //     } else {
+    //       _savePreInvestment(
+    //         context,
+    //         ref,
+    //         SaveCorporateInvestmentInput(
+    //           amount: amount,
+    //           months: widget.deadLineController.text.split(' ')[0],
+    //           coupon: widget.couponController.text,
+    //           currency: widget.isSoles! ? currencyNuevoSol : currencyDollar,
+    //           originFunds: OriginFunds(
+    //             originFundsEnum: OriginFoundsUtil.fromReadableName(
+    //               widget.originFundsController.text,
+    //             ),
+    //             otherText: widget.otherFundOriginController.text,
+    //           ),
+    //           fundUUID: widget.fund.uuid,
+    //         ),
+    //       );
+    //     }
+    //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+    //       eventName: FirebaseAnalyticsEvents.continueSimulation,
+    //       parameters: {
+    //         "amout": amount,
+    //         "isReInvestment": widget.isReInvestment.toString(),
+    //         "coupon": widget.couponController.text,
+    //         "currency": widget.isSoles! ? currencyNuevoSol : currencyDollar,
+    //         "originFunds": widget.originFundsController.text,
+    //         "months": widget.deadLineController.text.split(' ')[0],
+    //       },
+    //     );
+    //   },
+    //   recalculatePressed: () => {
+    //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+    //       eventName: FirebaseAnalyticsEvents.editSimulation,
+    //       parameters: {
+    //         "screen": FirebaseScreen.investmentStep1V2,
+    //         "amout": amount,
+    //         "isReInvestment": widget.isReInvestment.toString(),
+    //         "coupon": widget.couponController.text,
+    //         "currency": widget.isSoles! ? currencyNuevoSol : currencyDollar,
+    //         "originFunds": widget.originFundsController.text,
+    //         "months": widget.deadLineController.text.split(' ')[0],
+    //         "reinvestment": reinvestmentParams!.preInvestmentUUID,
+    //       },
+    //     ),
+    //     Navigator.pop(context),
+    //   },
+    // );
   }
 
   @override

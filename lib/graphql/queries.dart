@@ -33,6 +33,10 @@ class QueryRepository {
         distrito{
           id
         }
+        country
+        regionExt
+        provinciaExt
+        distritoExt
       	address
         houseNumber
         postalCode
@@ -1271,7 +1275,35 @@ class QueryRepository {
               reinvestmentAvailable
               actionStatus
               isReInvestment
-              
+              investmentFund{
+              uuid
+              name
+              icon
+              listBackgroundColorLight
+              listBackgroundColorDark
+              detailBackgroundColorLight
+              detailBackgroundColorDark
+              backgroundImageUrl
+              mainImageUrl
+              createdAt
+              isDeleted
+              isActive
+              fundType
+              tagDetailId
+              tagBenefitsId
+              tagDownloadInfoId
+              tagInvestmentButtonId
+              mainImageHorizontalUrl
+              detailBackgroundColorSecondaryLight
+              detailBackgroundColorDarkSecondary
+              lastRentability
+              netWorthAmount
+              assetsUnderManagement
+              moreInfoDownloadUrl
+              minAmountInvestmentPen
+              minAmountInvestmentUsd
+              objectiveFunds
+              }              
             }
             invesmentFinished{
               uuid
@@ -1303,6 +1335,35 @@ class QueryRepository {
               reinvestmentAvailable
               actionStatus
               isReInvestment
+              investmentFund{
+                uuid
+            name
+            icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+              }
             }
             invesmentFinished{
               uuid
@@ -1345,7 +1406,32 @@ class QueryRepository {
               rentabilityAmmount
               investmentFund{
                 uuid
-                name
+            name
+            icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
               }
             }
             invesmentFinished{
@@ -1391,7 +1477,34 @@ class QueryRepository {
               finishDateInvestment
               rentabilityAmmount
              	investmentFund{
-                name
+ 
+                uuid
+            name
+            icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
               }
               paymentRentability{
                 amount
@@ -1469,6 +1582,32 @@ class QueryRepository {
           investmentFund{
             uuid
             name
+            icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+
          
           }
         }
@@ -1637,6 +1776,14 @@ class QueryRepository {
        query getFunds{
         investmentFundsQueries{
           listInvestmentFundsAvailable{
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+            characteristics{
+              benefitText
+              icon
+              isActive
+            }
             uuid
             name
             icon
@@ -1670,12 +1817,12 @@ class QueryRepository {
               value
             }
             moreInfoDownloadUrl
-            minAmountInvestmentPen
-            minAmountInvestmentUsd
+  
             
           }
         }
       }
+      
     ''';
   }
 
