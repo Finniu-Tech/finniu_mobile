@@ -17,7 +17,7 @@ class RatesDataSourceImpl implements RatesDataSource {
     late String url;
     try {
       if (appConfig.environment == "production") {
-        url = 'https://nsipetgisa.execute-api.us-east-1.amazonaws.com/rates';
+        url = 'https://cu93pctxhd.execute-api.us-east-1.amazonaws.com/rates';
       } else {
         url = 'https://nsipetgisa.execute-api.us-east-2.amazonaws.com/rates';
       }

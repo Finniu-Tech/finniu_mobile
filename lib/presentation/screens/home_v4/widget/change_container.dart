@@ -26,7 +26,7 @@ class ChangeContainer extends ConsumerWidget {
           return Column(
             children: [
               TitleChange(
-                timestamp: ratesResponse.timestamp,
+                timestamp: ratesResponse.rates.firstWhere((rate) => rate.source == "REXTIE").lastUpdated,
               ),
               const SizedBox(height: 10),
               ChangeSunat(rate: sunatRate),
@@ -249,29 +249,57 @@ class TitleChange extends ConsumerWidget {
     super.key,
     required this.timestamp,
   });
-  String getFormattedTimeAgo(DateTime timestamp) {
+
+  String getFormattedTimeAgo(DateTime lastUpdated) {
     try {
-      // Asegurarnos que ambas fechas estén en UTC
-      final utcTimestamp = timestamp.toUtc();
-      final nowUtc = DateTime.now().toUtc();
+      // Ajustar la zona horaria de Perú (UTC-5)
+      final peruOffset = const Duration(hours: 5);
+      final now = DateTime.now().toUtc();
+      final lastUpdateAdjusted = lastUpdated.subtract(peruOffset);
 
-      // Asegurarnos de calcular la diferencia en la dirección correcta
-      final difference = utcTimestamp.difference(nowUtc).abs();
-      print('diferencia en minutos: ${difference.inMinutes}');
+      // Calcular diferencia
+      final difference = now.difference(lastUpdateAdjusted).inMinutes;
 
-      // Formatear el tiempo
-      if (difference.inMinutes < 60) {
-        return '${difference.inMinutes} min';
-      } else if (difference.inHours < 24) {
-        return '${difference.inHours} hrs';
+      if (difference < 1) {
+        return 'ahora';
+      } else if (difference < 60) {
+        return 'hace $difference min';
+      } else if (difference < 24 * 60) {
+        final hours = difference ~/ 60;
+        return 'hace $hours ${hours == 1 ? 'hora' : 'hrs'}';
       } else {
-        return '${difference.inDays} días';
+        final days = difference ~/ (24 * 60);
+        return 'hace $days ${days == 1 ? 'día' : 'días'}';
       }
     } catch (e) {
-      print('Error calculando tiempo: $e');
-      return '-- min'; // valor por defecto en caso de error
+      return 'actualizado';
     }
   }
+  // String getFormattedTimeAgo(DateTime timestamp) {
+  //   try {
+  //     // Asegurarnos que ambas fechas estén en UTC
+  //     print('timestamp: $timestamp');
+  //     final utcTimestamp = timestamp.toUtc();
+  //     print('utcTimestamp: $utcTimestamp');
+  //     final nowUtc = DateTime.now().toUtc();
+
+  //     // Asegurarnos de calcular la diferencia en la dirección correcta
+  //     final difference = utcTimestamp.difference(nowUtc).abs();
+  //     print('diferencia en minutos: ${difference.inMinutes}');
+
+  //     // Formatear el tiempo
+  //     if (difference.inMinutes < 60) {
+  //       return '${difference.inMinutes} min';
+  //     } else if (difference.inHours < 24) {
+  //       return '${difference.inHours} hrs';
+  //     } else {
+  //       return '${difference.inDays} días';
+  //     }
+  //   } catch (e) {
+  //     print('Error calculando tiempo: $e');
+  //     return '-- min'; // valor por defecto en caso de error
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
