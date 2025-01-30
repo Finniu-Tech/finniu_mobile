@@ -90,9 +90,6 @@ class ReInvestBody extends StatelessWidget {
   final ProductData product;
   @override
   Widget build(BuildContext context) {
-    // final invest = data.fundName == "Fondo inversiones empresariales"
-    //     ? productFixedTerm
-    //     : productRealEstate;
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,

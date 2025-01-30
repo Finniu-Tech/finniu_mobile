@@ -82,14 +82,15 @@ class ListProducts extends HookConsumerWidget {
         child: fundsData.when(
           data: (funds) {
             final products = funds.map((fund) => ProductData.fromFund(fund)).toList();
+            // print al product minimum text usd
 
-            final soleProducts =
-                products.where((p) => p.minimumTextPEN != null && p.minimumTextPEN!.isNotEmpty).toList();
+            final soleProducts = products
+                .where((p) => p.minimumTextPEN != null && p.minimumTextPEN!.isNotEmpty && p.minimumTextPEN != 'S/0.00')
+                .toList();
 
-            final dollarProducts =
-                products.where((p) => p.minimumTextUSD != null && p.minimumTextUSD!.isNotEmpty).toList();
-
-            print('sole: ${soleProducts.length}, dollar: ${dollarProducts.length}');
+            final dollarProducts = products
+                .where((p) => p.minimumTextUSD != null && p.minimumTextUSD!.isNotEmpty && p.minimumTextUSD != '\$0.00')
+                .toList();
 
             // final soleProducts = products.where((p) => p.isSoles).toList();
             // final dollarProducts = products.where((p) => !p.isSoles).toList();

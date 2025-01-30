@@ -10,7 +10,6 @@ class FundDataSource extends GraphQLBaseDataSource {
   FundDataSource(super.client);
 
   Future<List<FundEntity>> getFunds() async {
-    // HERE WE RETURN THE ACTIVE FUNDS
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -20,12 +19,12 @@ class FundDataSource extends GraphQLBaseDataSource {
       ),
     );
 
-    final List<dynamic> listInvestmentResponse = response
-            .data?['investmentFundsQueries']?['listInvestmentFundsAvailable'] ??
-        [];
+    final List<dynamic> listInvestmentResponse =
+        response.data?['investmentFundsQueries']?['listInvestmentFundsAvailable'] ?? [];
 
     final fundList = FundEntity.listFromJson(listInvestmentResponse);
-    return fundList;
+    // Filtrar solo los fondos activos
+    return fundList.where((fund) => fund.isActive == true).toList();
   }
 
   Future<List<FundBenefit>> getBenefits(String fundUUID) async {
@@ -42,12 +41,10 @@ class FundDataSource extends GraphQLBaseDataSource {
       ),
     );
     final List<dynamic> listInvestmentResponse =
-        response.data?['investmentFundsQueries']
-                ?['listBenefitsInvestmentFundsAvailable'] ??
-            [];
+        response.data?['investmentFundsQueries']?['listBenefitsInvestmentFundsAvailable'] ?? [];
 
     final fundList = FundBenefit.listFromJson(listInvestmentResponse);
-    return fundList;
+    return fundList.where((benefit) => benefit.isActive == true).toList();
   }
 
   Future<List<int>> getAggroQuotes() async {
@@ -59,16 +56,14 @@ class FundDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    final quoteList =
-        response.data?['agroInvestmentQueries']['calculateQuotesAvailable'];
+    final quoteList = response.data?['agroInvestmentQueries']['calculateQuotesAvailable'];
     //iterate over the quoteList and parse each vaalue to int
     return (quoteList as List<dynamic>).map((quote) => quote as int).toList();
   }
 
   //TODO calculate aggro investment
 
-  Future<CalculateAggroInvestmentResponse> calculateAggroInvestment(
-      CalculateAggroInvestmentInput input) async {
+  Future<CalculateAggroInvestmentResponse> calculateAggroInvestment(CalculateAggroInvestmentInput input) async {
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -79,12 +74,10 @@ class FundDataSource extends GraphQLBaseDataSource {
       ),
     );
 
-    return CalculateAggroInvestmentResponse.fromJson(
-        response.data?['calculateAgroInvestment'] ?? {});
+    return CalculateAggroInvestmentResponse.fromJson(response.data?['calculateAgroInvestment'] ?? {});
   }
 
-  Future<SaveAggroInvestmentResponse> saveAggroInvestment(
-      SaveAggroInvestmentInput input) async {
+  Future<SaveAggroInvestmentResponse> saveAggroInvestment(SaveAggroInvestmentInput input) async {
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -94,12 +87,10 @@ class FundDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    return SaveAggroInvestmentResponse.fromJson(
-        response.data?['saveAgroInvestment'] ?? {});
+    return SaveAggroInvestmentResponse.fromJson(response.data?['saveAgroInvestment'] ?? {});
   }
 
-  Future<SaveCorporateInvestmentResponse> saveCorporateInvestment(
-      SaveCorporateInvestmentInput input) async {
+  Future<SaveCorporateInvestmentResponse> saveCorporateInvestment(SaveCorporateInvestmentInput input) async {
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -109,7 +100,6 @@ class FundDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    return SaveCorporateInvestmentResponse.fromJson(
-        response.data?['saveCorporateInvestment'] ?? {});
+    return SaveCorporateInvestmentResponse.fromJson(response.data?['saveCorporateInvestment'] ?? {});
   }
 }

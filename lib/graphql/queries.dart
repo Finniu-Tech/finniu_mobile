@@ -1786,6 +1786,7 @@ class QueryRepository {
             }
             uuid
             name
+            slug
             icon
             listBackgroundColorDark
             listBackgroundColorLight

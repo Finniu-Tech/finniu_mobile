@@ -6,6 +6,7 @@ class FundTypeEnum {
 class FundEntity {
   String uuid;
   String name;
+  String slug;
   String? iconUrl;
   String? mainImageUrl;
   String? mainImageHorizontalUrl;
@@ -39,6 +40,7 @@ class FundEntity {
   FundEntity({
     required this.uuid,
     required this.name,
+    required this.slug,
     this.iconUrl,
     this.mainImageUrl,
     this.mainImageHorizontalUrl,
@@ -109,6 +111,7 @@ class FundEntity {
     return FundEntity(
       uuid: data['uuid'] ?? '',
       name: data['name'] ?? '',
+      slug: data['slug'] ?? '',
       iconUrl: data['icon'],
       mainImageUrl: data['mainImageUrl'],
       mainImageHorizontalUrl: data['mainImageHorizontalUrl'],

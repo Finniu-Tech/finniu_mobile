@@ -83,7 +83,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
     final loader = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
-    final List<String> optionsTime = product.titleText == "Fondo inversiones empresariales"
+    final List<String> optionsTime = product.slug == "fondo_inversiones_empresariales"
         ? ["6 meses", "12 meses", "24 meses"]
         : ["12 meses", "24 meses", "36 meses"];
 
@@ -464,7 +464,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
               isSoles: isSoles,
             ),
             const SizedBox(height: 15),
-            product.titleText == "Fondo inversiones empresariales"
+            product.slug == "fondo_inversiones_empresariales"
                 ? ValueListenableBuilder<bool>(
                     valueListenable: timeError,
                     builder: (context, isError, child) {
