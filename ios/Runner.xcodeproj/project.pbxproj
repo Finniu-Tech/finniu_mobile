@@ -669,7 +669,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -680,7 +680,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniuApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -803,7 +803,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				"MARKETING_VERSION[sdk=*]" = 3.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniu.app.staging;
@@ -875,7 +875,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniu.app.staging;
 				SDKROOT = iphoneos;
@@ -1007,7 +1007,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1018,7 +1018,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniuApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1040,7 +1040,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1051,7 +1051,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1070,9 +1070,9 @@
 			baseConfigurationReference = C16E9620739277A4FED5D5EA /* Pods-Runner.debug-staging.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Debug-staging";
@@ -1082,9 +1082,9 @@
 			baseConfigurationReference = A396E97272A1CD1E277825FA /* Pods-Runner.profile-staging.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Profile-staging";
@@ -1094,9 +1094,9 @@
 			baseConfigurationReference = B9F00990573C051846A3240F /* Pods-Runner.release-staging.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Release-staging";
@@ -1106,9 +1106,9 @@
 			baseConfigurationReference = D0640C3A7BFF5FF722684E57 /* Pods-Runner.debug-production.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Debug-production";
@@ -1118,9 +1118,9 @@
 			baseConfigurationReference = 0339908A710C514B5C6BE9EE /* Pods-Runner.profile-production.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Profile-production";
@@ -1130,9 +1130,9 @@
 			baseConfigurationReference = 3F4195FBB2E893FEC3634EC2 /* Pods-Runner.release-production.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 500006;
+				CURRENT_PROJECT_VERSION = 500007;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Release-production";
@@ -1392,7 +1392,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 5.0.6;
+				MARKETING_VERSION = 5.0.7;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniu.app.staging;
