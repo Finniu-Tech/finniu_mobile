@@ -10,20 +10,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LastOperationsSliderV4 extends ConsumerStatefulWidget {
   final List<LastOperation> lastOperations;
-  final FundEntity fund;
 
   const LastOperationsSliderV4({
     super.key,
     required this.lastOperations,
-    required this.fund,
   });
 
   @override
   ContainerLastOperationsState createState() => ContainerLastOperationsState();
 }
 
-class ContainerLastOperationsState
-    extends ConsumerState<LastOperationsSliderV4> {
+class ContainerLastOperationsState extends ConsumerState<LastOperationsSliderV4> {
   int _currentIndex = 0;
 
   Widget _buildSliderWidget(LastOperation operation) {
@@ -31,56 +28,49 @@ class ContainerLastOperationsState
       case 'draft':
         return SliderDraft(
           amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-          isReInvestment:
-              operation.enterprisePreInvestment?.isReInvestment ?? false,
+          isReInvestment: operation.enterprisePreInvestment?.isReInvestment ?? false,
           onTap: () => showDraftModal(
             context,
-            amountNumber:
-                operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-            isReinvest:
-                operation.enterprisePreInvestment?.isReInvestment ?? false,
-            profitability:
-                operation.enterprisePreInvestment?.rentability?.toInt() ?? 0,
+            amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
+            isReinvest: operation.enterprisePreInvestment?.isReInvestment ?? false,
+            profitability: operation.enterprisePreInvestment?.rentability?.toInt() ?? 0,
             termMonth: operation.enterprisePreInvestment?.deadline ?? 0,
             uuid: operation.enterprisePreInvestment?.uuidPreInvestment ?? '',
             moneyIcon: true,
             cardSend: false,
             statusUp: false,
             currency: operation.enterprisePreInvestment?.currency ?? '',
-            fund: widget.fund,
+            fund: operation.investmentFund,
           ),
         );
       case 'pending':
         if (operation.enterprisePreInvestment?.isReInvestment == true &&
-                operation.enterprisePreInvestment?.actionStatus ==
-                    ActionStatusEnum.defaultReInvestment ||
-            operation.enterprisePreInvestment?.actionStatus ==
-                ActionStatusEnum.defaultReInvestment.toLowerCase()) {
+                operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment ||
+            operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment.toLowerCase()) {
           return ReinvestmentPendingSlider(
             amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-            fundName: widget.fund.name,
+            fundName: operation.investmentFund.titleText,
           );
         }
         return ToValidateSlider(
           amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-          fundName: widget.fund.name,
+          fundName: operation.investmentFund.titleText,
         );
       case 'in_process':
         return ToValidateSlider(
           amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-          fundName: widget.fund.name,
+          fundName: operation.investmentFund.titleText,
         );
 
       case 'active':
         return SliderInCourse(
           amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-          fundName: widget.fund.name,
+          fundName: operation.investmentFund.titleText,
           onPressed: () {},
         );
 
       default:
-        return Text(
-            'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
+        return Text('Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
     }
   }
 
@@ -97,9 +87,7 @@ class ContainerLastOperationsState
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CarouselSlider(
-          items: filteredOperations
-              .map((operation) => _buildSliderWidget(operation))
-              .toList(),
+          items: filteredOperations.map((operation) => _buildSliderWidget(operation)).toList(),
           options: CarouselOptions(
             height: 94,
             viewportFraction: 0.9,
@@ -124,13 +112,10 @@ class ContainerLastOperationsState
               child: Container(
                 width: 8.0,
                 height: 8.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: (Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black)
+                  color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
                       .withOpacity(_currentIndex == entry.key ? 0.9 : 0.4),
                 ),
               ),

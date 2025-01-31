@@ -1278,6 +1278,7 @@ class QueryRepository {
               investmentFund{
               uuid
               name
+              slug
               icon
               listBackgroundColorLight
               listBackgroundColorDark
@@ -1338,6 +1339,7 @@ class QueryRepository {
               investmentFund{
                 uuid
             name
+            slug
             icon
             listBackgroundColorLight
             listBackgroundColorDark
@@ -1393,6 +1395,7 @@ class QueryRepository {
               finishDateInvestment
               investmentFund{
                 name
+                slug
               }
               rentabilityPercent
             }
@@ -1406,6 +1409,7 @@ class QueryRepository {
               rentabilityAmmount
               investmentFund{
                 uuid
+                slug
             name
             icon
             listBackgroundColorLight
@@ -1441,6 +1445,7 @@ class QueryRepository {
               rentabilityAmmount
              	investmentFund{
                 name
+                slug
               }
               paymentRentability{
                 amount
@@ -1455,6 +1460,7 @@ class QueryRepository {
               finishDateInvestment
               investmentFund{
                 name
+                slug
               }
               rentabilityPercent
             }
@@ -1468,6 +1474,7 @@ class QueryRepository {
                investmentFund{
                  uuid
                  name
+                 slug
               }
               rentabilityAmmount
             }
@@ -1480,6 +1487,7 @@ class QueryRepository {
  
                 uuid
             name
+            slug
             icon
             listBackgroundColorLight
             listBackgroundColorDark
@@ -1582,6 +1590,7 @@ class QueryRepository {
           investmentFund{
             uuid
             name
+            slug
             icon
             listBackgroundColorLight
             listBackgroundColorDark
@@ -1630,6 +1639,7 @@ class QueryRepository {
             uuid
             name
             icon
+            slug
             listBackgroundColorLight
             listBackgroundColorDark
             detailBackgroundColorLight
@@ -1931,12 +1941,40 @@ class QueryRepository {
 
   static String get getLastOperationStatus {
     return '''
-      query getLastOperations(\$fundUUID: String!){
+      query getLastOperations(\$fundUUID: String){
         getStatusLastOperation(investmentFundsUuid: \$fundUUID){
           investmentFund{
             name
             uuid
             fundType
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+            uuid
+            name
+            slug
+            icon
+            listBackgroundColorDark
+            listBackgroundColorLight
+            detailBackgroundColorDark
+            detailBackgroundColorLight
+            backgroundImageUrl
+            assetsUnderManagement
+            mainImageUrl
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorDarkSecondary
+            detailBackgroundColorSecondaryLight
+          
+            createdAt
+            isDeleted
+            isActive
+            lastRentability
+
           }
           typeInvestment
           agroInvestment{

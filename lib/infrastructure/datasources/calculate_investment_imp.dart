@@ -31,8 +31,7 @@ class CalculateInvestmentDataSourceImp {
     );
 
     if (response.data == null) {
-      throw Exception(
-          'Error trying to calculate investment: ${response.exception}');
+      throw Exception('Error trying to calculate investment: ${response.exception}');
     }
     final responseGraphQL = CalculateInvestmentResponse.fromJson(
       response.data ?? {},

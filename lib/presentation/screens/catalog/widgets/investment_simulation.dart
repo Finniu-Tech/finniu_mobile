@@ -20,6 +20,7 @@ Future<dynamic> investmentSimulationModal(
   required int mouthInvestment,
   required String fundUUID,
   String? coupon,
+  String? buttonText,
   VoidCallback? toInvestPressed,
   VoidCallback? recalculatePressed,
 }) async {
@@ -35,6 +36,7 @@ Future<dynamic> investmentSimulationModal(
         fundUUID: fundUUID,
         recalculatePressed: recalculatePressed,
         coupon: coupon,
+        buttonText: buttonText,
       ),
     ),
   );
@@ -49,6 +51,7 @@ class BodySimulation extends ConsumerWidget {
     this.toInvestPressed,
     this.recalculatePressed,
     this.coupon,
+    this.buttonText,
   });
   final int startingAmount;
   final int monthInvestment;
@@ -56,6 +59,7 @@ class BodySimulation extends ConsumerWidget {
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
   final String? coupon;
+  final String? buttonText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -100,6 +104,7 @@ class BodyDialog extends ConsumerStatefulWidget {
     this.toInvestPressed,
     this.recalculatePressed,
     this.coupon,
+    this.buttonText,
   });
 
   final int startingAmount;
@@ -109,6 +114,7 @@ class BodyDialog extends ConsumerStatefulWidget {
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
   final String? coupon;
+  final String? buttonText;
 
   @override
   ConsumerState<BodyDialog> createState() => _BodyDialogState();
@@ -138,6 +144,7 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
           profitability: data.profitability!.toInt(),
           percentage: data.finalRentability!.toInt(),
           rentabilityPerMonth: data.rentabilityPerMonth!,
+          buttonText: widget.buttonText,
         );
       },
       loading: () {

@@ -1,4 +1,7 @@
 // lib/models/investment_fund.dart
+import 'package:finniu/constants/colors/product_v4_colors.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
+
 class FundTypeSlugEnum {
   static const String aggro = 'agro_real_state_funds';
   static const String corporate = 'corporate_investment_funds';
@@ -132,7 +135,7 @@ class LastOperationEnterprisePreInvestment {
 
 // lib/models/last_operation.dart
 class LastOperation {
-  final LastOperationFund investmentFund;
+  final ProductData investmentFund;
   final String typeInvestment;
   final LastOperationAggroInvestment? aggroInvestment;
   final LastOperationEnterprisePreInvestment? enterprisePreInvestment;
@@ -145,8 +148,9 @@ class LastOperation {
   });
 
   factory LastOperation.fromJson(Map<String, dynamic> json) {
+    final fund = FundEntity.fromJson(json['investmentFund']);
     return LastOperation(
-      investmentFund: LastOperationFund.fromJson(json['investmentFund']),
+      investmentFund: ProductData.fromFund(fund),
       typeInvestment: json['typeInvestment'],
       aggroInvestment:
           json['agroInvestment'] != null ? LastOperationAggroInvestment.fromJson(json['agroInvestment']) : null,

@@ -302,6 +302,22 @@ class ProductData {
     );
   }
 
+  FundEntity toFundEntity() {
+    return FundEntity(
+      uuid: uuid,
+      iconUrl: imageProduct,
+      name: titleText,
+      minAmountInvestmentPEN: minimumTextPEN,
+      slug: slug,
+      minAmountInvestmentUSD: minimumTextUSD,
+      lastRentability: profitabilityText,
+      objectiveText: objetiveText,
+      netWorths: netWorths,
+      features: features,
+      assetUnderManagementAmount: assetsUnderManagement,
+    );
+  }
+
   toJson() {
     return {
       "uuid": uuid,

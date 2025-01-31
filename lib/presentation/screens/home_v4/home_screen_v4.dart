@@ -44,7 +44,7 @@ class HomeBodyV4 extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            GetFundToSlider(),
+            LastOperationSliderContainer(),
             ProfileCompletenessSection(),
             ChangeContainer(),
             DividerHome(),
@@ -58,35 +58,35 @@ class HomeBodyV4 extends StatelessWidget {
   }
 }
 
-class GetFundToSlider extends ConsumerWidget {
-  const GetFundToSlider({
-    super.key,
-  });
+// class GetFundToSlider extends ConsumerWidget {
+//   const GetFundToSlider({
+//     super.key,
+//   });
 
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final fundListAsyncValue = ref.watch(fundListFutureProvider);
+
+//     return fundListAsyncValue.when(
+//       loading: () => const Center(
+//           child: CircularLoader(
+//         width: 50,
+//         height: 50,
+//       )),
+//       error: (error, stack) => Center(child: Text('Error: $error')),
+//       data: (fundList) {
+//         return SliderContainer(fund: fundList.first);
+//       },
+//     );
+//   }
+// }
+
+class LastOperationSliderContainer extends ConsumerWidget {
+  const LastOperationSliderContainer({super.key});
+  // final FundEntity fund;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fundListAsyncValue = ref.watch(fundListFutureProvider);
-
-    return fundListAsyncValue.when(
-      loading: () => const Center(
-          child: CircularLoader(
-        width: 50,
-        height: 50,
-      )),
-      error: (error, stack) => Center(child: Text('Error: $error')),
-      data: (fundList) {
-        return SliderContainer(fund: fundList.first);
-      },
-    );
-  }
-}
-
-class SliderContainer extends ConsumerWidget {
-  const SliderContainer({super.key, required this.fund});
-  final FundEntity fund;
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final lastOperationsAsyncValue = ref.watch(lastOperationsFutureProvider(fund.uuid));
+    final lastOperationsAsyncValue = ref.watch(lastOperationsFutureProvider(null));
     // List<LastOperation> reinvestmentOperations = [];
     final isSoles = ref.watch(isSolesStateProvider);
     final selectedCurrency = isSoles ? 'nuevo sol' : 'dolar';
@@ -94,16 +94,14 @@ class SliderContainer extends ConsumerWidget {
 
     return lastOperationsAsyncValue.when(
       data: (lastOperations) {
-        if (fund.fundType == FundTypeEnum.corporate) {
-          // reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
-          filteredOperations =
-              lastOperations.where((element) => element.enterprisePreInvestment?.currency == selectedCurrency).toList();
+        // reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
+        filteredOperations =
+            lastOperations.where((element) => element.enterprisePreInvestment?.currency == selectedCurrency).toList();
 
-          lastOperations = filteredOperations;
-        }
+        lastOperations = filteredOperations;
+
         return filteredOperations.isNotEmpty
             ? LastOperationsSliderV4(
-                fund: fund,
                 lastOperations: filteredOperations,
               )
             : const SizedBox.shrink();

@@ -817,7 +817,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
 
                   final preInvestment = PreInvestmentForm(
                     amount: int.parse(widget.amountController.text),
-                    deadLineUuid: deadLineUuid,
+                    deadLineUuid: deadLineUuid!,
                     coupon: widget.couponController.text,
                     planUuid: widget.plan.uuid,
                     currency: isSoles ? currencyNuevoSol : currencyDollar,

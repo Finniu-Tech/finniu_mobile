@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
+import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/re_invest_dto.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
@@ -15,7 +16,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/investment_simulatio
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/final_amount_container.dart';
-import 'package:finniu/presentation/screens/home_v4/re_invest_form.dart/widgets/select_deadlines_provider.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/push_cupon.dart';
@@ -159,7 +159,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (timeError.value) return;
         if (couponError.value) return;
         final timeList = ref.watch(deadLineFutureProvider);
-        final time = timeList.asData!.value.firstWhere((element) => element.uuid == timeController.text);
+        final time = timeList.asData!.value.firstWhere((element) => element.name == timeController.text);
         context.loaderOverlay.show();
         final inputCalculator = CalculatorInput(
           amount: finalAmount.value.toInt(),
@@ -224,8 +224,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
         }
 
         final timeList = ref.watch(deadLineFutureProvider);
-
-        final time = timeList.asData!.value.firstWhere((element) => element.uuid == timeController.text);
+        final time = timeList.asData!.value.firstWhere((element) => element.name == timeController.text);
 
         investmentSimulationModal(
           context,
@@ -288,28 +287,19 @@ class FormStepOneReinvest extends HookConsumerWidget {
 
     void finalReinvest() async {
       if (!formKey.currentState!.validate()) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.formValidateError,
-          parameters: {
-            "screen": FirebaseScreen.formPersonalDataV2,
-            "error": "input_form",
-          },
-        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
           message: "Por favor, completa todos los campos.",
           snackType: SnackType.warning,
         );
-
         return;
-      } else {
-        FocusManager.instance.primaryFocus?.unfocus();
-        final int minAmountToSimulate =
-            isSoles ? parseMoneyString(product.minimumTextPEN) : parseMoneyString(product.minimumTextUSD);
-        if (timeError.value) return;
-        if (couponError.value) return;
-        if (conditions.value == false) {
+      }
+
+      try {
+        // Validaciones iniciales
+        if (timeError.value || couponError.value) return;
+        if (!conditions.value) {
           showSnackBarV2(
             context: context,
             title: "Datos obligatorios incompletos",
@@ -318,88 +308,139 @@ class FormStepOneReinvest extends HookConsumerWidget {
           );
           return;
         }
+
+        // Validar monto mínimo
+        final int minAmountToSimulate =
+            isSoles ? parseMoneyString(product.minimumTextPEN) : parseMoneyString(product.minimumTextUSD);
+
         if (finalAmount.value.toInt() < minAmountToSimulate) {
           showSnackBarV2(
             context: context,
             title: "Monto insuficiente",
-            message:
-                "El monto mínimo para invertir es de ${isSoles ? product.minimumTextPEN : product.minimumTextUSD}",
+            message: "El monto mínimo para invertir es de ${isSoles ? product.minimumTextPEN : product.minimumTextUSD}",
             snackType: SnackType.warning,
           );
           return;
         }
 
+        // Validar banco receptor
         final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
         if (bankReceiver == null) {
           showSnackBarV2(
             context: context,
             title: "Datos obligatorios incompletos",
-            message: "Por favor, completa todos los campos.",
+            message: "Por favor, selecciona un banco.",
             snackType: SnackType.warning,
           );
           return;
         }
-        loader.value = true;
-        final timeList = ref.watch(deadLineFutureProvider);
-        final time = timeList.asData!.value.firstWhere((element) => element.uuid == timeController.text);
 
+        loader.value = true;
+
+        // Obtener y validar deadline
+        final timeList = await ref.watch(deadLineFutureProvider.future);
+        if (timeList.isEmpty) {
+          showSnackBarV2(
+            context: context,
+            title: "Error",
+            message: "No se pudieron cargar los plazos disponibles",
+            snackType: SnackType.error,
+          );
+          loader.value = false;
+          return;
+        }
+
+        // Buscar el deadline por nombre
+        final DeadLineEntity? time;
+        try {
+          time = timeList.asMap().values.firstWhere((element) => element.name == timeController.text);
+        } catch (e) {
+          showSnackBarV2(
+            context: context,
+            title: "Error",
+            message: "Por favor, selecciona un plazo válido",
+            snackType: SnackType.warning,
+          );
+          loader.value = false;
+          return;
+        }
+
+        final deadLineUUID = await DeadLineEntity.getUuidByName(timeController.text, timeList);
+
+        if (deadLineUUID == null) {
+          showSnackBarV2(
+            context: context,
+            title: "Error",
+            message: "No se pudo obtener el plazo seleccionado",
+            snackType: SnackType.error,
+          );
+          loader.value = false;
+          return;
+        }
+
+        // Mostrar modal de simulación
         investmentSimulationModal(
           context,
           startingAmount: finalAmount.value.toInt(),
           finalAmount: finalAmount.value.toInt(),
           mouthInvestment: time.value,
           coupon: couponController.text,
-          fundUUID: data.uuid,
+          buttonText: "Finalizar Reinversión",
+          fundUUID: data.fundUUID!,
           toInvestPressed: () async {
-            loader.value = true;
+            try {
+              Navigator.pop(context);
+              loader.value = true;
 
-            Navigator.pop(context);
-            loader.value = true;
-            final input = CreateReInvestmentParams(
-              preInvestmentUUID: data.uuid,
-              finalAmount: finalAmount.value.toInt().toString(),
-              currency: isSoles ? currencyNuevoSol : currencyDollar,
-              deadlineUUID: timeController.text,
-              originFounds: data.originFunds,
-              coupon: couponController.text,
-              typeReinvestment: "CAPITAL_ONLY",
-              bankAccountReceiver: bankReceiver.id,
-            );
-            final response = await ref.read(createReInvestmentProvider(input).future);
-
-            if (response.success == false || response.success == null) {
-              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-                eventName: FirebaseAnalyticsEvents.pushDataError,
-                parameters: {
-                  "screen": FirebaseScreen.investmentStep1V2,
-                  "event": "save_re_investment_error",
-                },
+              final input = CreateReInvestmentParams(
+                preInvestmentUUID: data.uuid,
+                finalAmount: finalAmount.value.toInt().toString(),
+                currency: isSoles ? currencyNuevoSol : currencyDollar,
+                deadlineUUID: deadLineUUID,
+                originFounds: data.originFunds,
+                coupon: couponController.text,
+                typeReinvestment: "CAPITAL_ONLY",
+                bankAccountReceiver: bankReceiver.id,
               );
+
+              final response = await ref.read(createReInvestmentProvider(input).future);
+
+              if (!response.success!) {
+                showSnackBarV2(
+                  context: context,
+                  title: "Error interno",
+                  message: response.messages?[0].message ?? 'Error al procesar la reinversión',
+                  snackType: SnackType.error,
+                );
+                return;
+              }
+
+              showThanksForInvestingModal(
+                context,
+                () => Navigator.pushReplacementNamed(context, '/v4/experience'),
+                true,
+              );
+            } catch (e) {
               showSnackBarV2(
                 context: context,
-                title: "Error interno",
-                message:
-                    response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
+                title: "Error",
+                message: "Ocurrió un error al procesar la reinversión",
                 snackType: SnackType.error,
               );
+            } finally {
               loader.value = false;
-              return;
             }
-            showThanksForInvestingModal(
-              context,
-              () {
-                Navigator.pushReplacementNamed(
-                  context,
-                  '/v4/experience',
-                );
-              },
-              true,
-            );
-            loader.value = false;
           },
           recalculatePressed: () => Navigator.pop(context),
         );
-
+      } catch (e) {
+        showSnackBarV2(
+          context: context,
+          title: "Error",
+          message: "Ocurrió un error inesperado",
+          snackType: SnackType.error,
+        );
+      } finally {
         loader.value = false;
       }
     }
@@ -409,7 +450,8 @@ class FormStepOneReinvest extends HookConsumerWidget {
         Future.microtask(() {
           ref.read(nabbarProvider.notifier).updateNabbar(
                 NabbarProvider(
-                  title: addAmount ? "Simular" : "Finalizar mi proceso",
+                  // title: addAmount ? "Simular" : "Finalizar mi proceso",
+                  title: 'Simular',
                   onTap: addAmount ? onPressSimulator : finalReinvest,
                 ),
               );
@@ -464,59 +506,87 @@ class FormStepOneReinvest extends HookConsumerWidget {
               isSoles: isSoles,
             ),
             const SizedBox(height: 15),
-            product.slug == "fondo_inversiones_empresariales"
-                ? ValueListenableBuilder<bool>(
-                    valueListenable: timeError,
-                    builder: (context, isError, child) {
-                      return ProviderSelectableDropdownInvest(
-                        isError: isError,
-                        onError: () => timeError.value = false,
-                        itemSelectedValue: timeController.text,
-                        selectController: timeController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            showSnackBarV2(
-                              context: context,
-                              title: "Plazo obligatorio",
-                              message: "Por favor, completa el Plazo.",
-                              snackType: SnackType.warning,
-                            );
-                            timeError.value = true;
-                            return null;
-                          }
-                          return null;
-                        },
+            ValueListenableBuilder<bool>(
+              valueListenable: timeError,
+              builder: (context, isError, child) {
+                return SelecDropdownInvest(
+                  isDarkMode: isDarkMode,
+                  isError: isError,
+                  onError: () => timeError.value = false,
+                  itemSelectedValue: timeController.text,
+                  title: "  Plazo  ",
+                  hintText: "Seleccione su plazo de inversión",
+                  selectController: timeController,
+                  options: optionsTime,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "Plazo obligatorio",
+                        message: "Por favor, completa el Plazo.",
+                        snackType: SnackType.warning,
                       );
-                    },
-                  )
-                : ValueListenableBuilder<bool>(
-                    valueListenable: timeError,
-                    builder: (context, isError, child) {
-                      return SelecDropdownInvest(
-                        isDarkMode: isDarkMode,
-                        isError: isError,
-                        onError: () => timeError.value = false,
-                        itemSelectedValue: timeController.text,
-                        title: "  Plazo  ",
-                        hintText: "Seleccione su plazo de inversión",
-                        selectController: timeController,
-                        options: optionsTime,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            showSnackBarV2(
-                              context: context,
-                              title: "Plazo obligatorio",
-                              message: "Por favor, completa el Plazo.",
-                              snackType: SnackType.warning,
-                            );
-                            timeError.value = true;
-                            return null;
-                          }
-                          return null;
-                        },
-                      );
-                    },
-                  ),
+                      timeError.value = true;
+                      return null;
+                    }
+                    return null;
+                  },
+                );
+              },
+            ),
+            // product.slug == "fondo_inversiones_empresariales"
+            //     ? ValueListenableBuilder<bool>(
+            //         valueListenable: timeError,
+            //         builder: (context, isError, child) {
+            //           return ProviderSelectableDropdownInvest(
+            //             isError: isError,
+            //             onError: () => timeError.value = false,
+            //             itemSelectedValue: timeController.text,
+            //             selectController: timeController,
+            //             validator: (value) {
+            //               if (value == null || value.isEmpty) {
+            //                 showSnackBarV2(
+            //                   context: context,
+            //                   title: "Plazo obligatorio",
+            //                   message: "Por favor, completa el Plazo.",
+            //                   snackType: SnackType.warning,
+            //                 );
+            //                 timeError.value = true;
+            //                 return null;
+            //               }
+            //               return null;
+            //             },
+            //           );
+            //         },
+            //       )
+            //     : ValueListenableBuilder<bool>(
+            //         valueListenable: timeError,
+            //         builder: (context, isError, child) {
+            //           return SelecDropdownInvest(
+            //             isDarkMode: isDarkMode,
+            //             isError: isError,
+            //             onError: () => timeError.value = false,
+            //             itemSelectedValue: timeController.text,
+            //             title: "  Plazo  ",
+            //             hintText: "Seleccione su plazo de inversión",
+            //             selectController: timeController,
+            //             options: optionsTime,
+            //             validator: (value) {
+            //               if (value == null || value.isEmpty) {
+            //                 showSnackBarV2(
+            //                   context: context,
+            //                   title: "Plazo obligatorio",
+            //                   message: "Por favor, completa el Plazo.",
+            //                   snackType: SnackType.warning,
+            //                 );
+            //                 timeError.value = true;
+            //                 return null;
+            //               }
+            //               return null;
+            //             },
+            //           );
+            //         },
+            //       ),
             addAmount ? const SizedBox(height: 15) : const SizedBox(),
             addAmount
                 ? ValueListenableBuilder<bool>(
