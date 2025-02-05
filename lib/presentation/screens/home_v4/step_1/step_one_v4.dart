@@ -135,7 +135,7 @@ class FormStepOne extends HookConsumerWidget {
     final ValueNotifier<bool> originOtherError = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
-    final List<String> optionsTime = product.titleText == "Fondo inversiones empresariales"
+    final List<String> optionsTime = product.slug == "fondo_inversiones_empresariales"
         ? ["6 meses", "12 meses", "24 meses"]
         : ["12 meses", "24 meses", "36 meses"];
     const List<String> optionsOrigin = [

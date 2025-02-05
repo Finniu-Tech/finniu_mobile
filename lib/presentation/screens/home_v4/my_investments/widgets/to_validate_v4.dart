@@ -105,8 +105,7 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                 "assets/svg_icons/clock_icon.svg",
                 width: 16,
                 height: 16,
-                color:
-                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
+                color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
               ),
               const SizedBox(
                 width: 5,
@@ -166,9 +165,8 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                         endNumber: item.amount,
                         duration: 2,
                         fontSize: 16,
-                        colorText: isDarkMode
-                            ? ToValidateColorsV4.itemAmonutTextDark
-                            : ToValidateColorsV4.itemAmountTextLight,
+                        colorText:
+                            isDarkMode ? ToValidateColorsV4.itemAmonutTextDark : ToValidateColorsV4.itemAmountTextLight,
                         beginNumber: 0,
                       ),
                     ],
@@ -199,10 +197,8 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                             width: 14,
                             height: 14,
                             color: isDarkMode
-                                ? const Color(
-                                    ToValidateColorsV4.itemRentTextDark)
-                                : const Color(
-                                    ToValidateColorsV4.itemRentTextLight),
+                                ? const Color(ToValidateColorsV4.itemRentTextDark)
+                                : const Color(ToValidateColorsV4.itemRentTextLight),
                           ),
                           const SizedBox(
                             width: 5,
@@ -216,9 +212,7 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                         ],
                       ),
                       TextPoppins(
-                        text: item.rentability != null
-                            ? "${item.rentability!.toStringAsFixed(2)}%"
-                            : "0%",
+                        text: item.rentability != null ? "${item.rentability!.toStringAsFixed(2)}%" : "0%",
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         textDark: ToValidateColorsV4.itemRentTextDark,
@@ -257,15 +251,14 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                 Icon(
                   Icons.help_outline,
                   size: 16,
-                  color: isDarkMode
-                      ? const Color(ToValidateColorsV4.iconDark)
-                      : const Color(ToValidateColorsV4.iconLight),
+                  color:
+                      isDarkMode ? const Color(ToValidateColorsV4.iconDark) : const Color(ToValidateColorsV4.iconLight),
                 ),
                 const SizedBox(
                   width: 5,
                 ),
                 const TextPoppins(
-                  text: "¿Cuanto tiempo demora la revisión?",
+                  text: "¿Cuánto tiempo demora la revisión?",
                   fontSize: 8,
                   textDark: ToValidateColorsV4.fundTitleDark,
                   textLight: ToValidateColorsV4.fundTitleLight,

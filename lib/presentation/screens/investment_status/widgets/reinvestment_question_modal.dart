@@ -236,7 +236,10 @@ class ReinvestmentQuestionBody extends ConsumerWidget {
                 Navigator.pushNamed(
                   context,
                   '/v4/money_withdrawal',
-                  arguments: preInvestmentUUID,
+                  arguments: {
+                    "preInvestmentUUID": preInvestmentUUID,
+                    "product": fund,
+                  },
                 );
                 // showDialogRefuseReasons(context, ref, preInvestmentUUID);
               },

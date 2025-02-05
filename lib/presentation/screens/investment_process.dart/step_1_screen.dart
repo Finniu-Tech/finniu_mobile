@@ -571,11 +571,10 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       widget.deadLineController.text,
       await deadLineFuture,
     );
-    print('create reinvestment params: $amount');
     return CreateReInvestmentParams(
       preInvestmentUUID: widget.preInvestmentUUID!,
       finalAmount: amount,
-      deadlineUUID: deadLineUuid,
+      deadlineUUID: deadLineUuid!,
       currency: widget.isSoles! ? currencyEnum.PEN : currencyEnum.USD,
       coupon: widget.couponController.text,
       originFounds: OriginFunds(

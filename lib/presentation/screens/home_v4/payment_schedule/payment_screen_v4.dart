@@ -86,8 +86,7 @@ class PaymentBody extends ConsumerWidget {
     final rent = data.rentabilityAmount;
     final DateTime date = DateTime.now();
     final String percent = data.rentabilityPercent.toStringAsFixed(2);
-    final String dateInfo =
-        "Actualizado ${getMonthName(date.month)}/${date.year}";
+    final String dateInfo = "Actualizado ${getMonthName(date.month)}/${date.year}";
     final List<ProfitabilityItemV4> listPay = [];
     ProfitabilityItemV4? capitalPay;
     for (var element in data.profitabilityListMonth) {
@@ -107,7 +106,7 @@ class PaymentBody extends ConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            TitleFond(
+            TitleFund(
               fundName: data.fundName,
             ),
             const SizedBox(
@@ -182,15 +181,10 @@ class CapitalDetail extends ConsumerWidget {
     void voucherOnPress() {
       final String title = "Operación #$operation";
       const String bankTitle = "Banco a donde te depositamos";
-      final String rent = isSoles
-          ? formatterSoles.format(item.amount)
-          : formatterUSD.format(item.amount);
-      final String rentTitle =
-          item.isActive ? "Capital pagado" : "Capital a depositar";
-      final String date =
-          "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
-      final String dateTitle =
-          item.isActive ? "Fecha de pago" : "Fecha de pago próximo";
+      final String rent = isSoles ? formatterSoles.format(item.amount) : formatterUSD.format(item.amount);
+      final String rentTitle = item.isActive ? "Capital pagado" : "Capital a depositar";
+      final String date = "${item.paymentDate.day}/${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}";
+      final String dateTitle = item.isActive ? "Fecha de pago" : "Fecha de pago próximo";
       final String time = "${item.paymentDate.hour}:${item.paymentDate.minute}";
 
       showCapitalModal(
@@ -220,9 +214,7 @@ class CapitalDetail extends ConsumerWidget {
         color: Colors.transparent,
         border: Border.all(
           width: 1,
-          color: isDarkMode
-              ? const Color(borderColorDark)
-              : const Color(borderColorLight),
+          color: isDarkMode ? const Color(borderColorDark) : const Color(borderColorLight),
         ),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(10),
@@ -233,9 +225,7 @@ class CapitalDetail extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           TextPoppins(
-            text: isSoles
-                ? formatterSolesNotComma.format(item.amount)
-                : formatterUSDNotComma.format(item.amount),
+            text: isSoles ? formatterSolesNotComma.format(item.amount) : formatterUSDNotComma.format(item.amount),
             fontSize: 14,
             fontWeight: FontWeight.w500,
             textDark: titleTableDark,
@@ -246,15 +236,13 @@ class CapitalDetail extends ConsumerWidget {
               Icon(
                 Icons.calendar_today_outlined,
                 size: 16,
-                color:
-                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
+                color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
               ),
               const SizedBox(
                 width: 5,
               ),
               TextPoppins(
-                text:
-                    "${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}",
+                text: "${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}",
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 textDark: titleTableDark,
@@ -336,9 +324,7 @@ class RentContainer extends ConsumerWidget {
       width: MediaQuery.of(context).size.width * 0.9,
       height: isRender ? 100 : 80,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
@@ -353,8 +339,7 @@ class RentContainer extends ConsumerWidget {
                 'assets/svg_icons/status_up.svg',
                 width: 20,
                 height: 20,
-                color:
-                    isDarkMode ? const Color(dateDark) : const Color(dateLight),
+                color: isDarkMode ? const Color(dateDark) : const Color(dateLight),
               ),
               const SizedBox(
                 width: 10,
@@ -386,9 +371,7 @@ class RentContainer extends ConsumerWidget {
                 height: 20,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(percentContainerDark)
-                      : const Color(percentContainerLight),
+                  color: isDarkMode ? const Color(percentContainerDark) : const Color(percentContainerLight),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -411,9 +394,7 @@ class RentContainer extends ConsumerWidget {
                   'assets/svg_icons/clock_icon.svg',
                   width: 20,
                   height: 20,
-                  color: isDarkMode
-                      ? const Color(dateDark)
-                      : const Color(dateLight),
+                  color: isDarkMode ? const Color(dateDark) : const Color(dateLight),
                 ),
                 const SizedBox(
                   width: 5,

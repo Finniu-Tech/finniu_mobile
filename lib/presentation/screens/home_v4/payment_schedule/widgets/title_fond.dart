@@ -3,8 +3,8 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class TitleFond extends ConsumerWidget {
-  const TitleFond({
+class TitleFund extends ConsumerWidget {
+  const TitleFund({
     super.key,
     required this.fundName,
   });
@@ -14,8 +14,7 @@ class TitleFond extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int iconBankDark = 0xff08273F;
     const int iconBankLight = 0xffBEF0FF;
-    final String icon =
-        fundName == "Fondo inversiones empresariales" ? "🏢" : "🏡";
+    final String icon = fundName == "Fondo inversiones empresariales" ? "🏢" : "🏡";
     final String title = fundName;
     const int titleBankDark = 0xff0D3A5C;
     const int titleBankLight = 0xffECFBFF;
@@ -32,9 +31,7 @@ class TitleFond extends ConsumerWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(30)),
-            color: isDarkMode
-                ? const Color(titleBankDark)
-                : const Color(titleBankLight),
+            color: isDarkMode ? const Color(titleBankDark) : const Color(titleBankLight),
           ),
           child: Row(
             children: [
@@ -60,9 +57,7 @@ class TitleFond extends ConsumerWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: isDarkMode
-                ? const Color(iconBankDark)
-                : const Color(iconBankLight),
+            color: isDarkMode ? const Color(iconBankDark) : const Color(iconBankLight),
           ),
           child: TextPoppins(
             text: icon,

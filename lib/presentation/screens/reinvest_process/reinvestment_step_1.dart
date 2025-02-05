@@ -784,7 +784,7 @@ class Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     preInvestmentUUID: widget.preInvestmentUUID,
                     finalAmount: finalAmount.toString(),
                     currency: currency,
-                    deadlineUUID: deadLineUuid,
+                    deadlineUUID: deadLineUuid!,
                     bankAccountSender: selectedBankAccount!.id,
                     originFounds: OriginFunds(
                       originFundsEnum: OriginFoundsUtil.fromReadableName(originFound),

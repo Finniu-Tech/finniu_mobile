@@ -236,6 +236,7 @@ class ProductStyle {
 class ProductData {
   final String uuid;
   final String imageProduct;
+  final String slug;
   final String titleText;
   final String? minimumTextPEN;
   final String? minimumTextUSD;
@@ -250,6 +251,7 @@ class ProductData {
   const ProductData({
     required this.uuid,
     required this.imageProduct,
+    required this.slug,
     required this.titleText,
     required this.minimumTextPEN,
     required this.minimumTextUSD,
@@ -269,6 +271,7 @@ class ProductData {
       imageProduct: fund.iconUrl ?? "🏢", // Emoji por defecto
       titleText: fund.name,
       minimumTextPEN: fund.minAmountInvestmentPEN,
+      slug: fund.slug,
       minimumTextUSD: fund.minAmountInvestmentUSD,
       profitabilityText: fund.lastRentability ?? "0",
       isSoles: fund.minAmountInvestmentPEN != null,
@@ -299,10 +302,27 @@ class ProductData {
     );
   }
 
+  FundEntity toFundEntity() {
+    return FundEntity(
+      uuid: uuid,
+      iconUrl: imageProduct,
+      name: titleText,
+      minAmountInvestmentPEN: minimumTextPEN,
+      slug: slug,
+      minAmountInvestmentUSD: minimumTextUSD,
+      lastRentability: profitabilityText,
+      objectiveText: objetiveText,
+      netWorths: netWorths,
+      features: features,
+      assetUnderManagementAmount: assetsUnderManagement,
+    );
+  }
+
   toJson() {
     return {
       "uuid": uuid,
       "imageProduct": imageProduct,
+      "slug": slug,
       "titleText": titleText,
       "minimumTextPEN": minimumTextPEN,
       "minimumTextUSD": minimumTextUSD,

@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SimulationSuccess extends ConsumerWidget {
-  const SimulationSuccess({
-    super.key,
-    required this.startingAmount,
-    required this.monthInvestment,
-    required this.toInvestPressed,
-    required this.recalculatePressed,
-    required this.profitability,
-    required this.percentage,
-    required this.rentabilityPerMonth,
-  });
+  const SimulationSuccess(
+      {super.key,
+      required this.startingAmount,
+      required this.monthInvestment,
+      required this.toInvestPressed,
+      required this.recalculatePressed,
+      required this.profitability,
+      required this.percentage,
+      required this.rentabilityPerMonth,
+      this.buttonText});
   final int startingAmount;
   final int monthInvestment;
   final int profitability;
@@ -24,6 +24,7 @@ class SimulationSuccess extends ConsumerWidget {
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
   final double rentabilityPerMonth;
+  final String? buttonText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -193,7 +194,7 @@ class SimulationSuccess extends ConsumerWidget {
             ),
           ),
           ButtonInvestment(
-            text: "Quiero invertir",
+            text: buttonText ?? "Quiero invertir",
             onPressed: toInvestPressed,
           ),
           GestureDetector(

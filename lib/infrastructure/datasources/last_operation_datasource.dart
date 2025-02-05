@@ -6,7 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class LastOperationDataSource extends GraphQLBaseDataSource {
   LastOperationDataSource(super.client);
 
-  Future<List<LastOperation>> getLastOperations(String fundUUID) async {
+  Future<List<LastOperation>> getLastOperations(String? fundUUID) async {
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -28,8 +28,6 @@ class LastOperationDataSource extends GraphQLBaseDataSource {
       return <LastOperation>[];
     }
 
-    return data
-        .map((item) => LastOperation.fromJson(item as Map<String, dynamic>))
-        .toList();
+    return data.map((item) => LastOperation.fromJson(item as Map<String, dynamic>)).toList();
   }
 }

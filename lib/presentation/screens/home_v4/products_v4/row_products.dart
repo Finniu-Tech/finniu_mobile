@@ -102,7 +102,7 @@ class RowProducts extends StatelessWidget {
                     ),
                     TextPoppins(
                       text: "anual",
-                      fontSize: 16,
+                      fontSize: 12,
                       fontWeight: FontWeight.w600,
                       textDark: textDark,
                       textLight: textLight,

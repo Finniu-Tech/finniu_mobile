@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/pre_re_invest.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -39,10 +41,17 @@ class MoneyProvider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args = ModalRoute.of(context)?.settings.arguments as String;
+    final args = ModalRoute.of(context)?.settings.arguments;
 
+    if (args == null) {
+      return const Center(child: Text('No hay argumentos'));
+    }
+
+    final Map<String, dynamic> argsMap = args as Map<String, dynamic>;
+    final String preInvestmentUUID = argsMap['preInvestmentUUID'] as String;
+    final FundEntity product = argsMap['product'] as FundEntity;
     return FutureBuilder(
-      future: ref.watch(getPreReInvestFutureProvider(args).future),
+      future: ref.watch(getPreReInvestFutureProvider(preInvestmentUUID).future),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(
@@ -58,7 +67,7 @@ class MoneyProvider extends ConsumerWidget {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
-          return MoneyBody(uuid: args, data: snapshot.data!);
+          return MoneyBody(uuid: preInvestmentUUID, data: snapshot.data!, fund: product);
         } else {
           return const Center(child: Text('No data available'));
         }
@@ -72,8 +81,10 @@ class MoneyBody extends HookConsumerWidget {
     super.key,
     required this.uuid,
     required this.data,
+    required this.fund,
   });
   final String uuid;
+  final FundEntity fund;
   final PreReInvest data;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -87,7 +98,7 @@ class MoneyBody extends HookConsumerWidget {
         uuid,
         0,
         isSoles ? currencyEnum.PEN : currencyEnum.USD,
-        null,
+        fund,
         true,
       );
     }
@@ -120,7 +131,7 @@ class MoneyBody extends HookConsumerWidget {
     ];
     useEffect(
       () {
-        timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+        timer = Timer.periodic(const Duration(seconds: 6), (Timer timer) {
           if (index.value < pages.length - 1) {
             index.value++;
           } else {
