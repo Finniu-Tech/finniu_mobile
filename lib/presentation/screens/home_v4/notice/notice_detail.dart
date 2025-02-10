@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NoticeDetail extends StatelessWidget {
@@ -56,6 +57,23 @@ class _NoticeDetailBodyState extends State<NoticeDetailBody> {
             setState(() {
               _isLoading = false;
             });
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            // Manejar URLs de WhatsApp
+            if (request.url.startsWith('whatsapp://') ||
+                request.url.startsWith('https://wa.me/') ||
+                request.url.startsWith('https://api.whatsapp.com/')) {
+              try {
+                launchUrl(
+                  Uri.parse(request.url),
+                  mode: LaunchMode.externalApplication,
+                );
+                return NavigationDecision.prevent;
+              } catch (e) {
+                return NavigationDecision.prevent;
+              }
+            }
+            return NavigationDecision.navigate;
           },
         ),
       )

@@ -82,8 +82,7 @@ class RowNavigateToDocuments extends StatelessWidget {
     const int dividerLight = 0xffA2E6FA;
 
     void onTap() => Navigator.pushNamed(context, '/v4/documents',
-        arguments: DocumentNavigate(
-            uuid: uuidInvest, operationNumber: opetationInvest));
+        arguments: DocumentNavigate(uuid: uuidInvest, operationNumber: opetationInvest));
 
     return GestureDetector(
       onTap: onTap,
@@ -99,9 +98,7 @@ class RowNavigateToDocuments extends StatelessWidget {
                   "assets/svg_icons/file_icon.svg",
                   width: 20,
                   height: 20,
-                  color: isDarkMode
-                      ? const Color(titleDark)
-                      : const Color(titleLight),
+                  color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                 ),
                 const SizedBox(width: 10),
                 const TextPoppins(
@@ -115,9 +112,7 @@ class RowNavigateToDocuments extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 15,
-                  color: isDarkMode
-                      ? const Color(titleDark)
-                      : const Color(titleLight),
+                  color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                 ),
               ],
             ),
@@ -127,9 +122,7 @@ class RowNavigateToDocuments extends StatelessWidget {
             ),
             Divider(
               height: 1,
-              color: isDarkMode
-                  ? const Color(dividerDark)
-                  : const Color(dividerLight),
+              color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
             ),
           ],
         ),
@@ -169,11 +162,9 @@ class ReInvestContainer extends StatelessWidget {
     const int amountColor = 0xffC5F3FF;
     const int textColor = 0xff000000;
     const int contratTextColor = 0xffFFFFFF;
-    final String amountAdd =
-        dataReinvest.reinvestmentAditionalAmount?.toStringAsFixed(2) ?? '0.00';
+    final String amountAdd = dataReinvest.reinvestmentAditionalAmount?.toStringAsFixed(2) ?? '0.00';
     void onPressedContrat() {
-      Navigator.pushNamed(context, '/v4/push_to_url',
-          arguments: dataReinvest.contractUrl);
+      Navigator.pushNamed(context, '/v4/push_to_url', arguments: dataReinvest.contractUrl);
     }
 
     void onPressedHelp() {
@@ -263,8 +254,7 @@ class ReInvestContainer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextPoppins(
-                  text:
-                      "+ ${formatNumberNotComa(number: amountAdd, isSoles: isSoles)}",
+                  text: "+ ${formatNumberNotComa(number: amountAdd, isSoles: isSoles)}",
                   fontSize: 10,
                   textDark: contratColor,
                   textLight: contratColor,

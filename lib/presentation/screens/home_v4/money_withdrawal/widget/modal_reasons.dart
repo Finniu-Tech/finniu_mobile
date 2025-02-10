@@ -31,9 +31,7 @@ void showModalReasons(BuildContext context, bool isDarkMode, String uuid) {
         );
       },
       child: Dialog(
-        backgroundColor: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         child: ReasonsBody(
           isDarkMode: isDarkMode,
           uuid: uuid,
@@ -132,15 +130,15 @@ class ReasonAndComments extends HookConsumerWidget {
         ).future,
       );
       pageController.animateToPage(
-        2,
-        duration: const Duration(milliseconds: 300),
+        4,
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
       context.loaderOverlay.hide();
 
       ref.read(navigatorStateProvider.notifier).state = 0;
       Future.delayed(
-        const Duration(milliseconds: 500),
+        const Duration(milliseconds: 3000),
         () => Navigator.pushNamedAndRemoveUntil(
           context,
           '/v4/home',
@@ -153,11 +151,11 @@ class ReasonAndComments extends HookConsumerWidget {
       () {
         if (itemSelect.value != null) {
           Future.delayed(
-            const Duration(milliseconds: 500),
+            const Duration(milliseconds: 3000),
             () => {
               pageController.animateToPage(
                 1,
-                duration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
               ),
             },
@@ -248,9 +246,7 @@ class ReasonAndComments extends HookConsumerWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode
-                  ? const Color(containerDark)
-                  : const Color(containerLight),
+              color: isDarkMode ? const Color(containerDark) : const Color(containerLight),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -260,9 +256,7 @@ class ReasonAndComments extends HookConsumerWidget {
                   "assets/svg_icons/clock_icon.svg",
                   width: 20,
                   height: 20,
-                  color: isDarkMode
-                      ? const Color(titleDark)
-                      : const Color(titleLight),
+                  color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
                 ),
                 const SizedBox(
                   width: 15,

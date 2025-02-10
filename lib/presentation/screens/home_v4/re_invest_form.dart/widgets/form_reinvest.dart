@@ -158,6 +158,15 @@ class FormStepOneReinvest extends HookConsumerWidget {
         if (amountError.value) return;
         if (timeError.value) return;
         if (couponError.value) return;
+        if (couponController.text.isEmpty) {
+          showSnackBarV2(
+            context: context,
+            title: "Error al aplicar cupón",
+            message: "Debes ingresar el cupón",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
         final timeList = ref.watch(deadLineFutureProvider);
         final time = timeList.asData!.value.firstWhere((element) => element.name == timeController.text);
         context.loaderOverlay.show();
@@ -165,7 +174,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
           amount: finalAmount.value.toInt(),
           months: time.value,
           currency: isSoles ? currencyNuevoSol : currencyDollar,
-          coupon: couponController.text,
+          coupon: couponController.text.trim(), //strip blank spaces
           fundUuid: product.uuid,
         );
         planSimulation.value = await pushCupon(
@@ -177,7 +186,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
           context: context,
           plan: planSimulation.value,
           ref: ref,
-          coupon: couponController.text,
+          coupon: couponController.text.trim(),
           couponController: couponController,
         );
       }
@@ -686,7 +695,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
                           color: const Color(buttonBack),
                         ),
                         child: const TextPoppins(
-                          text: "Aplicarlo",
+                          text: "Aplicarlo ",
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           textDark: buttonText,
@@ -701,7 +710,7 @@ class FormStepOneReinvest extends HookConsumerWidget {
             const SizedBox(height: 15),
             !addAmount
                 ? BankTranferContainer(
-                    title: "A que banco te depositamos",
+                    title: "A qué banco te depositamos",
                     providerWatch: selectedBankAccountReceiverProvider,
                     isSended: false,
                   )

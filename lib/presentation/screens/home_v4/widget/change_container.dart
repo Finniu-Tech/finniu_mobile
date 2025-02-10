@@ -213,9 +213,9 @@ class ChangeRextie extends ConsumerWidget {
             child: GestureDetector(
               onTap: () => {
                 // Navigator.pushNamed(context, '/v4/push_to_url', arguments: 'www.rextie.com'),
-                // Navigator.pushNamed(context, '/v4/push_to_url', arguments: 'https://rextie.com/')
+                Navigator.pushNamed(context, '/v4/push_to_url', arguments: 'https://rextie.com/')
                 // launchUrl(Uri.parse('https://rextie.com/'))
-                launchUrl(Uri.parse('https://rextie.com/'))
+                // launchUrl(Uri.parse('https://rextie.com/'))
               },
               child: Container(
                 height: 30,

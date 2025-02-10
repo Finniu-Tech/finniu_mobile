@@ -10,13 +10,13 @@ enum ActionStatusEnumV4 {
 
 ActionStatusEnumV4 mapStringToEnum(String status) {
   switch (status) {
-    case "RE_INVERSION_ACTIVATED":
+    case "RE_INVERSION_ACTIVADA":
       return ActionStatusEnumV4.reInvestmentActivated;
-    case "RE_INVESTMENT_DISACTIVATED":
+    case "RE_INVERSION_DESACTIVADA":
       return ActionStatusEnumV4.reInvestmentDisabled;
     case "RE_INVERSION_PENDIENTE":
       return ActionStatusEnumV4.reInvestmentPending;
-    case "RE_INVESTMENT_DEFAULT":
+    case "RE_INVERSION_DEFAULT":
       return ActionStatusEnumV4.reInvestmentDefault;
     default:
       return ActionStatusEnumV4.reInvestmentDefault;

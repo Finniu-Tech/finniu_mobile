@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:finniu/constants/contact_whats_app.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
@@ -101,7 +99,7 @@ class _BodyScaffold extends ConsumerWidget {
                   color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 60),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -164,10 +162,9 @@ class _BodyScaffold extends ConsumerWidget {
                               )
                             : const SizedBox(),
                         data.bankAccountReceiver != null ? const SizedBox(height: 15) : const SizedBox(),
-                        if (arguments.status != StatusInvestmentEnum.in_process) ...[
-                          data.reinvestmentInfo != null &&
-                                  data.reinvestmentInfo!.hasValidValues() &&
-                                  data.actionStatus == ActionStatusEnumV4.reInvestmentPending
+                        if (arguments.status == StatusInvestmentEnum.in_course) ...[
+                          data.actionStatus == ActionStatusEnumV4.reInvestmentPending ||
+                                  data.actionStatus == ActionStatusEnumV4.reInvestmentActivated
                               ? ReInvestContainer(
                                   isDarkMode: isDarkMode,
                                   dataReinvest: data.reinvestmentInfo!,

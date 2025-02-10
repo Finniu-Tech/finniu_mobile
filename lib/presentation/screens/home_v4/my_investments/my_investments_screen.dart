@@ -33,9 +33,8 @@ class MyInvestmentsScreen extends ConsumerWidget {
         );
       },
       child: Scaffold(
-        backgroundColor: isDarkMode
-            ? const Color(MyInvestV4Colors.backgroudDark)
-            : const Color(MyInvestV4Colors.backgroudLight),
+        backgroundColor:
+            isDarkMode ? const Color(MyInvestV4Colors.backgroudDark) : const Color(MyInvestV4Colors.backgroudLight),
         appBar: const AppBarProducts(
           title: "Mis inversiones",
         ),
@@ -128,13 +127,11 @@ class MiInvestProvider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<HomeUserInvest> investHome =
-        ref.watch(homeV4InvestProvider);
+    final AsyncValue<HomeUserInvest> investHome = ref.watch(homeV4InvestProvider);
 
     return investHome.when(
       data: (data) {
-        if (data.investmentInDolares == null &&
-            data.investmentInSoles == null) {
+        if (data.investmentInDolares == null && data.investmentInSoles == null) {
           return MyInvestmentsContainer(
             data: homeUserErrorInvest,
             isLoaded: false,
@@ -207,9 +204,8 @@ class NavigateToDocuments extends ConsumerWidget {
               height: 10,
             ),
             Divider(
-              color: isDarkMode
-                  ? const Color(MyInvestV4Colors.dividerDark)
-                  : const Color(MyInvestV4Colors.dividerLight),
+              color:
+                  isDarkMode ? const Color(MyInvestV4Colors.dividerDark) : const Color(MyInvestV4Colors.dividerLight),
               height: 2,
             ),
           ],
