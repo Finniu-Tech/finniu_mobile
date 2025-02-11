@@ -1818,6 +1818,7 @@ class QueryRepository {
             isDeleted
             isActive
             lastRentability
+            lastRentabilityUsd
             netWorthGraph{
               date
               value

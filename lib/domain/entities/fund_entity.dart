@@ -29,6 +29,7 @@ class FundEntity {
   bool? isActive;
   bool? isDelete;
   String? lastRentability;
+  String? lastRentabilityUSD;
   String? netWorthAmount;
   String? totalInstallmentsAmount;
   String? moreInfoDownloadUrl;
@@ -68,6 +69,7 @@ class FundEntity {
     this.minAmountInvestmentUSD,
     this.objectiveText,
     this.features,
+    this.lastRentabilityUSD,
   });
 
   bool getActive(bool isActive) {
@@ -130,6 +132,7 @@ class FundEntity {
       isActive: data['isActive'],
       isDelete: data['isDeleted'],
       lastRentability: data['lastRentability'],
+      lastRentabilityUSD: data['lastRentabilityUsd'],
       netWorthAmount: data['netWorthAmount'],
       assetUnderManagementAmount: data['assetsUnderManagement'],
       netWorths: FundNetWorthEntity.listFromJson(data['netWorthGraph']),

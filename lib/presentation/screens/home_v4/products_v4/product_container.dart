@@ -121,7 +121,7 @@ class _ProductDetails extends StatelessWidget {
       minimunText: isSoles ? product.minimumTextPEN! : product.minimumTextUSD!,
       profitabilityDark: style.profitabilityDark,
       profitabilityLight: style.profitabilityLight,
-      profitabilityText: product.profitabilityText,
+      profitabilityText: isSoles ? product.profitabilityText! : product.profitabilityTextUSD!,
       textDark: style.textDark,
       textLight: style.textLight,
       minimunTextColorDark: style.minimunTextColorDark,

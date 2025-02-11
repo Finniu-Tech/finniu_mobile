@@ -320,7 +320,7 @@ class RowMinRent extends ConsumerWidget {
         minimunText: isSoles ? product.minimumTextPEN! : product.minimumTextUSD!,
         profitabilityDark: product.style.profitabilityDark,
         profitabilityLight: product.style.profitabilityLight,
-        profitabilityText: product.profitabilityText,
+        profitabilityText: isSoles ? product.profitabilityText! : product.profitabilityTextUSD!,
         textDark: product.style.textDark,
         textLight: product.style.textLight,
         minimunTextColorDark: product.style.minimunTextColorDark,
