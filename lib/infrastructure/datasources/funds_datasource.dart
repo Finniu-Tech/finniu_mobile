@@ -18,6 +18,7 @@ class FundDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
+    print('response get fundss $response');
 
     final List<dynamic> listInvestmentResponse =
         response.data?['investmentFundsQueries']?['listInvestmentFundsAvailable'] ?? [];
