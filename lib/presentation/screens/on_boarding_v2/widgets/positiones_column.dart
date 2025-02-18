@@ -36,38 +36,27 @@ class PositionedColumn extends ConsumerWidget {
             height: 20,
           ),
           OnboardingButton(
-            isDarkMode: index == 0
-                ? false
-                : index == 1
-                    ? isDarkMode
-                    : true,
+            isDarkMode: false,
             text: "Ingresar",
             onPressed: pushLogin,
           ),
           const SizedBox(
             height: 10,
           ),
-          TextAsk(
-            isDarkMode: index == 0
-                ? false
-                : index == 1
-                    ? isDarkMode
-                    : true,
-          ),
           const SizedBox(
             height: 10,
           ),
-          UnderlinedButtonText(
+          OnboardingSecondButton(
             isDarkMode: index == 0
-                ? false
+                ? true
                 : index == 1
                     ? isDarkMode
                     : true,
-            text: "Crear mi cuenta",
+            text: "Registrarme",
             onPressed: pushRegister,
           ),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
         ],
       ),
@@ -170,6 +159,59 @@ class OnboardingButton extends StatelessWidget {
             color: isDarkMode
                 ? const Color(textColorDark)
                 : const Color(textColorLight),
+            fontSize: 16,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class OnboardingSecondButton extends StatelessWidget {
+  const OnboardingSecondButton({
+    super.key,
+    required this.isDarkMode,
+    required this.text,
+    required this.onPressed,
+  });
+  final void Function()? onPressed;
+  final String text;
+  final bool isDarkMode;
+
+  @override
+  Widget build(BuildContext context) {
+    const int buttonColorDark = 0xffA2E6FA;
+    const int buttonColorLight = 0xffFFFFFF;
+
+    const int border = 0xff0D3A5C;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: 50,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(
+                color: isDarkMode ? const Color(border) : const Color(border),
+              ),
+            ),
+          ),
+          elevation: WidgetStateProperty.all(0),
+          backgroundColor: WidgetStateProperty.all(
+            isDarkMode
+                ? const Color(buttonColorDark)
+                : const Color(buttonColorLight),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: isDarkMode ? const Color(border) : const Color(border),
             fontSize: 16,
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,

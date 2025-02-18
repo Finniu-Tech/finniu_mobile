@@ -25,7 +25,7 @@ class ButtonSendProof extends StatelessWidget {
     }
 
     return ButtonInvestment(
-      text: 'Enviar constancia',
+      text: 'Enviar constancia ',
       onPressed: () => showThanksInvestmentDialog(
         context,
         textBody: textBody,
@@ -79,6 +79,55 @@ class ButtonInvestment extends ConsumerWidget {
   }
 }
 
+class ButtonInvestmentBorder extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  const ButtonInvestmentBorder({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xff0E0E0E;
+    const int backgroundLight = 0xffFFFFFF;
+    const int borderDark = 0xffA2E6FA;
+    const int borderLight = 0xff0D3A5C;
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: 50,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(
+                color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
+              ),
+            ),
+          ),
+          elevation: WidgetStateProperty.all(0),
+          backgroundColor: WidgetStateProperty.all(
+            isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+          ),
+        ),
+        onPressed: onPressed,
+        child: TextPoppins(
+          text: text,
+          align: TextAlign.center,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          textDark: borderDark,
+          textLight: borderLight,
+        ),
+      ),
+    );
+  }
+}
+
 class ButtonIconInvestment extends ConsumerWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -104,9 +153,7 @@ class ButtonIconInvestment extends ConsumerWidget {
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode
-                  ? buttonBackgroundColorDark
-                  : buttonBackgroundColorLight,
+              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -117,9 +164,7 @@ class ButtonIconInvestment extends ConsumerWidget {
           children: [
             Icon(
               icon,
-              color: isDarkMode
-                  ? const Color(colorTextButtonDarkColor)
-                  : const Color(colorTextButtonLightColor),
+              color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
               size: 24,
             ),
             const SizedBox(
@@ -129,9 +174,7 @@ class ButtonIconInvestment extends ConsumerWidget {
               text,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isDarkMode
-                    ? const Color(colorTextButtonDarkColor)
-                    : const Color(colorTextButtonLightColor),
+                color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
                 fontSize: 16,
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w500,
@@ -171,9 +214,7 @@ class ButtonSvgIconInvestment extends ConsumerWidget {
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode
-                  ? buttonBackgroundColorDark
-                  : buttonBackgroundColorLight,
+              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -184,9 +225,7 @@ class ButtonSvgIconInvestment extends ConsumerWidget {
           children: [
             SvgPicture.asset(
               icon,
-              color: isDarkMode
-                  ? const Color(colorTextButtonDarkColor)
-                  : const Color(colorTextButtonLightColor),
+              color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
               width: size,
               height: size,
             ),
@@ -197,13 +236,78 @@ class ButtonSvgIconInvestment extends ConsumerWidget {
               text,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isDarkMode
-                    ? const Color(colorTextButtonDarkColor)
-                    : const Color(colorTextButtonLightColor),
+                color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
                 fontSize: 16,
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w500,
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonSvgIconInvestmentSecond extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final String icon;
+  final double height;
+  final double size;
+  const ButtonSvgIconInvestmentSecond({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.icon,
+    this.height = 50,
+    this.size = 24,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    const int textColorDark = 0xffA2E6FA;
+    const int textColorLight = 0xffFFFFFF;
+    const int colorDark = 0xff0E0E0E;
+    const int colorLight = 0xff0D3A5C;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: height,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+                side: BorderSide(
+                  color: isDarkMode ? const Color(textColorDark) : const Color(colorLight),
+                )),
+          ),
+          elevation: WidgetStateProperty.all(5),
+          backgroundColor: WidgetStateProperty.all(
+            isDarkMode ? const Color(colorDark) : const Color(colorLight),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon,
+              color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+              width: size,
+              height: size,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            TextPoppins(
+              text: text,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              textDark: textColorDark,
+              textLight: textColorLight,
             ),
           ],
         ),

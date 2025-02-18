@@ -10,7 +10,6 @@ class FundDataSource extends GraphQLBaseDataSource {
   FundDataSource(super.client);
 
   Future<List<FundEntity>> getFunds() async {
-    // HERE WE RETURN THE ACTIVE FUNDS
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -19,12 +18,14 @@ class FundDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
+    print('response get fundss $response');
 
     final List<dynamic> listInvestmentResponse =
         response.data?['investmentFundsQueries']?['listInvestmentFundsAvailable'] ?? [];
 
     final fundList = FundEntity.listFromJson(listInvestmentResponse);
-    return fundList;
+    // Filtrar solo los fondos activos
+    return fundList.where((fund) => fund.isActive == true).toList();
   }
 
   Future<List<FundBenefit>> getBenefits(String fundUUID) async {
@@ -44,7 +45,7 @@ class FundDataSource extends GraphQLBaseDataSource {
         response.data?['investmentFundsQueries']?['listBenefitsInvestmentFundsAvailable'] ?? [];
 
     final fundList = FundBenefit.listFromJson(listInvestmentResponse);
-    return fundList;
+    return fundList.where((benefit) => benefit.isActive == true).toList();
   }
 
   Future<List<int>> getAggroQuotes() async {
@@ -100,7 +101,6 @@ class FundDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('response save corporate: ${response.data}');
     return SaveCorporateInvestmentResponse.fromJson(response.data?['saveCorporateInvestment'] ?? {});
   }
 }

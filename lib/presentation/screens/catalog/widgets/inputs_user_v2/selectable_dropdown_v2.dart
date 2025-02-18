@@ -56,9 +56,7 @@ class SelectableDropdownItem extends HookConsumerWidget {
                 item,
                 style: TextStyle(
                   fontSize: 12,
-                  color: isDarkMode
-                      ? Color(textSelectDark)
-                      : Color(textSelectLight),
+                  color: isDarkMode ? Color(textSelectDark) : Color(textSelectLight),
                   fontWeight: FontWeight.w400,
                   fontFamily: "Poppins",
                   overflow: TextOverflow.ellipsis,
@@ -95,24 +93,18 @@ class SelectableDropdownItem extends HookConsumerWidget {
         filled: true,
         border: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-          borderSide: isError
-              ? BorderSide(color: Color(borderError), width: 1)
-              : BorderSide.none,
+          borderSide: isError ? BorderSide(color: Color(borderError), width: 1) : BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-          borderSide: isError
-              ? BorderSide(color: Color(borderError), width: 1)
-              : BorderSide.none,
+          borderSide: isError ? BorderSide(color: Color(borderError), width: 1) : BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(25.0)),
           borderSide: isError
               ? BorderSide(color: Color(borderError), width: 1)
               : BorderSide(
-                  color: isDarkMode
-                      ? Color(borderColorDark)
-                      : Color(borderColorLight),
+                  color: isDarkMode ? Color(borderColorDark) : Color(borderColorLight),
                   width: 1,
                 ),
         ),
@@ -141,8 +133,7 @@ class SelectableDropdownItem extends HookConsumerWidget {
         ),
       ),
       iconSize: 24,
-      dropdownColor:
-          isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
+      dropdownColor: isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
       items: list.map((String option) {
         return DropdownMenuItem<String>(
           value: option,
@@ -157,9 +148,7 @@ class SelectableDropdownItem extends HookConsumerWidget {
                     option,
                     style: TextStyle(
                       fontSize: 14,
-                      color: isDarkMode
-                          ? Color(textSelectDark)
-                          : Color(textSelectLight),
+                      color: isDarkMode ? Color(textSelectDark) : Color(textSelectLight),
                       fontWeight: FontWeight.w400,
                       fontFamily: "Poppins",
                     ),
@@ -211,8 +200,7 @@ class ProviderSelectableDropdownItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<GeoLocationResponseV2> geoLocationResponse =
-        ref.watch(regionsSelectProvider);
+    final AsyncValue<GeoLocationResponseV2> geoLocationResponse = ref.watch(regionsSelectProvider);
 
     return geoLocationResponse.when(
       data: (data) {
@@ -305,9 +293,7 @@ class SelectableGeoLocationDropdownItem extends HookConsumerWidget {
                 item.name,
                 style: TextStyle(
                   fontSize: 12,
-                  color: isDarkMode
-                      ? Color(textSelectDark)
-                      : Color(textSelectLight),
+                  color: isDarkMode ? Color(textSelectDark) : Color(textSelectLight),
                   fontWeight: FontWeight.w400,
                   fontFamily: "Poppins",
                   overflow: TextOverflow.ellipsis,
@@ -344,24 +330,18 @@ class SelectableGeoLocationDropdownItem extends HookConsumerWidget {
         filled: true,
         border: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-          borderSide: isError
-              ? BorderSide(color: Color(borderError), width: 1)
-              : BorderSide.none,
+          borderSide: isError ? BorderSide(color: Color(borderError), width: 1) : BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-          borderSide: isError
-              ? BorderSide(color: Color(borderError), width: 1)
-              : BorderSide.none,
+          borderSide: isError ? BorderSide(color: Color(borderError), width: 1) : BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(25.0)),
           borderSide: isError
               ? BorderSide(color: Color(borderError), width: 1)
               : BorderSide(
-                  color: isDarkMode
-                      ? Color(borderColorDark)
-                      : Color(borderColorLight),
+                  color: isDarkMode ? Color(borderColorDark) : Color(borderColorLight),
                   width: 1,
                 ),
         ),
@@ -398,8 +378,7 @@ class SelectableGeoLocationDropdownItem extends HookConsumerWidget {
                         : Color(iconLight),
               ),
       ),
-      dropdownColor:
-          isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
+      dropdownColor: isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
       items: list.map((option) {
         return DropdownMenuItem<String>(
           value: option.id,
@@ -414,9 +393,7 @@ class SelectableGeoLocationDropdownItem extends HookConsumerWidget {
                     option.name,
                     style: TextStyle(
                       fontSize: 14,
-                      color: isDarkMode
-                          ? Color(textSelectDark)
-                          : Color(textSelectLight),
+                      color: isDarkMode ? Color(textSelectDark) : Color(textSelectLight),
                       fontWeight: FontWeight.w400,
                       fontFamily: "Poppins",
                     ),
@@ -461,12 +438,10 @@ class GetFunctionSelectableDropdownItem extends StatefulWidget {
   final String? itemSelectedValue;
 
   @override
-  State<GetFunctionSelectableDropdownItem> createState() =>
-      _GetFunctionSelectableDropdownItemState();
+  State<GetFunctionSelectableDropdownItem> createState() => _GetFunctionSelectableDropdownItemState();
 }
 
-class _GetFunctionSelectableDropdownItemState
-    extends State<GetFunctionSelectableDropdownItem> {
+class _GetFunctionSelectableDropdownItemState extends State<GetFunctionSelectableDropdownItem> {
   late Future<List<String>> futureCountries;
 
   @override

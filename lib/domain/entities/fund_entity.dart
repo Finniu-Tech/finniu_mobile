@@ -6,6 +6,7 @@ class FundTypeEnum {
 class FundEntity {
   String uuid;
   String name;
+  String slug;
   String? iconUrl;
   String? mainImageUrl;
   String? mainImageHorizontalUrl;
@@ -28,15 +29,19 @@ class FundEntity {
   bool? isActive;
   bool? isDelete;
   String? lastRentability;
+  String? lastRentabilityUSD;
   String? netWorthAmount;
   String? totalInstallmentsAmount;
   String? moreInfoDownloadUrl;
   String? minAmountInvestmentPEN;
   String? minAmountInvestmentUSD;
+  String? objectiveText;
+  List<FundFeature>? features;
 
   FundEntity({
     required this.uuid,
     required this.name,
+    required this.slug,
     this.iconUrl,
     this.mainImageUrl,
     this.mainImageHorizontalUrl,
@@ -62,6 +67,9 @@ class FundEntity {
     this.moreInfoDownloadUrl,
     this.minAmountInvestmentPEN,
     this.minAmountInvestmentUSD,
+    this.objectiveText,
+    this.features,
+    this.lastRentabilityUSD,
   });
 
   bool getActive(bool isActive) {
@@ -103,8 +111,9 @@ class FundEntity {
 
   static FundEntity fromJson(Map<String, dynamic> data) {
     return FundEntity(
-      uuid: data['uuid'],
-      name: data['name'],
+      uuid: data['uuid'] ?? '',
+      name: data['name'] ?? '',
+      slug: data['slug'] ?? '',
       iconUrl: data['icon'],
       mainImageUrl: data['mainImageUrl'],
       mainImageHorizontalUrl: data['mainImageHorizontalUrl'],
@@ -123,6 +132,7 @@ class FundEntity {
       isActive: data['isActive'],
       isDelete: data['isDeleted'],
       lastRentability: data['lastRentability'],
+      lastRentabilityUSD: data['lastRentabilityUsd'],
       netWorthAmount: data['netWorthAmount'],
       assetUnderManagementAmount: data['assetsUnderManagement'],
       netWorths: FundNetWorthEntity.listFromJson(data['netWorthGraph']),
@@ -130,6 +140,8 @@ class FundEntity {
       moreInfoDownloadUrl: data['moreInfoDownloadUrl'],
       minAmountInvestmentPEN: data['minAmountInvestmentPen'],
       minAmountInvestmentUSD: data['minAmountInvestmentUsd'],
+      objectiveText: data['objectiveFunds'],
+      features: FundFeature.listFromJson(data['characteristics']),
     );
   }
 
@@ -215,5 +227,45 @@ class FundBenefit {
       'isActive': isActive,
       'isDeleted': isDelete,
     };
+  }
+}
+
+class FundFeature {
+  String title;
+  String iconUrl;
+  bool isActive;
+
+  FundFeature({
+    required this.title,
+    required this.iconUrl,
+    required this.isActive,
+  });
+
+  static FundFeature fromJson(Map<String, dynamic> data) {
+    return FundFeature(
+      title: data['benefitText'],
+      iconUrl: data['icon'],
+      isActive: data['isActive'],
+    );
+  }
+
+  static List<FundFeature> listFromJson(List<dynamic>? data) {
+    if (data == null) {
+      return [];
+    }
+    return data.map((feature) => FundFeature.fromJson(feature)).toList();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'benefitText': title,
+      'icon': iconUrl,
+      'isActive': isActive,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'FundFeature(title: $title, iconUrl: $iconUrl, isActive: $isActive)';
   }
 }

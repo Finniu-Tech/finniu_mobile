@@ -20,7 +20,7 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ScaffoldConfig(
+    return const ScaffoldConfig(
       title: "Configuraciones",
       children: _BodySettings(),
     );
@@ -28,50 +28,12 @@ class SettingsScreen extends ConsumerWidget {
 }
 
 class _BodySettings extends HookConsumerWidget {
-  _BodySettings();
-
-  Future<NotificationPreferences> _loadPreferences(String userId, WidgetRef ref) async {
-    final deviceInfo = await DeviceInfoService().getDeviceInfo(userId);
-    return ref.read(pushNotificationServiceProvider).getDevicePreferences(
-          deviceId: deviceInfo.deviceId,
-        );
-  }
+  const _BodySettings();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Mover los hooks al nivel superior del build
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final bubbleState = ref.watch(positionProvider);
-    final userProfile = ref.watch(userProfileNotifierProvider);
-    final isMarketingPushActive = useState(true);
-    final isOperationalPushActive = useState(true);
-
-    final future = useMemoized(
-      () => _loadPreferences(userProfile.id!, ref),
-      [userProfile.id],
-    );
-
-    final snapshot = useFuture(future);
-
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (snapshot.hasError) {
-      return Center(child: Text('Error cargando preferencias: ${snapshot.error}'));
-    }
-    useEffect(() {
-      if (snapshot.hasData) {
-        final preferences = snapshot.data!;
-        isMarketingPushActive.value = preferences.acceptsMarketing;
-        isOperationalPushActive.value = preferences.acceptsOperational;
-      }
-      return null;
-    }, [snapshot.data]);
-
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return const Center(child: CircularProgressIndicator());
-    }
 
     void setDarkMode() {
       if (!isDarkMode) {
@@ -117,103 +79,6 @@ class _BodySettings extends HookConsumerWidget {
       }
     }
 
-    Future<void> _updateNotificationPreferences({
-      required WidgetRef ref,
-      required NotificationType type,
-      required bool value,
-    }) async {
-      final deviceInfo = await DeviceInfoService().getDeviceInfo(userProfile.id!);
-      final Map<String, dynamic> updates = {};
-
-      if (type == NotificationType.operational) {
-        updates['accepts_operational'] = value;
-        updates['accepts_marketing'] = isMarketingPushActive.value;
-      } else if (type == NotificationType.marketing) {
-        updates['accepts_marketing'] = value;
-        updates['accepts_operational'] = isOperationalPushActive.value;
-      }
-
-      try {
-        await ref.read(pushNotificationServiceProvider).updateDevice(
-              deviceId: deviceInfo.deviceId,
-              updates: updates,
-            );
-      } catch (e, stackTrace) {
-        print('Error updating notification preferences: $e');
-        print('stackTrace: $stackTrace');
-      }
-    }
-
-    Future<void> handleNotificationSettings({
-      required WidgetRef ref,
-      required BuildContext context,
-      required NotificationType type,
-      required ValueNotifier<bool> stateNotifier,
-    }) async {
-      final pushService = ref.read(pushNotificationServiceProvider);
-      final newValue = !stateNotifier.value;
-      print('Current value: ${stateNotifier.value}');
-      print('New value: $newValue');
-
-      try {
-        context.loaderOverlay.show();
-
-        // Verificar el estado actual de los permisos del SO
-        final hasPermission = await pushService.areNotificationsEnabled();
-
-        if (newValue && !hasPermission) {
-          final permissionsGranted = await pushService.requestNativePermissions(context, pushService);
-          if (!permissionsGranted) {
-            context.loaderOverlay.hide();
-            return;
-          }
-        }
-
-        // Preparar las actualizaciones incluyendo el state basado en los permisos del SO
-        final Map<String, dynamic> updates = {
-          'state': hasPermission ? 'active' : 'denied', // Siempre actualizar el state según permisos del SO
-        };
-
-        if (type == NotificationType.operational) {
-          updates['accepts_operational'] = newValue;
-          updates['accepts_marketing'] = isMarketingPushActive.value;
-        } else if (type == NotificationType.marketing) {
-          updates['accepts_marketing'] = newValue;
-          updates['accepts_operational'] = isOperationalPushActive.value;
-        }
-
-        final deviceInfo = await DeviceInfoService().getDeviceInfo(userProfile.id!);
-        await pushService.updateDevice(
-          deviceId: deviceInfo.deviceId,
-          updates: updates,
-        );
-
-        if (type == NotificationType.operational) {
-          isOperationalPushActive.value = newValue;
-        }
-        if (type == NotificationType.marketing) {
-          isMarketingPushActive.value = newValue;
-        }
-
-        if (!hasPermission && newValue) {
-          stateNotifier.value = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Por favor activa los permisos de notificaciones en la configuración'),
-              duration: Duration(seconds: 3),
-            ),
-          );
-        }
-      } catch (e) {
-        print('Error updating notification settings: $e');
-        stateNotifier.value = !newValue;
-      } finally {
-        if (context.mounted) {
-          context.loaderOverlay.hide();
-        }
-      }
-    }
-
     void navigatePrivacy() {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.navigateTo,
@@ -248,6 +113,207 @@ class _BodySettings extends HookConsumerWidget {
           onTap: () => setBubble(),
           value: bubbleState.isRender,
         ),
+        const ColumnNotifications(),
+      ],
+    );
+  }
+}
+
+class ColumnNotifications extends HookConsumerWidget {
+  const ColumnNotifications({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    Future<NotificationPreferences> loadPreferences(
+      String userId,
+      WidgetRef ref,
+    ) async {
+      final deviceInfo = await DeviceInfoService().getDeviceInfo(userId);
+      return ref.read(pushNotificationServiceProvider).getDevicePreferences(
+            deviceId: deviceInfo.deviceId,
+          );
+    }
+
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final isMarketingPushActive = useState(true);
+    final isOperationalPushActive = useState(true);
+
+    final future = useMemoized(
+      () => loadPreferences(userProfile.id!, ref),
+      [userProfile.id],
+    );
+
+    final snapshot = useFuture(future);
+
+    useEffect(
+      () {
+        if (snapshot.hasData) {
+          final preferences = snapshot.data!;
+          isMarketingPushActive.value = preferences.acceptsMarketing;
+          isOperationalPushActive.value = preferences.acceptsOperational;
+        }
+        return null;
+      },
+      [snapshot.data],
+    );
+
+    Future<void> handleNotificationSettings({
+      required WidgetRef ref,
+      required BuildContext context,
+      required NotificationType type,
+      required ValueNotifier<bool> stateNotifier,
+    }) async {
+      final pushService = ref.read(pushNotificationServiceProvider);
+      final newValue = !stateNotifier.value;
+      try {
+        context.loaderOverlay.show();
+
+        // Verificar el estado actual de los permisos del SO
+        final hasPermission = await pushService.areNotificationsEnabled();
+
+        if (newValue && !hasPermission) {
+          final permissionsGranted =
+              await pushService.requestNativePermissions(context, pushService);
+          if (!permissionsGranted) {
+            context.loaderOverlay.hide();
+            return;
+          }
+        }
+
+        // Preparar las actualizaciones incluyendo el state basado en los permisos del SO
+        final Map<String, dynamic> updates = {
+          'state': hasPermission
+              ? 'active'
+              : 'denied', // Siempre actualizar el state según permisos del SO
+        };
+
+        if (type == NotificationType.operational) {
+          updates['accepts_operational'] = newValue;
+          updates['accepts_marketing'] = isMarketingPushActive.value;
+        } else if (type == NotificationType.marketing) {
+          updates['accepts_marketing'] = newValue;
+          updates['accepts_operational'] = isOperationalPushActive.value;
+        }
+
+        final deviceInfo =
+            await DeviceInfoService().getDeviceInfo(userProfile.id!);
+        await pushService.updateDevice(
+          deviceId: deviceInfo.deviceId,
+          updates: updates,
+        );
+
+        if (type == NotificationType.operational) {
+          isOperationalPushActive.value = newValue;
+        }
+        if (type == NotificationType.marketing) {
+          isMarketingPushActive.value = newValue;
+        }
+
+        if (!hasPermission && newValue) {
+          stateNotifier.value = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                  'Por favor activa los permisos de notificaciones en la configuración'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+      } catch (e) {
+        print('Error updating notification settings: $e');
+        stateNotifier.value = !newValue;
+      } finally {
+        if (context.mounted) {
+          context.loaderOverlay.hide();
+        }
+      }
+    }
+
+    Future<void> _updateNotificationPreferences({
+      required WidgetRef ref,
+      required NotificationType type,
+      required bool value,
+    }) async {
+      final deviceInfo =
+          await DeviceInfoService().getDeviceInfo(userProfile.id!);
+      final Map<String, dynamic> updates = {};
+
+      if (type == NotificationType.operational) {
+        updates['accepts_operational'] = value;
+        updates['accepts_marketing'] = isMarketingPushActive.value;
+      } else if (type == NotificationType.marketing) {
+        updates['accepts_marketing'] = value;
+        updates['accepts_operational'] = isOperationalPushActive.value;
+      }
+
+      try {
+        await ref.read(pushNotificationServiceProvider).updateDevice(
+              deviceId: deviceInfo.deviceId,
+              updates: updates,
+            );
+      } catch (e, stackTrace) {
+        print('Error updating notification preferences: $e');
+        print('stackTrace: $stackTrace');
+      }
+    }
+
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return Column(
+        children: [
+          ButtonSwitchProfileLoader(
+            key: ValueKey('marketing-${isMarketingPushActive.value}'),
+            icon: "assets/svg_icons/julia_icon.svg",
+            title: "Notificaciones",
+            subtitle: "Notificaciones de marketing",
+            onTap: () => {},
+            value: isMarketingPushActive.value,
+            isExternalState: true,
+          ),
+          ButtonSwitchProfileLoader(
+            key: ValueKey('operational-${isOperationalPushActive.value}'),
+            icon: "assets/svg_icons/julia_icon.svg",
+            subtitle: "Notificaciones de operaciones",
+            title: "Notificaciones",
+            onTap: () => {},
+            value: isOperationalPushActive.value,
+            isExternalState: true,
+          ),
+        ],
+      );
+    }
+
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return Column(
+        children: [
+          ButtonSwitchProfileLoader(
+            key: ValueKey('marketing-${isMarketingPushActive.value}'),
+            icon: "assets/svg_icons/julia_icon.svg",
+            title: "Notificaciones",
+            subtitle: "Notificaciones de marketing",
+            onTap: () => {},
+            value: isMarketingPushActive.value,
+            isExternalState: true,
+          ),
+          ButtonSwitchProfileLoader(
+            key: ValueKey('operational-${isOperationalPushActive.value}'),
+            icon: "assets/svg_icons/julia_icon.svg",
+            subtitle: "Notificaciones de operaciones",
+            title: "Notificaciones",
+            onTap: () => {},
+            value: isOperationalPushActive.value,
+            isExternalState: true,
+          ),
+        ],
+      );
+    }
+
+    if (snapshot.hasError) {
+      return const SizedBox();
+    }
+    return Column(
+      children: [
         ButtonSwitchProfile(
           key: ValueKey('marketing-${isMarketingPushActive.value}'),
           icon: "assets/svg_icons/julia_icon.svg",

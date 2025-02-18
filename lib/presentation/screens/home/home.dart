@@ -126,7 +126,7 @@ class HomeBody extends HookConsumerWidget {
             ),
             if ((ref.watch(featureFlagsProvider)[FeatureFlags.admin]) == true)
               TextButton(
-                  onPressed: () => Navigator.pushNamed(context, '/home_v2'),
+                  onPressed: () => Navigator.pushNamed(context, '/v4/home'),
                   child: Text('Go to Home V2')),
             const ReinvestmentSlider(),
 

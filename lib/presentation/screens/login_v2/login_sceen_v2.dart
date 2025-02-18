@@ -30,6 +30,7 @@ class LoginScreenV2 extends ConsumerWidget {
       children: [
         Image.asset(
           "assets/images/logo_finniu_${isDarkMode ? "dark" : "light"}.png",
+          filterQuality: FilterQuality.medium,
         ),
         const Center(
           child: TextPoppins(

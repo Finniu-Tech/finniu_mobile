@@ -79,7 +79,7 @@ class AboutMeForm extends HookConsumerWidget {
         context.loaderOverlay.show();
         if (biographyAreaController.text == "" || imageBase64 == null) {
           Navigator.pushNamedAndRemoveUntil(
-              context, '/home_v2', (route) => false);
+              context, '/v4/home', (route) => false);
           context.loaderOverlay.hide();
           return;
         }
@@ -98,7 +98,7 @@ class AboutMeForm extends HookConsumerWidget {
 
     void continueLater() {
       // Navigator.pushNamed(context, "/home_v2");
-      Navigator.pushNamedAndRemoveUntil(context, '/home_v2', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, '/v4/home', (route) => false);
     }
 
     final String? imagePath = ref.watch(imagePathProvider);

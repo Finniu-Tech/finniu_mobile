@@ -8,9 +8,7 @@ final appConfigProvider = Provider<AppConfig>((ref) => appConfig);
 
 final gqlClientProvider = FutureProvider<GraphQLClient>(
   (ref) async {
-    print('GraphQLClient: ${ref.watch(appConfigProvider).apiBaseUrl}');
     final appConfig = ref.watch(appConfigProvider);
-
     final HttpLink httpLink = HttpLink(
       appConfig.apiBaseUrl,
       defaultHeaders: {

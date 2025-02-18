@@ -30,7 +30,6 @@ class DeepLinkHandler {
     _channel.setMethodCallHandler((call) async {
       if (call.method == 'handleDeepLink') {
         final String url = call.arguments;
-        print('Received deep link from native: $url');
         handleDeepLink(Uri.parse(url));
       }
     });
@@ -50,12 +49,9 @@ class DeepLinkHandler {
   }
 
   void handleDeepLink(Uri uri) {
-    print('Deep link handled: $uri');
     final isAuthenticated = checkAuthentication();
-    print('Is authenticated: $isAuthenticated');
 
     if (!isAuthenticated) {
-      print('is not authenticated');
       // Guardar la ruta del deep link
       _ref.read(deepLinkRouteProvider.notifier).state = uri.path;
       _scheduleNavigation('/v2/login_email');
@@ -74,7 +70,6 @@ class DeepLinkHandler {
   }
 
   void _performNavigation(String route) {
-    print('Performing navigation to: $route');
     navigatorKey.currentState?.pushReplacementNamed(route);
   }
 
@@ -86,15 +81,12 @@ class DeepLinkHandler {
   }
 
   void processDeepLink(String path) {
-    print('Processing deep link path: $path');
     if (navigatorKey.currentState == null) {
-      print('Error: Navigator is null');
       return;
     }
 
     try {
       navigatorKey.currentState!.pushReplacementNamed(path);
-      print('Successfully navigated to: $path');
     } catch (e) {
       print('Error navigating to $path: $e');
       // Fallback a una ruta por defecto si la navegación falla
@@ -104,19 +96,15 @@ class DeepLinkHandler {
 
   bool checkAuthentication() {
     final token = _ref.watch(authTokenProvider);
-    print('Checking authentication: $token');
     if (token == '') {
-      print('Not authenticated');
       return false;
     } else {
-      print('Authenticated');
       return true;
     }
   }
 
   Future<bool> checkSavedDeepLink() async {
     final savedRoute = _ref.read(deepLinkRouteProvider);
-    print('Checking saved deep link route: $savedRoute');
     if (savedRoute != null) {
       final isAuthenticated = checkAuthentication();
       if (isAuthenticated) {

@@ -42,7 +42,7 @@ class RealEstateBody extends ConsumerWidget {
                         : Colors.white.withOpacity(0.7),
                     child: NoInvestmentBody(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/home_v2');
+                        Navigator.pushNamed(context, '/v4/home');
                       },
                     ),
                   ),

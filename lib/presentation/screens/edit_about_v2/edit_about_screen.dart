@@ -197,7 +197,7 @@ class EditAboutForm extends HookConsumerWidget {
             facebookTextController.text == userProfile.facebook &&
             instagramTextController.text == userProfile.instagram &&
             linkedinTextController.text == userProfile.linkedin) {
-          Navigator.pushNamed(context, '/home_v2');
+          Navigator.pushNamed(context, '/v4/home');
           context.loaderOverlay.hide();
           return;
         } else {

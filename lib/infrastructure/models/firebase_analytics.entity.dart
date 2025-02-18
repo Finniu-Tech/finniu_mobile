@@ -118,7 +118,7 @@ class FirebaseScreen {
   static const String onboardingQuestionsStart = '/onboarding_questions_start';
   static const String investmentResult = '/investment_result';
   static const String homeHome = '/home_home';
-  static const String homeV2 = '/home_v2';
+  static const String homeV2 = '/v4/home';
   static const String homeNotification = '/home_notification';
   static const String profile = '/profile';
   static const String planList = '/plan_list';
@@ -195,6 +195,7 @@ class FirebaseScreen {
   static const String rextieCommunicationV2 = '/v2/rextie_comminication';
   static const String pushNotification = '/push_notification';
   static const String exitV2 = '/v2/exit';
+  static const String formAccountsV2 = '/v2/form_accounts';
 }
 
 class FirebaseAnalyticsEvents {

@@ -41,6 +41,7 @@ class ReInvestmentDataSource {
     required OriginFunds originFounds,
     required String typeReinvestment,
     String? bankAccountSender,
+    String? bankAccountReceiver,
   }) async {
     final variables = {
       'preInvestmentUUID': preInvestmentUUID,
@@ -51,11 +52,14 @@ class ReInvestmentDataSource {
       'originFounds': originFounds.toJson(),
       'typeReinvestment': typeReinvestment,
       'bankAccountSender': bankAccountSender,
+      'bankAccountReceiver': bankAccountReceiver
     };
+    print('variablesxxx ${variables}');
     final MutationOptions options =
         MutationOptions(document: gql(MutationRepository.createReInvestment()), variables: variables);
 
     final QueryResult result = await client.mutate(options);
+    print('result!!!! $result');
     if (result.hasException) {
       throw result.exception!;
     }
@@ -69,6 +73,7 @@ class ReInvestmentDataSource {
     String? bankAccountSender,
     String? bankAccountReceiver,
   }) async {
+    print('update reinvestment');
     final dynamic variables = {
       'preInvestmentUUID': preInvestmentUUID,
       'userReadContract': userReadContract,
@@ -76,12 +81,14 @@ class ReInvestmentDataSource {
       'bankAccountReceiverUUID': bankAccountReceiver,
       'files': files,
     };
+    print('variablessss $variables');
     final MutationOptions options = MutationOptions(
       document: gql(MutationRepository.updateReInvestment()),
       variables: variables,
     );
 
     final QueryResult result = await client.mutate(options);
+    print('result update reinvestment $result');
     if (result.hasException) {
       throw result.exception!;
     }

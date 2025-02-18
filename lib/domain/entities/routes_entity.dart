@@ -1,5 +1,5 @@
 class Routes {
-  static const String homeV2 = '/home_v2';
+  static const String homeV2 = '/v4/home';
   static const String home = '/home_home';
 }
 

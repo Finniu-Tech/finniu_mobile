@@ -542,7 +542,7 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
             cardSend: false,
             statusUp: false,
             currency: operation.enterprisePreInvestment?.currency ?? '',
-            fund: widget.fund,
+            fund: operation.investmentFund,
           ),
         );
       case 'pending':
