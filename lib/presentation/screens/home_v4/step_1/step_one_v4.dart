@@ -171,6 +171,15 @@ class FormStepOne extends HookConsumerWidget {
 
         return;
       } else {
+        if (couponController.text.isEmpty) {
+          showSnackBarV2(
+            context: context,
+            title: "Ingrese un cupón válido",
+            message: 'Debe de ingresar el código del cupón',
+            snackType: SnackType.warning,
+          );
+          return;
+        }
         if (amountError.value) return;
         if (timeError.value) return;
         if (couponError.value) return;
@@ -181,7 +190,7 @@ class FormStepOne extends HookConsumerWidget {
             timeController.text.split(' ')[0],
           ),
           currency: isSoles ? currencyNuevoSol : currencyDollar,
-          coupon: couponController.text,
+          coupon: couponController.text.trim(),
           fundUuid: product.uuid,
         );
         planSimulation.value = await pushCupon(
@@ -193,7 +202,7 @@ class FormStepOne extends HookConsumerWidget {
           context: context,
           plan: planSimulation.value,
           ref: ref,
-          coupon: couponController.text,
+          coupon: couponController.text.trim(),
           couponController: couponController,
         );
       }

@@ -240,7 +240,8 @@ class ProductData {
   final String titleText;
   final String? minimumTextPEN;
   final String? minimumTextUSD;
-  final String profitabilityText;
+  final String? profitabilityText;
+  final String? profitabilityTextUSD;
   final bool isSoles;
   final ProductStyle style;
   final String? objetiveText;
@@ -261,6 +262,7 @@ class ProductData {
     this.netWorths,
     this.features,
     this.assetsUnderManagement,
+    this.profitabilityTextUSD,
     this.style = ProductStyle.defaultStyle,
   });
 
@@ -274,6 +276,7 @@ class ProductData {
       slug: fund.slug,
       minimumTextUSD: fund.minAmountInvestmentUSD,
       profitabilityText: fund.lastRentability ?? "0",
+      profitabilityTextUSD: fund.lastRentabilityUSD ?? "0",
       isSoles: fund.minAmountInvestmentPEN != null,
       objetiveText: fund.objectiveText ?? "",
       netWorths: fund.netWorths,
@@ -311,6 +314,7 @@ class ProductData {
       slug: slug,
       minAmountInvestmentUSD: minimumTextUSD,
       lastRentability: profitabilityText,
+      lastRentabilityUSD: profitabilityTextUSD,
       objectiveText: objetiveText,
       netWorths: netWorths,
       features: features,
@@ -327,6 +331,7 @@ class ProductData {
       "minimumTextPEN": minimumTextPEN,
       "minimumTextUSD": minimumTextUSD,
       "profitabilityText": profitabilityText,
+      "profitabilityTextUSD": profitabilityTextUSD,
       "isSoles": isSoles,
       "objetiveText": objetiveText,
       "netWorths": netWorths,

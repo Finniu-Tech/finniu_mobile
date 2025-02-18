@@ -593,7 +593,7 @@ class PageTwoMoney extends StatelessWidget {
                 color: isDarkMode ? const Color(rentIconDark) : const Color(rentIconLight),
               ),
               const TextPoppins(
-                text: "con nosotros y ya has ganado",
+                text: "con nosotros ya has ganado",
                 fontSize: 14,
                 textDark: textColor,
                 textLight: textColor,

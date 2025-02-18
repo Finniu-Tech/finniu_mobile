@@ -49,7 +49,7 @@ dependencies:
   expansion_tile_card: ^3.0.0
   dropdown_search: ^5.0.5
   percent_indicator: ^4.2.2
-  image_picker: ^1.0.7
+  image_picker: ^1.1.2
   hooks_riverpod: ^2.3.2
   flutter_verification_code: ^1.1.6
   circular_countdown_timer: ^0.2.3
