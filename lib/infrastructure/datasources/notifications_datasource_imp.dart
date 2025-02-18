@@ -21,17 +21,11 @@ class NotificationsDataSource {
   Future<bool> saveDeviceToken(DeviceRegistrationModel deviceInfo) async {
     try {
       final uri = Uri.parse('$baseUrl/device');
-      print('uri saveDeviceToken: $uri');
-      print('device info: ${deviceInfo.toJson()}');
-
       final response = await _client.post(
         uri,
         headers: _headers,
         body: json.encode(deviceInfo.toJson()), // Importante: codificar a JSON
       );
-
-      print('response save device token: ${response.body}');
-
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -52,7 +46,8 @@ class NotificationsDataSource {
       final queryParams = {
         'user_id': userId,
         'status': 'delivered',
-        'from_date': DateTime.now().subtract(const Duration(days: 3)).toIso8601String(),
+        'from_date':
+            DateTime.now().subtract(const Duration(days: 3)).toIso8601String(),
       };
 
       final uri = Uri.parse('$baseUrl/notification-logs');
@@ -102,15 +97,14 @@ class NotificationsDataSource {
         'campaign_id': campaignId,
         'token': token,
         'extra_data': extraData ?? {},
-        if (parentNotificationUuid != null) 'parent_notification_uuid': parentNotificationUuid,
+        if (parentNotificationUuid != null)
+          'parent_notification_uuid': parentNotificationUuid,
       };
       final response = await _client.post(
         Uri.parse('$baseUrl/register-log'),
         headers: _headers,
         body: json.encode(payload),
       );
-      print('response save notification log~~~~~: ${response.body}');
-
       return response.statusCode == 200;
     } catch (e) {
       return false;
@@ -123,17 +117,11 @@ class NotificationsDataSource {
   }) async {
     try {
       final uri = Uri.parse('$baseUrl/device/$deviceId');
-      print('uri updateDevice: $uri');
-      print('updates: $updates');
-
       final response = await _client.put(
         uri,
         headers: _headers,
         body: json.encode(updates),
       );
-
-      print('response updateDevice: ${response.body}');
-
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -147,30 +135,21 @@ class NotificationsDataSource {
     }
   }
 
-  Future<DeviceRegistrationModel?> getDeviceById({required String deviceId}) async {
+  Future<DeviceRegistrationModel?> getDeviceById(
+      {required String deviceId}) async {
     try {
       final uri = Uri.parse('$baseUrl/device/$deviceId');
-      print('uri getDeviceById: $uri');
-
       final response = await _client.get(
         uri,
         headers: _headers,
       );
-
-      print('response getDeviceById: ${response.body}');
-
       if (response.statusCode == 200) {
-        print('statusCode: ${response.statusCode}');
         final data = json.decode(response.body);
-        print('data: $data');
         if (data['success'] == true) {
-          print('data222: ${data['data']}');
           final registerModel = DeviceRegistrationModel.fromJson(data['data']);
-          print('registerModel: $registerModel');
           return registerModel;
         }
       }
-
       return null;
     } catch (e) {
       print('Error getting device: $e');

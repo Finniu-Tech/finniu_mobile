@@ -32,12 +32,10 @@ class _CompletedBlueGoldCardState extends State<CompletedBlueGoldCard> {
   }
 
   void onTapVoucher() {
-    print("pon tap voucher ${widget.uuidVoucher}");
     unfinishedInvestmentModal(context, widget.uuidVoucher);
   }
 
   void onTapReport() {
-    print("pon tap report ${widget.uuidReport}");
     unfinishedInvestmentModal(context, widget.uuidReport);
   }
 

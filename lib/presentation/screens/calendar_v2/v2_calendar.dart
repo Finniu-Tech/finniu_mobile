@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/calendar_provider.dart';
 import 'package:finniu/presentation/providers/important_days_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
@@ -100,7 +101,7 @@ class CalendarState extends ConsumerState<CalendarV2> {
   }
 }
 
-class CalendarBody extends StatefulWidget {
+class CalendarBody extends ConsumerStatefulWidget {
   final bool isDarkMode;
   final DateTime currentDay;
   final DateTime selectedDay;
@@ -118,7 +119,7 @@ class CalendarBody extends StatefulWidget {
   CalendarBodyState createState() => CalendarBodyState();
 }
 
-class CalendarBodyState extends State<CalendarBody> {
+class CalendarBodyState extends ConsumerState<CalendarBody> {
   DateTime _currentDate = DateTime.now();
   late PageController _pageController;
   List<DateTime> markedDays = [];
@@ -151,6 +152,8 @@ class CalendarBodyState extends State<CalendarBody> {
     setState(() {
       _currentDate = date;
     });
+    ref.read(selectedCalendarDateProvider.notifier).state =
+        DateTime(date.year, date.month, 1);
   }
 
   @override

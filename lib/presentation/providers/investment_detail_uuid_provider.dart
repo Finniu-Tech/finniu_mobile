@@ -12,16 +12,17 @@ final userInvestmentByUuidFutureProvider =
       QueryOptions(
         document: gql(QueryRepository.investmentDetailByUuid),
         variables: {'preInvestmentUuid': uuid},
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
     final data = result.data;
     if (data == null) {
       return null;
     }
-
     final investmentDetail = InvestmentDetailUuid.fromJson(data['investmentDetail']);
     return investmentDetail;
   } catch (e) {
+    print(e);
     return null;
   }
 });
@@ -58,7 +59,6 @@ final getMonthlyPaymentProvider = FutureProvider.family.autoDispose<List<Profita
       final profitabilityItems = paymentRentabilityList
           .map((item) {
             if (item is! Map<String, dynamic>) {
-              print('Invalid item in paymentRentability: $item');
               return null;
             }
             return ProfitabilityItem.fromJson(item);
@@ -68,7 +68,7 @@ final getMonthlyPaymentProvider = FutureProvider.family.autoDispose<List<Profita
 
       return profitabilityItems;
     } catch (e, _) {
-      rethrow; // Re-throw the error to be caught by the FutureProvider
+      rethrow;
     }
   },
 );

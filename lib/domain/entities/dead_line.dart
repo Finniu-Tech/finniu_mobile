@@ -13,7 +13,11 @@ class DeadLineEntity {
     required this.description,
   });
 
-  static String getUuidByName(String name, List<DeadLineEntity> deadLines) {
-    return deadLines.firstWhere((element) => element.name == name).uuid;
+  static String? getUuidByName(String name, List<DeadLineEntity> deadLines) {
+    try {
+      return deadLines.firstWhere((element) => element.name == name).uuid;
+    } catch (e) {
+      return null;
+    }
   }
 }

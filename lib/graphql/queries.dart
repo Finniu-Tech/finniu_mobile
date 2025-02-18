@@ -33,6 +33,10 @@ class QueryRepository {
         distrito{
           id
         }
+        country
+        regionExt
+        provinciaExt
+        distritoExt
       	address
         houseNumber
         postalCode
@@ -1221,6 +1225,7 @@ class QueryRepository {
             isJointAccount
             isDefaultAccount
             bankLogoUrl
+            bankSlug
           }
         }
       }
@@ -1270,7 +1275,36 @@ class QueryRepository {
               reinvestmentAvailable
               actionStatus
               isReInvestment
-              
+              investmentFund{
+              uuid
+              name
+              slug
+              icon
+              listBackgroundColorLight
+              listBackgroundColorDark
+              detailBackgroundColorLight
+              detailBackgroundColorDark
+              backgroundImageUrl
+              mainImageUrl
+              createdAt
+              isDeleted
+              isActive
+              fundType
+              tagDetailId
+              tagBenefitsId
+              tagDownloadInfoId
+              tagInvestmentButtonId
+              mainImageHorizontalUrl
+              detailBackgroundColorSecondaryLight
+              detailBackgroundColorDarkSecondary
+              lastRentability
+              netWorthAmount
+              assetsUnderManagement
+              moreInfoDownloadUrl
+              minAmountInvestmentPen
+              minAmountInvestmentUsd
+              objectiveFunds
+              }              
             }
             invesmentFinished{
               uuid
@@ -1302,6 +1336,36 @@ class QueryRepository {
               reinvestmentAvailable
               actionStatus
               isReInvestment
+              investmentFund{
+                uuid
+            name
+            slug
+            icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+              }
             }
             invesmentFinished{
               uuid
@@ -1320,6 +1384,148 @@ class QueryRepository {
     ''';
   }
 
+  static String get userInfoAllInvestmentV4 {
+    return '''
+      query userInfoAllInvestment {
+      userInfoAllInvestment{
+          invesmentInSoles {
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+              investmentFund{
+                name
+                slug
+              }
+              rentabilityPercent
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+              reinvestmentAvailable
+              actionStatus
+              isReInvestment
+              rentabilityAmmount
+              investmentFund{
+                uuid
+                slug
+            name
+            icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+              }
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+              rentabilityAmmount
+             	investmentFund{
+                name
+                slug
+              }
+              paymentRentability{
+                amount
+                paymentDate
+              }
+            }
+          }
+          invesmentInDolares{
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+              investmentFund{
+                name
+                slug
+              }
+              rentabilityPercent
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+              reinvestmentAvailable
+              actionStatus
+              isReInvestment
+               investmentFund{
+                 uuid
+                 name
+                 slug
+              }
+              rentabilityAmmount
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+              rentabilityAmmount
+             	investmentFund{
+ 
+                uuid
+            name
+            slug
+            icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+              }
+              paymentRentability{
+                amount
+                paymentDate
+              }
+            }
+          }
+        }
+      }
+
+    ''';
+  }
+
   static String get investmentDetailByUuid {
     return '''
      query investmentDetail (\$preInvestmentUuid : String!) {
@@ -1330,12 +1536,16 @@ class QueryRepository {
         boucherList {
           boucherImage
         }
+        actionStatus
+        operationCode
         rentabilityIncreased
         uuid
         amount
         rentabilityAmmount
         rentabilityPercent
+        startDateInvestment
         finishDateInvestment
+        paymentCapitalDateInvestment
         contract
         isReInvestment
         bankAccountReceiver {
@@ -1344,6 +1554,7 @@ class QueryRepository {
           bankAccount
           bankCciAccount
           bankLogoUrl
+          bankSlug
           currency
           alias
           typeAccount
@@ -1362,6 +1573,7 @@ class QueryRepository {
             bankAccount
             bankCciAccount
             bankLogoUrl
+            bankSlug
             currency
             alias
             typeAccount
@@ -1369,29 +1581,128 @@ class QueryRepository {
             isDefaultAccount
             createdAt
           }
-          
+          reinvestmentInfo{
+            reinvestmentAditionalAmount
+            startDate
+            contractUrl
+            reinvestmentType
+          }
           investmentFund{
             uuid
             name
+            slug
             icon
-            listBackgroundColorDark
             listBackgroundColorLight
-            detailBackgroundColorDark
+            listBackgroundColorDark
             detailBackgroundColorLight
+            detailBackgroundColorDark
             backgroundImageUrl
-            assetsUnderManagement
             mainImageUrl
+            createdAt
+            isDeleted
+            isActive
             fundType
             tagDetailId
             tagBenefitsId
             tagDownloadInfoId
             tagInvestmentButtonId
             mainImageHorizontalUrl
-            detailBackgroundColorDarkSecondary
             detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+
+         
           }
         }
       }
+    ''';
+  }
+
+  static String get getFundInvestmentDetail {
+    return '''
+       query getFundInvestmentDetail (\$preInvestmentUuid : String!) {
+      investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+       		deadline{
+            value
+          }
+          rentabilityPercent
+        uuid
+        amount
+        currency
+          investmentFund {
+            uuid
+            name
+            icon
+            slug
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getFundInvestmentDetailV4 {
+    return '''
+       query getFundInvestmentDetail (\$preInvestmentUuid : String!) {
+        investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+            deadline{
+              value
+            }
+            rentabilityPercent
+            originFunds
+            uuid
+            amount
+            currency
+            investmentFund {
+              uuid
+              name
+            }
+          }
+        }
+    ''';
+  }
+
+  static String get preReinvest {
+    return '''
+    query preReinvest(\$preInvestmentUuid: String!){
+      reInvestmentQueries{
+        preReInvestment(preInvestmentUuid: \$preInvestmentUuid){
+          initialAmount
+          rentabilityAmount
+          deadlineString
+          futureRentabilityAmount
+        }
+      }
+    }
     ''';
   }
 
@@ -1410,13 +1721,82 @@ class QueryRepository {
     ''';
   }
 
+  static String get getInvestmentMonthlyReturnsV4 {
+    return '''
+        query getInvestmentMonthlyReturns(\$preInvestmentUuid: String!){
+        investmentDetail(preInvestmentUuid: \$preInvestmentUuid){
+       		rentabilityAmmount
+        	rentabilityPercent
+        	amount
+    			paymentCapitalDateInvestment
+          operationCode
+          paymentRentability{
+          isActive
+           paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            isCapitalPayment
+          }
+          	bankAccountReceiver {
+       		  uuid
+       		  bankName
+       		  bankSlug
+       		  bankLogoUrl
+       		  bankAccount
+       		  bankCciAccount
+       		  currency
+       		  alias
+       		  typeAccount
+       		  isJointAccount
+       		  isDefaultAccount
+       		  createdAt
+       		}
+          investmentFund{
+            name
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getContratTaxReports {
+    return '''
+     query getContratTaxReports (\$preInvestmentUuid : UUID!){
+      documentationQueries{
+        contracts(preInvestmentUuid:\$preInvestmentUuid){
+        contractDate
+          contractUrl
+        }
+        taxes(preInvestmentUuid:\$preInvestmentUuid){
+          taxDate
+          taxUrl
+        }
+        quarterlyReports(preInvestmentUuid:\$preInvestmentUuid){
+          reportDate
+          reportUrl
+        }
+      }
+    }
+    ''';
+  }
+
   static String get getFunds {
     return '''
        query getFunds{
         investmentFundsQueries{
           listInvestmentFundsAvailable{
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+            characteristics{
+              benefitText
+              icon
+              isActive
+            }
             uuid
             name
+            slug
             icon
             listBackgroundColorDark
             listBackgroundColorLight
@@ -1438,6 +1818,7 @@ class QueryRepository {
             isDeleted
             isActive
             lastRentability
+            lastRentabilityUsd
             netWorthGraph{
               date
               value
@@ -1448,12 +1829,12 @@ class QueryRepository {
               value
             }
             moreInfoDownloadUrl
-            minAmountInvestmentPen
-            minAmountInvestmentUsd
+  
             
           }
         }
       }
+      
     ''';
   }
 
@@ -1561,12 +1942,40 @@ class QueryRepository {
 
   static String get getLastOperationStatus {
     return '''
-      query getLastOperations(\$fundUUID: String!){
+      query getLastOperations(\$fundUUID: String){
         getStatusLastOperation(investmentFundsUuid: \$fundUUID){
           investmentFund{
             name
             uuid
             fundType
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+            uuid
+            name
+            slug
+            icon
+            listBackgroundColorDark
+            listBackgroundColorLight
+            detailBackgroundColorDark
+            detailBackgroundColorLight
+            backgroundImageUrl
+            assetsUnderManagement
+            mainImageUrl
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorDarkSecondary
+            detailBackgroundColorSecondaryLight
+          
+            createdAt
+            isDeleted
+            isActive
+            lastRentability
+
           }
           typeInvestment
           agroInvestment{
@@ -1609,6 +2018,7 @@ class QueryRepository {
             investmentFundName
             currency
            isCapitalPayment
+           operationCode
           }
           passPayments{
             paymentVoucherUrl
@@ -1620,7 +2030,9 @@ class QueryRepository {
             investmentFundName
             currency
             isCapitalPayment
+            operationCode
           }
+
           recentPayments{
             paymentVoucherUrl
             uuid
@@ -1631,6 +2043,7 @@ class QueryRepository {
             investmentFundName
             currency
             isCapitalPayment
+            operationCode
           }
         }
       }
@@ -1686,6 +2099,61 @@ class QueryRepository {
       }
     }
   }
+    ''';
+  }
+
+  static String get getHomeInvestUser {
+    return '''
+  query userInfoAllInvestment{
+    userInfoAllInvestment{
+      invesmentInSoles{
+        averageProfitability
+        countPlanesActive
+        capitalInCourse
+        totalBalanceRentabilityIncreased
+        totalPercentPerMonth
+      }
+      invesmentInDolares{
+        countPlanesActive
+        totalBalanceRentability
+        capitalInCourse
+     		totalBalanceRentabilityIncreased
+        totalPercentPerMonth
+      }
+    }
+  }
+    ''';
+  }
+
+  static String get getNews {
+    return '''
+      query getNews{
+        allNews{
+          uuid
+          isActive
+          isDeleted
+          publicationDate
+          summary
+          title
+          image
+          newsUrl
+          author
+          isPrincipal
+          imageUrl
+          
+        }
+      }
+    ''';
+  }
+
+  static String get getRentabilityPerMonthAndUser {
+    return '''
+        query getRentabilityPerMonthByUser{
+          rentabilityPerMonthByUser{
+            rentabilityPercent
+            rentabilityPerMonth
+          }
+        }
     ''';
   }
 }

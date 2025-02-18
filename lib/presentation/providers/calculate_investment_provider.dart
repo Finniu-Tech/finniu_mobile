@@ -16,6 +16,7 @@ final calculateInvestmentFutureProvider =
       months: calculatorInput.months,
       coupon: calculatorInput.coupon,
       currency: calculatorInput.currency,
+      fundUuid: calculatorInput.fundUuid,
     );
     return result;
   } catch (e, stack) {

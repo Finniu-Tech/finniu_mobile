@@ -10,23 +10,40 @@ class LocationFormV2Imp extends GraphQLBaseDataSource {
   Future<RegisterUserV2Response> saveLocationDataUserV2({
     required DtoLocationForm data,
   }) async {
+    print('data save location ${data.toJson()}');
+
+    final isPeru = data.country == "Peru";
+
+    final Map<String, dynamic> variables = {
+      "country": data.country,
+      "address": data.address,
+    };
+
+    if (isPeru) {
+      variables.addAll({
+        "region": data.region,
+        "province": data.province,
+        "district": data.district,
+      });
+    } else {
+      variables.addAll({
+        "regionExt": data.extRegion,
+        "provinceExt": data.extProvince,
+        "districtExt": data.extDistrict,
+      });
+    }
+
     try {
       final response = await client.mutate(
         MutationOptions(
           document: gql(
             MutationRepository.saveLocationDataV2(),
           ),
-          variables: {
-            "country": data.country,
-            "region": data.region,
-            "province": data.province,
-            "district": data.district,
-            "address": data.address,
-            // "houseNumber": data.houseNumber,
-          },
+          variables: variables,
           fetchPolicy: FetchPolicy.noCache,
         ),
       );
+
       if (response.data == null) {
         return RegisterUserV2Response(
           success: false,
@@ -39,11 +56,10 @@ class LocationFormV2Imp extends GraphQLBaseDataSource {
           ],
         );
       }
-      final RegisterUserV2Response registerUserV2Response =
-          RegisterUserV2Response.fromJson(
+
+      return RegisterUserV2Response.fromJson(
         response.data?["registerUserUbication"] ?? {},
       );
-      return registerUserV2Response;
     } catch (e) {
       return RegisterUserV2Response(
         messages: [

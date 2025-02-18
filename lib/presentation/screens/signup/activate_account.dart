@@ -219,7 +219,7 @@ class VerificationCodeWidget extends HookConsumerWidget {
               if (status == true) {
                 Navigator.pushNamedAndRemoveUntil(
                   context,
-                  '/home_v2',
+                  '/v4/home',
                   (Route<dynamic> route) => false,
                 );
                 // Preferences.username = userProfile.email!;

@@ -39,13 +39,15 @@ class PushNotificationService {
   final Ref _ref;
   final GlobalKey<NavigatorState> navigatorKey;
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   final _pendingNavigation = <String>[];
   RemoteMessage? _pendingLogMessage;
 
   PushNotificationService(this._ref, this.navigatorKey);
 
-  NotificationsDataSource get _notificationDataSource => _ref.read(notificationsDataSourceProvider);
+  NotificationsDataSource get _notificationDataSource =>
+      _ref.read(notificationsDataSourceProvider);
 
   Future<void> initialize() async {
     await Firebase.initializeApp();
@@ -57,7 +59,8 @@ class PushNotificationService {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageOpenedApp);
 
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       _handleInitialMessage(initialMessage);
     }
@@ -65,16 +68,14 @@ class PushNotificationService {
 
   Future<String?> initializeAfterLogin() async {
     NotificationSettings settings = await requestPermissions();
-    print('Notification settings: ${settings.authorizationStatus}');
+
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       String? token = await getToken();
       if (token != null) {
-        print("FirebaseMessaging token: $token");
         await _fcm.subscribeToTopic('all');
         return token;
       }
     } else {
-      print('Los permisos fueron denegados');
       bool reminderShown = await _hasReminderBeenShown();
       if (!reminderShown) {
         throw PushNotificationPermissionDeniedException();
@@ -97,18 +98,20 @@ class PushNotificationService {
     );
 
     await _flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
+    final DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
-      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
-        print("onDidReceiveLocalNotification xxx: $payload");
+      onDidReceiveLocalNotification:
+          (int id, String? title, String? body, String? payload) async {
         if (payload != null) {
           _handleNotificationNavigation(json.decode(payload));
         }
@@ -124,18 +127,18 @@ class PushNotificationService {
       ],
     );
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
 
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) {
-        print("onDidReceiveNotificationResponse: $notificationResponse");
+      onDidReceiveNotificationResponse:
+          (NotificationResponse notificationResponse) {
         final String? payload = notificationResponse.payload;
         if (payload != null) {
-          print('notification payload: $payload');
           _handleNotificationNavigation(json.decode(payload));
         }
       },
@@ -156,7 +159,8 @@ class PushNotificationService {
 
     // Solicitar permisos locales
     await _flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
           alert: true,
           badge: true,
@@ -164,39 +168,33 @@ class PushNotificationService {
         );
 
     await _flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
 
     return settings;
   }
 
   void _handleForegroundMessage(RemoteMessage message) {
-    print("onForegroundMessage: $message");
     _showNotification(message);
   }
 
   void _handleMessageOpenedApp(RemoteMessage message) async {
     await DebugLogger.log('App opened from notification: ${message.toMap()}');
-
-    print("onMessageOpenedApp: $message");
-    print('data from message: ${message.data}');
-
-    // Envolver en try-catch para manejar posibles errores de estado
     try {
       if (checkAuthentication()) {
         await DebugLogger.log('User is authenticated');
         _logNotificationOpenAsync(message);
         _handleNotificationNavigation(message.data);
       } else {
-        await DebugLogger.log('User not authenticated, saving message for later');
-        print('User not authenticated, saving message for later: ${message.data}');
+        await DebugLogger.log(
+            'User not authenticated, saving message for later');
         _pendingLogMessage = message;
         _handleNotificationNavigation(message.data);
       }
     } catch (e) {
       await DebugLogger.log('Error in handleMessageOpenedApp: $e');
 
-      print('Error in handleMessageOpenedApp: $e');
       // En caso de error, asumimos que el usuario no está autenticado
       _pendingLogMessage = message;
       _handleNotificationNavigation(message.data);
@@ -204,26 +202,19 @@ class PushNotificationService {
   }
 
   void _handleMessage(RemoteMessage message) {
-    print('handleMessage: $message');
     _handleMessageOpenedApp(message);
   }
 
   void _handleInitialMessage(RemoteMessage message) {
-    print("App opened from terminated state: $message");
     _handleNotificationNavigation(message.data);
   }
 
   void _showNotification(RemoteMessage message) async {
-    print("showNotification: $message");
-    print('notification: ${message.notification?.title}');
-    print('notification: ${message.notification?.body}');
-    print('notification: ${message.data}');
-
     RemoteNotification? notification = message.notification;
-
     if (notification != null) {
       // Configuración específica para iOS
-      const DarwinNotificationDetails iOSPlatformChannelSpecifics = DarwinNotificationDetails(
+      const DarwinNotificationDetails iOSPlatformChannelSpecifics =
+          DarwinNotificationDetails(
         presentAlert: true,
         presentBadge: true,
         presentSound: true,
@@ -236,7 +227,8 @@ class PushNotificationService {
       );
 
       // Configuración específica para Android
-      final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+          AndroidNotificationDetails(
         'high_importance_channel',
         'High Importance Notifications',
         channelDescription: 'This channel is used for important notifications.',
@@ -245,7 +237,7 @@ class PushNotificationService {
         showWhen: true,
       );
 
-      final NotificationDetails platformChannelSpecifics = NotificationDetails(
+      const NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics,
       );
@@ -262,8 +254,6 @@ class PushNotificationService {
 
   void _handleNotificationNavigation(Map<String, dynamic> data) async {
     await DebugLogger.log('Starting navigation with data: $data');
-    print("Handling notification navigation: $data");
-
     String route = data['deep_link'] ?? '/v2/notifications';
 
     // Guardar la ruta en preferences
@@ -279,16 +269,15 @@ class PushNotificationService {
     }
 
     if (!isAuthenticated) {
-      print('Not authenticated, navigating to login');
       _scheduleNavigation('/v2/login_email');
     } else {
-      print('Authenticated, navigating to route');
       if (_pendingLogMessage != null) {
         _logNotificationOpenAsync(_pendingLogMessage!);
         _pendingLogMessage = null;
       }
       _scheduleNavigation(route);
-      Preferences.pendingNotificationRoute = null; // Limpiar la ruta después de usarla
+      Preferences.pendingNotificationRoute =
+          null; // Limpiar la ruta después de usarla
     }
   }
 
@@ -299,7 +288,8 @@ class PushNotificationService {
       final savedRoute = Preferences.pendingNotificationRoute;
       final isAuthenticated = checkAuthentication();
 
-      await DebugLogger.log('Saved route: $savedRoute, authenticated: $isAuthenticated');
+      await DebugLogger.log(
+          'Saved route: $savedRoute, authenticated: $isAuthenticated');
 
       if (savedRoute != null && isAuthenticated) {
         if (_pendingLogMessage != null) {
@@ -324,7 +314,6 @@ class PushNotificationService {
   }
 
   Future<void> processPendingNotificationLog() async {
-    print('processPendingNotificationLog: $_pendingLogMessage');
     if (_pendingLogMessage == null) return;
 
     try {
@@ -342,11 +331,9 @@ class PushNotificationService {
     try {
       // Intentar obtener el token APNS primero (para iOS)
       String? apnsToken = await _fcm.getAPNSToken();
-      print("APNS Token: $apnsToken");
 
       // Luego intentar obtener el token FCM
       String? fcmToken = await _fcm.getToken();
-      print("FCM Token: $fcmToken");
 
       return fcmToken;
     } catch (e) {
@@ -361,38 +348,27 @@ class PushNotificationService {
   }
 
   void _scheduleNavigation(String route) {
-    print('scheduleNavigation START: $route');
-    print('NavigatorKey: $navigatorKey');
-    print('NavigatorKey current state: ${navigatorKey.currentState}');
-    print('NavigatorKey current context: ${navigatorKey.currentContext}');
-
     Future.delayed(const Duration(milliseconds: 100), () {
       if (navigatorKey.currentState == null) {
-        print('Navigator is null, adding to pending navigation');
         _pendingNavigation.add(route);
       } else {
-        print('Navigator is ready, performing navigation');
         performNavigation(route);
       }
     });
   }
 
   void performNavigation(String route) {
-    print('performNavigation START: $route');
     if (navigatorKey.currentState == null) {
-      print('Navigator still null in perform navigation, adding to pending');
       _pendingNavigation.add(route);
       return;
     }
 
     try {
-      print('Attempting navigation to: $route');
       // Reemplazar pushReplacementNamed por pushNamedAndRemoveUntil
       navigatorKey.currentState!.pushNamedAndRemoveUntil(
         route,
         (route) => false, // Esto remueve todas las rutas previas
       );
-      print('Navigation successful');
     } catch (e) {
       print('Navigation error: $e');
       // Intentar navegar a la ruta por defecto
@@ -417,12 +393,10 @@ class PushNotificationService {
   // Método check authentication similar al DeepLinkHandler
   bool checkAuthentication() {
     final token = _ref.read(authTokenProvider);
-    print('Checking authentication: $token');
+
     if (token == '') {
-      print('Not authenticated');
       return false;
     } else {
-      print('Authenticated');
       return true;
     }
   }
@@ -432,7 +406,8 @@ class PushNotificationService {
       context,
       textTitle: 'Entendemos!',
       textTanks: '',
-      textBody: 'Puedes activar las notificaciones cuando quieras, o en cualquier momento desde tu perfil.',
+      textBody:
+          'Puedes activar las notificaciones cuando quieras, o en cualquier momento desde tu perfil.',
       textButton: 'Ok',
       onPressed: () => Navigator.pop(context),
       onClosePressed: () => Navigator.pop(context),
@@ -441,7 +416,6 @@ class PushNotificationService {
 
   Future<void> _cleanupOldTokens() async {
     await _fcm.deleteToken();
-    print('Token antiguo eliminado');
   }
 
   Future<bool> _hasReminderBeenShown() async {
@@ -465,14 +439,14 @@ class PushNotificationService {
   }
 
   Future<void> _logNotificationOpen(RemoteMessage message) async {
-    print('message data: ${message.data}');
     // try {
     final dataSource = _notificationDataSource;
     final String userID = message.data['user_id'] ?? '';
     final deviceInfo = await DeviceInfoService().getDeviceInfo(userID);
-    print('device info zerooo: ${deviceInfo.toJson()}');
     final token = await getToken();
-    final extraData = message.data['extra_data'] != null ? json.decode(message.data['extra_data']) : null;
+    final extraData = message.data['extra_data'] != null
+        ? json.decode(message.data['extra_data'])
+        : null;
 
     await dataSource.saveNotificationLog(
       title: message.notification?.title ?? '',
@@ -493,7 +467,8 @@ class PushNotificationService {
     return settings.authorizationStatus == AuthorizationStatus.authorized;
   }
 
-  Future<bool> requestNativePermissions(BuildContext context, PushNotificationService pushService) async {
+  Future<bool> requestNativePermissions(
+      BuildContext context, PushNotificationService pushService) async {
     if (Platform.isIOS) {
       final goToSettings = await showDialog<bool>(
         context: context,
@@ -533,15 +508,18 @@ class PushNotificationService {
     return await areNotificationsEnabled();
   }
 
-  Future<NotificationPreferences> getDevicePreferences({required String deviceId}) async {
+  Future<NotificationPreferences> getDevicePreferences(
+      {required String deviceId}) async {
     try {
-      final device = await _notificationDataSource.getDeviceById(deviceId: deviceId);
-      print('Device preferences: ${device?.notificationPreferences}');
+      final device =
+          await _notificationDataSource.getDeviceById(deviceId: deviceId);
       return device?.notificationPreferences ??
-          NotificationPreferences(acceptsMarketing: true, acceptsOperational: true);
+          NotificationPreferences(
+              acceptsMarketing: true, acceptsOperational: true);
     } catch (e) {
       print('Error getting device preferences: $e');
-      return NotificationPreferences(acceptsMarketing: true, acceptsOperational: true);
+      return NotificationPreferences(
+          acceptsMarketing: true, acceptsOperational: true);
     }
   }
 
@@ -572,7 +550,8 @@ class PushNotificationService {
     required NotificationPreferences preferences,
   }) async {
     try {
-      await _notificationDataSource.updateDevice(deviceId: deviceId, updates: preferences.toJson());
+      await _notificationDataSource.updateDevice(
+          deviceId: deviceId, updates: preferences.toJson());
     } catch (e) {
       print('Error updating device preferences: $e');
       DebugLogger.log('Error updating device preferences: $e');
@@ -580,9 +559,11 @@ class PushNotificationService {
     }
   }
 
-  Future<void> updateDevice({required String deviceId, required Map<String, dynamic> updates}) async {
+  Future<void> updateDevice(
+      {required String deviceId, required Map<String, dynamic> updates}) async {
     try {
-      await _notificationDataSource.updateDevice(deviceId: deviceId, updates: updates);
+      await _notificationDataSource.updateDevice(
+          deviceId: deviceId, updates: updates);
     } catch (e) {
       print('Error updating device: $e');
       DebugLogger.log('Error updating device: $e');
@@ -600,7 +581,8 @@ class PushNotificationService {
     }
   }
 
-  Future<DeviceRegistrationModel?> getDeviceById({required String deviceId}) async {
+  Future<DeviceRegistrationModel?> getDeviceById(
+      {required String deviceId}) async {
     try {
       return await _notificationDataSource.getDeviceById(deviceId: deviceId);
     } catch (e) {

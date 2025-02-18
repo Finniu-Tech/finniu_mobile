@@ -45,6 +45,7 @@ class PageOneContainer extends ConsumerWidget {
                 "assets/onboarding/logo_onboarding_${isDarkMode ? "dark" : "light"}.png",
                 width: 200,
                 height: 180,
+                filterQuality: FilterQuality.medium,
               ),
               const SizedBox(
                 height: 20,
@@ -115,6 +116,7 @@ class PageTwoContainer extends ConsumerWidget {
                       Image.asset(
                         "assets/onboarding/onboarding_image_1.png",
                         width: 250,
+                        filterQuality: FilterQuality.medium,
                       ),
                     ],
                   ),
@@ -233,6 +235,7 @@ class ImageAndGradientPage extends ConsumerWidget {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           fit: BoxFit.fill,
+          filterQuality: FilterQuality.medium,
         ),
         Container(
           width: MediaQuery.of(context).size.width,

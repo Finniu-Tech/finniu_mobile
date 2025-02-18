@@ -26,14 +26,13 @@ class FormLocationDataV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        floatingActionButton: Container(
+      child: const ScaffoldUserProfile(
+        floatingActionButton: SizedBox(
           width: 0,
-          height: 90,
-          color: Colors.transparent,
+          height: 110,
         ),
-        appBar: const AppBarLogo(),
-        children: const [
+        appBar: AppBarLogo(),
+        children: [
           SizedBox(
             height: 10,
           ),
@@ -72,12 +71,18 @@ class LocationFormState extends ConsumerState<LocationForm> {
   late final TextEditingController provinceSelectController;
   late final TextEditingController districtSelectController;
   late final TextEditingController addressTextController;
+  late final TextEditingController extDistrictController;
+  late final TextEditingController extRegionController;
+  late final TextEditingController extProvinceController;
   // late final TextEditingController houseNumberController;
 
   final ValueNotifier<bool> regionsError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> provinceError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> districtError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> addressError = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> extDistrictError = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> extRegionError = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> extProvinceError = ValueNotifier<bool>(false);
   // final ValueNotifier<bool> houseNumberError = ValueNotifier<bool>(false);
 
   void uploadLocationData() {
@@ -95,23 +100,30 @@ class LocationFormState extends ConsumerState<LocationForm> {
         message: "Por favor, completa todos los campos.",
         snackType: SnackType.warning,
       );
-    } else {
-      if (regionsError.value) return;
-      if (provinceError.value) return;
-      if (districtError.value) return;
-      if (addressError.value) return;
-
-      // if (houseNumberError.value) return;
-      DtoLocationForm data = DtoLocationForm(
-        country: countrySelectController.text,
-        region: regionsSelectController.text,
-        province: provinceSelectController.text,
-        district: districtSelectController.text,
-        address: addressTextController.text.trim(),
-      );
-      context.loaderOverlay.show();
-      pushLocationDataForm(context, data, ref);
+      return;
     }
+
+    final isPeru = countrySelectController.text == "Peru";
+
+    if (isPeru) {
+      if (regionsError.value || provinceError.value || districtError.value || addressError.value) return;
+    } else {
+      if (extRegionError.value || extProvinceError.value || extDistrictError.value || addressError.value) return;
+    }
+
+    DtoLocationForm data = DtoLocationForm(
+      country: countrySelectController.text,
+      region: isPeru ? regionsSelectController.text : '',
+      province: isPeru ? provinceSelectController.text : '',
+      district: isPeru ? districtSelectController.text : '',
+      address: addressTextController.text.trim(),
+      extRegion: !isPeru ? extRegionController.text : '',
+      extProvince: !isPeru ? extProvinceController.text : '',
+      extDistrict: !isPeru ? extDistrictController.text : '',
+    );
+
+    context.loaderOverlay.show();
+    pushLocationDataForm(context, data, ref);
   }
 
   void continueLater() {
@@ -125,7 +137,6 @@ class LocationFormState extends ConsumerState<LocationForm> {
         "continue_later": "true",
       },
     );
-
   }
 
   List<GeoLocationItemV2> districts = [
@@ -143,16 +154,15 @@ class LocationFormState extends ConsumerState<LocationForm> {
     final userProfile = ref.read(userProfileNotifierProvider);
 
     countrySelectController = TextEditingController(text: "Peru");
-    regionsSelectController =
-        TextEditingController(text: userProfile.region ?? "");
-    provinceSelectController =
-        TextEditingController(text: userProfile.provincia ?? "");
-    districtSelectController =
-        TextEditingController(text: userProfile.distrito ?? "");
-    addressTextController =
-        TextEditingController(text: userProfile.address ?? "");
-    // houseNumberController =
-    //     TextEditingController(text: userProfile.houseNumber ?? "");
+    regionsSelectController = TextEditingController(text: userProfile.region ?? "");
+    provinceSelectController = TextEditingController(text: userProfile.provincia ?? "");
+    districtSelectController = TextEditingController(text: userProfile.distrito ?? "");
+    addressTextController = TextEditingController(text: userProfile.address ?? "");
+    extDistrictController = TextEditingController(text: userProfile.extDistrict ?? "");
+    extRegionController = TextEditingController(text: userProfile.extRegion ?? "");
+    extProvinceController = TextEditingController(text: userProfile.extProvince ?? "");
+
+    showRegionProvinceDistrict = countrySelectController.text == "Peru";
 
     regionsSelectController.addListener(() {
       ref.invalidate(
@@ -170,6 +180,16 @@ class LocationFormState extends ConsumerState<LocationForm> {
       districtSelectController.clear();
       setState(() {});
     });
+    countrySelectController.addListener(() {
+      setState(() {
+        showRegionProvinceDistrict = countrySelectController.text == "Peru";
+        if (countrySelectController.text != "Peru") {
+          regionsSelectController.clear();
+          provinceSelectController.clear();
+          districtSelectController.clear();
+        }
+      });
+    });
   }
 
   @override
@@ -179,6 +199,9 @@ class LocationFormState extends ConsumerState<LocationForm> {
     provinceSelectController.dispose();
     districtSelectController.dispose();
     addressTextController.dispose();
+    extDistrictController.dispose();
+    extRegionController.dispose();
+    extProvinceController.dispose();
     // houseNumberController.dispose();
     super.dispose();
   }
@@ -189,22 +212,19 @@ class LocationFormState extends ConsumerState<LocationForm> {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700
-            ? 460
-            : MediaQuery.of(context).size.height - 290,
+        height: MediaQuery.of(context).size.height < 700 ? 460 : MediaQuery.of(context).size.height - 290,
         child: Column(
           children: [
-            SelectableDropdownItem(
-              options: const ["Peru"],
-              itemSelectedValue: countrySelectController.text,
+            GetFunctionSelectableDropdownItem(
               selectController: countrySelectController,
-              hintText: "Selecciona el país de residencia",
+              hintText: 'Selecciona el país de residencia',
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Por favor seleccione tipo';
+                  return 'Por favor seleccione país';
                 }
                 return null;
               },
+              itemSelectedValue: countrySelectController.text,
             ),
             const SizedBox(
               height: 15,
@@ -225,8 +245,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                         showSnackBarV2(
                           context: context,
                           title: "El departamento es obligatorio",
-                          message:
-                              "Por favor, completa el seleciona el departamento.",
+                          message: "Por favor, completa el seleciona el departamento.",
                           snackType: SnackType.warning,
                         );
                         regionsError.value = true;
@@ -257,8 +276,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                               showSnackBarV2(
                                 context: context,
                                 title: "El provincia es obligatorio",
-                                message:
-                                    "Por favor, completa el seleciona el provincia.",
+                                message: "Por favor, completa el seleciona el provincia.",
                                 snackType: SnackType.warning,
                               );
                               provinceError.value = true;
@@ -287,8 +305,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                               showSnackBarV2(
                                 context: context,
                                 title: "El departamento es obligatorio",
-                                message:
-                                    "Por favor, completa el seleciona el departamento.",
+                                message: "Por favor, completa el seleciona el departamento.",
                                 snackType: SnackType.warning,
                               );
                               provinceError.value = true;
@@ -319,8 +336,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                               showSnackBarV2(
                                 context: context,
                                 title: "El provincia es obligatorio",
-                                message:
-                                    "Por favor, completa el seleciona el provincia.",
+                                message: "Por favor, completa el seleciona el provincia.",
                                 snackType: SnackType.warning,
                               );
                               districtError.value = true;
@@ -349,8 +365,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                               showSnackBarV2(
                                 context: context,
                                 title: "El departamento es obligatorio",
-                                message:
-                                    "Por favor, completa el seleciona el departamento.",
+                                message: "Por favor, completa el seleciona el departamento.",
                                 snackType: SnackType.warning,
                               );
                               districtError.value = true;
@@ -363,37 +378,78 @@ class LocationFormState extends ConsumerState<LocationForm> {
                       },
                     ),
               const SizedBox(
-                height: 15,
+                height: 10,
               ),
             ] else ...[
-              InputTextFileUserProfile(
-                controller: regionsSelectController,
-                hintText: "Escribe tu departamento",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingresa tu departamento';
-                  }
-                  return null;
+              ValueListenableBuilder<bool>(
+                valueListenable: extRegionError,
+                builder: (context, isError, child) {
+                  return InputTextFileUserProfile(
+                    isError: isError,
+                    onError: () => extRegionError.value = false,
+                    controller: extRegionController,
+                    hintText: "Escribe el nombre de tu región/estado",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        extRegionError.value = true;
+                        showSnackBarV2(
+                          context: context,
+                          title: "La región es obligatoria",
+                          message: "Por favor, ingresa tu región.",
+                          snackType: SnackType.warning,
+                        );
+                      }
+                      return null;
+                    },
+                  );
                 },
               ),
-              InputTextFileUserProfile(
-                controller: provinceSelectController,
-                hintText: "Escribe tu provincia",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingresa tu provincia';
-                  }
-                  return null;
+              // const SizedBox(height: 10),
+              ValueListenableBuilder<bool>(
+                valueListenable: extProvinceError,
+                builder: (context, isError, child) {
+                  return InputTextFileUserProfile(
+                    isError: isError,
+                    onError: () => extProvinceError.value = false,
+                    controller: extProvinceController,
+                    hintText: "Escribe el nombre de tu provincia/ciudad",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        extProvinceError.value = true;
+                        showSnackBarV2(
+                          context: context,
+                          title: "La provincia es obligatoria",
+                          message: "Por favor, ingresa tu provincia.",
+                          snackType: SnackType.warning,
+                        );
+                      }
+                      return null;
+                    },
+                  );
                 },
               ),
-              InputTextFileUserProfile(
-                controller: districtSelectController,
-                hintText: "Escribe tu distrito",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingresa tu distrito';
-                  }
-                  return null;
+              // const SizedBox(height: 10),
+              ValueListenableBuilder<bool>(
+                valueListenable: extDistrictError,
+                builder: (context, isError, child) {
+                  return InputTextFileUserProfile(
+                    isError: isError,
+                    onError: () => extDistrictError.value = false,
+                    controller: extDistrictController,
+                    hintText: "Escribe el nombre de tu distrito/localidad",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        extDistrictError.value = true;
+                        showSnackBarV2(
+                          context: context,
+                          title: "El distrito es obligatorio",
+                          message: "Por favor, ingresa tu distrito.",
+                          snackType: SnackType.warning,
+                        );
+                      }
+                      return null;
+                    },
+                  );
                 },
               ),
             ],
@@ -417,27 +473,6 @@ class LocationFormState extends ConsumerState<LocationForm> {
                 );
               },
             ),
-            // ValueListenableBuilder<bool>(
-            //   valueListenable: houseNumberError,
-            //   builder: (context, isError, child) {
-            //     return InputTextFileUserProfile(
-            //       isNumeric: true,
-            //       isError: isError,
-            //       onError: () => houseNumberError.value = false,
-            //       controller: houseNumberController,
-            //       hintText: "Número de tu domicilio",
-            //       validator: (value) {
-            //         validateNumber(
-            //           value: value,
-            //           field: "Número de tu domicilio",
-            //           context: context,
-            //           boolNotifier: houseNumberError,
-            //         );
-            //         return null;
-            //       },
-            //     );
-            //   },
-            // ),
             const Expanded(
               child: SizedBox(),
             ),

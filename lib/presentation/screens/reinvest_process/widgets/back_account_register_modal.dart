@@ -181,7 +181,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     Center(
                       child: Text(
                         widget.isSender
-                            ? '¿Desde qué cuenta nos transfieres el dinero? 💸'
+                            ? '¿Desde qué cuenta nos transfieres el dinero ? 💸'
                             : "¿A qué cuenta transferimos tu rentabilidad? 💸",
                         textAlign: TextAlign.center,
                         style: TextStyle(

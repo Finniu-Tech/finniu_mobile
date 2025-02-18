@@ -34,33 +34,34 @@ class BankAccount {
   final bool isJointAccount;
   final bool isDefaultAccount;
   final String? bankLogoUrl;
+  final String bankSlug;
 
-  BankAccount({
-    required this.id,
-    required this.bankName,
-    required this.bankAccount,
-    required this.currency,
-    this.alias,
-    this.cci,
-    required this.typeAccount,
-    required this.isJointAccount,
-    required this.isDefaultAccount,
-    this.bankLogoUrl,
-  });
+  BankAccount(
+      {required this.id,
+      required this.bankName,
+      required this.bankAccount,
+      required this.currency,
+      this.alias,
+      this.cci,
+      required this.typeAccount,
+      required this.isJointAccount,
+      required this.isDefaultAccount,
+      this.bankLogoUrl,
+      required this.bankSlug});
 
   factory BankAccount.fromJson(Map<String, dynamic> json) {
     return BankAccount(
-      id: json['uuid'],
-      bankName: json['bankName'],
-      bankAccount: json['bankAccount'],
-      currency: json['currency'],
-      alias: json['alias'],
-      typeAccount: json['typeAccount'],
-      isJointAccount: json['isJointAccount'],
-      isDefaultAccount: json['isDefaultAccount'],
-      cci: json['bankCciAccount'],
-      bankLogoUrl: json['bankLogoUrl'],
-    );
+        id: json['uuid'],
+        bankName: json['bankName'],
+        bankAccount: json['bankAccount'],
+        currency: json['currency'],
+        alias: json['alias'],
+        typeAccount: json['typeAccount'],
+        isJointAccount: json['isJointAccount'],
+        isDefaultAccount: json['isDefaultAccount'],
+        cci: json['bankCciAccount'],
+        bankLogoUrl: json['bankLogoUrl'],
+        bankSlug: json['bankSlug']);
   }
   static getSafeBankAccountNumber(String bankAccount) {
     if (bankAccount.length > 4) {
