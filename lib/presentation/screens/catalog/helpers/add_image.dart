@@ -10,56 +10,14 @@ import 'package:permission_handler/permission_handler.dart';
 
 Future<void> addImage({required BuildContext context, required WidgetRef ref}) async {
   try {
-    // Verificar permisos según la versión de Android
-    if (Platform.isAndroid) {
-      if (await DeviceInfoPlugin().androidInfo.then((info) => info.version.sdkInt) >= 33) {
-        final photosStatus = await Permission.photos.status;
-        if (!photosStatus.isGranted) {
-          final result = await Permission.photos.request();
-          if (result.isDenied) {
-            if (context.mounted) {
-              showSnackBarV2(
-                context: context,
-                title: "Permiso requerido",
-                message: "Necesitamos acceso a tus galería para continuar",
-                snackType: SnackType.warning,
-              );
-            }
-            return;
-          }
-        }
-      } else {
-        final storageStatus = await Permission.storage.status;
-        if (!storageStatus.isGranted) {
-          final result = await Permission.storage.request();
-          if (result.isDenied) {
-            if (context.mounted) {
-              showSnackBarV2(
-                context: context,
-                title: "Permiso requerido",
-                message: "Necesitamos acceso a tu galería para continuar",
-                snackType: SnackType.warning,
-              );
-            }
-            return;
-          }
-        }
-      }
-    }
-
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
+    final List<XFile> images = await picker.pickMultiImage();
 
-    if (image != null && context.mounted) {
-      final File imageFile = File(image.path);
+    if (images.isNotEmpty) {
+      // Tomamos solo la primera imagen ya que solo necesitamos una
+      final XFile selectedImage = images.first;
 
-      if (!await imageFile.exists()) {
-        throw Exception('No se pudo acceder al archivo seleccionado');
-      }
-
+      final File imageFile = File(selectedImage.path);
       final int imageSize = await imageFile.length();
       final double imageSizeInMB = imageSize / (1024 * 1024);
       const double maxSizeInMB = 5;
@@ -76,34 +34,24 @@ Future<void> addImage({required BuildContext context, required WidgetRef ref}) a
         return;
       }
 
-      try {
-        final List<int> imageBytes = await imageFile.readAsBytes();
-        final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
+      final List<int> imageBytes = await imageFile.readAsBytes();
+      final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
 
+      if (context.mounted) {
         ref.read(imageBase64Provider.notifier).state = base64Image;
-        ref.read(imagePathProvider.notifier).state = image.path;
-      } catch (e) {
-        if (context.mounted) {
-          showSnackBarV2(
-            context: context,
-            title: "Error",
-            message: "No pudimos procesar la imagen",
-            snackType: SnackType.error,
-          );
-        }
-        print('Error al procesar la imagen: $e');
+        ref.read(imagePathProvider.notifier).state = selectedImage.path;
       }
     }
   } catch (e) {
+    print('Error al seleccionar imagen: $e');
     if (context.mounted) {
       showSnackBarV2(
         context: context,
         title: "Error",
-        message: "Ocurrió un error al seleccionar la imagen",
+        message: "No se pudo procesar la imagen",
         snackType: SnackType.error,
       );
     }
-    print('Error general: $e');
   }
 }
 
