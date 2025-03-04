@@ -117,7 +117,7 @@ class MoneyBody extends HookConsumerWidget {
         isDarkMode: isDarkMode,
         isSoles: isSoles,
         amount: data.initialAmount.toString(),
-        rent: data.rentabilityAmount.toString(),
+        rent: data.futureRentabilityAmount.toString(),
       ),
       PageThreeMoney(
         isDarkMode: isDarkMode,

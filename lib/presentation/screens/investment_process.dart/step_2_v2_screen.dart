@@ -18,14 +18,112 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class StepTwoV2 extends StatelessWidget {
+class StepTwoV2 extends HookConsumerWidget {
   const StepTwoV2({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const StepScaffold(
+  Widget build(BuildContext context, WidgetRef ref) {
+    Future<void> pushData() async {
+      final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
+      final bankSender = ref.read(selectedBankAccountSenderProvider);
+      final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+      final conditions = ref.watch(userAcceptedTermsProvider);
+
+      if (voucherImageBase64.isEmpty) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "event": "error_voucher",
+          },
+        );
+        showSnackBarV2(
+          context: context,
+          title: "La constancia es requerida",
+          message: 'Debe subir una imagen de la constancia de transferencia',
+          snackType: SnackType.warning,
+        );
+        return;
+      }
+      if (conditions == false) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "event": "error_conditions",
+          },
+        );
+        showSnackBarV2(
+          context: context,
+          title: "Debe aceptar y leer el contrato",
+          message: 'Debe aceptar y leer el contrato',
+          snackType: SnackType.warning,
+        );
+        return;
+      }
+      if (bankSender == null) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "event": "error_bank_sender",
+          },
+        );
+        showSnackBarV2(
+          context: context,
+          title: "Seleccionar banco de origen",
+          message: 'Por favor seleccione una cuenta para enviar',
+          snackType: SnackType.warning,
+        );
+        return;
+      }
+      if (bankReceiver == null) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "event": "error_bank_receiver",
+          },
+        );
+        showSnackBarV2(
+          context: context,
+          title: "Seleccionar banco de destino",
+          message: 'Por favor seleccione una cuenta para recibir',
+          snackType: SnackType.warning,
+        );
+        return;
+      }
+      context.loaderOverlay.show();
+      FocusManager.instance.primaryFocus?.unfocus();
+
+      final success = await stepTwoPushData(
+        context,
+        ref,
+        PushStepData(
+          preInvestmentUUID: args['preInvestmentUUID'],
+          bankAccountSendedId: bankSender.id,
+          bankAccountReceiverId: bankReceiver.id,
+          readContract: conditions,
+          base64Image: voucherImageBase64,
+          isReInvestment: args['isReinvestment'] ?? false,
+        ),
+      );
+
+      context.loaderOverlay.hide();
+
+      if (success) {
+        ref.read(userAcceptedTermsProvider.notifier).state = false;
+        ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+        ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
+      }
+    }
+
+    return Step2Scaffold(
       useDefaultLoading: false,
-      children: StepTwoBody(),
+      onPressedButton: pushData,
+      children: const StepTwoBody(),
     );
   }
 }
@@ -39,32 +137,7 @@ class StepTwoBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final product = args['productData'] as ProductData;
-    // final colors = ProductContainerStyles(
-    //   backgroundContainerDark: 0xff1B1B1B,
-    //   backgroundContainerLight: 0xffE9FAFF,
-    //   imageProduct: "🏢",
-    //   titleText: "Producto de inversión a Plazo Fijo",
-    //   minimumText: "1.000",
-    //   profitabilityText: "19",
-    //   titleDark: 0xffFFFFFF,
-    //   titleLight: 0xff0D3A5C,
-    //   minimumDark: 0xff0D3A5C,
-    //   minimumLight: 0xff0D3A5C,
-    //   profitabilityDark: 0xffB5FF8A,
-    //   profitabilityLight: 0xffD2FDBA,
-    //   isSoles: true,
-    //   uuid: "1",
-    //   buttonBackDark: 0xffA2E6FA,
-    //   buttonBackLight: 0xff0D3A5C,
-    //   buttonTextDark: 0xff0D3A5C,
-    //   buttonTextLight: 0xffFFFFFF,
-    //   textDark: 0xff000000,
-    //   textLight: 0xff000000,
-    //   minimunTextColorDark: 0xffFFFFFF,
-    //   minimumTextColorLight: 0xffFFFFFF,
-    //   minimumLightSoles: 0xffBBF0FF,
-    //   minimumTextColorLightSoles: 0xff000000,
-    // );
+
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const int textDark = 0xffFFFFFF;
@@ -140,117 +213,114 @@ class ColumnPush extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final conditions = useState(false);
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    Future<void> pushData() async {
-      final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
-      final bankSender = ref.read(selectedBankAccountSenderProvider);
-      final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
-      if (voucherImageBase64.isEmpty) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
-          parameters: {
-            "screen": FirebaseScreen.investmentStep2V2,
-            "event": "error_voucher",
-          },
-        );
-        showSnackBarV2(
-          context: context,
-          title: "La constancia es requerida",
-          message: 'Debe subir una imagen de la constancia de transferencia',
-          snackType: SnackType.warning,
-        );
-        return;
-      }
-      if (conditions.value == false) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
-          parameters: {
-            "screen": FirebaseScreen.investmentStep2V2,
-            "event": "error_conditions",
-          },
-        );
-        showSnackBarV2(
-          context: context,
-          title: "Debe aceptar y leer el contrato",
-          message: 'Debe aceptar y leer el contrato',
-          snackType: SnackType.warning,
-        );
-        return;
-      }
-      if (bankSender == null) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
-          parameters: {
-            "screen": FirebaseScreen.investmentStep2V2,
-            "event": "error_bank_sender",
-          },
-        );
-        showSnackBarV2(
-          context: context,
-          title: "Seleccionar banco de origen",
-          message: 'Por favor seleccione una cuenta para enviar',
-          snackType: SnackType.warning,
-        );
-        return;
-      }
-      if (bankReceiver == null) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
-          parameters: {
-            "screen": FirebaseScreen.investmentStep2V2,
-            "event": "error_bank_receiver",
-          },
-        );
-        showSnackBarV2(
-          context: context,
-          title: "Seleccionar banco de destino",
-          message: 'Por favor seleccione una cuenta para recibir',
-          snackType: SnackType.warning,
-        );
-        return;
-      }
-      context.loaderOverlay.show();
-      FocusManager.instance.primaryFocus?.unfocus();
-      final success = await stepTwoPushData(
-        context,
-        ref,
-        PushStepData(
-          preInvestmentUUID: args['preInvestmentUUID'],
-          bankAccountSendedId: bankSender.id,
-          bankAccountReceiverId: bankReceiver.id,
-          readContract: conditions.value,
-          base64Image: voucherImageBase64,
-          isReInvestment: args['isReinvestment'] ?? false,
-        ),
-      );
+    // final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // Future<void> pushData() async {
+    //   final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
+    //   final bankSender = ref.read(selectedBankAccountSenderProvider);
+    //   final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
+    //   if (voucherImageBase64.isEmpty) {
+    //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+    //       eventName: FirebaseAnalyticsEvents.pushDataError,
+    //       parameters: {
+    //         "screen": FirebaseScreen.investmentStep2V2,
+    //         "event": "error_voucher",
+    //       },
+    //     );
+    //     showSnackBarV2(
+    //       context: context,
+    //       title: "La constancia es requerida",
+    //       message: 'Debe subir una imagen de la constancia de transferencia',
+    //       snackType: SnackType.warning,
+    //     );
+    //     return;
+    //   }
+    //   if (conditions.value == false) {
+    //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+    //       eventName: FirebaseAnalyticsEvents.pushDataError,
+    //       parameters: {
+    //         "screen": FirebaseScreen.investmentStep2V2,
+    //         "event": "error_conditions",
+    //       },
+    //     );
+    //     showSnackBarV2(
+    //       context: context,
+    //       title: "Debe aceptar y leer el contrato",
+    //       message: 'Debe aceptar y leer el contrato',
+    //       snackType: SnackType.warning,
+    //     );
+    //     return;
+    //   }
+    //   if (bankSender == null) {
+    //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+    //       eventName: FirebaseAnalyticsEvents.pushDataError,
+    //       parameters: {
+    //         "screen": FirebaseScreen.investmentStep2V2,
+    //         "event": "error_bank_sender",
+    //       },
+    //     );
+    //     showSnackBarV2(
+    //       context: context,
+    //       title: "Seleccionar banco de origen",
+    //       message: 'Por favor seleccione una cuenta para enviar',
+    //       snackType: SnackType.warning,
+    //     );
+    //     return;
+    //   }
+    //   if (bankReceiver == null) {
+    //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+    //       eventName: FirebaseAnalyticsEvents.pushDataError,
+    //       parameters: {
+    //         "screen": FirebaseScreen.investmentStep2V2,
+    //         "event": "error_bank_receiver",
+    //       },
+    //     );
+    //     showSnackBarV2(
+    //       context: context,
+    //       title: "Seleccionar banco de destino",
+    //       message: 'Por favor seleccione una cuenta para recibir',
+    //       snackType: SnackType.warning,
+    //     );
+    //     return;
+    //   }
+    //   context.loaderOverlay.show();
+    //   FocusManager.instance.primaryFocus?.unfocus();
+    //   final success = await stepTwoPushData(
+    //     context,
+    //     ref,
+    //     PushStepData(
+    //       preInvestmentUUID: args['preInvestmentUUID'],
+    //       bankAccountSendedId: bankSender.id,
+    //       bankAccountReceiverId: bankReceiver.id,
+    //       readContract: conditions.value,
+    //       base64Image: voucherImageBase64,
+    //       isReInvestment: args['isReinvestment'] ?? false,
+    //     ),
+    //   );
 
-      context.loaderOverlay.hide();
+    //   context.loaderOverlay.hide();
 
-      if (success) {
-        ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
-        ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
-      }
-    }
+    //   if (success) {
+    //     ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+    //     ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
+    //   }
+    // }
 
-    useEffect(
-      () {
-        Future.microtask(() {
-          ref.read(nabbarProvider.notifier).updateNabbar(
-                NabbarProvider(title: "Enviar constancia", onTap: pushData),
-              );
-        });
+    // useEffect(
+    //   () {
+    //     Future.microtask(() {
+    //       ref.read(nabbarProvider.notifier).updateNabbar(
+    //             NabbarProvider(title: "Enviar constancia", onTap: pushData),
+    //           );
+    //     });
 
-        return null;
-      },
-      [],
-    );
+    //     return null;
+    //   },
+    //   [],
+    // );
 
     return Column(
       children: [
-        TermConditionsStep(
-          conditions: conditions,
-        ),
+        TermConditionsStep(),
         const SizedBox(height: 15),
       ],
     );
