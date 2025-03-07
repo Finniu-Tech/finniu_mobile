@@ -25,9 +25,7 @@ class ContainerMessage extends ConsumerWidget {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         ),
         width: MediaQuery.of(context).size.width,
         height: 35,
@@ -39,8 +37,7 @@ class ContainerMessage extends ConsumerWidget {
               "assets/svg_icons/alert_circle.svg",
               width: 16,
               height: 16,
-              color:
-                  isDarkMode ? const Color(iconDark) : const Color(iconLight),
+              color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
             ),
             const SizedBox(
               width: 5,
@@ -67,13 +64,10 @@ class LocationMessage extends ConsumerWidget {
     const int iconColor = 0xff0D3A5C;
     const int textColor = 0xff000000;
 
-    const String message =
-        "Recuerda que la dirección que ingreses coincida con la que figura en tu DNI.";
+    const String message = "Recuerda que la dirección que ingreses coincida con la que figura en tu DNI.";
     return Container(
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: const Color(background)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: const Color(background)),
       width: MediaQuery.of(context).size.width,
       height: 62,
       child: Row(
@@ -127,9 +121,9 @@ class MessageCompletingData extends ConsumerWidget {
     const int backgroundLight = 0xffFFFFFF;
     const int textDark = 0xffB3B3B3;
     const int textLight = 0xff0D3A5C;
-    const String title = "¡Pronto estaremos regulados por la SBS!";
+    const String title = "";
     const String text =
-        "Es importante completar tus datos para cumplir con las normativas de la SBS y asegurar un servicio más seguro para ti. Tus datos están seguros y protegidos, así que no te preocupes por eso.";
+        "Es importante completar tus datos para cumplir con las normativas y asegurar un servicio más seguro para ti. Tus datos están seguros y protegidos, así que no te preocupes por eso.";
 
     void continueLater() {
       Navigator.pushNamedAndRemoveUntil(
@@ -145,9 +139,7 @@ class MessageCompletingData extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         ),
         width: 329,
         height: 350,
