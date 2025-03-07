@@ -1,31 +1,32 @@
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TermConditionsStep extends ConsumerWidget {
-  const TermConditionsStep({
+  TermConditionsStep({
     super.key,
-    required this.conditions,
   });
-  final ValueNotifier<bool> conditions;
+  // final ValueNotifier<bool> conditions;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final conditions = ref.watch(userAcceptedTermsProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int textDark = 0xffFFFFFF;
     const int textLight = 0xff0D3A5C;
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         CheckBoxWidget(
-          value: conditions.value,
+          value: conditions,
           onChanged: (value) {
-            conditions.value = conditions.value ? false : true;
+            // conditions.value = conditions ? false : true;
+            ref.read(userAcceptedTermsProvider.notifier).state = value ?? false;
           },
         ),
         GestureDetector(
@@ -36,7 +37,7 @@ class TermConditionsStep extends ConsumerWidget {
             );
 
             if (contractURL.isNotEmpty) {
-              conditions.value = true;
+              ref.read(userAcceptedTermsProvider.notifier).state = true;
 
               Navigator.pushNamed(
                 context,
@@ -58,9 +59,7 @@ class TermConditionsStep extends ConsumerWidget {
                   fontFamily: 'Poppins',
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
-                  color: isDarkMode
-                      ? const Color(textDark)
-                      : const Color(textLight),
+                  color: isDarkMode ? const Color(textDark) : const Color(textLight),
                 ),
                 children: [
                   TextSpan(
@@ -69,9 +68,7 @@ class TermConditionsStep extends ConsumerWidget {
                       fontFamily: 'Poppins',
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      color: isDarkMode
-                          ? const Color(textDark)
-                          : const Color(textLight),
+                      color: isDarkMode ? const Color(textDark) : const Color(textLight),
                     ),
                   ),
                 ],
@@ -138,9 +135,7 @@ class TermConditionsStepReinvest extends ConsumerWidget {
                   fontFamily: 'Poppins',
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
-                  color: isDarkMode
-                      ? const Color(textDark)
-                      : const Color(textLight),
+                  color: isDarkMode ? const Color(textDark) : const Color(textLight),
                 ),
                 children: [
                   TextSpan(
@@ -149,9 +144,7 @@ class TermConditionsStepReinvest extends ConsumerWidget {
                       fontFamily: 'Poppins',
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      color: isDarkMode
-                          ? const Color(textDark)
-                          : const Color(textLight),
+                      color: isDarkMode ? const Color(textDark) : const Color(textLight),
                     ),
                   ),
                 ],
@@ -176,8 +169,7 @@ class TextRickStep extends ConsumerWidget {
     final isSoles = ref.watch(isSolesStateProvider);
     const int textDark = 0xffFFFFFF;
     const int textLight = 0xff0D3A5C;
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Text.rich(
       TextSpan(
         text: "Realiza tu transferencia de ",
@@ -194,8 +186,7 @@ class TextRickStep extends ConsumerWidget {
               fontFamily: 'Poppins',
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color:
-                  isDarkMode ? const Color(textDark) : const Color(textLight),
+              color: isDarkMode ? const Color(textDark) : const Color(textLight),
             ),
           ),
           TextSpan(
@@ -204,8 +195,7 @@ class TextRickStep extends ConsumerWidget {
               fontFamily: 'Poppins',
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color:
-                  isDarkMode ? const Color(textDark) : const Color(textLight),
+              color: isDarkMode ? const Color(textDark) : const Color(textLight),
             ),
           ),
         ],
