@@ -44,7 +44,7 @@ class FormLocationDataV2 extends HookConsumerWidget {
             subTitle: "¿Dónde te encuentras?",
             icon: "assets/svg_icons/map_icon_v2.svg",
           ),
-          LocationMessage(),
+          // LocationMessage(),
           SizedBox(
             height: 15,
           ),

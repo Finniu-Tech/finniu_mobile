@@ -74,6 +74,78 @@ class StepScaffold extends ConsumerWidget {
   }
 }
 
+class Step2Scaffold extends ConsumerWidget {
+  const Step2Scaffold({
+    super.key,
+    required this.children,
+    this.useDefaultLoading = false,
+    required this.onPressedButton, // Add this parameter
+  });
+  final bool useDefaultLoading;
+  final Widget children;
+  final VoidCallback onPressedButton;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xff0E0E0E;
+    const int backgroundLight = 0xffDEF7FF;
+    const int iconLight = 0xff0D3A5C;
+    const int iconDark = 0xffA2E6FA;
+    return PopScope(
+      canPop: false,
+      child: LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidgetBuilder: (progress) {
+          return const Center(
+            child: CircularLoader(
+              width: 50,
+              height: 50,
+            ),
+          );
+        },
+        child: Scaffold(
+          bottomNavigationBar: Container(
+            height: 70,
+            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+            child: Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.85,
+                height: 50,
+                child: ButtonInvestment(
+                  text: 'Enviar constancia',
+                  onPressed: onPressedButton,
+                ),
+              ),
+            ),
+          ),
+          appBar: AppBar(
+            automaticallyImplyLeading: useDefaultLoading,
+            leading: IconButton(
+              onPressed: () => {
+                ScaffoldMessenger.of(context).clearSnackBars(),
+                ref.read(navigatorStateProvider.notifier).state = 0,
+                Navigator.pushNamedAndRemoveUntil(context, '/v4/home', (route) => false),
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+              ),
+            ),
+            backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+          ),
+          backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+          body: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: SingleChildScrollView(
+              child: children,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ReinvestScaffold extends ConsumerWidget {
   const ReinvestScaffold({
     super.key,
