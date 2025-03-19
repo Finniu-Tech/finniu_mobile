@@ -2116,6 +2116,7 @@ class QueryRepository {
       invesmentInDolares{
         countPlanesActive
         totalBalanceRentability
+        averageProfitability
         capitalInCourse
      		totalBalanceRentabilityIncreased
         totalPercentPerMonth

@@ -9,14 +9,10 @@ class HomeUserInvest {
 
   factory HomeUserInvest.fromJson(Map<String, dynamic> json) {
     return HomeUserInvest(
-      investmentInSoles: (json['invesmentInSoles'] as List<dynamic>?)
-          ?.map((e) => AllInvestment.fromJson(e))
-          .toList()
-          .firstOrNull,
-      investmentInDolares: (json['invesmentInDolares'] as List<dynamic>?)
-          ?.map((e) => AllInvestment.fromJson(e))
-          .toList()
-          .firstOrNull,
+      investmentInSoles:
+          (json['invesmentInSoles'] as List<dynamic>?)?.map((e) => AllInvestment.fromJson(e)).toList().firstOrNull,
+      investmentInDolares:
+          (json['invesmentInDolares'] as List<dynamic>?)?.map((e) => AllInvestment.fromJson(e)).toList().firstOrNull,
     );
   }
 
@@ -45,14 +41,11 @@ class AllInvestment {
 
   factory AllInvestment.fromJson(Map<String, dynamic> json) {
     return AllInvestment(
-      averageProfitability:
-          _formatToNumberString(json['averageProfitability'] as String?),
+      averageProfitability: _formatToNumberStringTwoComa(json['averageProfitability'] as String?),
       countPlanesActive: json['countPlanesActive'] as int?,
       capitalInCourse: json['capitalInCourse'] as int?,
-      totalBalanceRentabilityIncreased:
-          json['totalBalanceRentabilityIncreased'] as String?,
-      percentageProfitabilityIncreaseMonthly:
-          _formatToNumberStringTwoComa(json['totalPercentPerMonth']),
+      totalBalanceRentabilityIncreased: json['totalBalanceRentabilityIncreased'] as String?,
+      percentageProfitabilityIncreaseMonthly: _formatToNumberStringTwoComa(json['totalPercentPerMonth']),
     );
   }
 
